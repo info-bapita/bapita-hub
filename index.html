@@ -205,16 +205,23 @@
     }
     .btn-primary.lg { font-size: 1.125rem; padding: 1.125rem 2.375rem; }
 
+    /* ─── FIRST FOLD ──────────────────────────────────── */
+    .first-fold {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
     /* ─── HERO + MOUSE GLOW ───────────────────────────── */
     .hero {
       --glow-x: 50%;
       --glow-y: 40%;
       background: var(--dark);
-      padding: clamp(4rem, 7vw, 5.5rem) 1.5rem clamp(3rem, 5.5vw, 4rem);
+      padding: clamp(3rem, 5vw, 4.5rem) 1.5rem clamp(2.5rem, 4vw, 3.5rem);
       text-align: center;
       position: relative;
       overflow: hidden;
-      min-height: calc(100vh - 64px);
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -331,7 +338,7 @@
 
     /* ─── TESTIMONIALS STRIP ──────────────────────────── */
     .tstrip { background: var(--cream-2); padding: 1.75rem 1.5rem; }
-    .section.tstrip { padding: 1.75rem 1.5rem; min-height: calc(100vh - 64px); display: flex; flex-direction: column; justify-content: center; }
+    .section.tstrip { padding: 1.75rem 1.5rem; }
     .tstrip-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -409,8 +416,16 @@
 
     /* ─── PAIRED BLOCK: HOW IT WORKS + WHAT WE BUILD ──── */
     /* Both read as one cohesive band (same bg, tight gap). */
-    .howitworks { background: var(--cream-2); padding-top: clamp(3rem, 5.5vw, 4.5rem); padding-bottom: 1.5rem; min-height: calc(100vh - 64px); }
-    .solution   { background: var(--cream-2); padding-top: 1.5rem; padding-bottom: 2.5rem; min-height: calc(100vh - 64px); }
+    /* ─── PROCESS BAND ────────────────────────────────── */
+    .process-band {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: column;
+    }
+    .process-band .howitworks,
+    .process-band .solution { flex: 1; }
+    .howitworks { background: var(--cream-2); padding-top: clamp(2.5rem, 4vw, 3.5rem); padding-bottom: 1.5rem; }
+    .solution   { background: var(--cream-2); padding-top: 1.5rem; padding-bottom: clamp(2rem, 4vw, 3rem); }
 
     /* Shared card grid for both rows */
     .card-grid {
@@ -917,6 +932,9 @@
   </div>
 </nav>
 
+<!-- ─── FIRST FOLD: hero + proof bar + testimonials ──────── -->
+<div class="first-fold">
+
 <!-- ─── HERO ─────────────────────────────────────────────── -->
 <section class="hero" id="hero">
   <div class="hero-inner">
@@ -1001,6 +1019,8 @@
   </div>
 </section>
 
+</div><!-- /first-fold -->
+
 <!-- ─── PAIN ──────────────────────────────────────────────── -->
 <div class="pain-section">
 
@@ -1072,7 +1092,10 @@
 
 </div><!-- /pain-section -->
 
-<!-- ─── HOW IT WORKS (card row 1 of paired block) ─────────── -->
+<!-- ─── PROCESS BAND: how it works + what we build ────────── -->
+<div class="process-band" id="solution">
+
+<!-- ─── HOW IT WORKS ──────────────────────────────────────── -->
 <section class="section howitworks" id="how-it-works">
   <div class="section-inner">
     <div class="section-head">
@@ -1134,6 +1157,8 @@
     </div>
   </div>
 </section>
+
+</div><!-- /process-band -->
 
 <!-- ─── AUTOMATIONS ───────────────────────────────────────── -->
 <section class="section addons" id="automations">
