@@ -69,6 +69,25 @@ Check each box when the chat is pushed and live.
 
 ---
 
+## Booking entry-point logic (CANONICAL — decided 2026-06-10)
+
+There are exactly **two ways** to start a booking, and **one** way to just add a contact. Nothing else. Do not scatter "+" buttons around the app.
+
+| Where | Control | Does what |
+|---|---|---|
+| **Calendar** | FAB `+` (amber circle) | New booking from scratch (4-step wizard) |
+| **Calendar** | Tap empty time slot | New booking, time pre-filled |
+| **Clients tab** | `+` in header | Add a customer (name + phone); same flow can optionally **attach a date + service + time → creates a booking too**. Customer-first, booking optional. |
+| **Client profile** | "New booking for X" | Booking wizard pre-filled with that customer (skips client step) |
+
+**Rules:**
+- The booking `+` (FAB) lives **only on the calendar**. It must NOT appear on Clients / Insights / Financials. (Currently `AppShell` renders the FAB on every screen — that is a bug to fix in Chat 6.)
+- The Clients tab `+` is an **add-customer** action, not a booking FAB. It opens the add-customer flow; attaching a date inside it is what turns it into a booking.
+- "Add a contact only" (no appointment) is possible **only** via the Clients tab `+` (save customer, skip the date step).
+- Don't add booking entry points anywhere else for now.
+
+---
+
 ## CHAT 1 — README & Organization
 
 **Effort:** `/effort medium`  
@@ -372,45 +391,54 @@ Verify live at https://dashboard.bapita.com/clients
 
 ---
 
-## CHAT 6 — New Booking Flow
+## CHAT 6 — New Booking Flow + entry-point cleanup
 
 **Effort:** `/effort high`  
 **Repo:** bapita-dashboard  
-**Goal:** 4-step booking wizard — clean, guided, no dead ends, works perfectly  
+**Goal:** 4-step booking wizard — clean, guided, no dead ends — AND fix the booking entry points so the booking `+` lives only on the calendar, while the Clients tab gets an add-customer `+`.  
+
+> Read the **"Booking entry-point logic"** section near the top of this master plan before starting — it is canonical. Also read the handoff doc `2026-06-10-chat6-newbooking-handoff.md` (same folder) for the exact current code state and bug list.
 
 ```
 I'm building Bapita — a done-for-you booking platform for Israeli appointment businesses.
 
 Read these files first (in order):
 1. /Users/admin/Desktop/bapita/v2/docs/design-system.md  ← REQUIRED before writing any code
-2. /Users/admin/Desktop/bapita-dashboard/src/app/(dashboard)/new-booking/page.tsx
-3. /Users/admin/Desktop/bapita-dashboard/src/types/index.ts
-4. /Users/admin/Desktop/bapita-dashboard/AGENTS.md
+2. /Users/admin/Desktop/bapita/v2/docs/specs/2026-06-10-chat6-newbooking-handoff.md  ← current state + bug list
+3. /Users/admin/Desktop/bapita-dashboard/src/app/(dashboard)/new-booking/page.tsx
+4. /Users/admin/Desktop/bapita-dashboard/src/components/AppShell.tsx   (FAB lives here)
+5. /Users/admin/Desktop/bapita-dashboard/src/app/(dashboard)/clients/page.tsx
+6. /Users/admin/Desktop/bapita-dashboard/src/types/index.ts
+7. /Users/admin/Desktop/bapita-dashboard/AGENTS.md
 
-Task: Redesign the new booking flow to match the design system. Fix ALL bugs and broken states.
+Task A — Entry points (canonical, see master plan "Booking entry-point logic"):
+- Booking FAB (+) must render ONLY on /calendar. Remove it from Clients / Insights / Financials. (AppShell currently shows it everywhere.)
+- Add a "+" in the Clients tab header → opens add-customer flow (name + phone, email optional). Saving creates the customer. From that same flow the owner can optionally attach a date + service + time → that creates a booking too. Customer-first, booking optional.
+- Client profile "New booking for X" → booking wizard pre-filled with that customer.
 
-The flow has 4 steps:
-1. Client — search existing client by name/phone, or create new (name + phone)
-2. Service — pick a service from the list (shows duration + price)
-3. Time — pick a date, then available time slots
-4. Confirm — review summary, confirm booking
-
-Requirements:
+Task B — Booking wizard (/new-booking), redesign to design system + fix ALL bugs:
+4 steps: Client → Service → Time → Confirm.
 - Step indicator at top: clear progress (Step 1 of 4)
-- Back button: always works, doesn't lose data
-- Mobile: each step is full screen, large tap targets
-- No dead ends: if something fails, show a clear error with a path forward
-- Time slot grid: clean, shows available vs unavailable, business hours respected
+- Back button always works, never loses data
+- Mobile: each step full screen, large tap targets
+- No dead ends: failures show a clear error (toast, NOT alert()) with a path forward
+- Time slot grid: clean, available vs unavailable distinct, business hours respected, past times today filtered out, "no slots" empty message
 - Confirm screen: full summary before submitting, amber "Confirm booking" button
-- Success state: clear confirmation, offer to add another or go to calendar
-- If flow was triggered from calendar (pre-filled time slot): skip to step 1 (client) with time pre-set
+- Success state: clear confirmation, offer "Add another" or "Go to calendar" (do not just hard-redirect)
 
-Fix every bug, broken step, and validation gap you find.
+Known bugs to fix (from handoff doc):
+- ?clientId= is ignored — clients profile passes it but the wizard never reads it. Read it, pre-select the customer, skip to the Service step.
+- Client search only matches name despite "name or phone" placeholder — search phone too (.or(name.ilike,phone.ilike)).
+- alert() used for errors — replace with toast (useToast).
+- Page uses bg-white, border-gray-200, bg-amber-500, bg-gray-100 — replace with design-system tokens (cream bg, white cards, amber, cream-2).
+- ?date=&time= prefill already works; keep it. Service fetch alias (price:price_nis, duration:duration_minutes) already correct — keep it.
+
+Fix every other bug, broken step, and validation gap you find.
 
 When done:
-cd /Users/admin/Desktop/bapita-dashboard && git add src/ && git commit -m "redesign: new booking flow — 4-step wizard, bug fixes" && git push
+cd /Users/admin/Desktop/bapita-dashboard && git add src/ && git commit -m "redesign: new booking flow — 4-step wizard + entry-point cleanup, bug fixes" && git push
 
-Verify live at https://dashboard.bapita.com/new-booking
+Verify live at https://dashboard.bapita.com/new-booking and https://dashboard.bapita.com/clients
 ```
 
 ---

@@ -317,8 +317,8 @@ Primary shortcut for New Booking. Lives above bottom nav.
 
 - Size: 56×56px
 - Position: `bottom: 80px` (64px nav + 16px gap), `inset-inline-end: 16px` (RTL-safe)
-- On calendar: tapping FAB opens New Booking drawer pre-filled with next available slot
-- On other screens: tapping FAB opens New Booking drawer from scratch
+- **The booking FAB renders ONLY on the calendar screen.** Do not show it on Clients / Insights / Financials. (See "Booking entry points" below.)
+- On calendar: tapping FAB opens New Booking pre-filled with next available slot
 - Hide FAB while a drawer/modal is open
 
 ---
@@ -473,9 +473,9 @@ z-index: above content, below drawers/modals
 Icon: Plus, 24px, strokeWidth={2}
 ```
 
-- On calendar: opens new booking drawer pre-filled with next available slot
-- On all other screens: opens new booking drawer from scratch
+- Calendar-only: opens new booking pre-filled with next available slot
 - Hide while any drawer or modal is open
+- Not shown on Clients / Insights / Financials — see "Booking entry points" below
 
 ```tsx
 <button
@@ -487,6 +487,22 @@ Icon: Plus, 24px, strokeWidth={2}
   <PlusIcon size={24} strokeWidth={2} />
 </button>
 ```
+
+---
+
+### Booking entry points
+
+Two ways to start a booking, one way to add a contact. Nothing else — do not scatter "+" buttons.
+
+| Where | Control | Result |
+|---|---|---|
+| Calendar | FAB `+` | New booking from scratch |
+| Calendar | Tap empty slot | New booking, time pre-filled |
+| Clients tab | `+` in header | Add customer (name + phone); can optionally attach date + service + time → also books |
+| Client profile | "New booking for X" | Booking wizard pre-filled with that customer |
+
+- The booking FAB is **calendar-only**.
+- The Clients-tab `+` is an **add-customer** control (amber `+`, top-end of the list header) — not a booking FAB. Adding a contact without an appointment is possible only here (save customer, skip the date step).
 
 ---
 
