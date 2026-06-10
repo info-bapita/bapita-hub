@@ -3,7 +3,7 @@
 **Date:** 2026-06-10
 **Repo:** `~/Desktop/bapita-dashboard` → github `ramikan96-collab/bapita-dashboard`
 **Branch:** `main`
-**Status:** NOT STARTED. Chat 5 (clients) shipped (`e5b61eb`). This doc preps Chat 6.
+**Status:** ✅ DONE — shipped `65aefa4`, live on Production. All TODOs below completed.
 **Prereq reading:** design-system.md, master plan "Booking entry-point logic" section (canonical).
 
 ---
