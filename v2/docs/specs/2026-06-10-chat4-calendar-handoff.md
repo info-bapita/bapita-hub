@@ -3,9 +3,10 @@
 **Date:** 2026-06-10
 **Repo:** `~/Desktop/bapita-dashboard`
 **Branch:** `main`
-**Status:** DONE. Build green, committed `323a145`, pushed live to dashboard.bapita.com.
+**Status:** DONE. Build green, pushed live to dashboard.bapita.com (`323a145` calendar, `152fa95` empty-state polish).
 
 ## Completed in resume session (everything in TODO below shipped)
+- No-business empty state redesigned (`calendar/page.tsx`) — premium welcome card: amber icon tile, "Welcome to Bapita", 3-step onboarding checklist (Business info / Services / Hours), amber CTA → /settings. (Was a bare emoji + link; gated screen new owners see before adding a business.)
 - `WeekView.tsx` rewritten — sticky 56px strip (amber today / dark selected pill), shared 64px/hr grid, autoscroll to open hour, lane-packed blocks (firstName only, service if tall), tap-day→day-view, swipe ±week, now-line on today column.
 - `calendar/page.tsx` rewired — default `week`, **service embed alias fixed** (`duration:duration_minutes, price:price_nis`), `blocked_times` fetch for visible range, BlockDraft state + onCreateAt/onLongPressAt/onBlockClick handlers, `openHourFor`, new props to all 3 views, refetch blocked on sheet save.
 - `new-booking/page.tsx` — service + slot-query aliases fixed, reads `?date=&time=` → prefills selectedDate/selectedTime (starts at client step), wrapped in `<Suspense>` (Next 16 useSearchParams req).
