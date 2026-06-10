@@ -426,16 +426,16 @@ Example — booking card skeleton:
 
 ### Bottom Nav — Final Structure
 
-**4 tabs: Calendar · Clients · Insights · Settings**
+**4 tabs: Calendar · Clients · Insights · Financials**
 
 Removed from tabs:
-- **New Booking** → FAB (users tap a time slot on calendar to book; FAB is secondary)
-- **Add-ons** → inside Settings (used < once/week, not daily)
+- **New Booking** → FAB (Floating Action Button — amber `+` circle fixed bottom-right, above bottom nav) + tap any empty time slot on calendar
+- **Settings / Add-ons / Profile** → hamburger drawer (☰ top-left)
 
 ```
-┌────────────────────────────────────────────┐
-│  📅 Calendar  👥 Clients  📊 Insights  ⚙️ Settings  │
-└────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────┐
+│  📅 Calendar  👥 Clients  📊 Insights  💰 Financials  │
+└──────────────────────────────────────────────────┘
 ```
 
 Specs:
@@ -447,26 +447,96 @@ Specs:
 - Label: 10px, font-medium, Heebo
 - Active: amber icon + amber label
 - Inactive: `color: var(--color-muted)` — `#6B6052`
-- Active indicator: color change only, no background pill (keep it minimal)
+- Active indicator: color change only, no background pill
 
 ```tsx
 const bottomNavItems = [
-  { path: '/calendar',  icon: CalendarIcon,  label: 'Calendar',  labelHe: 'יומן' },
-  { path: '/clients',   icon: UsersIcon,     label: 'Clients',   labelHe: 'לקוחות' },
-  { path: '/insights',  icon: BarChartIcon,  label: 'Insights',  labelHe: 'נתונים' },
-  { path: '/settings',  icon: SettingsIcon,  label: 'Settings',  labelHe: 'הגדרות' },
+  { path: '/calendar',   icon: CalendarIcon,  label: 'Calendar',   labelHe: 'יומן' },
+  { path: '/clients',    icon: UsersIcon,     label: 'Clients',    labelHe: 'לקוחות' },
+  { path: '/insights',   icon: BarChartIcon,  label: 'Insights',   labelHe: 'נתונים' },
+  { path: '/financials', icon: CreditCardIcon, label: 'Financials', labelHe: 'כספים' },
 ];
 ```
 
 ---
 
+### FAB — Floating Action Button
+
+The amber `+` circle fixed above the bottom nav. Primary shortcut for new booking.
+
+```
+Position: fixed, bottom-right
+Size: 56×56px
+Color: bg-amber (#E8920A), text-white
+Shadow: 0 4px 16px rgba(232,146,10,0.35)
+z-index: above content, below drawers/modals
+Icon: Plus, 24px, strokeWidth={2}
+```
+
+- On calendar: opens new booking drawer pre-filled with next available slot
+- On all other screens: opens new booking drawer from scratch
+- Hide while any drawer or modal is open
+
+```tsx
+<button
+  className="fixed bottom-[calc(64px+16px)] end-4 z-40 w-14 h-14 rounded-full
+    bg-amber text-white flex items-center justify-center
+    shadow-[0_4px_16px_rgba(232,146,10,0.35)] active:scale-95 transition-transform"
+  onClick={openNewBooking}
+>
+  <PlusIcon size={24} strokeWidth={2} />
+</button>
+```
+
+---
+
+### Hamburger Drawer (☰)
+
+Full-height slide-in panel from the left. Opens from ☰ in the top bar on all screens.
+
+```
+┌─────────────────────────────┐
+│  [Logo]  Business Name      │
+│  business-slug.bapita.com   │
+├─────────────────────────────┤
+│  ⚙️  Settings               │
+│  📦  Add-ons                │
+│  📊  Usage                  │
+├─────────────────────────────┤
+│  👤  Profile                │
+├─────────────────────────────┤
+│  🚪  Sign out               │
+└─────────────────────────────┘
+```
+
+**Drawer items:**
+- **Settings** → `/settings` — Business info, services, business hours
+- **Add-ons** → `/addons` — Enable/disable add-ons (WhatsApp, Stripe, etc.), "Contact us" CTA per add-on
+- **Usage** → `/usage` — Per-add-on stats: messages sent, payments processed, etc. Read-only.
+- **Profile** → `/profile` — Password change, email
+- **Sign out** — Supabase `signOut()`, redirects to login
+
+Specs:
+- Width: `min(320px, 85vw)`
+- Background: `#FFFFFF`
+- Shadow: `4px 0 24px rgba(30,26,20,0.12)`
+- Overlay: `bg-dark/40` behind drawer, tap to close
+- Animation: slide in from left, 250ms ease-out
+- Business name: H3, `font-bold`, dark
+- Slug: caption, `text-muted`
+- Nav items: 48px tap target, 16px padding, body size text
+- Active item: amber left border `border-s-[3px] border-amber bg-amber/5`
+- Dividers: `1px solid var(--color-cream-2)`
+
+---
+
 ### Top Bar — General Pages
 
-All non-calendar pages use a standard top bar:
+All pages use a standard top bar:
 - Height: 64px
-- Left: `☰` hamburger → opens profile drawer (Settings, Profile, Sign out)
+- Left: `☰` hamburger → opens drawer
 - Center: **"bapita"** wordmark, `font-black`, `text-dark`
-- Right: empty spacer for balance
+- Right: empty spacer for balance (or context action if needed per page)
 
 ```tsx
 <div className="fixed top-0 inset-x-0 h-16 flex items-center px-4 z-10 bg-white
@@ -477,7 +547,7 @@ All non-calendar pages use a standard top bar:
   <div className="flex-1 text-center font-black text-[18px] tracking-tight text-dark">
     bapita
   </div>
-  <div className="w-10" /> {/* balance spacer */}
+  <div className="w-10" />
 </div>
 ```
 
@@ -485,7 +555,7 @@ All non-calendar pages use a standard top bar:
 
 ### Calendar Top Bar — Detailed Spec
 
-The calendar page overrides the standard top bar with a contextual one:
+Calendar page overrides the standard top bar:
 
 ```
 ┌────────────────────────────────────────────┐
@@ -493,18 +563,17 @@ The calendar page overrides the standard top bar with a contextual one:
 └────────────────────────────────────────────┘
 ```
 
-- **Left** `☰` — same hamburger as global, opens same drawer
-- **Center** `"Month Year ▾"` — taps to open **date picker** (month/year picker, not day picker — day is picked from the week strip)
-  - Date format: `"June 2026"` (Hebrew: `"יוני 2026"`)
-  - `▾` is a small dropdown caret, `text-muted`, 16px
-  - Entire center is tappable (min 44px height)
-- **Right** `⋮` — opens an **action sheet** with:
-  - View toggle: Day / Week / Month (radio-style, current highlighted in amber)
+- **Left** `☰` — same hamburger, opens same drawer
+- **Center** `"Month Year ▾"` — taps to open date picker (month/year only — day picked from week strip)
+  - Format: `"June 2026"` (Hebrew: `"יוני 2026"`)
+  - `▾` caret: `text-muted`, 16px
+  - Entire center tappable, min 44px height
+- **Right** `⋮` — opens action sheet:
+  - View toggle: Day / Week / Month (current highlighted amber)
   - Filter: All · Pending · Confirmed · Completed
-  - Calendar settings (link to settings/calendar)
+  - Link: Calendar settings
 
 ```tsx
-// Calendar top bar
 <div className="fixed top-0 inset-x-0 h-16 flex items-center px-4 z-10 bg-white
   border-b border-[var(--color-cream-2)]">
   <button className="p-2 -ms-2" onClick={openDrawer}>
@@ -520,6 +589,30 @@ The calendar page overrides the standard top bar with a contextual one:
   </button>
 </div>
 ```
+
+---
+
+### Availability Blocking (Airbnb-style)
+
+Barber can block off time on the calendar — marks slots as unavailable without a booking.
+
+**How to trigger:**
+- Long-press (500ms) on any empty time slot → opens "Block time" bottom sheet
+- OR: `⋮` menu in calendar top bar → "Block time" option
+
+**Block time sheet:**
+- Title: "Block time" / "חסום זמן"
+- Fields: Date (pre-filled), Start time, End time, Label (optional: "Lunch", "Personal", "Break")
+- Confirm button: amber, "Block" / "חסום"
+- Cancel: ghost button
+
+**Visual treatment on calendar:**
+- Blocked slots: diagonal stripe pattern, `bg-[--color-cream-2]`, no left border
+- Label shown if provided (same small text as booking blocks)
+- Tap blocked slot → shows sheet with option to remove block
+- Blocked slots are NOT clickable for new bookings
+
+**Data:** Stored as `blocked_times` table in Supabase (business_id, start_at, end_at, label).
 
 ---
 

@@ -43,8 +43,8 @@ This plan fixes everything in 10 ordered chat sessions. Each session ends with a
 
 ## Progress tracker
 
-- [ ] Chat 1 — README & Organization
-- [ ] Chat 2 — Design System Document
+- [x] Chat 1 — README & Organization
+- [x] Chat 2 — Design System Document
 - [ ] Chat 3 — App Shell + Login
 - [ ] Chat 4 — Calendar
 - [ ] Chat 5 — Clients List + Client Profile
@@ -295,8 +295,9 @@ Week view (default home screen):
 - Auto-scroll to business opening hour on load (not midnight, not top)
 - Booking blocks: show client name + service name. Left border colored by status (amber=confirmed, green=completed, slate=pending, red=cancelled). Tap block = opens BookingDrawer.
 - Tapping an EMPTY time slot = opens new booking flow pre-filled with that time
-- FAB bottom-right: opens new booking flow (shortcut)
+- FAB bottom-right (amber + circle): opens new booking flow (shortcut)
 - Week navigation: swipe left/right OR arrow buttons
+- Availability blocking: long-press empty slot → "Block time" sheet (date, start, end, label). Blocked slots show diagonal stripe pattern, tap to remove. See design-system.md for full spec.
 
 Day view:
 - Single column timeline, same time grid
@@ -444,11 +445,11 @@ Verify live at https://dashboard.bapita.com/insights
 
 ---
 
-## CHAT 8 — Settings + Profile + Add-ons
+## CHAT 8 — Settings + Profile + Add-ons + Financials + Usage
 
 **Effort:** `/effort medium`  
 **Repo:** bapita-dashboard  
-**Goal:** Forms that work, add-ons as clear upsell cards  
+**Goal:** All pages accessible from the hamburger drawer — forms that work, add-ons as upsell cards, Financials with Stripe connect state  
 
 ```
 I'm building Bapita — a done-for-you booking platform for Israeli appointment businesses.
@@ -458,41 +459,59 @@ Read these files first (in order):
 2. /Users/admin/Desktop/bapita-dashboard/src/app/(dashboard)/settings/page.tsx
 3. /Users/admin/Desktop/bapita-dashboard/src/app/(dashboard)/profile/page.tsx
 4. /Users/admin/Desktop/bapita-dashboard/src/app/(dashboard)/addons/page.tsx
-5. /Users/admin/Desktop/bapita-dashboard/src/types/index.ts
-6. /Users/admin/Desktop/bapita-dashboard/AGENTS.md
+5. /Users/admin/Desktop/bapita-dashboard/src/app/(dashboard)/financials/page.tsx
+6. /Users/admin/Desktop/bapita-dashboard/src/app/(dashboard)/usage/page.tsx
+7. /Users/admin/Desktop/bapita-dashboard/src/types/index.ts
+8. /Users/admin/Desktop/bapita-dashboard/AGENTS.md
 
-Task: Redesign settings, profile, and add-ons pages to match the design system. Fix ALL bugs.
+Navigation context: Settings, Add-ons, Usage, Profile are all accessed via the hamburger drawer (☰), NOT the bottom nav. Financials IS a bottom nav tab (4th tab).
+
+Task: Redesign all these pages to match the design system. Fix ALL bugs.
 
 Settings — Business Info tab:
 - Form fields: business name, owner name, phone, address, slug (booking page URL)
 - Save button: clear success/error feedback via toast
-- Clean form layout, Bapita input styles
 
 Settings — Services tab:
 - List of services with name, duration, price
 - Add / toggle active / delete per service
 - Add service: inline form or modal
-- No dead ends on add/delete
 
 Settings — Business Hours tab:
 - Per-day open/closed toggle + start/end time pickers
 - Hebrew day names (Sun–Sat order for Israeli calendar)
-- Clear save action
 
 Profile page:
 - Password change form
-- Simple, clean
+- Email (read-only)
 
-Add-ons page:
+Add-ons page (accessed via hamburger):
 - Cards for: WhatsApp Automations, Stripe Payments, Google Business, Social Media, Ads
 - Each card: name, 1-line description, status (active/not active), "Contact us" CTA → WhatsApp
-- Make it feel like an upsell showcase, not a settings dump
-- Add-ons that are active should show clearly
+- Active add-ons show clearly with amber active badge
+- Premium upsell feel — not a settings dump
+
+Usage page (accessed via hamburger):
+- Per-add-on stats: messages sent (WhatsApp), payments processed (Stripe), etc.
+- Read-only dashboard, glanceable
+- Only shows stats for active add-ons
+- Empty state for inactive add-ons: "Activate [add-on] to see stats"
+
+Financials page (bottom nav tab — 4th):
+- If Stripe NOT connected: premium full-screen "Get paid online" page
+  - Headline: "Accept payments for bookings"
+  - Description: activate Stripe add-on to accept online payments
+  - CTA: "Contact us to activate" → WhatsApp
+  - Design: clean, premium, not a dead end
+- If Stripe connected:
+  - Revenue this month (hero number, amber)
+  - Transaction history list: date, client, service, amount, status
+  - Payout summary
 
 Fix every bug and broken form interaction you find.
 
 When done:
-cd /Users/admin/Desktop/bapita-dashboard && git add src/ && git commit -m "redesign: settings + profile + add-ons — design system implementation" && git push
+cd /Users/admin/Desktop/bapita-dashboard && git add src/ && git commit -m "redesign: settings + profile + add-ons + financials + usage — design system implementation" && git push
 
 Verify live at https://dashboard.bapita.com/settings
 ```
