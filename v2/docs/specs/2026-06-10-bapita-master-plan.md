@@ -50,9 +50,10 @@ This plan fixes everything in 10 ordered chat sessions. Each session ends with a
 - [x] Chat 5 — Clients List + Client Profile
 - [x] Chat 6 — New Booking Flow
 - [x] Chat 7 — Insights
-- [ ] Chat 8 — Settings + Profile + Add-ons
-- [ ] Chat 9 — Public Booking Page (/book/[slug])
-- [ ] Chat 10 — Landing Page (bapita.com)
+- [x] Chat 8 — Settings + Profile + Add-ons + Financials + Usage
+- [ ] Chat 8.5 — Review & Polish (custom prompt)
+- [ ] Chat 9 — Landing Page (bapita.com)
+- [ ] Chat 10 — Public Booking Page (/book/[slug])
 
 Check each box when the chat is pushed and live.
 
@@ -552,7 +553,60 @@ Verify live at https://dashboard.bapita.com/settings
 
 ---
 
-## CHAT 9 — Public Booking Page
+## CHAT 8.5 — Review & Polish
+
+**Effort:** custom  
+**Repo:** bapita-dashboard  
+**Goal:** Review all existing pages for visual consistency, bugs, and UX gaps — custom prompt written by Rami  
+
+> Write your custom prompt here. Paste it into a new chat session when ready.
+
+---
+
+## CHAT 9 — Landing Page (bapita.com)
+
+**Effort:** `/effort medium`  
+**Repo:** bapita (landing page sub-git)  
+**Goal:** Polish the landing page — brand consistent, CTA clear, no broken elements  
+
+```
+I'm building Bapita — a done-for-you booking platform for Israeli appointment businesses. The landing page is at bapita.com — a single index.html file.
+
+Read these files first (in order):
+1. /Users/admin/Desktop/bapita/v2/docs/design-system.md  ← REQUIRED before writing any code
+2. /Users/admin/Desktop/bapita/v2/docs/brand/bapita-brand-doc-v2.md
+3. /Users/admin/Desktop/bapita/v2/src/dashboard/index.html
+
+Important: The landing page has its own git repo inside the main repo. All git operations use:
+git -C /Users/admin/Desktop/bapita/v2/src/dashboard [command]
+
+Task: Polish the landing page to be consistent with the design system and brand doc. Fix ALL bugs.
+
+Requirements:
+- Colors and fonts must match the design system exactly (amber/cream/dark/Heebo)
+- Mobile-first — test every section at mobile width
+- Hero: strong pain-first or outcome-first headline, clear primary CTA ("Get a free demo" → WhatsApp), trust line below CTA
+- Navigation: clean, WhatsApp CTA button visible
+- Problem section: 3–4 real scenarios (barbers recognize themselves)
+- Solution: what Bapita builds (booking site + dashboard)
+- Services: cards — Booking Website, Owner Dashboard, Email Confirmation. No prices.
+- Add-ons: accordion/dropdown, each with "Let's Talk" → WhatsApp
+- How it works: 3 steps
+- FAQ: objection handling (from brand doc)
+- Final CTA: "Book a free 15-min call"
+- Footer: bapita.com, WhatsApp, Instagram, trust line
+
+Fix any broken sections, misaligned elements, or inconsistent styling.
+
+When done:
+git -C /Users/admin/Desktop/bapita/v2/src/dashboard add index.html && git -C /Users/admin/Desktop/bapita/v2/src/dashboard commit -m "redesign: landing page — design system polish, mobile fixes" && git -C /Users/admin/Desktop/bapita/v2/src/dashboard push
+
+Verify live at https://bapita.com after Vercel deploys.
+```
+
+---
+
+## CHAT 10 — Public Booking Page
 
 **Effort:** `/effort high`  
 **Repo:** bapita-dashboard  
@@ -602,49 +656,6 @@ When done:
 cd /Users/admin/Desktop/bapita-dashboard && git add src/ && git commit -m "feat: public booking page — complete end-to-end customer booking flow" && git push
 
 Verify live at https://dashboard.bapita.com/book/[your-test-slug]
-```
-
----
-
-## CHAT 10 — Landing Page (bapita.com)
-
-**Effort:** `/effort medium`  
-**Repo:** bapita (landing page sub-git)  
-**Goal:** Polish the landing page — brand consistent, CTA clear, no broken elements  
-
-```
-I'm building Bapita — a done-for-you booking platform for Israeli appointment businesses. The landing page is at bapita.com — a single index.html file.
-
-Read these files first (in order):
-1. /Users/admin/Desktop/bapita/v2/docs/design-system.md  ← REQUIRED before writing any code
-2. /Users/admin/Desktop/bapita/v2/docs/brand/bapita-brand-doc-v2.md
-3. /Users/admin/Desktop/bapita/v2/src/dashboard/index.html
-
-Important: The landing page has its own git repo inside the main repo. All git operations use:
-git -C /Users/admin/Desktop/bapita/v2/src/dashboard [command]
-
-Task: Polish the landing page to be consistent with the design system and brand doc. Fix ALL bugs.
-
-Requirements:
-- Colors and fonts must match the design system exactly (amber/cream/dark/Heebo)
-- Mobile-first — test every section at mobile width
-- Hero: strong pain-first or outcome-first headline, clear primary CTA ("Get a free demo" → WhatsApp), trust line below CTA
-- Navigation: clean, WhatsApp CTA button visible
-- Problem section: 3–4 real scenarios (barbers recognize themselves)
-- Solution: what Bapita builds (booking site + dashboard)
-- Services: cards — Booking Website, Owner Dashboard, Email Confirmation. No prices.
-- Add-ons: accordion/dropdown, each with "Let's Talk" → WhatsApp
-- How it works: 3 steps
-- FAQ: objection handling (from brand doc)
-- Final CTA: "Book a free 15-min call"
-- Footer: bapita.com, WhatsApp, Instagram, trust line
-
-Fix any broken sections, misaligned elements, or inconsistent styling.
-
-When done:
-git -C /Users/admin/Desktop/bapita/v2/src/dashboard add index.html && git -C /Users/admin/Desktop/bapita/v2/src/dashboard commit -m "redesign: landing page — design system polish, mobile fixes" && git -C /Users/admin/Desktop/bapita/v2/src/dashboard push
-
-Verify live at https://bapita.com after Vercel deploys.
 ```
 
 ---
