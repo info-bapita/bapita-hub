@@ -49,7 +49,7 @@ This plan fixes everything in 10 ordered chat sessions. Each session ends with a
 - [x] Chat 4 — Calendar
 - [x] Chat 5 — Clients List + Client Profile
 - [x] Chat 6 — New Booking Flow
-- [ ] Chat 7 — Insights
+- [x] Chat 7 — Insights
 - [ ] Chat 8 — Settings + Profile + Add-ons
 - [ ] Chat 9 — Public Booking Page (/book/[slug])
 - [ ] Chat 10 — Landing Page (bapita.com)
