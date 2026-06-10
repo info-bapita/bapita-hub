@@ -84,6 +84,8 @@ bapita-dashboard/               ← separate repo (Next.js app)
 - MVP design: `v2/docs/mvp-design.md`
 - Brand: `v2/docs/brand/bapita-brand-doc-v2.md`
 - Dashboard design spec: `v2/docs/specs/2026-06-08-dashboard-design.md`
+- **Master plan (10 chat implementation guide):** `v2/docs/specs/2026-06-10-bapita-master-plan.md`
+- Design system (created in Chat 2): `v2/docs/design-system.md`
 
 ---
 
@@ -118,7 +120,7 @@ bapita-dashboard/               ← separate repo (Next.js app)
 | Item | Notes |
 |---|---|
 | ~~**Supabase migration**~~ | ✅ Done Jun 10 2026 — `business_hours` JSONB column added to businesses table |
-| **Resend domain verification** | Add bapita.com to resend.com → get DNS records → add to domain registrar. Sender: `noreply@bapita.com` |
+| **Resend domain verification** | Add bapita.com to resend.com → get DNS records → add to domain registrar. Sender: `noreply@bapita.com`. **Until done: all emails silently fail** (app still works). BCC on all emails: `info.bapita@gmail.com`. |
 
 ### Not done / next priorities
 | Item | Priority |
