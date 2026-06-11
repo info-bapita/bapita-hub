@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bapita | Built for you. Runs without you.</title>
-  <meta name="description" content="A booking website, owner dashboard, and automations, built for your appointment-based business in 48 hours. No tech needed." />
+  <meta name="description" content="A booking website, owner dashboard, and automations, built for your appointment based business in 48 hours. No tech needed." />
 
   <!-- Favicon (reuses brand mark) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
@@ -15,18 +15,18 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bapita.com/" />
   <meta property="og:title" content="Bapita | Built for you. Runs without you." />
-  <meta property="og:description" content="A booking website, owner dashboard, and automations, built for your appointment-based business in 48 hours. No tech needed." />
+  <meta property="og:description" content="A booking website, owner dashboard, and automations, built for your appointment based business in 48 hours. No tech needed." />
   <meta property="og:image" content="https://bapita.com/img/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Bapita | Built for you. Runs without you." />
-  <meta name="twitter:description" content="A booking website, owner dashboard, and automations, built for your appointment-based business in 48 hours. No tech needed." />
+  <meta name="twitter:description" content="A booking website, owner dashboard, and automations, built for your appointment based business in 48 hours. No tech needed." />
   <meta name="twitter:image" content="https://bapita.com/img/og-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" />
   <script defer data-domain="bapita.com" src="https://plausible.io/js/script.js"></script>
   <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
@@ -38,19 +38,34 @@
       --amber-dark:  #B86800;
       --amber-hover: #d4830a;
       --dark:        #1E1A14;
+      --dark-2:      #2a241b;
       --dark-footer: #16120d;
       --cream:       #FAF5EC;
       --cream-2:     #F5EFE3;
+      --cream-3:     #EFE7D6;
       --terra:       #D4622A;
       --text-muted:  #6b6052;
-      --r-card:      14px;
-      --r-btn:       12px;
+      --line:        rgba(30,26,20,.09);
+
+      /* Warm gradient washes — elevation via color, no shadow (GlossGenius move) */
+      --wash-amber: linear-gradient(157deg, #F8DEAE 0%, #E79B22 100%);
+      --wash-sand:  linear-gradient(157deg, #F6EEDF 0%, #E6CB9E 100%);
+      --wash-terra: linear-gradient(157deg, #EEB389 0%, #D4622A 100%);
+
+      --r-card:  16px;
+      --r-pill:  9999px;
+      --r-soft:  12px;
+
+      --shadow-card:  0 1px 2px rgba(30,26,20,.05), 0 8px 28px rgba(30,26,20,.07);
+      --shadow-float: 0 12px 40px rgba(30,26,20,.16);
+      --shadow-amber: 0 12px 30px rgba(232,146,10,.32);
+
+      --maxw: 1160px;
     }
 
     html {
       scroll-behavior: smooth;
-      scroll-snap-type: y proximity;
-      scroll-padding-top: 64px;
+      scroll-padding-top: 76px;
     }
 
     body {
@@ -59,73 +74,158 @@
       background: var(--cream);
       color: var(--dark);
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
+
+    /* ─── EDITORIAL TYPE — tracking tightens as size grows ─── */
+    .display {
+      font-size: clamp(2.6rem, 6.4vw, 4.4rem);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+    }
+    .section-title {
+      font-size: clamp(1.9rem, 4.4vw, 2.85rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.07;
+      color: var(--dark);
+    }
+    .section-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+    /* Hebrew has no case — never uppercase HE labels */
+    html[lang="he"] .section-label,
+    html[lang="he"] .hero-eyebrow,
+    html[lang="he"] .proof-lbl,
+    html[lang="he"] .vert-sub-label,
+    html[lang="he"] .addon-badge { text-transform: none; letter-spacing: .02em; }
+
+    /* ─── LAYOUT HELPERS ──────────────────────────────── */
+    .section { padding: clamp(3.75rem, 7vw, 6rem) 1.5rem; scroll-margin-top: 76px; }
+    .section-inner { max-width: var(--maxw); margin: 0 auto; }
+    .section-head { margin-bottom: 2.75rem; max-width: 640px; }
+    .section-head.center { margin-inline: auto; text-align: center; }
+    .section-sub {
+      font-size: 1.0625rem;
+      font-weight: 300;
+      line-height: 1.62;
+      color: var(--text-muted);
+      margin-top: 1rem;
+    }
+
+    /* ─── BUTTONS (pill) ──────────────────────────────── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      background: var(--amber);
+      color: #fff;
+      font-family: 'Heebo', sans-serif;
+      font-weight: 700;
+      font-size: 1.0625rem;
+      border: none;
+      border-radius: var(--r-pill);
+      padding: 1rem 2.125rem;
+      cursor: pointer;
+      text-decoration: none;
+      line-height: 1.2;
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .btn-primary:hover {
+      background: var(--amber-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-amber);
+    }
+    .btn-primary.lg { font-size: 1.125rem; padding: 1.125rem 2.5rem; }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-weight: 700;
+      font-size: .9375rem;
+      color: var(--dark);
+      text-decoration: none;
+      opacity: .72;
+      transition: opacity .2s;
+    }
+    .btn-ghost:hover { opacity: 1; }
 
     /* ─── NAV ─────────────────────────────────────────── */
     .nav {
       position: sticky;
       top: 0;
       z-index: 200;
-      background: var(--cream);
+      background: rgba(250,245,236,.82);
+      backdrop-filter: saturate(140%) blur(12px);
       border-bottom: 1px solid transparent;
-      transition: border-color .25s, box-shadow .25s;
+      transition: border-color .25s, box-shadow .25s, background .25s;
     }
     .nav.scrolled {
-      border-bottom-color: rgba(30,26,20,.1);
-      box-shadow: 0 2px 20px rgba(30,26,20,.08);
+      border-bottom-color: var(--line);
+      box-shadow: 0 2px 20px rgba(30,26,20,.06);
     }
     .nav-inner {
-      max-width: 1160px;
+      max-width: var(--maxw);
       margin: 0 auto;
       padding: 0 1.5rem;
-      height: 64px;
+      height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: relative;
+      gap: 1rem;
     }
     .nav-logo {
       display: flex;
       align-items: center;
       gap: 9px;
       text-decoration: none;
-      z-index: 1;
+      flex-shrink: 0;
     }
     .nav-logo svg { width: 30px; height: auto; flex-shrink: 0; }
     .nav-wordmark {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       font-weight: 900;
       letter-spacing: -0.03em;
       color: var(--dark);
     }
-    /* Center group, absolutely centered to the page */
     .nav-links {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
       display: flex;
       align-items: center;
       gap: 2rem;
+      margin-inline-start: auto;
     }
     .nav-link {
-      font-size: .875rem;
+      font-size: .9375rem;
       font-weight: 700;
       color: var(--dark);
       text-decoration: none;
-      opacity: .65;
+      opacity: .62;
       transition: opacity .2s;
     }
     .nav-link:hover { opacity: 1; }
-    /* Right group */
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      z-index: 1;
+    .nav-actions { display: flex; align-items: center; gap: 1.125rem; flex-shrink: 0; }
+    .lang-toggle {
+      font-family: 'Heebo', sans-serif;
+      font-size: .8125rem;
+      font-weight: 700;
+      color: var(--dark);
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: var(--r-pill);
+      padding: .4rem .85rem;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
     }
+    .lang-toggle:hover { border-color: var(--amber); background: rgba(232,146,10,.06); }
     .btn-login {
-      font-size: .875rem;
+      font-size: .9375rem;
       font-weight: 700;
       color: var(--dark);
       text-decoration: none;
@@ -138,13 +238,12 @@
       color: #fff;
       font-family: 'Heebo', sans-serif;
       font-weight: 700;
-      font-size: .875rem;
+      font-size: .9375rem;
       border: none;
-      border-radius: var(--r-btn);
-      padding: .6rem 1.25rem;
+      border-radius: var(--r-pill);
+      padding: .65rem 1.4rem;
       cursor: pointer;
       text-decoration: none;
-      display: inline-block;
       transition: background .2s, transform .15s;
     }
     .btn-nav:hover { background: var(--amber-hover); transform: translateY(-1px); }
@@ -156,755 +255,466 @@
       padding: 6px;
       flex-direction: column;
       gap: 5px;
-      z-index: 1;
     }
     .hamburger span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--dark);
-      border-radius: 2px;
+      display: block; width: 22px; height: 2px;
+      background: var(--dark); border-radius: 2px;
       transition: all .25s;
     }
     .mobile-menu {
       display: none;
       flex-direction: column;
       background: var(--cream);
-      border-top: 1px solid rgba(30,26,20,.08);
+      border-top: 1px solid var(--line);
       padding: 1rem 1.5rem 1.5rem;
       gap: .875rem;
     }
     .mobile-menu.open { display: flex; }
     .mobile-menu a {
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--dark);
-      text-decoration: none;
+      font-weight: 700; font-size: 1.05rem;
+      color: var(--dark); text-decoration: none;
     }
-    @media (max-width: 880px) {
-      .nav-links, .nav-actions { display: none; }
+    @media (max-width: 920px) {
+      .nav-links, .nav-actions .btn-login, .nav-actions .btn-nav { display: none; }
       .hamburger { display: flex; }
     }
 
-    /* ─── BUTTONS ─────────────────────────────────────── */
-    .btn-primary {
-      display: inline-block;
-      background: var(--amber);
-      color: #fff;
-      font-family: 'Heebo', sans-serif;
-      font-weight: 700;
-      font-size: 1.0625rem;
-      border: none;
-      border-radius: var(--r-btn);
-      padding: 1rem 2rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background .2s, transform .15s, box-shadow .2s;
-      line-height: 1.2;
-    }
-    .btn-primary:hover {
-      background: var(--amber-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(232,146,10,.35);
-    }
-    .btn-primary.lg { font-size: 1.125rem; padding: 1.125rem 2.375rem; }
-
-    /* ─── FIRST FOLD ──────────────────────────────────── */
-    .first-fold {
-      min-height: calc(100vh - 64px);
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ─── HERO + MOUSE GLOW ───────────────────────────── */
+    /* ─── HERO (asymmetric: copy + phone mockup) ──────── */
     .hero {
-      --glow-x: 50%;
-      --glow-y: 40%;
+      --glow-x: 78%;
+      --glow-y: 30%;
       background: var(--dark);
-      padding: clamp(3rem, 5vw, 4.5rem) 1.5rem clamp(2.5rem, 4vw, 3.5rem);
-      text-align: center;
       position: relative;
       overflow: hidden;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      padding: clamp(3rem, 6vw, 5.5rem) 1.5rem clamp(3.5rem, 6vw, 6rem);
     }
-    /* Ambient base glow */
     .hero::before {
       content: '';
       position: absolute;
-      top: -180px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 700px;
-      height: 500px;
-      background: radial-gradient(ellipse at center, rgba(232,146,10,.12) 0%, transparent 65%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    /* Mouse-follow spotlight */
-    .hero::after {
-      content: '';
-      position: absolute;
       inset: 0;
-      background: radial-gradient(
-        550px circle at var(--glow-x) var(--glow-y),
-        rgba(232,146,10,.13) 0%,
-        transparent 60%
-      );
-      pointer-events: none;
-      z-index: 0;
-      transition: background .05s linear;
+      background: radial-gradient(620px circle at var(--glow-x) var(--glow-y),
+        rgba(232,146,10,.18) 0%, transparent 58%);
+      pointer-events: none; z-index: 0;
+      transition: background .08s linear;
     }
-    .hero-inner {
-      max-width: 840px;
+    .hero-grid {
+      max-width: var(--maxw);
       margin: 0 auto;
       position: relative;
       z-index: 1;
-      width: 100%;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: clamp(2rem, 5vw, 4rem);
     }
+    .hero-copy { max-width: 560px; }
     .hero-eyebrow {
       display: inline-block;
       background: rgba(232,146,10,.12);
-      border: 1px solid rgba(232,146,10,.28);
-      border-radius: 50px;
-      padding: .35rem 1.125rem;
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
+      border: 1px solid rgba(232,146,10,.3);
+      border-radius: var(--r-pill);
+      padding: .4rem 1.125rem;
+      font-size: .75rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
       color: var(--amber);
       margin-bottom: 1.5rem;
     }
-    .hero h1 {
-      font-size: clamp(2.5rem, 7vw, 4.5rem);
-      font-weight: 900;
-      line-height: 1.04;
-      letter-spacing: -0.032em;
-      color: #fff;
-      margin-bottom: 1.25rem;
-    }
+    .hero h1 { color: #fff; margin-bottom: 1.25rem; }
     .hero h1 .accent { color: var(--amber); }
     .hero-sub {
-      font-size: clamp(1.0625rem, 2.5vw, 1.1875rem);
+      font-size: clamp(1.0625rem, 2vw, 1.1875rem);
       font-weight: 300;
-      color: rgba(255,255,255,.68);
+      color: rgba(255,255,255,.7);
       line-height: 1.6;
-      max-width: 560px;
-      margin: 0 auto 2.25rem;
+      max-width: 460px;
+      margin-bottom: 2.25rem;
     }
-    .hero-ctas {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
+    .hero-ctas { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .hero-ctas .btn-ghost { color: rgba(255,255,255,.72); opacity: 1; }
+    .hero-ctas .btn-ghost:hover { color: #fff; }
+    .hero-visual { display: flex; justify-content: center; }
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-copy { max-width: 600px; margin: 0 auto; }
+      .hero-sub { margin-inline: auto; }
+      .hero-ctas { justify-content: center; }
+      .hero-visual { margin-top: .5rem; }
     }
-    .hero-secondary {
-      color: rgba(255,255,255,.65);
-      font-weight: 700;
-      font-size: .9375rem;
-      text-decoration: none;
-      transition: color .2s;
-    }
-    .hero-secondary:hover { color: #fff; }
 
-    /* ─── PROOF STRIP ─────────────────────────────────── */
-    .proof-bar {
-      background: var(--amber);
-      padding: .875rem 1.5rem;
-    }
-    .proof-bar-inner {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      text-align: center;
-    }
-    .proof-item { display: flex; flex-direction: column; align-items: center; gap: .3rem; }
-    .proof-num {
-      font-size: clamp(1.625rem, 3.5vw, 2.125rem);
-      font-weight: 900;
-      letter-spacing: -0.025em;
-      color: var(--dark);
-      line-height: 1;
-    }
-    .proof-lbl {
-      font-size: .78125rem;
-      font-weight: 700;
-      color: rgba(30,26,20,.6);
-      text-transform: uppercase;
-      letter-spacing: .045em;
-    }
-    @media (max-width: 600px) { .proof-bar-inner { grid-template-columns: repeat(2, 1fr); } }
-
-    /* ─── TESTIMONIALS STRIP ──────────────────────────── */
-    .tstrip { background: var(--cream-2); padding: 1.25rem 1.5rem; }
-    .section.tstrip { padding: 1.25rem 1.5rem; }
-    .tstrip-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: .875rem;
-    }
-    .tcard {
-      background: #fff;
-      border: 1px solid rgba(30,26,20,.07);
-      border-radius: var(--r-card);
-      padding: 1.125rem 1.125rem;
-      display: flex;
-      flex-direction: column;
-      gap: .625rem;
-    }
-    .tstars { color: var(--amber); font-size: .8rem; letter-spacing: .1em; }
-    .tquote {
-      font-size: .8125rem;
-      line-height: 1.55;
-      color: var(--dark);
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .tperson { display: flex; align-items: center; gap: .625rem; }
-    .tavatar {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: rgba(232,146,10,.14);
-      color: var(--amber-dark);
-      font-weight: 900; font-size: .75rem;
+    /* ─── DEVICE MOCKUPS ──────────────────────────────── */
+    .wash-card {
+      border-radius: 28px;
+      padding: clamp(1.75rem, 3vw, 2.5rem);
       display: flex; align-items: center; justify-content: center;
+    }
+    .wash-card.amber { background: var(--wash-amber); }
+    .wash-card.sand  { background: var(--wash-sand); }
+    .wash-card.terra { background: var(--wash-terra); }
+
+    /* Phone frame */
+    .phone {
+      width: 270px;
+      background: #fff;
+      border-radius: 34px;
+      padding: 10px;
+      box-shadow: var(--shadow-float);
       flex-shrink: 0;
     }
-    .tname { font-size: .8125rem; font-weight: 700; color: var(--dark); }
-    .tmeta { font-size: .75rem; color: var(--text-muted); }
-    @media (max-width: 768px) {
-      .tstrip-grid {
-        grid-template-columns: none;
-        grid-auto-flow: column;
-        grid-auto-columns: 85%;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scroll-padding: 0 1.5rem;
-        padding-bottom: .5rem;
-      }
-      .tstrip-grid::-webkit-scrollbar { display: none; }
-      .tcard { scroll-snap-align: start; }
-      .tquote { -webkit-line-clamp: 2; }
+    .phone-screen {
+      background: var(--cream);
+      border-radius: 26px;
+      overflow: hidden;
+      font-size: 12px;
     }
-
-    /* ─── LAYOUT HELPERS ──────────────────────────────── */
-    .first-fold, .pain-section, .process-band, .addons, .faq {
-      scroll-snap-align: start;
-    }
-    .section { padding: clamp(3rem, 5.5vw, 4.5rem) 1.5rem; scroll-margin-top: 64px; }
-    .section-inner { max-width: 1160px; margin: 0 auto; }
-    .section, .pain-header { scroll-margin-top: 64px; }
-    .section-label {
-      font-size: .71875rem;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: .875rem;
-    }
-    .section-title {
-      font-size: clamp(1.875rem, 4.5vw, 2.75rem);
-      font-weight: 900;
-      letter-spacing: -0.027em;
-      line-height: 1.1;
-      color: var(--dark);
-      margin-bottom: .875rem;
-    }
-    .section-center { text-align: center; margin-bottom: 2.5rem; }
-    .section-head { margin-bottom: 2.25rem; }
-
-    /* Tighter spacing inside process-band */
-    .process-band .section-head { margin-bottom: 1.25rem; }
-    .process-band .section-title { margin-bottom: .5rem; }
-    .process-band .card { padding: 1.125rem 1.125rem; }
-    .process-band .card p { font-size: .875rem; }
-
-    /* ─── PAIRED BLOCK: HOW IT WORKS + WHAT WE BUILD ──── */
-    /* Both read as one cohesive band (same bg, tight gap). */
-    /* ─── PROCESS BAND ────────────────────────────────── */
-    .process-band {
-      min-height: calc(100vh - 64px);
-      display: flex;
-      flex-direction: column;
-    }
-    .process-band .howitworks,
-    .process-band .solution { flex: 1; }
-    .howitworks { background: var(--cream-2); padding-top: clamp(1.75rem, 3vw, 2.5rem); padding-bottom: 1rem; }
-    .solution   { background: var(--cream-2); padding-top: 1rem; padding-bottom: clamp(1.5rem, 3vw, 2.5rem); }
-
-    /* Shared card grid for both rows */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-    .card {
-      background: linear-gradient(to bottom, rgba(232,146,10,.04) 0%, transparent 60%), #fff;
-      border: 1px solid rgba(30,26,20,.07);
-      border-top: 3px solid var(--amber);
-      border-radius: var(--r-card);
-      padding: 1.5rem 1.375rem;
-      transition: box-shadow .22s, transform .22s;
-    }
-    .card:hover {
-      box-shadow: 0 16px 48px rgba(232,146,10,.13);
-      transform: translateY(-4px);
-    }
-    .card h3 {
-      font-size: 1.1875rem;
-      font-weight: 700;
-      margin-bottom: .375rem;
-      color: var(--dark);
-    }
-    .card p { font-size: .9375rem; line-height: 1.62; color: var(--text-muted); }
-    @media (max-width: 768px) { .card-grid { grid-template-columns: 1fr; } }
-
-    /* Step number badge (How it works) */
-    .step-num {
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background: var(--amber);
+    .pp-top {
+      background: var(--dark);
       color: #fff;
-      font-size: 1rem;
-      font-weight: 900;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: .875rem;
+      padding: 16px 16px 14px;
     }
-    /* Emoji chip (What we build) — contained, branded, warm */
-    .card-emoji {
-      width: 56px; height: 56px;
-      background: rgba(232,146,10,.1);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      line-height: 1;
-      margin-bottom: .875rem;
+    .pp-shop { font-size: 15px; font-weight: 900; letter-spacing: -.01em; }
+    .pp-shop-meta { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 2px; }
+    .pp-body { padding: 12px 14px 14px; }
+    .pp-h { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin: 4px 0 8px; }
+    html[lang="he"] .pp-h { text-transform: none; letter-spacing: .02em; }
+    .pp-svc {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 10px; padding: 9px 11px; margin-bottom: 7px;
     }
-    .steps-closer {
-      font-size: .9375rem;
-      font-weight: 700;
-      color: var(--dark);
+    .pp-svc.sel { border-color: var(--amber); background: rgba(232,146,10,.06); }
+    .pp-svc-name { font-size: 12px; font-weight: 700; color: var(--dark); }
+    .pp-svc-dur { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+    .pp-svc-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--line); flex-shrink: 0; }
+    .pp-svc.sel .pp-svc-dot { border-color: var(--amber); background: var(--amber); box-shadow: inset 0 0 0 2px #fff; }
+    .pp-dates { display: flex; gap: 6px; margin-bottom: 10px; }
+    .pp-date {
+      flex: 1; text-align: center; background: #fff; border: 1px solid var(--line);
+      border-radius: 9px; padding: 7px 0;
+    }
+    .pp-date.sel { background: var(--dark); border-color: var(--dark); }
+    .pp-date-d { font-size: 9px; color: var(--text-muted); }
+    .pp-date.sel .pp-date-d { color: rgba(255,255,255,.6); }
+    .pp-date-n { font-size: 13px; font-weight: 800; color: var(--dark); margin-top: 1px; }
+    .pp-date.sel .pp-date-n { color: #fff; }
+    .pp-times { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+    .pp-time {
+      text-align: center; font-size: 11px; font-weight: 700; color: var(--dark);
+      background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 7px 0;
+    }
+    .pp-time.sel { background: var(--amber); border-color: var(--amber); color: #fff; }
+    .pp-time.off { color: var(--text-muted); opacity: .4; }
+    .pp-book {
+      background: var(--amber); color: #fff; text-align: center;
+      font-size: 13px; font-weight: 800; border-radius: var(--r-pill);
+      padding: 11px 0;
+    }
+
+    /* Dashboard / browser-window mockup */
+    .winframe {
+      width: 100%;
+      max-width: 540px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-float);
+    }
+    .win-bar {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--cream-2); padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .win-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .win-url {
+      margin-inline-start: 10px; font-size: 11px; color: var(--text-muted);
+      background: #fff; border-radius: var(--r-pill); padding: 4px 12px;
+    }
+    .dash { padding: 16px; }
+    .dash-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+    .dash-title { font-size: 15px; font-weight: 900; letter-spacing: -.01em; color: var(--dark); }
+    .dash-month { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+    .dash-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 14px; }
+    .dash-day { text-align: center; padding: 6px 0; border-radius: 10px; }
+    .dash-day-d { font-size: 10px; color: var(--text-muted); }
+    .dash-day-n { font-size: 13px; font-weight: 800; color: var(--dark); margin-top: 3px; }
+    .dash-day.today .dash-day-n {
+      background: var(--amber); color: #fff;
+      width: 26px; height: 26px; line-height: 26px; margin: 3px auto 0;
+      border-radius: 50%;
+    }
+    .dash-grid { display: flex; flex-direction: column; gap: 7px; }
+    .dash-row { display: flex; gap: 9px; align-items: stretch; }
+    .dash-time { font-size: 10px; color: var(--text-muted); width: 34px; flex-shrink: 0; padding-top: 6px; text-align: end; }
+    .dash-block {
+      flex: 1; border-radius: 7px; padding: 7px 10px;
+      border-inline-start: 3px solid var(--amber);
       background: rgba(232,146,10,.09);
-      border-left: 3px solid var(--amber);
-      padding: .75rem 1.25rem;
-      border-radius: 0 10px 10px 0;
-      display: inline-block;
-      margin-top: 1.5rem;
     }
+    .dash-block.green { border-inline-start-color: #22C55E; background: rgba(34,197,94,.09); }
+    .dash-block.slate { border-inline-start-color: #94A3B8; background: rgba(148,163,184,.12); }
+    .dash-block.empty { background: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(30,26,20,.04) 5px, rgba(30,26,20,.04) 10px); border-inline-start-color: transparent; }
+    .dash-cli { font-size: 12px; font-weight: 800; color: var(--dark); }
+    .dash-svc { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+    /* WhatsApp reminder bubble */
+    .wa-phone { width: 240px; }
+    .wa-screen { background: #E5DDD5; border-radius: 22px; padding: 14px 12px; min-height: 220px; }
+    .wa-bubble {
+      background: #fff; border-radius: 12px; border-top-left-radius: 3px;
+      padding: 9px 12px; max-width: 90%;
+      box-shadow: 0 1px 1px rgba(0,0,0,.08);
+      margin-bottom: 9px;
+    }
+    .wa-bubble.out {
+      background: #DCF8C6; margin-inline-start: auto;
+      border-top-left-radius: 12px; border-top-right-radius: 3px;
+    }
+    html[dir="rtl"] .wa-bubble { border-top-left-radius: 12px; border-top-right-radius: 3px; }
+    html[dir="rtl"] .wa-bubble.out { border-top-right-radius: 12px; border-top-left-radius: 3px; }
+    .wa-name { font-size: 11px; font-weight: 800; color: var(--amber-dark); margin-bottom: 2px; }
+    .wa-txt { font-size: 12px; line-height: 1.45; color: var(--dark); }
+    .wa-time { font-size: 9px; color: var(--text-muted); text-align: end; margin-top: 3px; }
+
+    /* ─── PROOF BAR ───────────────────────────────────── */
+    .proof-bar { background: var(--amber); padding: 1.5rem; }
+    .proof-bar-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem; text-align: center;
+    }
+    .proof-item { display: flex; flex-direction: column; align-items: center; gap: .35rem; }
+    .proof-num { font-size: clamp(1.75rem, 3.5vw, 2.25rem); font-weight: 900; letter-spacing: -.025em; color: var(--dark); line-height: 1; }
+    .proof-lbl { font-size: .8rem; font-weight: 700; color: rgba(30,26,20,.62); text-transform: uppercase; letter-spacing: .04em; }
+    @media (max-width: 600px) { .proof-bar-inner { grid-template-columns: repeat(2, 1fr); gap: 1.75rem 1rem; } }
+
+    /* ─── VERTICALS STRIP (NEW) ───────────────────────── */
+    .verticals { background: var(--cream); }
+    .vert-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;
+    }
+    .vert-tile {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: var(--r-card); padding: 1.5rem 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: .75rem;
+      text-align: center;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .vert-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); border-color: rgba(232,146,10,.35); }
+    .vert-ico {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(232,146,10,.1); color: var(--amber-dark);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vert-ico svg { width: 26px; height: 26px; }
+    .vert-name { font-size: .9375rem; font-weight: 700; color: var(--dark); }
+    @media (max-width: 900px) { .vert-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 520px) { .vert-grid { grid-template-columns: repeat(2, 1fr); } }
 
     /* ─── PAIN SELECTOR ──────────────────────────────── */
-    .pain-section {
-      min-height: calc(100vh - 64px);
-      background: var(--cream);
-      display: flex;
-      flex-direction: column;
-    }
-    .pain-header {
-      padding: clamp(3rem, 5.5vw, 4.5rem) 1.5rem 1.5rem;
-      background: var(--cream);
-    }
-    .pain-selector { background: var(--cream); flex: 1; }
-    .pain-layout {
-      display: grid;
-      grid-template-columns: 40% 1fr;
-      gap: 3rem;
-      align-items: start;
-    }
-    .pain-left {
-      display: flex;
-      flex-direction: column;
-    }
+    .pain { background: var(--cream-2); }
+    .pain-layout { display: grid; grid-template-columns: 42% 1fr; gap: 3rem; align-items: start; margin-top: 2.5rem; }
+    .pain-left { display: flex; flex-direction: column; gap: .35rem; }
     .pain-row {
-      display: flex;
-      align-items: flex-start;
-      gap: .875rem;
-      padding: .875rem 1rem .875rem 1.125rem;
-      border-radius: 10px;
-      cursor: pointer;
-      border-left: 3px solid transparent;
+      display: flex; align-items: flex-start; gap: .875rem;
+      padding: 1rem 1.125rem; border-radius: var(--r-soft);
+      cursor: pointer; border-inline-start: 3px solid transparent;
       transition: background .25s, border-color .25s;
     }
-    .pain-row:hover { background: rgba(232,146,10,.03); }
-    .pain-row.active {
-      background: rgba(232,146,10,.05);
-      border-left-color: var(--amber);
-    }
-    .pain-dot-ind {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--amber);
-      flex-shrink: 0;
-      margin-top: .4rem;
-    }
-    .pain-row-headline {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--dark);
-      opacity: .55;
-      transition: opacity .25s, color .25s;
-      margin-bottom: .25rem;
-      line-height: 1.3;
-    }
-    .pain-row.active .pain-row-headline {
-      opacity: 1;
-      color: var(--amber);
-    }
-    .pain-row-sub {
-      font-size: .875rem;
-      line-height: 1.55;
-      color: var(--text-muted);
-    }
-    .pain-right {
-      position: relative;
-      height: 420px;
-      border-radius: 14px;
-      overflow: hidden;
-      background: var(--dark);
-    }
-    .pain-img {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity .5s ease;
-    }
+    .pain-row:hover { background: rgba(232,146,10,.04); }
+    .pain-row.active { background: #fff; border-inline-start-color: var(--amber); box-shadow: var(--shadow-card); }
+    .pain-dot-ind { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); flex-shrink: 0; margin-top: .45rem; opacity: .3; transition: opacity .25s; }
+    .pain-row.active .pain-dot-ind { opacity: 1; }
+    .pain-row-headline { font-size: 1.0625rem; font-weight: 700; color: var(--dark); opacity: .58; transition: opacity .25s, color .25s; margin-bottom: .25rem; line-height: 1.3; }
+    .pain-row.active .pain-row-headline { opacity: 1; color: var(--amber-dark); }
+    .pain-row-sub { font-size: .9rem; line-height: 1.55; color: var(--text-muted); }
+    .pain-right { position: relative; height: 440px; border-radius: var(--r-card); overflow: hidden; background: var(--dark); box-shadow: var(--shadow-card); }
+    .pain-img { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity .5s ease; }
     .pain-img.active { opacity: 1; }
-    .pain-img-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(16,12,8,.45) 0%, transparent 55%);
-      pointer-events: none;
-      z-index: 1;
-    }
-    @media (max-width: 768px) {
-      .pain-layout {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      .pain-right {
-        height: 240px;
-        order: -1;
-      }
+    .pain-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(16,12,8,.45) 0%, transparent 55%); pointer-events: none; z-index: 1; }
+    @media (max-width: 820px) {
+      .pain-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+      .pain-right { height: 240px; order: -1; }
       .pain-row { cursor: default; }
       .pain-row .pain-row-headline { opacity: 1; }
     }
 
-    /* ─── AUTOMATIONS — TABS + ACCORDION ─────────────── */
-    .addons { background: var(--cream-2); padding-top: 2.5rem; min-height: calc(100vh - 64px); }
-    .addon-tabs {
-      display: flex;
-      gap: .5rem;
-      margin-bottom: 1.75rem;
-      padding-bottom: 1.75rem;
-      border-bottom: 1px solid rgba(30,26,20,.1);
+    /* ─── CARD GRID (how it works + what we build) ────── */
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .card {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: var(--r-card); padding: 1.75rem 1.5rem;
+      transition: box-shadow .22s, transform .22s;
     }
+    .card:hover { box-shadow: var(--shadow-card); transform: translateY(-4px); }
+    .card h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -.01em; margin-bottom: .5rem; color: var(--dark); }
+    .card p { font-size: .9375rem; line-height: 1.62; color: var(--text-muted); }
+    @media (max-width: 820px) { .card-grid { grid-template-columns: 1fr; } }
+    .step-num {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--amber); color: #fff; font-size: 1.05rem; font-weight: 900;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+    }
+    .card-tag {
+      display: inline-block; font-size: .7rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: .25rem .7rem; border-radius: var(--r-pill); margin-bottom: .875rem;
+    }
+    html[lang="he"] .card-tag { text-transform: none; letter-spacing: .02em; }
+    .card-tag.paid { background: rgba(232,146,10,.12); color: var(--amber-dark); }
+    .card-tag.free { background: rgba(34,197,94,.12); color: #16A34A; }
+    .card-tag.grow { background: rgba(212,98,42,.12); color: var(--terra); }
+    .steps-closer {
+      font-size: 1rem; font-weight: 700; color: var(--dark);
+      background: rgba(232,146,10,.09); border-inline-start: 3px solid var(--amber);
+      padding: .85rem 1.4rem; border-radius: 0 var(--r-soft) var(--r-soft) 0;
+      display: inline-block; margin-top: 1.75rem;
+    }
+    html[dir="rtl"] .steps-closer { border-radius: var(--r-soft) 0 0 var(--r-soft); }
+
+    /* What we build — layers + dashboard mockup side by side */
+    .build { background: var(--cream); }
+    .build-layout { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,4vw,3.5rem); align-items: center; }
+    .build-visual { display: flex; justify-content: center; }
+    @media (max-width: 900px) { .build-layout { grid-template-columns: 1fr; } .build-visual { order: -1; } }
+    .layer { display: flex; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--line); }
+    .layer:last-child { border-bottom: none; }
+    .layer-ico { width: 46px; height: 46px; border-radius: 12px; background: rgba(232,146,10,.1); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+    .layer h3 { font-size: 1.1875rem; font-weight: 700; color: var(--dark); margin-bottom: .25rem; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+    .layer p { font-size: .9375rem; line-height: 1.6; color: var(--text-muted); }
+
+    /* ─── ADD-ONS ─────────────────────────────────────── */
+    .addons { background: var(--cream-2); }
+    .addon-tabs { display: flex; gap: .5rem; margin-bottom: 1.75rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--line); }
     .addon-tab-btn {
-      font-family: 'Heebo', sans-serif;
-      font-size: .9375rem;
-      font-weight: 700;
-      padding: .55rem 1.375rem;
-      border-radius: 50px;
-      border: 1px solid rgba(30,26,20,.15);
-      background: transparent;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: background .2s, color .2s, border-color .2s;
+      font-family: 'Heebo', sans-serif; font-size: .9375rem; font-weight: 700;
+      padding: .6rem 1.5rem; border-radius: var(--r-pill);
+      border: 1px solid var(--line); background: transparent; color: var(--text-muted);
+      cursor: pointer; transition: background .2s, color .2s, border-color .2s;
     }
-    .addon-tab-btn.active {
-      background: var(--amber);
-      color: #fff;
-      border-color: var(--amber);
-    }
+    .addon-tab-btn.active { background: var(--amber); color: #fff; border-color: var(--amber); }
     .addon-tab-content { display: none; }
     .addon-tab-content.active { display: block; }
-    .addon-item { border-bottom: 1px solid rgba(30,26,20,.1); }
+    .addon-item { border-bottom: 1px solid var(--line); }
     .addon-btn {
-      width: 100%;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: 'Heebo', sans-serif;
-      font-size: 1.0625rem;
-      font-weight: 700;
-      color: var(--dark);
-      text-align: left;
-      padding: 1.375rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
+      width: 100%; background: none; border: none; cursor: pointer;
+      font-family: 'Heebo', sans-serif; font-size: 1.0625rem; font-weight: 700;
+      color: var(--dark); text-align: start; padding: 1.375rem 0;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
       transition: color .2s;
     }
     .addon-btn:hover { color: var(--amber); }
-    .addon-btn-left {
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-      flex: 1;
-      min-width: 0;
-    }
+    .addon-btn-left { display: flex; align-items: center; gap: .75rem; flex: 1; min-width: 0; }
     .addon-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: .3rem;
-      padding: .2rem .65rem;
-      border-radius: 50px;
-      font-size: .6875rem;
-      font-weight: 700;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      flex-shrink: 0;
+      display: inline-flex; align-items: center; padding: .2rem .7rem;
+      border-radius: var(--r-pill); font-size: .6875rem; font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase; flex-shrink: 0;
     }
-    .addon-badge.one-time {
-      background: rgba(212,98,42,.1);
-      color: var(--terra);
-    }
-    .addon-badge.monthly {
-      background: rgba(30,26,20,.07);
-      color: var(--text-muted);
-    }
+    .addon-badge.one-time { background: rgba(212,98,42,.1); color: var(--terra); }
+    .addon-badge.monthly { background: rgba(30,26,20,.07); color: var(--text-muted); }
     .addon-chevron {
-      width: 22px; height: 22px;
-      border: 2px solid currentColor;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: transform .3s;
-      position: relative;
+      width: 22px; height: 22px; border: 2px solid currentColor; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: transform .3s; position: relative;
     }
-    .addon-chevron::after {
-      content: '';
-      width: 5px; height: 5px;
-      border-right: 2px solid currentColor;
-      border-bottom: 2px solid currentColor;
-      transform: rotate(45deg) translate(-1px, -2px);
-      display: block;
-    }
+    .addon-chevron::after { content: ''; width: 5px; height: 5px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-1px, -2px); display: block; }
     .addon-item.open .addon-chevron { transform: rotate(180deg); }
-    .addon-answer {
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height .38s ease, padding-bottom .25s;
-    }
+    .addon-answer { overflow: hidden; max-height: 0; transition: max-height .38s ease; }
     .addon-item.open .addon-answer { max-height: 600px; }
-    .addon-answer-body {
-      padding-bottom: 1.375rem;
-      font-size: .9375rem;
-      line-height: 1.65;
-      color: var(--text-muted);
+    .addon-answer-body { padding-bottom: 1.375rem; font-size: .9375rem; line-height: 1.65; color: var(--text-muted); }
+    .addon-wa-tiles { display: flex; flex-direction: column; gap: .625rem; margin-top: .875rem; }
+    .addon-wa-tile { background: var(--cream); border-radius: var(--r-soft); padding: .875rem 1.125rem; }
+    .addon-wa-tile.highlight { background: rgba(232,146,10,.06); border: 1px solid rgba(232,146,10,.18); }
+    .addon-wa-tile-name { font-size: .9375rem; font-weight: 700; color: var(--dark); margin-bottom: .25rem; }
+    .addon-wa-tile-desc { font-size: .875rem; line-height: 1.5; color: var(--text-muted); }
+
+    /* ─── WHY BAPITA (NEW dark band) ──────────────────── */
+    .why { background: var(--dark); color: #fff; }
+    .why .section-label { color: var(--amber); }
+    .why .section-title { color: #fff; }
+    .why .section-sub { color: rgba(255,255,255,.6); }
+    .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .why-card {
+      background: var(--dark-2); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--r-card); padding: 1.75rem 1.5rem;
     }
-    .addon-wa-tiles {
-      display: flex;
-      flex-direction: column;
-      gap: .625rem;
-      margin-top: .875rem;
-    }
-    .addon-wa-tile {
-      background: var(--cream);
-      border-radius: 10px;
-      padding: .875rem 1.125rem;
-    }
-    .addon-wa-tile.highlight {
-      background: rgba(232,146,10,.06);
-      border: 1px solid rgba(232,146,10,.18);
-    }
-    .addon-wa-tile-name {
-      font-size: .9375rem;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: .25rem;
-    }
-    .addon-wa-tile-desc {
-      font-size: .875rem;
-      line-height: 1.5;
-      color: var(--text-muted);
+    .why-card.bapita { background: linear-gradient(160deg, rgba(232,146,10,.18), rgba(232,146,10,.04)); border-color: rgba(232,146,10,.4); }
+    .why-them { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: .875rem; }
+    html[lang="he"] .why-them { text-transform: none; letter-spacing: .02em; }
+    .why-card.bapita .why-them { color: var(--amber); }
+    .why-line { display: flex; gap: .6rem; align-items: flex-start; font-size: .9375rem; line-height: 1.5; color: rgba(255,255,255,.78); margin-bottom: .7rem; }
+    .why-line:last-child { margin-bottom: 0; }
+    .why-mark { flex-shrink: 0; font-weight: 900; }
+    .why-card:not(.bapita) .why-mark { color: rgba(255,255,255,.35); }
+    .why-card.bapita .why-mark { color: var(--amber); }
+    .why-card.bapita .why-line { color: #fff; }
+    @media (max-width: 820px) { .why-grid { grid-template-columns: 1fr; } }
+
+    /* ─── TESTIMONIALS ────────────────────────────────── */
+    .tstrip { background: var(--cream); }
+    .tstrip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .tcard { background: #fff; border: 1px solid var(--line); border-radius: var(--r-card); padding: 1.5rem; display: flex; flex-direction: column; gap: .875rem; }
+    .tstars { color: var(--amber); font-size: .85rem; letter-spacing: .12em; }
+    .tquote { font-size: .9375rem; line-height: 1.6; color: var(--dark); }
+    .tperson { display: flex; align-items: center; gap: .75rem; margin-top: auto; }
+    .tavatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(232,146,10,.14); color: var(--amber-dark); font-weight: 900; font-size: .8rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .tname { font-size: .875rem; font-weight: 700; color: var(--dark); }
+    .tmeta { font-size: .8rem; color: var(--text-muted); }
+    @media (max-width: 820px) {
+      .tstrip-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 84%; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: .5rem; }
+      .tstrip-grid::-webkit-scrollbar { display: none; }
+      .tcard { scroll-snap-align: start; }
     }
 
     /* ─── FAQ ─────────────────────────────────────────── */
-    .faq { background: var(--cream); min-height: calc(100vh - 64px); }
-    .faq-list { max-width: 760px; margin: 0; }
-    .faq-item { border-bottom: 1px solid rgba(30,26,20,.1); }
-    .faq-item:first-child { border-top: 1px solid rgba(30,26,20,.1); }
+    .faq { background: var(--cream-2); }
+    .faq-list { max-width: 760px; }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-item:first-child { border-top: 1px solid var(--line); }
     .faq-btn {
-      width: 100%;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: 'Heebo', sans-serif;
-      font-size: 1.0625rem;
-      font-weight: 700;
-      color: var(--dark);
-      text-align: left;
-      padding: 1.375rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
+      width: 100%; background: none; border: none; cursor: pointer;
+      font-family: 'Heebo', sans-serif; font-size: 1.0625rem; font-weight: 700;
+      color: var(--dark); text-align: start; padding: 1.375rem 0;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
       transition: color .2s;
     }
     .faq-btn:hover { color: var(--amber); }
-    .faq-chevron {
-      width: 22px; height: 22px;
-      border: 2px solid currentColor;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: transform .3s;
-      position: relative;
-    }
-    .faq-chevron::after {
-      content: '';
-      width: 5px; height: 5px;
-      border-right: 2px solid currentColor;
-      border-bottom: 2px solid currentColor;
-      transform: rotate(45deg) translate(-1px, -2px);
-      display: block;
-    }
+    .faq-chevron { width: 22px; height: 22px; border: 2px solid currentColor; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .3s; position: relative; }
+    .faq-chevron::after { content: ''; width: 5px; height: 5px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-1px, -2px); display: block; }
     .faq-item.open .faq-chevron { transform: rotate(180deg); }
-    .faq-answer {
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height .38s ease, padding-bottom .25s;
-    }
+    .faq-answer { overflow: hidden; max-height: 0; transition: max-height .38s ease; }
     .faq-item.open .faq-answer { max-height: 360px; }
-    .faq-answer-body {
-      padding-bottom: 1.375rem;
-      font-size: .9375rem;
-      line-height: 1.65;
-      color: var(--text-muted);
-    }
+    .faq-answer-body { padding-bottom: 1.375rem; font-size: .9375rem; line-height: 1.65; color: var(--text-muted); }
 
     /* ─── FINAL CTA ───────────────────────────────────── */
     .final-cta {
-      --glow-x: 50%;
-      --glow-y: 50%;
-      background: var(--dark);
-      padding: clamp(4rem, 7vw, 5.5rem) 1.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      min-height: calc(100vh - 64px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      --glow-x: 50%; --glow-y: 50%;
+      background: var(--dark); padding: clamp(4.5rem, 8vw, 6.5rem) 1.5rem;
+      text-align: center; position: relative; overflow: hidden;
     }
-    /* Ambient base glow (centered, un-clipped) */
-    .final-cta::before {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 700px; height: 500px;
-      background: radial-gradient(ellipse at center, rgba(232,146,10,.12) 0%, transparent 65%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    /* Mouse-follow amber spotlight (mirrors hero) */
-    .final-cta::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        550px circle at var(--glow-x) var(--glow-y),
-        rgba(232,146,10,.13) 0%,
-        transparent 60%
-      );
-      pointer-events: none;
-      z-index: 0;
-      transition: background .05s linear;
-    }
-    .final-cta-inner { max-width: 600px; margin: 0 auto; position: relative; z-index: 1; width: 100%; }
-    .final-cta h2 {
-      font-size: clamp(2rem, 5.5vw, 3.125rem);
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      color: #fff;
-      line-height: 1.08;
-      margin-bottom: 1.25rem;
-    }
-    .final-cta p {
-      font-size: 1.0625rem;
-      line-height: 1.65;
-      color: rgba(255,255,255,.58);
-      margin-bottom: 2.5rem;
-    }
-    .final-cta-trust {
-      font-size: .8125rem;
-      color: rgba(255,255,255,.28);
-      margin-top: 1.125rem;
-    }
+    .final-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(600px circle at var(--glow-x) var(--glow-y), rgba(232,146,10,.16) 0%, transparent 60%); pointer-events: none; z-index: 0; transition: background .08s linear; }
+    .final-cta-inner { max-width: 620px; margin: 0 auto; position: relative; z-index: 1; }
+    .final-cta h2 { font-size: clamp(2.1rem, 5.5vw, 3.25rem); font-weight: 900; letter-spacing: -.03em; color: #fff; line-height: 1.06; margin-bottom: 1.25rem; }
+    .final-cta p { font-size: 1.0625rem; line-height: 1.65; color: rgba(255,255,255,.6); margin-bottom: 2.5rem; }
+    .final-cta-trust { font-size: .8125rem; color: rgba(255,255,255,.3); margin-top: 1.125rem; }
 
     /* ─── FOOTER ──────────────────────────────────────── */
-    .footer {
-      background: var(--dark-footer);
-      padding: 2.75rem 1.5rem;
-    }
-    .footer-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .875rem;
-      text-align: center;
-    }
-    .footer-logo {
-      display: flex; align-items: center; gap: 9px;
-      text-decoration: none;
-    }
+    .footer { background: var(--dark-footer); padding: 3rem 1.5rem; }
+    .footer-inner { max-width: var(--maxw); margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: .875rem; text-align: center; }
+    .footer-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
     .footer-logo svg { width: 26px; height: auto; }
-    .footer-wordmark {
-      font-size: 1.25rem;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      color: #fff;
-    }
-    .footer-tagline { font-size: .875rem; color: rgba(255,255,255,.3); }
-    .footer-cta {
-      font-size: .875rem;
-      font-weight: 700;
-      color: var(--amber);
-      text-decoration: none;
-      opacity: .85;
-      transition: opacity .2s;
-    }
+    .footer-wordmark { font-size: 1.25rem; font-weight: 900; letter-spacing: -.03em; color: #fff; }
+    .footer-tagline { font-size: .9rem; color: rgba(255,255,255,.32); }
+    .footer-cta { font-size: .9rem; font-weight: 700; color: var(--amber); text-decoration: none; opacity: .9; transition: opacity .2s; }
     .footer-cta:hover { opacity: 1; }
-    .footer-note { font-size: .8125rem; color: rgba(255,255,255,.18); }
+    .footer-note { font-size: .8125rem; color: rgba(255,255,255,.2); }
 
     /* ─── FADE-UP ─────────────────────────────────────── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    /* ─── FOCUS (keyboard a11y) ───────────────────────── */
-    :focus-visible {
-      outline: 2px solid var(--amber);
-      outline-offset: 3px;
-      border-radius: 3px;
-    }
-    /* Dark-bg sections need a light ring for contrast */
-    .hero a:focus-visible,
-    .final-cta a:focus-visible,
-    .footer a:focus-visible {
-      outline-color: #fff;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; scroll-behavior: auto !important; }
-    }
+    /* ─── FOCUS ───────────────────────────────────────── */
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 3px; }
+    .hero a:focus-visible, .final-cta a:focus-visible, .footer a:focus-visible, .why a:focus-visible { outline-color: #fff; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
   </style>
 </head>
 <body>
@@ -922,453 +732,488 @@
       <span class="nav-wordmark">bapita</span>
     </a>
     <div class="nav-links">
-      <a href="#problem" class="nav-link">Problem</a>
-      <a href="#how-it-works" class="nav-link">Solution</a>
-      <a href="#automations" class="nav-link">Add-ons</a>
-      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="#problem" class="nav-link" data-i18n="nav.problem">Problem</a>
+      <a href="#how-it-works" class="nav-link" data-i18n="nav.solution">Solution</a>
+      <a href="#automations" class="nav-link" data-i18n="nav.addons">Add-ons</a>
+      <a href="#faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
     </div>
     <div class="nav-actions">
-      <a href="https://dashboard.bapita.com" class="btn-login" data-cta="nav_login">Login</a>
-      <a href="https://calendly.com/info-bapita/30min" class="btn-nav" target="_blank" rel="noopener" data-cta="nav_desktop">Let's talk</a>
+      <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">עברית</button>
+      <a href="https://dashboard.bapita.com" class="btn-login" data-cta="nav_login" data-i18n="nav.login">Login</a>
+      <a href="https://calendly.com/info-bapita/30min" class="btn-nav" target="_blank" rel="noopener" data-cta="nav_desktop" data-i18n="cta.talk">Let's talk</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
   <div class="mobile-menu" id="mobile-menu" role="navigation">
-    <a href="#problem">Problem</a>
-    <a href="#how-it-works">Solution</a>
-    <a href="#automations">Add-ons</a>
-    <a href="#faq">FAQ</a>
-    <a href="https://dashboard.bapita.com" data-cta="nav_login_mobile">Login</a>
-    <a href="https://calendly.com/info-bapita/30min" class="btn-primary" style="text-align:center; margin-top:.25rem;" target="_blank" rel="noopener" data-cta="nav_mobile">Let's talk</a>
+    <a href="#problem" data-i18n="nav.problem">Problem</a>
+    <a href="#how-it-works" data-i18n="nav.solution">Solution</a>
+    <a href="#automations" data-i18n="nav.addons">Add-ons</a>
+    <a href="#faq" data-i18n="nav.faq">FAQ</a>
+    <a href="https://dashboard.bapita.com" data-cta="nav_login_mobile" data-i18n="nav.login">Login</a>
+    <a href="https://calendly.com/info-bapita/30min" class="btn-primary" style="justify-content:center; margin-top:.25rem;" target="_blank" rel="noopener" data-cta="nav_mobile" data-i18n="cta.talk">Let's talk</a>
   </div>
 </nav>
 
-<!-- ─── FIRST FOLD: hero + proof bar + testimonials ──────── -->
-<div class="first-fold">
-
 <!-- ─── HERO ─────────────────────────────────────────────── -->
 <section class="hero" id="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">For appointment-based businesses</div>
-    <h1>Built for you.<br><span class="accent">Runs without you.</span></h1>
-    <p class="hero-sub">
-      A booking website, owner dashboard, and automations.
-      Built for your business in 48 hours.
-    </p>
-    <div class="hero-ctas">
-      <a href="https://calendly.com/info-bapita/30min" class="btn-primary lg" target="_blank" rel="noopener" data-cta="hero_primary">Let's talk</a>
-      <a href="#how-it-works" class="hero-secondary">See how it works →</a>
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="hero-eyebrow" data-i18n="hero.eyebrow">For appointment based businesses</div>
+      <h1 class="display"><span data-i18n="hero.h1a">Built for you.</span><br><span class="accent" data-i18n="hero.h1b">Runs without you.</span></h1>
+      <p class="hero-sub" data-i18n="hero.sub">A booking website, owner dashboard, and automations. Built for your business in 48 hours.</p>
+      <div class="hero-ctas">
+        <a href="https://calendly.com/info-bapita/30min" class="btn-primary lg" target="_blank" rel="noopener" data-cta="hero_primary" data-i18n="cta.talk">Let's talk</a>
+        <a href="#how-it-works" class="btn-ghost"><span data-i18n="cta.how">See how it works</span> <span aria-hidden="true" class="dir-arrow">→</span></a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="wash-card amber">
+        <!-- Phone booking-page mockup -->
+        <div class="phone" role="img" aria-label="Booking page preview">
+          <div class="phone-screen">
+            <div class="pp-top">
+              <div class="pp-shop" data-i18n="mock.shop">Studio Avi</div>
+              <div class="pp-shop-meta"><span data-i18n="mock.barber">Barbershop</span> · Herzliya</div>
+            </div>
+            <div class="pp-body">
+              <div class="pp-h" data-i18n="mock.service">Service</div>
+              <div class="pp-svc sel">
+                <div>
+                  <div class="pp-svc-name" data-i18n="mock.cut">Haircut</div>
+                  <div class="pp-svc-dur">45 <span data-i18n="mock.min">min</span></div>
+                </div>
+                <span class="pp-svc-dot"></span>
+              </div>
+              <div class="pp-svc">
+                <div>
+                  <div class="pp-svc-name" data-i18n="mock.cutbeard">Cut and beard</div>
+                  <div class="pp-svc-dur">60 <span data-i18n="mock.min">min</span></div>
+                </div>
+                <span class="pp-svc-dot"></span>
+              </div>
+              <div class="pp-h" data-i18n="mock.pickday">Pick a day</div>
+              <div class="pp-dates">
+                <div class="pp-date"><div class="pp-date-d" data-i18n="day.mon">Mon</div><div class="pp-date-n">9</div></div>
+                <div class="pp-date sel"><div class="pp-date-d" data-i18n="day.tue">Tue</div><div class="pp-date-n">10</div></div>
+                <div class="pp-date"><div class="pp-date-d" data-i18n="day.wed">Wed</div><div class="pp-date-n">11</div></div>
+                <div class="pp-date"><div class="pp-date-d" data-i18n="day.thu">Thu</div><div class="pp-date-n">12</div></div>
+              </div>
+              <div class="pp-times">
+                <div class="pp-time off">09:30</div>
+                <div class="pp-time">10:15</div>
+                <div class="pp-time sel">11:00</div>
+                <div class="pp-time">12:30</div>
+                <div class="pp-time off">14:00</div>
+                <div class="pp-time">15:45</div>
+              </div>
+              <div class="pp-book" data-i18n="mock.book">Book now</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ─── STATS STRIP ───────────────────────────────────────── -->
+<!-- ─── PROOF BAR ────────────────────────────────────────── -->
 <div class="proof-bar" aria-label="Key facts">
   <div class="proof-bar-inner">
-    <div class="proof-item">
-      <div class="proof-num">48h</div>
-      <div class="proof-lbl">Live from your first call</div>
-    </div>
-    <div class="proof-item">
-      <div class="proof-num">24/7</div>
-      <div class="proof-lbl">Clients book while you sleep</div>
-    </div>
-    <div class="proof-item">
-      <div class="proof-num">1 call</div>
-      <div class="proof-lbl">All we need from you</div>
-    </div>
-    <div class="proof-item">
-      <div class="proof-num">0 tech</div>
-      <div class="proof-lbl">No knowledge required</div>
-    </div>
+    <div class="proof-item"><div class="proof-num">48h</div><div class="proof-lbl" data-i18n="proof.1">Live from your first call</div></div>
+    <div class="proof-item"><div class="proof-num">24/7</div><div class="proof-lbl" data-i18n="proof.2">Clients book while you sleep</div></div>
+    <div class="proof-item"><div class="proof-num" data-i18n="proof.3num">1 call</div><div class="proof-lbl" data-i18n="proof.3">All we need from you</div></div>
+    <div class="proof-item"><div class="proof-num" data-i18n="proof.4num">0 tech</div><div class="proof-lbl" data-i18n="proof.4">No knowledge required</div></div>
   </div>
 </div>
 
-<!-- ─── TESTIMONIALS STRIP ────────────────────────────────── -->
-<section class="section tstrip">
+<!-- ─── VERTICALS STRIP (NEW) ────────────────────────────── -->
+<section class="section verticals">
   <div class="section-inner">
-    <p class="section-label" style="text-align:center; margin-bottom:1rem;">What owners say</p>
-    <div class="tstrip-grid fade-up">
-
-      <div class="tcard">
-        <div class="tstars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="tquote">"Clients book themselves now. I check the dashboard with my morning coffee and I already know how the day looks. I stopped answering WhatsApp at midnight."</p>
-        <div class="tperson">
-          <div class="tavatar" aria-hidden="true">A</div>
-          <div>
-            <div class="tname">Avi M.</div>
-            <div class="tmeta">Barbershop, Herzliya</div>
-          </div>
-        </div>
+    <div class="section-head center">
+      <p class="section-label" data-i18n="vert.label">Who it is for</p>
+      <h2 class="section-title" data-i18n="vert.title">Built for local service businesses like yours</h2>
+    </div>
+    <div class="vert-grid fade-up">
+      <div class="vert-tile">
+        <div class="vert-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M9 5h6"/><circle cx="12" cy="14" r="6"/><path d="M12 11v6M9 14h6"/></svg></div>
+        <div class="vert-name" data-i18n="vert.medspa">Medspa</div>
       </div>
-
-      <div class="tcard">
-        <div class="tstars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="tquote">"Three no-shows a week used to be normal. The reminders basically ended it. The chair stays full and I'm not chasing anyone."</p>
-        <div class="tperson">
-          <div class="tavatar" aria-hidden="true">N</div>
-          <div>
-            <div class="tname">Noa L.</div>
-            <div class="tmeta">Nail Studio, Ramat Gan</div>
-          </div>
-        </div>
+      <div class="vert-tile">
+        <div class="vert-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-6 3-10 8-10s8 4 8 10"/><circle cx="12" cy="6" r="3"/></svg></div>
+        <div class="vert-name" data-i18n="vert.salon">Salon</div>
       </div>
-
-      <div class="tcard">
-        <div class="tstars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="tquote">"Someone searched for a barber near me and found me for the first time. They booked that night while I was closed. That never happened before."</p>
-        <div class="tperson">
-          <div class="tavatar" aria-hidden="true">E</div>
-          <div>
-            <div class="tname">Eli D.</div>
-            <div class="tmeta">Men's Grooming, Tel Aviv</div>
-          </div>
-        </div>
+      <div class="vert-tile">
+        <div class="vert-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4-2 7-6 7-11a7 7 0 0 0-14 0c0 5 3 9 7 11Z"/><path d="M12 22V8"/></svg></div>
+        <div class="vert-name" data-i18n="vert.spa">Spa</div>
       </div>
-
+      <div class="vert-tile">
+        <div class="vert-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 8.5 20 20M8.5 15.5 20 4"/></svg></div>
+        <div class="vert-name" data-i18n="vert.barber">Barber</div>
+      </div>
+      <div class="vert-tile">
+        <div class="vert-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13c3-1 6-1 9 0s6 1 9 0"/><path d="M5 13c0 4 3 7 7 7s7-3 7-7"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/></svg></div>
+        <div class="vert-name" data-i18n="vert.massage">Massage</div>
+      </div>
+      <div class="vert-tile">
+        <div class="vert-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V6a2 2 0 0 1 4 0v5"/><path d="M11 7h2a3 3 0 0 1 3 3v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-1"/><path d="M7 11h4"/></svg></div>
+        <div class="vert-name" data-i18n="vert.nail">Nail Salon</div>
+      </div>
     </div>
   </div>
 </section>
 
-</div><!-- /first-fold -->
-
-<!-- ─── PAIN ──────────────────────────────────────────────── -->
-<div class="pain-section">
-
-<div class="pain-header" id="problem">
+<!-- ─── PAIN ─────────────────────────────────────────────── -->
+<section class="section pain" id="problem">
   <div class="section-inner">
-    <p class="section-label">Sound familiar?</p>
-    <h2 class="section-title" style="max-width:520px;">The real cost of running things manually</h2>
-  </div>
-</div>
-
-<!-- ─── PAIN — SELECTOR ───────────────────────────────────── -->
-<section class="section pain-selector" style="padding-top:0;">
-  <div class="section-inner">
+    <div class="section-head">
+      <p class="section-label" data-i18n="pain.label">Sound familiar?</p>
+      <h2 class="section-title" data-i18n="pain.title">The real cost of running things manually</h2>
+    </div>
     <div class="pain-layout">
-
-      <!-- Left: clickable pain point rows -->
       <div class="pain-left">
-
         <div class="pain-row active" data-index="0" role="button" tabindex="0" aria-pressed="true">
           <span class="pain-dot-ind"></span>
           <div>
-            <div class="pain-row-headline">You're invisible online</div>
-            <div class="pain-row-sub">No profile, no search presence. Someone looked for what you do and found three competitors.</div>
+            <div class="pain-row-headline" data-i18n="pain.0.h">You are invisible online</div>
+            <div class="pain-row-sub" data-i18n="pain.0.s">No profile, no search presence. Someone looked for what you do and found three competitors.</div>
           </div>
         </div>
-
         <div class="pain-row" data-index="1" role="button" tabindex="0" aria-pressed="false">
           <span class="pain-dot-ind"></span>
           <div>
-            <div class="pain-row-headline">Missed leads every night</div>
-            <div class="pain-row-sub">They messaged at 11PM. By morning they'd booked someone else. The first reply wins.</div>
+            <div class="pain-row-headline" data-i18n="pain.1.h">Missed leads every night</div>
+            <div class="pain-row-sub" data-i18n="pain.1.s">They messaged at 11PM. By morning they had booked someone else. The first reply wins.</div>
           </div>
         </div>
-
         <div class="pain-row" data-index="2" role="button" tabindex="0" aria-pressed="false">
           <span class="pain-dot-ind"></span>
           <div>
-            <div class="pain-row-headline">No-shows eating into your week</div>
-            <div class="pain-row-sub">No reminder went out. That slot is gone, and someone else wanted it.</div>
+            <div class="pain-row-headline" data-i18n="pain.2.h">No shows eating into your week</div>
+            <div class="pain-row-sub" data-i18n="pain.2.s">No reminder went out. That slot is gone, and someone else wanted it.</div>
           </div>
         </div>
-
         <div class="pain-row" data-index="3" role="button" tabindex="0" aria-pressed="false">
           <span class="pain-dot-ind"></span>
           <div>
-            <div class="pain-row-headline">No visibility into your own schedule</div>
-            <div class="pain-row-sub">You reconstruct your week from WhatsApp screenshots every Sunday morning.</div>
+            <div class="pain-row-headline" data-i18n="pain.3.h">No visibility into your own schedule</div>
+            <div class="pain-row-sub" data-i18n="pain.3.s">You reconstruct your week from WhatsApp screenshots every Sunday morning.</div>
           </div>
         </div>
-
-      </div><!-- /pain-left -->
-
-      <!-- Right: image area — images stack, only active one is visible -->
+      </div>
       <div class="pain-right">
-        <!-- IMG 0 — Invisible online: owner alone at night in closed barbershop, lit only by phone glow. -->
         <div class="pain-img active" data-index="0" style="background-image: url('img/pain-0.webp');"></div>
-        <!-- IMG 1 — Missed after-hours leads: phone face-up on empty counter, unread message glowing, dark closed shop behind. -->
         <div class="pain-img" data-index="1" style="background-image: url('img/pain-1.webp');"></div>
-        <!-- IMG 2 — No-shows: empty styling chair under a single light, room quiet, sense of waiting. -->
         <div class="pain-img" data-index="2" style="background-image: url('img/pain-2.webp');"></div>
-        <!-- IMG 3 — No schedule visibility: owner overwhelmed at counter, morning light, buried in phone and messy notes. -->
         <div class="pain-img" data-index="3" style="background-image: url('img/pain-3.webp');"></div>
         <div class="pain-img-overlay"></div>
-      </div><!-- /pain-right -->
-
-    </div><!-- /pain-layout -->
+      </div>
+    </div>
   </div>
 </section>
 
-</div><!-- /pain-section -->
-
-<!-- ─── PROCESS BAND: how it works + what we build ────────── -->
-<div class="process-band" id="solution">
-
-<!-- ─── HOW IT WORKS ──────────────────────────────────────── -->
-<section class="section howitworks" id="how-it-works">
+<!-- ─── HOW IT WORKS ─────────────────────────────────────── -->
+<section class="section" id="how-it-works" style="background:var(--cream-2);">
   <div class="section-inner">
     <div class="section-head">
-      <p class="section-label">The process</p>
-      <h2 class="section-title">Three steps. Then you're live.</h2>
+      <p class="section-label" data-i18n="how.label">The process</p>
+      <h2 class="section-title" data-i18n="how.title">Three steps. Then you are live.</h2>
     </div>
     <div class="card-grid fade-up">
-
       <div class="card">
         <div class="step-num">1</div>
-        <h3>We talk</h3>
-        <p>One call, 30 minutes. You tell us about your business: your services, how you currently handle bookings, what you want to fix. We take it from there.</p>
+        <h3 data-i18n="how.1.h">We talk</h3>
+        <p data-i18n="how.1.p">One call, 30 minutes. You tell us about your business: your services, how you handle bookings now, what you want to fix. We take it from there.</p>
       </div>
-
       <div class="card">
         <div class="step-num">2</div>
-        <h3>We build it</h3>
-        <p>Your booking website, owner dashboard, and email confirmations, built by us, in your name. No homework on your end. No back and forth.</p>
+        <h3 data-i18n="how.2.h">We build it</h3>
+        <p data-i18n="how.2.p">Your booking website, owner dashboard, and confirmations, built by us, in your name. No homework on your end. No back and forth.</p>
       </div>
-
       <div class="card">
         <div class="step-num">3</div>
-        <h3>You go live</h3>
-        <p>In 48 hours your system is live. Clients can find you, book online, and get reminders without you doing a thing. We stay on hand for any updates.</p>
+        <h3 data-i18n="how.3.h">You go live</h3>
+        <p data-i18n="how.3.p">In 48 hours your system is live. Clients can find you, book online, and get reminders without you doing a thing. We stay on hand for any updates.</p>
       </div>
-
     </div>
-    <p class="steps-closer">One call. 48 hours. Done.</p>
+    <p class="steps-closer" data-i18n="how.closer">One call. 48 hours. Done.</p>
   </div>
 </section>
 
-<!-- ─── WHAT WE BUILD (card row 2 of paired block) ────────── -->
-<section class="section solution" id="services">
+<!-- ─── WHAT WE BUILD (3 layers + dashboard mockup) ──────── -->
+<section class="section build" id="services">
   <div class="section-inner">
-    <div class="section-head">
-      <p class="section-label">What we build for you</p>
-      <h2 class="section-title">Three things. That's the whole system.</h2>
-    </div>
-    <div class="card-grid fade-up">
-
-      <div class="card">
-        <div class="card-emoji" aria-hidden="true">🌐</div>
-        <h3>Booking Website</h3>
-        <p>A clean, professional page where clients can see your services, your availability, and book instantly, any hour of the day.</p>
+    <div class="build-layout">
+      <div class="build-copy">
+        <div class="section-head" style="margin-bottom:1.75rem;">
+          <p class="section-label" data-i18n="build.label">What we build for you</p>
+          <h2 class="section-title" data-i18n="build.title">Three layers. One system.</h2>
+        </div>
+        <div class="layer">
+          <div class="layer-ico" aria-hidden="true">🌐</div>
+          <div>
+            <h3><span data-i18n="build.1.h">Booking Website</span> <span class="card-tag paid" data-i18n="build.paid">The product</span></h3>
+            <p data-i18n="build.1.p">A clean, professional page where clients see your services, your availability, and book instantly, any hour of the day.</p>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="layer-ico" aria-hidden="true">📊</div>
+          <div>
+            <h3><span data-i18n="build.2.h">Owner Dashboard</span> <span class="card-tag free" data-i18n="build.free">Included free</span></h3>
+            <p data-i18n="build.2.p">Log in and see your full week at a glance: who is coming, what service, what time. No chasing messages.</p>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="layer-ico" aria-hidden="true">✨</div>
+          <div>
+            <h3><span data-i18n="build.3.h">Add-ons</span> <span class="card-tag grow" data-i18n="build.grow">Grow when ready</span></h3>
+            <p data-i18n="build.3.p">Reminders, payments, social, reviews, ads. Layer in what you need, when you need it. Everything runs itself.</p>
+          </div>
+        </div>
       </div>
-
-      <div class="card">
-        <div class="card-emoji" aria-hidden="true">📈</div>
-        <h3>Owner Dashboard</h3>
-        <p>Log in and see your full week at a glance: who's coming, what service, what time. No chasing messages.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-emoji" aria-hidden="true">✉️</div>
-        <h3>Email Confirmations</h3>
-        <p>Every booking triggers an automatic confirmation. A reminder goes out before the appointment. Your clients feel taken care of.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-</div><!-- /process-band -->
-
-<!-- ─── AUTOMATIONS ───────────────────────────────────────── -->
-<section class="section addons" id="automations">
-  <div class="section-inner">
-    <div class="section-head">
-      <p class="section-label">Add-ons</p>
-      <h2 class="section-title">And it doesn't stop there.</h2>
-      <p style="font-size:1rem; color:var(--text-muted); max-width:520px; line-height:1.62; margin-top:.5rem;">Once the core is live, layer in what you need. Everything runs itself.</p>
-    </div>
-
-    <!-- Tab bar -->
-    <div class="addon-tabs" role="tablist">
-      <button class="addon-tab-btn active" data-tab="monthly" role="tab" id="tab-monthly" aria-controls="panel-monthly" aria-selected="true">Monthly Services</button>
-      <button class="addon-tab-btn" data-tab="setup" role="tab" id="tab-setup" aria-controls="panel-setup" aria-selected="false">One-time Setup</button>
-    </div>
-
-    <!-- Monthly Services tab content -->
-    <div class="addon-tab-content active" data-tab="monthly" role="tabpanel" id="panel-monthly" aria-labelledby="tab-monthly">
-
-      <div class="addon-item">
-        <button class="addon-btn" aria-expanded="false">
-          <span class="addon-btn-left">
-            WhatsApp Automations
-            <span class="addon-badge monthly">Monthly</span>
-          </span>
-          <span class="addon-chevron" aria-hidden="true"></span>
-        </button>
-        <div class="addon-answer" role="region">
-          <div class="addon-answer-body">
-            Your WhatsApp handles clients automatically, even at 11PM.
-            <div class="addon-wa-tiles">
-              <div class="addon-wa-tile">
-                <div class="addon-wa-tile-name">Lite</div>
-                <div class="addon-wa-tile-desc">Auto-replies to common questions: services, prices, hours. No booking.</div>
+      <div class="build-visual">
+        <div class="wash-card sand">
+          <!-- Dashboard week-view mockup -->
+          <div class="winframe" role="img" aria-label="Owner dashboard preview">
+            <div class="win-bar">
+              <span class="win-dot" style="background:#ED6A5E;"></span>
+              <span class="win-dot" style="background:#F4BF50;"></span>
+              <span class="win-dot" style="background:#61C554;"></span>
+              <span class="win-url">dashboard.bapita.com</span>
+            </div>
+            <div class="dash">
+              <div class="dash-head">
+                <div class="dash-title" data-i18n="dash.title">This week</div>
+                <div class="dash-month" data-i18n="dash.month">June 2026</div>
               </div>
-              <div class="addon-wa-tile highlight">
-                <div class="addon-wa-tile-name">Full</div>
-                <div class="addon-wa-tile-desc">Everything in Lite plus clients can book, get confirmations, reminders via WhatsApp.</div>
+              <div class="dash-week">
+                <div class="dash-day"><div class="dash-day-d" data-i18n="day.sun">Sun</div><div class="dash-day-n">7</div></div>
+                <div class="dash-day"><div class="dash-day-d" data-i18n="day.mon">Mon</div><div class="dash-day-n">8</div></div>
+                <div class="dash-day"><div class="dash-day-d" data-i18n="day.tue">Tue</div><div class="dash-day-n">9</div></div>
+                <div class="dash-day today"><div class="dash-day-d" data-i18n="day.wed">Wed</div><div class="dash-day-n">10</div></div>
+                <div class="dash-day"><div class="dash-day-d" data-i18n="day.thu">Thu</div><div class="dash-day-n">11</div></div>
+                <div class="dash-day"><div class="dash-day-d" data-i18n="day.fri">Fri</div><div class="dash-day-n">12</div></div>
+                <div class="dash-day"><div class="dash-day-d" data-i18n="day.sat">Sat</div><div class="dash-day-n">13</div></div>
+              </div>
+              <div class="dash-grid">
+                <div class="dash-row">
+                  <div class="dash-time">10:00</div>
+                  <div class="dash-block">
+                    <div class="dash-cli">Avi Cohen</div>
+                    <div class="dash-svc"><span data-i18n="mock.cut">Haircut</span> · 45 <span data-i18n="mock.min">min</span></div>
+                  </div>
+                </div>
+                <div class="dash-row">
+                  <div class="dash-time">11:30</div>
+                  <div class="dash-block green">
+                    <div class="dash-cli">Noa Levi</div>
+                    <div class="dash-svc"><span data-i18n="mock.cutbeard">Cut and beard</span> · 60 <span data-i18n="mock.min">min</span></div>
+                  </div>
+                </div>
+                <div class="dash-row">
+                  <div class="dash-time">13:00</div>
+                  <div class="dash-block empty">
+                    <div class="dash-svc" data-i18n="dash.free">Open slot</div>
+                  </div>
+                </div>
+                <div class="dash-row">
+                  <div class="dash-time">14:15</div>
+                  <div class="dash-block slate">
+                    <div class="dash-cli">Eli Dahan</div>
+                    <div class="dash-svc" data-i18n="dash.pending">Pending confirmation</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
 
+<!-- ─── ADD-ONS ──────────────────────────────────────────── -->
+<section class="section addons" id="automations">
+  <div class="section-inner">
+    <div class="section-head">
+      <p class="section-label" data-i18n="addons.label">Add-ons</p>
+      <h2 class="section-title" data-i18n="addons.title">And it does not stop there.</h2>
+      <p class="section-sub" data-i18n="addons.sub">Once the core is live, layer in what you need. Everything runs itself.</p>
+    </div>
+
+    <div class="addon-tabs" role="tablist">
+      <button class="addon-tab-btn active" data-tab="monthly" role="tab" id="tab-monthly" aria-controls="panel-monthly" aria-selected="true" data-i18n="addons.tab.monthly">Monthly Services</button>
+      <button class="addon-tab-btn" data-tab="setup" role="tab" id="tab-setup" aria-controls="panel-setup" aria-selected="false" data-i18n="addons.tab.setup">One time Setup</button>
+    </div>
+
+    <div class="addon-tab-content active" data-tab="monthly" role="tabpanel" id="panel-monthly" aria-labelledby="tab-monthly">
       <div class="addon-item">
         <button class="addon-btn" aria-expanded="false">
-          <span class="addon-btn-left">
-            Social Media Management
-            <span class="addon-badge monthly">Monthly</span>
-          </span>
+          <span class="addon-btn-left"><span data-i18n="addons.wa.t">WhatsApp Reminders</span><span class="addon-badge monthly" data-i18n="addons.monthly">Monthly</span></span>
           <span class="addon-chevron" aria-hidden="true"></span>
         </button>
         <div class="addon-answer" role="region">
           <div class="addon-answer-body">
-            Weekly posts, captions, and scheduling for Instagram and Facebook. Looks like you have a content team. Includes creative, copy, and publishing.
+            <span data-i18n="addons.wa.body">Your WhatsApp handles clients automatically, even at 11PM.</span>
+            <div class="addon-wa-tiles">
+              <div class="addon-wa-tile">
+                <div class="addon-wa-tile-name" data-i18n="addons.wa.lite.n">Lite</div>
+                <div class="addon-wa-tile-desc" data-i18n="addons.wa.lite.d">Auto replies to common questions: services, prices, hours. No booking.</div>
+              </div>
+              <div class="addon-wa-tile highlight">
+                <div class="addon-wa-tile-name" data-i18n="addons.wa.full.n">Full</div>
+                <div class="addon-wa-tile-desc" data-i18n="addons.wa.full.d">Everything in Lite plus clients can book, get confirmations and reminders over WhatsApp.</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="addon-item">
         <button class="addon-btn" aria-expanded="false">
-          <span class="addon-btn-left">
-            Paid Ads
-            <span class="addon-badge monthly">Monthly</span>
-          </span>
+          <span class="addon-btn-left"><span data-i18n="addons.pay.t">Online Payments</span><span class="addon-badge monthly" data-i18n="addons.monthly">Monthly</span></span>
           <span class="addon-chevron" aria-hidden="true"></span>
         </button>
-        <div class="addon-answer" role="region">
-          <div class="addon-answer-body">
-            Click-to-WhatsApp campaigns on Meta that bring in new clients directly to your booking flow. We write, launch, and manage everything: budget, creative, targeting.
-          </div>
-        </div>
+        <div class="addon-answer" role="region"><div class="addon-answer-body" data-i18n="addons.pay.body">Clients pay when they book. Deposits or full payment, your call. Cuts no shows and puts money in before they walk in.</div></div>
       </div>
+      <div class="addon-item">
+        <button class="addon-btn" aria-expanded="false">
+          <span class="addon-btn-left"><span data-i18n="addons.social.t">Social Media</span><span class="addon-badge monthly" data-i18n="addons.monthly">Monthly</span></span>
+          <span class="addon-chevron" aria-hidden="true"></span>
+        </button>
+        <div class="addon-answer" role="region"><div class="addon-answer-body" data-i18n="addons.social.body">Weekly posts, captions, and scheduling for Instagram and Facebook. Looks like you have a content team. We handle creative, copy, and publishing.</div></div>
+      </div>
+      <div class="addon-item">
+        <button class="addon-btn" aria-expanded="false">
+          <span class="addon-btn-left"><span data-i18n="addons.reviews.t">Reviews</span><span class="addon-badge monthly" data-i18n="addons.monthly">Monthly</span></span>
+          <span class="addon-chevron" aria-hidden="true"></span>
+        </button>
+        <div class="addon-answer" role="region"><div class="addon-answer-body" data-i18n="addons.reviews.body">After every visit we ask happy clients for a Google review, at the right moment. Your rating climbs, you do nothing.</div></div>
+      </div>
+      <div class="addon-item">
+        <button class="addon-btn" aria-expanded="false">
+          <span class="addon-btn-left"><span data-i18n="addons.ads.t">Paid Ads</span><span class="addon-badge monthly" data-i18n="addons.monthly">Monthly</span></span>
+          <span class="addon-chevron" aria-hidden="true"></span>
+        </button>
+        <div class="addon-answer" role="region"><div class="addon-answer-body" data-i18n="addons.ads.body">Click to WhatsApp campaigns on Meta that bring new clients straight into your booking flow. We write, launch, and manage everything: budget, creative, targeting.</div></div>
+      </div>
+    </div>
 
-    </div><!-- /monthly tab -->
-
-    <!-- One-time Setup tab content -->
     <div class="addon-tab-content" data-tab="setup" role="tabpanel" id="panel-setup" aria-labelledby="tab-setup">
       <div class="addon-item">
         <button class="addon-btn" aria-expanded="false">
-          <span class="addon-btn-left">
-            Google My Business Setup
-            <span class="addon-badge one-time">One-time</span>
-          </span>
+          <span class="addon-btn-left"><span data-i18n="addons.gmb.t">Google Business Setup</span><span class="addon-badge one-time" data-i18n="addons.onetime">One time</span></span>
           <span class="addon-chevron" aria-hidden="true"></span>
         </button>
-        <div class="addon-answer" role="region">
-          <div class="addon-answer-body">
-            We create or fully optimize your Google Business profile so you appear when someone searches for what you do near them. Done once, works forever. Includes profile setup, category optimization, first photos, and business description.
-          </div>
-        </div>
+        <div class="addon-answer" role="region"><div class="addon-answer-body" data-i18n="addons.gmb.body">We create or fully optimize your Google Business profile so you appear when someone searches for what you do near them. Done once, works forever. Includes profile setup, category optimization, first photos, and business description.</div></div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ─── FAQ ───────────────────────────────────────────────── -->
+<!-- ─── WHY BAPITA (NEW) ─────────────────────────────────── -->
+<section class="section why" id="why">
+  <div class="section-inner">
+    <div class="section-head center">
+      <p class="section-label" data-i18n="why.label">Why Bapita</p>
+      <h2 class="section-title" data-i18n="why.title">Not another app you have to run</h2>
+      <p class="section-sub" data-i18n="why.sub">You have seen the other options. Here is how they actually compare.</p>
+    </div>
+    <div class="why-grid fade-up">
+      <div class="why-card">
+        <div class="why-them" data-i18n="why.wa.t">WhatsApp chaos</div>
+        <div class="why-line"><span class="why-mark">✕</span><span data-i18n="why.wa.1">You answer messages all day and at midnight.</span></div>
+        <div class="why-line"><span class="why-mark">✕</span><span data-i18n="why.wa.2">Bookings live in a thread you scroll to rebuild.</span></div>
+        <div class="why-line"><span class="why-mark">✕</span><span data-i18n="why.wa.3">Miss a message, lose the client.</span></div>
+      </div>
+      <div class="why-card">
+        <div class="why-them" data-i18n="why.diy.t">DIY website builders</div>
+        <div class="why-line"><span class="why-mark">✕</span><span data-i18n="why.diy.1">They hand you a tool and wish you luck.</span></div>
+        <div class="why-line"><span class="why-mark">✕</span><span data-i18n="why.diy.2">Hours of setup, then it sits half finished.</span></div>
+        <div class="why-line"><span class="why-mark">✕</span><span data-i18n="why.diy.3">Something breaks, you fix it yourself.</span></div>
+      </div>
+      <div class="why-card bapita">
+        <div class="why-them">Bapita</div>
+        <div class="why-line"><span class="why-mark">✓</span><span data-i18n="why.bap.1">We build it for you, live in 48 hours.</span></div>
+        <div class="why-line"><span class="why-mark">✓</span><span data-i18n="why.bap.2">You own your site and your client list. No commission, ever.</span></div>
+        <div class="why-line"><span class="why-mark">✓</span><span data-i18n="why.bap.3">Something changes, you message us. You never touch it.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─────────────────────────────────────── -->
+<section class="section tstrip">
+  <div class="section-inner">
+    <div class="section-head center">
+      <p class="section-label" data-i18n="test.label">What owners say</p>
+    </div>
+    <div class="tstrip-grid fade-up">
+      <div class="tcard">
+        <div class="tstars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="tquote" data-i18n="test.1.q">Clients book themselves now. I check the dashboard with my morning coffee and I already know how the day looks. I stopped answering WhatsApp at midnight.</p>
+        <div class="tperson"><div class="tavatar" aria-hidden="true">A</div><div><div class="tname">Avi M.</div><div class="tmeta" data-i18n="test.1.m">Barbershop, Herzliya</div></div></div>
+      </div>
+      <div class="tcard">
+        <div class="tstars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="tquote" data-i18n="test.2.q">Three no shows a week used to be normal. The reminders basically ended it. The chair stays full and I am not chasing anyone.</p>
+        <div class="tperson"><div class="tavatar" aria-hidden="true">N</div><div><div class="tname">Noa L.</div><div class="tmeta" data-i18n="test.2.m">Nail Studio, Ramat Gan</div></div></div>
+      </div>
+      <div class="tcard">
+        <div class="tstars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="tquote" data-i18n="test.3.q">Someone searched for a barber near me and found me for the first time. They booked that night while I was closed. That never happened before.</p>
+        <div class="tperson"><div class="tavatar" aria-hidden="true">E</div><div><div class="tname">Eli D.</div><div class="tmeta" data-i18n="test.3.m">Men's Grooming, Tel Aviv</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ──────────────────────────────────────────────── -->
 <section class="section faq" id="faq">
   <div class="section-inner">
     <div class="section-head">
-      <p class="section-label">Questions</p>
-      <h2 class="section-title">Straight answers.</h2>
+      <p class="section-label" data-i18n="faq.label">Questions</p>
+      <h2 class="section-title" data-i18n="faq.title">Straight answers.</h2>
     </div>
     <div class="faq-list">
-
       <div class="faq-item">
-        <button class="faq-btn" aria-expanded="false">
-          How much does it cost?
-          <span class="faq-chevron" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer" role="region">
-          <div class="faq-answer-body">
-            It depends on your business: your services, your size, what you actually need. We don't do one-size pricing. Tell us about your setup and we'll give you a straight number on the call. No pressure, no pitch.
-          </div>
-        </div>
+        <button class="faq-btn" aria-expanded="false"><span data-i18n="faq.1.q">How much does it cost?</span><span class="faq-chevron" aria-hidden="true"></span></button>
+        <div class="faq-answer" role="region"><div class="faq-answer-body" data-i18n="faq.1.a">It depends on your business: your services, your size, what you actually need. We do not do one size pricing. Tell us about your setup and we will give you a straight number on the call. No pressure, no pitch.</div></div>
       </div>
-
       <div class="faq-item">
-        <button class="faq-btn" aria-expanded="false">
-          How long until I'm live?
-          <span class="faq-chevron" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer" role="region">
-          <div class="faq-answer-body">
-            48 hours from our call. We work fast. If you have custom requests it can take a little longer, and we'll tell you that upfront.
-          </div>
-        </div>
+        <button class="faq-btn" aria-expanded="false"><span data-i18n="faq.2.q">How long until I am live?</span><span class="faq-chevron" aria-hidden="true"></span></button>
+        <div class="faq-answer" role="region"><div class="faq-answer-body" data-i18n="faq.2.a">48 hours from our call. We work fast. If you have custom requests it can take a little longer, and we will tell you that upfront.</div></div>
       </div>
-
       <div class="faq-item">
-        <button class="faq-btn" aria-expanded="false">
-          I already run bookings on WhatsApp. Why change?
-          <span class="faq-chevron" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer" role="region">
-          <div class="faq-answer-body">
-            You keep WhatsApp. We just add a booking page so clients pick their own slot instead of messaging you for one. The back-and-forth stops. The bookings don't.
-          </div>
-        </div>
+        <button class="faq-btn" aria-expanded="false"><span data-i18n="faq.3.q">I already run bookings on WhatsApp. Why change?</span><span class="faq-chevron" aria-hidden="true"></span></button>
+        <div class="faq-answer" role="region"><div class="faq-answer-body" data-i18n="faq.3.a">You keep WhatsApp. We add a booking page so clients pick their own slot instead of messaging you for one. The back and forth stops. The bookings do not.</div></div>
       </div>
-
       <div class="faq-item">
-        <button class="faq-btn" aria-expanded="false">
-          Will my clients actually book online?
-          <span class="faq-chevron" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer" role="region">
-          <div class="faq-answer-body">
-            They already book haircuts, tables, and doctors online. Yours will be the easy option: open at any hour, no waiting for you to reply at night.
-          </div>
-        </div>
+        <button class="faq-btn" aria-expanded="false"><span data-i18n="faq.4.q">Will my clients actually book online?</span><span class="faq-chevron" aria-hidden="true"></span></button>
+        <div class="faq-answer" role="region"><div class="faq-answer-body" data-i18n="faq.4.a">They already book haircuts, tables, and doctors online. Yours will be the easy option: open at any hour, no waiting for you to reply at night.</div></div>
       </div>
-
       <div class="faq-item">
-        <button class="faq-btn" aria-expanded="false">
-          What do I actually need to do?
-          <span class="faq-chevron" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer" role="region">
-          <div class="faq-answer-body">
-            One 30-minute call. Tell us your services, prices, and schedule. We build and run everything from there. No homework, no back-and-forth.
-          </div>
-        </div>
+        <button class="faq-btn" aria-expanded="false"><span data-i18n="faq.5.q">What do I actually need to do?</span><span class="faq-chevron" aria-hidden="true"></span></button>
+        <div class="faq-answer" role="region"><div class="faq-answer-body" data-i18n="faq.5.a">One 30 minute call. Tell us your services, prices, and schedule. We build and run everything from there. No homework, no back and forth.</div></div>
       </div>
-
       <div class="faq-item">
-        <button class="faq-btn" aria-expanded="false">
-          Do I need to know anything about tech?
-          <span class="faq-chevron" aria-hidden="true"></span>
-        </button>
-        <div class="faq-answer" role="region">
-          <div class="faq-answer-body">
-            Zero. That's the whole point. We build it, we maintain it. New service, new price, something to change? You message us and it's done.
-          </div>
-        </div>
+        <button class="faq-btn" aria-expanded="false"><span data-i18n="faq.6.q">Do I need to know anything about tech?</span><span class="faq-chevron" aria-hidden="true"></span></button>
+        <div class="faq-answer" role="region"><div class="faq-answer-body" data-i18n="faq.6.a">Zero. That is the whole point. We build it, we maintain it. New service, new price, something to change? You message us and it is done.</div></div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ─── FINAL CTA ─────────────────────────────────────────── -->
+<!-- ─── FINAL CTA ────────────────────────────────────────── -->
 <section class="final-cta">
   <div class="final-cta-inner">
-    <h2>Ready to get started?</h2>
-    <p>
-      One call, 30 minutes. We'll learn your business, tell you exactly
-      what we'd build, and answer every question you have.
-      No pitch. No commitment.
-    </p>
-    <a href="https://calendly.com/info-bapita/30min" class="btn-primary lg" target="_blank" rel="noopener" data-cta="final_cta">Book a free call</a>
-    <p class="final-cta-trust">No forms. No decks. Just a conversation.</p>
+    <h2 data-i18n="final.title">Ready to get started?</h2>
+    <p data-i18n="final.p">One call, 30 minutes. We will learn your business, tell you exactly what we would build, and answer every question you have. No pitch. No commitment.</p>
+    <a href="https://calendly.com/info-bapita/30min" class="btn-primary lg" target="_blank" rel="noopener" data-cta="final_cta" data-i18n="cta.book">Book a free call</a>
+    <p class="final-cta-trust" data-i18n="final.trust">No forms. No decks. Just a conversation.</p>
   </div>
 </section>
 
-<!-- ─── FOOTER ────────────────────────────────────────────── -->
+<!-- ─── FOOTER ───────────────────────────────────────────── -->
 <footer class="footer">
   <div class="footer-inner">
     <a href="#" class="footer-logo" aria-label="Bapita home">
@@ -1380,27 +1225,160 @@
       </svg>
       <span class="footer-wordmark">bapita</span>
     </a>
-    <p class="footer-tagline">Built for you. Runs without you.</p>
-    <a href="https://calendly.com/info-bapita/30min" class="footer-cta" target="_blank" rel="noopener" data-cta="footer">Book a free call →</a>
-    <p class="footer-note">bapita.com &nbsp;·&nbsp; Built for Israeli service businesses</p>
+    <p class="footer-tagline" data-i18n="footer.tagline">Built for you. Runs without you.</p>
+    <a href="https://calendly.com/info-bapita/30min" class="footer-cta" target="_blank" rel="noopener" data-cta="footer"><span data-i18n="cta.book">Book a free call</span> <span aria-hidden="true" class="dir-arrow">→</span></a>
+    <p class="footer-note" data-i18n="footer.note">bapita.com · Built for Israeli service businesses</p>
   </div>
 </footer>
 
 <script>
-  // ── Nav shadow on scroll
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 8);
-  }, { passive: true });
+  // ─── i18n dictionary ───────────────────────────────────
+  const I18N = {
+    en: {
+      'nav.problem':'Problem','nav.solution':'Solution','nav.addons':'Add-ons','nav.faq':'FAQ','nav.login':'Login',
+      'cta.talk':"Let's talk",'cta.how':'See how it works','cta.book':'Book a free call',
+      'hero.eyebrow':'For appointment based businesses','hero.h1a':'Built for you.','hero.h1b':'Runs without you.',
+      'hero.sub':'A booking website, owner dashboard, and automations. Built for your business in 48 hours.',
+      'mock.shop':'Studio Avi','mock.barber':'Barbershop','mock.service':'Service','mock.cut':'Haircut','mock.cutbeard':'Cut and beard','mock.min':'min','mock.pickday':'Pick a day','mock.book':'Book now',
+      'proof.1':'Live from your first call','proof.2':'Clients book while you sleep','proof.3num':'1 call','proof.3':'All we need from you','proof.4num':'0 tech','proof.4':'No knowledge required',
+      'vert.label':'Who it is for','vert.title':'Built for local service businesses like yours','vert.medspa':'Medspa','vert.salon':'Salon','vert.spa':'Spa','vert.barber':'Barber','vert.massage':'Massage','vert.nail':'Nail Salon',
+      'pain.label':'Sound familiar?','pain.title':'The real cost of running things manually',
+      'pain.0.h':'You are invisible online','pain.0.s':'No profile, no search presence. Someone looked for what you do and found three competitors.',
+      'pain.1.h':'Missed leads every night','pain.1.s':'They messaged at 11PM. By morning they had booked someone else. The first reply wins.',
+      'pain.2.h':'No shows eating into your week','pain.2.s':'No reminder went out. That slot is gone, and someone else wanted it.',
+      'pain.3.h':'No visibility into your own schedule','pain.3.s':'You reconstruct your week from WhatsApp screenshots every Sunday morning.',
+      'how.label':'The process','how.title':'Three steps. Then you are live.',
+      'how.1.h':'We talk','how.1.p':'One call, 30 minutes. You tell us about your business: your services, how you handle bookings now, what you want to fix. We take it from there.',
+      'how.2.h':'We build it','how.2.p':'Your booking website, owner dashboard, and confirmations, built by us, in your name. No homework on your end. No back and forth.',
+      'how.3.h':'You go live','how.3.p':'In 48 hours your system is live. Clients can find you, book online, and get reminders without you doing a thing. We stay on hand for any updates.',
+      'how.closer':'One call. 48 hours. Done.',
+      'build.label':'What we build for you','build.title':'Three layers. One system.','build.paid':'The product','build.free':'Included free','build.grow':'Grow when ready',
+      'build.1.h':'Booking Website','build.1.p':'A clean, professional page where clients see your services, your availability, and book instantly, any hour of the day.',
+      'build.2.h':'Owner Dashboard','build.2.p':'Log in and see your full week at a glance: who is coming, what service, what time. No chasing messages.',
+      'build.3.h':'Add-ons','build.3.p':'Reminders, payments, social, reviews, ads. Layer in what you need, when you need it. Everything runs itself.',
+      'dash.title':'This week','dash.month':'June 2026','dash.free':'Open slot','dash.pending':'Pending confirmation',
+      'addons.label':'Add-ons','addons.title':'And it does not stop there.','addons.sub':'Once the core is live, layer in what you need. Everything runs itself.',
+      'addons.tab.monthly':'Monthly Services','addons.tab.setup':'One time Setup','addons.monthly':'Monthly','addons.onetime':'One time',
+      'addons.wa.t':'WhatsApp Reminders','addons.wa.body':'Your WhatsApp handles clients automatically, even at 11PM.',
+      'addons.wa.lite.n':'Lite','addons.wa.lite.d':'Auto replies to common questions: services, prices, hours. No booking.',
+      'addons.wa.full.n':'Full','addons.wa.full.d':'Everything in Lite plus clients can book, get confirmations and reminders over WhatsApp.',
+      'addons.pay.t':'Online Payments','addons.pay.body':'Clients pay when they book. Deposits or full payment, your call. Cuts no shows and puts money in before they walk in.',
+      'addons.social.t':'Social Media','addons.social.body':'Weekly posts, captions, and scheduling for Instagram and Facebook. Looks like you have a content team. We handle creative, copy, and publishing.',
+      'addons.reviews.t':'Reviews','addons.reviews.body':'After every visit we ask happy clients for a Google review, at the right moment. Your rating climbs, you do nothing.',
+      'addons.ads.t':'Paid Ads','addons.ads.body':'Click to WhatsApp campaigns on Meta that bring new clients straight into your booking flow. We write, launch, and manage everything: budget, creative, targeting.',
+      'addons.gmb.t':'Google Business Setup','addons.gmb.body':'We create or fully optimize your Google Business profile so you appear when someone searches for what you do near them. Done once, works forever. Includes profile setup, category optimization, first photos, and business description.',
+      'why.label':'Why Bapita','why.title':'Not another app you have to run','why.sub':'You have seen the other options. Here is how they actually compare.',
+      'why.wa.t':'WhatsApp chaos','why.wa.1':'You answer messages all day and at midnight.','why.wa.2':'Bookings live in a thread you scroll to rebuild.','why.wa.3':'Miss a message, lose the client.',
+      'why.diy.t':'DIY website builders','why.diy.1':'They hand you a tool and wish you luck.','why.diy.2':'Hours of setup, then it sits half finished.','why.diy.3':'Something breaks, you fix it yourself.',
+      'why.bap.1':'We build it for you, live in 48 hours.','why.bap.2':'You own your site and your client list. No commission, ever.','why.bap.3':'Something changes, you message us. You never touch it.',
+      'test.label':'What owners say',
+      'test.1.q':'Clients book themselves now. I check the dashboard with my morning coffee and I already know how the day looks. I stopped answering WhatsApp at midnight.','test.1.m':'Barbershop, Herzliya',
+      'test.2.q':'Three no shows a week used to be normal. The reminders basically ended it. The chair stays full and I am not chasing anyone.','test.2.m':'Nail Studio, Ramat Gan',
+      'test.3.q':'Someone searched for a barber near me and found me for the first time. They booked that night while I was closed. That never happened before.','test.3.m':"Men's Grooming, Tel Aviv",
+      'faq.label':'Questions','faq.title':'Straight answers.',
+      'faq.1.q':'How much does it cost?','faq.1.a':'It depends on your business: your services, your size, what you actually need. We do not do one size pricing. Tell us about your setup and we will give you a straight number on the call. No pressure, no pitch.',
+      'faq.2.q':'How long until I am live?','faq.2.a':'48 hours from our call. We work fast. If you have custom requests it can take a little longer, and we will tell you that upfront.',
+      'faq.3.q':'I already run bookings on WhatsApp. Why change?','faq.3.a':'You keep WhatsApp. We add a booking page so clients pick their own slot instead of messaging you for one. The back and forth stops. The bookings do not.',
+      'faq.4.q':'Will my clients actually book online?','faq.4.a':'They already book haircuts, tables, and doctors online. Yours will be the easy option: open at any hour, no waiting for you to reply at night.',
+      'faq.5.q':'What do I actually need to do?','faq.5.a':'One 30 minute call. Tell us your services, prices, and schedule. We build and run everything from there. No homework, no back and forth.',
+      'faq.6.q':'Do I need to know anything about tech?','faq.6.a':'Zero. That is the whole point. We build it, we maintain it. New service, new price, something to change? You message us and it is done.',
+      'final.title':'Ready to get started?','final.p':'One call, 30 minutes. We will learn your business, tell you exactly what we would build, and answer every question you have. No pitch. No commitment.','final.trust':'No forms. No decks. Just a conversation.',
+      'footer.tagline':'Built for you. Runs without you.','footer.note':'bapita.com · Built for Israeli service businesses',
+      'day.sun':'Sun','day.mon':'Mon','day.tue':'Tue','day.wed':'Wed','day.thu':'Thu','day.fri':'Fri','day.sat':'Sat'
+    },
+    he: {
+      'nav.problem':'הבעיה','nav.solution':'הפתרון','nav.addons':'תוספות','nav.faq':'שאלות','nav.login':'כניסה',
+      'cta.talk':'בוא נדבר','cta.how':'איך זה עובד','cta.book':'לשיחת ייעוץ חינם',
+      'hero.eyebrow':'לעסקים שעובדים עם תורים','hero.h1a':'נבנה בשבילך.','hero.h1b':'עובד בלעדיך.',
+      'hero.sub':'אתר הזמנות, לוח בקרה לבעל העסק, ואוטומציות. נבנה לעסק שלך תוך 48 שעות.',
+      'mock.shop':'הסטודיו של אבי','mock.barber':'מספרה','mock.service':'שירות','mock.cut':'תספורת','mock.cutbeard':'תספורת וזקן','mock.min':'דק','mock.pickday':'בחר יום','mock.book':'לקביעת תור',
+      'proof.1':'באוויר מהשיחה הראשונה','proof.2':'לקוחות קובעים בזמן שאתה ישן','proof.3num':'שיחה 1','proof.3':'כל מה שצריך ממך','proof.4num':'0 טכני','proof.4':'לא צריך לדעת כלום',
+      'vert.label':'למי זה מתאים','vert.title':'נבנה לעסקים מקומיים כמו שלך','vert.medspa':'מדספא','vert.salon':'מספרה','vert.spa':'ספא','vert.barber':'ברבר','vert.massage':'עיסוי','vert.nail':'סטודיו לציפורניים',
+      'pain.label':'נשמע מוכר?','pain.title':'המחיר האמיתי של לנהל הכל ידנית',
+      'pain.0.h':'אתה לא קיים אונליין','pain.0.s':'אין פרופיל, אין נוכחות בחיפוש. מישהו חיפש את מה שאתה עושה ומצא שלושה מתחרים.',
+      'pain.1.h':'מפספס לקוחות כל לילה','pain.1.s':'הם כתבו ב 11 בלילה. עד הבוקר הם כבר קבעו אצל מישהו אחר. הראשון שעונה מנצח.',
+      'pain.2.h':'ביטולים שאוכלים לך את השבוע','pain.2.s':'לא יצאה תזכורת. התור הזה אבד, ומישהו אחר רצה אותו.',
+      'pain.3.h':'אין לך מושג מה קורה ביומן','pain.3.s':'אתה משחזר את השבוע מצילומי מסך של וואטסאפ כל יום ראשון בבוקר.',
+      'how.label':'התהליך','how.title':'שלושה שלבים. ואתה באוויר.',
+      'how.1.h':'מדברים','how.1.p':'שיחה אחת, 30 דקות. אתה מספר לנו על העסק: השירותים שלך, איך אתה מנהל תורים היום, מה אתה רוצה לסדר. משם אנחנו לוקחים.',
+      'how.2.h':'בונים','how.2.p':'אתר ההזמנות, לוח הבקרה, והאישורים שלך, נבנים על ידינו, בשמך. בלי שיעורי בית מצדך. בלי הלוך ושוב.',
+      'how.3.h':'עולה לאוויר','how.3.p':'תוך 48 שעות המערכת שלך באוויר. לקוחות מוצאים אותך, קובעים אונליין, ומקבלים תזכורות בלי שתעשה כלום. אנחנו זמינים לכל עדכון.',
+      'how.closer':'שיחה אחת. 48 שעות. גמרנו.',
+      'build.label':'מה אנחנו בונים לך','build.title':'שלוש שכבות. מערכת אחת.','build.paid':'המוצר','build.free':'כלול חינם','build.grow':'גדל כשמוכן',
+      'build.1.h':'אתר הזמנות','build.1.p':'עמוד נקי ומקצועי שבו לקוחות רואים את השירותים שלך, את הזמינות שלך, וקובעים מיד, בכל שעה ביום.',
+      'build.2.h':'לוח בקרה לבעל העסק','build.2.p':'נכנס ורואה את כל השבוע במבט אחד: מי מגיע, איזה שירות, באיזו שעה. בלי לרדוף אחרי הודעות.',
+      'build.3.h':'תוספות','build.3.p':'תזכורות, תשלומים, סושיאל, ביקורות, פרסום. מוסיף מה שצריך, מתי שצריך. הכל עובד לבד.',
+      'dash.title':'השבוע','dash.month':'יוני 2026','dash.free':'תור פנוי','dash.pending':'ממתין לאישור',
+      'addons.label':'תוספות','addons.title':'וזה לא נגמר כאן.','addons.sub':'אחרי שהבסיס באוויר, מוסיפים מה שצריך. הכל עובד לבד.',
+      'addons.tab.monthly':'שירותים חודשיים','addons.tab.setup':'הקמה חד פעמית','addons.monthly':'חודשי','addons.onetime':'חד פעמי',
+      'addons.wa.t':'תזכורות בוואטסאפ','addons.wa.body':'הוואטסאפ שלך מטפל בלקוחות אוטומטית, גם ב 11 בלילה.',
+      'addons.wa.lite.n':'בסיסי','addons.wa.lite.d':'מענה אוטומטי לשאלות נפוצות: שירותים, מחירים, שעות. בלי קביעת תור.',
+      'addons.wa.full.n':'מלא','addons.wa.full.d':'כל מה שיש בבסיסי ובנוסף לקוחות קובעים תור, מקבלים אישורים ותזכורות דרך וואטסאפ.',
+      'addons.pay.t':'תשלומים אונליין','addons.pay.body':'לקוחות משלמים כשהם קובעים. מקדמה או תשלום מלא, אתה בוחר. מצמצם ביטולים ומכניס כסף עוד לפני שהם נכנסים.',
+      'addons.social.t':'סושיאל','addons.social.body':'פוסטים שבועיים, כיתובים ותזמון לאינסטגרם ולפייסבוק. נראה כאילו יש לך צוות תוכן. אנחנו מטפלים בקריאייטיב, בקופי ובפרסום.',
+      'addons.reviews.t':'ביקורות','addons.reviews.body':'אחרי כל ביקור אנחנו מבקשים מלקוחות מרוצים ביקורת בגוגל, ברגע הנכון. הדירוג שלך עולה, אתה לא עושה כלום.',
+      'addons.ads.t':'פרסום ממומן','addons.ads.body':'קמפיינים של לחיצה לוואטסאפ במטא שמביאים לקוחות חדשים ישר לתוך מערך ההזמנות שלך. אנחנו כותבים, מעלים, ומנהלים הכל: תקציב, קריאייטיב, טירגוט.',
+      'addons.gmb.t':'הקמת גוגל לעסק','addons.gmb.body':'אנחנו יוצרים או מייעלים את הפרופיל העסקי שלך בגוגל כך שתופיע כשמישהו מחפש את מה שאתה עושה לידו. נעשה פעם אחת, עובד לתמיד. כולל הקמת פרופיל, ייעול קטגוריות, תמונות ראשונות ותיאור עסק.',
+      'why.label':'למה בפיתה','why.title':'לא עוד אפליקציה שאתה צריך לתפעל','why.sub':'ראית את האפשרויות האחרות. הנה איך הן באמת מסתדרות.',
+      'why.wa.t':'בלאגן בוואטסאפ','why.wa.1':'אתה עונה להודעות כל היום וגם בחצות.','why.wa.2':'התורים חיים בצ׳אט שאתה גולל כדי לשחזר.','why.wa.3':'מפספס הודעה, מאבד לקוח.',
+      'why.diy.t':'בוני אתרים לבד','why.diy.1':'נותנים לך כלי ומאחלים בהצלחה.','why.diy.2':'שעות של הקמה, ואז זה נשאר חצי גמור.','why.diy.3':'משהו נשבר, אתה מתקן לבד.',
+      'why.bap.1':'אנחנו בונים בשבילך, באוויר תוך 48 שעות.','why.bap.2':'האתר ורשימת הלקוחות שלך. בלי עמלות, אף פעם.','why.bap.3':'משהו משתנה, אתה שולח לנו הודעה. אתה לא נוגע בזה.',
+      'test.label':'מה בעלי עסקים אומרים',
+      'test.1.q':'הלקוחות קובעים תור לבד עכשיו. אני בודק את הדשבורד עם הקפה של הבוקר וכבר יודע איך נראה היום. הפסקתי לענות לוואטסאפ בחצות.','test.1.m':'מספרה, הרצליה',
+      'test.2.q':'שלושה ביטולים בשבוע היו דבר רגיל. התזכורות פשוט סגרו את זה. הכיסא נשאר מלא ואני לא רודף אחרי אף אחד.','test.2.m':'סטודיו לציפורניים, רמת גן',
+      'test.3.q':'מישהו חיפש ברבר לידי ומצא אותי בפעם הראשונה. הם קבעו תור באותו לילה כשהייתי סגור. זה אף פעם לא קרה קודם.','test.3.m':'עיצוב גברים, תל אביב',
+      'faq.label':'שאלות','faq.title':'תשובות ישירות.',
+      'faq.1.q':'כמה זה עולה?','faq.1.a':'תלוי בעסק שלך: השירותים, הגודל, מה שאתה באמת צריך. אנחנו לא עובדים במחיר אחיד. ספר לנו על המערך שלך וניתן לך מספר ישיר בשיחה. בלי לחץ, בלי מכירה.',
+      'faq.2.q':'תוך כמה זמן אני באוויר?','faq.2.a':'48 שעות מהשיחה. אנחנו עובדים מהר. אם יש בקשות מיוחדות זה יכול לקחת קצת יותר, ונגיד לך את זה מראש.',
+      'faq.3.q':'אני כבר מנהל תורים בוואטסאפ. למה לשנות?','faq.3.a':'אתה משאיר את הוואטסאפ. אנחנו מוסיפים עמוד הזמנות כדי שלקוחות יבחרו תור לבד במקום לכתוב לך. ההלוך ושוב נפסק. התורים לא.',
+      'faq.4.q':'הלקוחות שלי באמת יקבעו אונליין?','faq.4.a':'הם כבר קובעים תספורות, שולחנות ורופאים אונליין. שלך תהיה האפשרות הקלה: פתוח בכל שעה, בלי לחכות שתענה בלילה.',
+      'faq.5.q':'מה אני בעצם צריך לעשות?','faq.5.a':'שיחה אחת של 30 דקות. ספר לנו את השירותים, המחירים והלוז. אנחנו בונים ומריצים הכל משם. בלי שיעורי בית, בלי הלוך ושוב.',
+      'faq.6.q':'אני צריך לדעת משהו טכני?','faq.6.a':'אפס. זאת כל הנקודה. אנחנו בונים, אנחנו מתחזקים. שירות חדש, מחיר חדש, משהו לשנות? אתה שולח הודעה וזה נעשה.',
+      'final.title':'מוכן להתחיל?','final.p':'שיחה אחת, 30 דקות. נכיר את העסק שלך, נגיד לך בדיוק מה היינו בונים, ונענה על כל שאלה. בלי מכירה. בלי התחייבות.','final.trust':'בלי טפסים. בלי מצגות. רק שיחה.',
+      'footer.tagline':'נבנה בשבילך. עובד בלעדיך.','footer.note':'bapita.com · נבנה לעסקים ישראליים',
+      'day.sun':'א׳','day.mon':'ב׳','day.tue':'ג׳','day.wed':'ד׳','day.thu':'ה׳','day.fri':'ו׳','day.sat':'ש׳'
+    }
+  };
 
-  // ── Mobile hamburger
+  function applyLang(lang) {
+    const dict = I18N[lang] || I18N.en;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+    // Flip inline directional arrows
+    document.querySelectorAll('.dir-arrow').forEach(a => { a.textContent = (lang === 'he') ? '←' : '→'; });
+    // Toggle button shows the OTHER language
+    const tog = document.getElementById('lang-toggle');
+    if (tog) tog.textContent = (lang === 'he') ? 'EN' : 'עברית';
+    try { localStorage.setItem('bapita-lang', lang); } catch (e) {}
+  }
+
+  (function initLang() {
+    let lang = 'en';
+    try { lang = localStorage.getItem('bapita-lang') || 'en'; } catch (e) {}
+    applyLang(lang);
+    const tog = document.getElementById('lang-toggle');
+    if (tog) tog.addEventListener('click', () => {
+      const next = (document.documentElement.lang === 'he') ? 'en' : 'he';
+      applyLang(next);
+      plausible('Lang Switched', { props: { to: next } });
+    });
+  })();
+
+  // ─── Nav shadow on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
+
+  // ─── Mobile hamburger
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobile-menu');
   hamburger.addEventListener('click', () => {
     const open = mobileMenu.classList.toggle('open');
     hamburger.setAttribute('aria-expanded', String(open));
   });
-  // Close mobile menu on anchor click and smooth-scroll
   document.querySelectorAll('.mobile-menu a[href^="#"], .nav-links a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       const id = link.getAttribute('href').slice(1);
@@ -1410,117 +1388,87 @@
         e.preventDefault();
         mobileMenu.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
-        const y = target.getBoundingClientRect().top + window.scrollY - 80;
+        const y = target.getBoundingClientRect().top + window.scrollY - 90;
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
     });
   });
 
-  // ── Mouse-glow (hero + final CTA)
+  // ─── Mouse-glow (hero + final CTA)
   document.querySelectorAll('.hero, .final-cta').forEach(el => {
-    const restY = el.classList.contains('hero') ? '40%' : '50%';
+    const restX = el.classList.contains('hero') ? '78%' : '50%';
+    const restY = el.classList.contains('hero') ? '30%' : '50%';
     el.addEventListener('mousemove', e => {
       const r = el.getBoundingClientRect();
       el.style.setProperty('--glow-x', ((e.clientX - r.left) / r.width * 100) + '%');
       el.style.setProperty('--glow-y', ((e.clientY - r.top) / r.height * 100) + '%');
     });
     el.addEventListener('mouseleave', () => {
-      el.style.setProperty('--glow-x', '50%');
+      el.style.setProperty('--glow-x', restX);
       el.style.setProperty('--glow-y', restY);
     });
   });
 
-  // ── Pain selector
+  // ─── Pain selector
   (function initPainSelector() {
     const rows = document.querySelectorAll('.pain-row');
     const imgs = document.querySelectorAll('.pain-img');
     if (!rows.length) return;
-
     function setActive(idx) {
-      rows.forEach((r, i) => {
-        r.classList.toggle('active', i === idx);
-        r.setAttribute('aria-pressed', String(i === idx));
-      });
+      rows.forEach((r, i) => { r.classList.toggle('active', i === idx); r.setAttribute('aria-pressed', String(i === idx)); });
       imgs.forEach((img, i) => img.classList.toggle('active', i === idx));
     }
-
     rows.forEach((row, i) => {
       row.addEventListener('click', () => setActive(i));
-      row.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(i); }
-      });
+      row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(i); } });
     });
-
     setActive(0);
   })();
 
-  // ── Addon tabs
+  // ─── Addon tabs
   document.querySelectorAll('.addon-tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const tab = btn.dataset.tab;
-      document.querySelectorAll('.addon-tab-btn').forEach(b => {
-        b.classList.toggle('active', b === btn);
-        b.setAttribute('aria-selected', String(b === btn));
-      });
-      document.querySelectorAll('.addon-tab-content').forEach(c => {
-        c.classList.toggle('active', c.dataset.tab === tab);
-      });
+      document.querySelectorAll('.addon-tab-btn').forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-selected', String(b === btn)); });
+      document.querySelectorAll('.addon-tab-content').forEach(c => { c.classList.toggle('active', c.dataset.tab === tab); });
     });
   });
 
-  // ── Addon accordion
+  // ─── Addon accordion
   document.querySelectorAll('.addon-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.addon-item');
       const isOpen = item.classList.contains('open');
       const panel = item.closest('.addon-tab-content');
-      panel.querySelectorAll('.addon-item.open').forEach(el => {
-        el.classList.remove('open');
-        el.querySelector('.addon-btn').setAttribute('aria-expanded', 'false');
-      });
-      if (!isOpen) {
-        item.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
+      panel.querySelectorAll('.addon-item.open').forEach(el => { el.classList.remove('open'); el.querySelector('.addon-btn').setAttribute('aria-expanded', 'false'); });
+      if (!isOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
     });
   });
 
-  // ── FAQ accordion
+  // ─── FAQ accordion
   document.querySelectorAll('.faq-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(el => {
-        el.classList.remove('open');
-        el.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
-      });
-      if (!isOpen) {
-        item.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
+      document.querySelectorAll('.faq-item.open').forEach(el => { el.classList.remove('open'); el.querySelector('.faq-btn').setAttribute('aria-expanded', 'false'); });
+      if (!isOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
     });
   });
 
-  // ── Scroll-triggered fade-in
+  // ─── Scroll-triggered fade-in
   const fadeObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }
-    });
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); } });
   }, { threshold: 0.08 });
   document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
 
-  // ── Plausible: CTA clicks
+  // ─── Plausible: CTA clicks
   document.querySelectorAll('[data-cta]').forEach(el => {
-    el.addEventListener('click', function() {
-      plausible('CTA Clicked', { props: { location: this.dataset.cta } });
-    });
+    el.addEventListener('click', function() { plausible('CTA Clicked', { props: { location: this.dataset.cta } }); });
   });
 
-  // ── Plausible: FAQ opens
+  // ─── Plausible: FAQ opens
   document.querySelectorAll('.faq-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      plausible('FAQ Opened', { props: { question: this.textContent.trim() } });
-    });
+    btn.addEventListener('click', function() { plausible('FAQ Opened', { props: { question: this.textContent.trim() } }); });
   });
 </script>
 
