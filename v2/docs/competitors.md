@@ -11,6 +11,13 @@
 3. **Fresha** (fresha.com) — free-tier, marketplace + software hybrid, global
 4. **Booksy** (booksy.com) — marketplace with embedded booking, barber-heavy
 
+*Competitor	Good for Bapita?	Why
+Boulevard	❌ Too enterprise	Luxury branding, multi-location, big teams
+GlossGenius	✅ Best reference	Small business focused, simple, premium, personal
+Fresha	⚠️ Partial	Good features, but marketplace-heavy and huge scale
+Booksy	⚠️ Partial	Booking-first, but marketplace positioning
+GrowTap	✅ Messaging reference	"Simple website + booking" positioning similar to your market
+
 ---
 
 ## Boulevard
