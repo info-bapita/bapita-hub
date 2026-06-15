@@ -175,6 +175,7 @@
 
     /* ─── LAYOUT HELPERS ──────────────────────────────── */
     .section { padding: clamp(3.75rem, 7vw, 6rem) 1.5rem; scroll-margin-top: 72px; }
+    #problem { scroll-margin-top: 160px; }
     .section-inner { max-width: var(--maxw); margin: 0 auto; }
     .section-head { margin-bottom: 2.75rem; max-width: 640px; }
     .section-head.center { margin-inline: auto; text-align: center; }
@@ -525,7 +526,7 @@
     .pp-chip-txt { font-size:11.5px; font-weight:700; color:var(--ink); line-height:1.3; }
     .pp-chip-txt small { display:block; font-weight:500; color:var(--text-muted); font-size:10px; }
     @keyframes chipFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
-    @media (max-width:480px){ .pp-chip{ inset-inline-end:-8px; inset-inline-start:auto; top:12%; padding:7px 10px 7px 7px; font-size:10.5px; } }
+    @media (max-width:480px){ .pp-chip{ inset-inline-end:-8px; inset-inline-start:auto; top:52%; padding:7px 10px 7px 7px; font-size:10.5px; } }
     @media (prefers-reduced-motion:reduce){ .pp-chip{ animation:none; } }
     .pp-success { display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:46px 18px; gap:10px; }
     #heroBooking.done .pp-body { display:none; }
@@ -1894,6 +1895,7 @@
       .hero-visual { margin-top: 1.75rem; }
       .phone { width: clamp(272px, 78vw, 340px); border-radius: 42px; }
       .phone-screen { border-radius: 32px; }
+      .hero h1.display { font-size: clamp(1.75rem, 7.5vw, 2.2rem); }
 
       /* Section scroll offsets on mobile */
       .section { scroll-margin-top: 72px; }
@@ -3166,8 +3168,10 @@
         mobileMenu.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
         const navH = document.getElementById('nav').offsetHeight;
+        const proofBar = document.querySelector('.proof-bar');
+        const proofH = (target.id === 'problem' && proofBar) ? proofBar.offsetHeight : 0;
         document.documentElement.style.scrollSnapType = 'none';
-        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - navH, behavior: 'smooth' });
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - navH - proofH, behavior: 'smooth' });
         setTimeout(() => { document.documentElement.style.scrollSnapType = ''; }, 900);
       }
     });
