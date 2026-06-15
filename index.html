@@ -612,11 +612,13 @@
     .proof-num { font-size: .9375rem; font-weight: 800; letter-spacing: -.02em; color: var(--amber); line-height: 1; font-variant-numeric: tabular-nums; }
     .proof-lbl { font-size: .775rem; font-weight: 500; color: var(--text-muted); line-height: 1; white-space: nowrap; }
     @media (max-width: 600px) {
-      .proof-bar { padding: .5rem 1rem; }
-      .proof-bar-inner { gap: 0; flex-wrap: wrap; justify-content: center; }
-      .proof-item { padding: .35rem 1rem; width: 50%; justify-content: center; flex-shrink: 1; }
+      .proof-bar { padding: .4rem 0; }
+      .proof-bar-inner { gap: 0; flex-wrap: wrap; }
+      .proof-item { padding: .5rem 0; width: 50%; justify-content: center; flex-shrink: 1; gap: .4rem; }
+      .proof-num { white-space: nowrap; }
       .proof-item + .proof-item::before { display: none; }
       .proof-item:nth-child(1), .proof-item:nth-child(2) { border-bottom: 1px solid var(--line); }
+      .proof-item:nth-child(odd) { border-right: 1px solid var(--line); }
     }
 
     /* ─── PAIN SELECTOR ──────────────────────────────── */
@@ -1897,7 +1899,7 @@
       .hero-visual { margin-top: 1.75rem; }
       .phone { width: clamp(272px, 78vw, 340px); border-radius: 42px; }
       .phone-screen { border-radius: 32px; }
-      .hero h1.display { font-size: clamp(1.75rem, 7.5vw, 2.2rem); }
+      .hero h1.display { font-size: clamp(2rem, 8.5vw, 2.4rem); }
 
       /* Section scroll offsets on mobile */
       .section { scroll-margin-top: 72px; }
