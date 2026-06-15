@@ -132,7 +132,7 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 84px;
+      scroll-padding-top: 72px;
       scroll-snap-type: y proximity;
     }
 
@@ -174,7 +174,7 @@
     html[lang="he"] .addon-badge { text-transform: none; letter-spacing: .02em; }
 
     /* ─── LAYOUT HELPERS ──────────────────────────────── */
-    .section { padding: clamp(3.75rem, 7vw, 6rem) 1.5rem; scroll-margin-top: 84px; }
+    .section { padding: clamp(3.75rem, 7vw, 6rem) 1.5rem; scroll-margin-top: 72px; }
     .section-inner { max-width: var(--maxw); margin: 0 auto; }
     .section-head { margin-bottom: 2.75rem; max-width: 640px; }
     .section-head.center { margin-inline: auto; text-align: center; }
@@ -524,7 +524,7 @@
     .pp-chip-txt { font-size:11.5px; font-weight:700; color:var(--ink); line-height:1.3; }
     .pp-chip-txt small { display:block; font-weight:500; color:var(--text-muted); font-size:10px; }
     @keyframes chipFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
-    @media (max-width:480px){ .pp-chip{ inset-inline-end:-8px; inset-inline-start:auto; top:5%; padding:7px 10px 7px 7px; font-size:10.5px; } }
+    @media (max-width:480px){ .pp-chip{ inset-inline-end:-8px; inset-inline-start:auto; top:12%; padding:7px 10px 7px 7px; font-size:10.5px; } }
     @media (prefers-reduced-motion:reduce){ .pp-chip{ animation:none; } }
     .pp-success { display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:46px 18px; gap:10px; }
     #heroBooking.done .pp-body { display:none; }
@@ -1912,12 +1912,7 @@
     /* ─── SECTION MIN-HEIGHTS ────────────────────────────── */
     /* Min-heights ensure proximity snap always triggers cleanly.
        Testimonials intentionally excluded — flows freely between sections. */
-    .section.pain   { min-height: 88vh; }
-    .section.hiw    { min-height: 88vh; }
-    .section.build  { min-height: 86vh; }
-    .section.addons { min-height: 84vh; }
-    .section.faq    { min-height: 90vh; scroll-snap-align: none; }
-    .final-cta      { min-height: 72vh; }
+    .section.faq    { scroll-snap-align: none; }
 
     /* ─── FOOTER CTA ─────────────────────────────────────── */
     .footer-cta {
@@ -2944,8 +2939,8 @@
         <p class="footer-col-title" data-i18n="footer.col.links">Links</p>
         <div style="display:flex;flex-direction:column;gap:.625rem;">
           <a href="#problem" class="footer-link" data-i18n="nav.problem">Problem</a>
-          <a href="#solution" class="footer-link" data-i18n="nav.solution">Solution</a>
-          <a href="#addons" class="footer-link" data-i18n="nav.addons">Add-ons</a>
+          <a href="#how-it-works" class="footer-link" data-i18n="nav.solution">Solution</a>
+          <a href="#automations" class="footer-link" data-i18n="nav.addons">Add-ons</a>
           <a href="#faq" class="footer-link" data-i18n="nav.faq">FAQ</a>
           <a href="https://calendly.com/info-bapita/30min" class="footer-link" target="_blank" rel="noopener" data-i18n="cta.book">Book a call</a>
         </div>
@@ -3160,7 +3155,7 @@
     const open = mobileMenu.classList.toggle('open');
     hamburger.setAttribute('aria-expanded', String(open));
   });
-  document.querySelectorAll('.mobile-menu a[href^="#"], .nav-links a[href^="#"]').forEach(link => {
+  document.querySelectorAll('.mobile-menu a[href^="#"], .nav-links a[href^="#"], .footer-link[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       const id = link.getAttribute('href').slice(1);
       if (!id) return;
@@ -3169,7 +3164,10 @@
         e.preventDefault();
         mobileMenu.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const navH = document.getElementById('nav').offsetHeight;
+        document.documentElement.style.scrollSnapType = 'none';
+        window.scrollTo({ top: target.offsetTop - navH, behavior: 'smooth' });
+        setTimeout(() => { document.documentElement.style.scrollSnapType = ''; }, 900);
       }
     });
   });
