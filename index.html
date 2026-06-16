@@ -1449,6 +1449,10 @@
     @keyframes tscrollL { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @keyframes tscrollR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
     @media (prefers-reduced-motion: reduce) { .tmarquee-track { animation: none !important; } }
+    /* RTL: keep marquee scrolling in the same visual direction as LTR */
+    html[dir="rtl"] .tmarquee-row { -webkit-mask-image: linear-gradient(to left, transparent 0%, black 5%, black 95%, transparent 100%); mask-image: linear-gradient(to left, transparent 0%, black 5%, black 95%, transparent 100%); }
+    html[dir="rtl"] .tmarquee-track { animation-name: tscrollR; }
+    html[dir="rtl"] .tmarquee-row.rev .tmarquee-track { animation-name: tscrollL; }
     @media (max-width: 768px) {
       .tmarquee-track { animation-duration: 40s; }
       .tmarquee-row.rev .tmarquee-track { animation-duration: 44s; }
@@ -2191,20 +2195,20 @@
         <!-- Scene 2 — No-shows -->
         <div class="pain-scene" data-index="2" aria-hidden="true">
           <div class="psc-card">
-            <div class="psc-wa-header" style="margin-bottom:.75rem;">Tuesday</div>
+            <div class="psc-wa-header" style="margin-bottom:.75rem;" data-i18n="pain.s2.day">Tuesday</div>
             <div class="psc-cal-hours">
               <div class="psc-cal-row">
                 <span class="psc-cal-hour">09:00</span>
                 <div class="psc-appt" style="border-inline-start:3px solid #22C55E;background:rgba(34,197,94,.07);">
                   <span class="psc-appt-name" style="text-decoration:none;opacity:1;color:var(--dark);">Oren B.</span>
-                  <span class="psc-appt-tag" style="background:rgba(34,197,94,.12);color:#16A34A;">confirmed</span>
+                  <span class="psc-appt-tag" style="background:rgba(34,197,94,.12);color:#16A34A;" data-i18n="pain.s2.confirmed">confirmed</span>
                 </div>
               </div>
               <div class="psc-cal-row">
                 <span class="psc-cal-hour">10:00</span>
                 <div class="psc-appt">
                   <span class="psc-appt-name">David K.</span>
-                  <span class="psc-appt-tag">no reminder sent</span>
+                  <span class="psc-appt-tag" data-i18n="pain.s2.tag">no reminder sent</span>
                 </div>
               </div>
               <div class="psc-cal-row">
@@ -2217,13 +2221,13 @@
                 <span class="psc-cal-hour">12:00</span>
                 <div class="psc-appt" style="border-inline-start:3px solid var(--amber);background:var(--amber-soft);">
                   <span class="psc-appt-name" style="text-decoration:none;opacity:1;color:var(--dark);">Noa L.</span>
-                  <span class="psc-appt-tag">no reminder sent</span>
+                  <span class="psc-appt-tag" data-i18n="pain.s2.tag">no reminder sent</span>
                 </div>
               </div>
             </div>
             <div class="psc-unanswered">
               <span class="psc-badge" aria-hidden="true"></span>
-              <span>2 no-shows · 2 slots gone</span>
+              <span data-i18n="pain.s2.summary">2 no-shows · 2 slots gone</span>
             </div>
           </div>
         </div>
@@ -2596,10 +2600,10 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.427A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.078-1.117l-.292-.173-3.026.885.852-3.094-.19-.3A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
             </span>
             <span class="addon-row-text">
-              <span class="addon-row-name">Reminders &amp; Confirmations</span>
-              <span class="addon-row-tagline">Automatic booking confirmations and reminders over WhatsApp, SMS, or Email</span>
+              <span class="addon-row-name" data-i18n="addons.rem.t">Reminders &amp; Confirmations</span>
+              <span class="addon-row-tagline" data-i18n="addons.rem.tag">Automatic booking confirmations and reminders over WhatsApp, SMS, or Email</span>
             </span>
-            <span class="addon-badge monthly">Monthly</span>
+            <span class="addon-badge monthly" data-i18n="addons.monthly">Monthly</span>
             <span class="addon-chevron" aria-hidden="true"></span>
           </button>
           <div class="addon-panel">
@@ -2609,39 +2613,39 @@
                 <div class="addon-channel-tabs" role="tablist">
                   <button class="addon-channel-tab active" data-channel="wa" role="tab" aria-selected="true">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.427A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.078-1.117l-.292-.173-3.026.885.852-3.094-.19-.3A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-                    WhatsApp
+                    <span data-i18n="addons.ch.wa">WhatsApp</span>
                   </button>
                   <button class="addon-channel-tab" data-channel="sms" role="tab" aria-selected="false">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                    SMS
+                    <span data-i18n="addons.ch.sms">SMS</span>
                   </button>
                   <button class="addon-channel-tab" data-channel="email" role="tab" aria-selected="false">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    Email
+                    <span data-i18n="addons.ch.email">Email</span>
                   </button>
                 </div>
                 <!-- Channel descriptions -->
-                <p class="addon-channel-desc active" data-channel="wa">Clients get a WhatsApp confirmation the moment they book, and a reminder before they show up. <strong>No-shows drop. You do nothing.</strong> Works around the clock, including at 11PM when you are asleep.</p>
-                <p class="addon-channel-desc" data-channel="sms">For clients who do not use WhatsApp, SMS keeps them covered. <strong>Booking confirmed, reminder sent, slot protected.</strong> Same automation, different channel. Nothing falls through the gaps.</p>
-                <p class="addon-channel-desc" data-channel="email">A clean confirmation email lands in the client's inbox the moment they book, with a follow-up reminder before the appointment. <strong>Professional, automatic, zero effort on your end.</strong></p>
+                <p class="addon-channel-desc active" data-channel="wa" data-i18n="addons.wa.body">Clients get a WhatsApp confirmation the moment they book, and a reminder before they show up. <strong>No-shows drop. You do nothing.</strong> Works around the clock, including at 11PM when you are asleep.</p>
+                <p class="addon-channel-desc" data-channel="sms" data-i18n="addons.sms.body">For clients who do not use WhatsApp, SMS keeps them covered. <strong>Booking confirmed, reminder sent, slot protected.</strong> Same automation, different channel. Nothing falls through the gaps.</p>
+                <p class="addon-channel-desc" data-channel="email" data-i18n="addons.email.body">A clean confirmation email lands in the client's inbox the moment they book, with a follow-up reminder before the appointment. <strong>Professional, automatic, zero effort on your end.</strong></p>
               </div>
               <div class="addon-visual">
                 <!-- WhatsApp mockup -->
                 <div class="addon-channel-visual active" data-channel="wa">
                   <div class="av-sms">
-                    <div class="av-sms-time">Today 09:42</div>
-                    <div class="av-sms-bubble out">Your appointment with Avi is confirmed for Wed 14:00 ✓</div>
-                    <div class="av-sms-bubble in">Thanks! 👍</div>
-                    <div class="av-sms-bubble out">Reminder: you're booked tomorrow at 14:00. See you then!</div>
+                    <div class="av-sms-time" data-i18n="addons.mock.today">Today 09:42</div>
+                    <div class="av-sms-bubble out" data-i18n="addons.mock.wa1">Your appointment with Avi is confirmed for Wed 14:00 ✓</div>
+                    <div class="av-sms-bubble in" data-i18n="addons.mock.wa2">Thanks! 👍</div>
+                    <div class="av-sms-bubble out" data-i18n="addons.mock.wa3">Reminder: you're booked tomorrow at 14:00. See you then!</div>
                   </div>
                 </div>
                 <!-- SMS mockup -->
                 <div class="addon-channel-visual" data-channel="sms">
                   <div class="av-sms">
-                    <div class="av-sms-time">Today 09:42</div>
-                    <div class="av-sms-bubble out">Confirmed! Haircut with Avi, Wed 14:00. Reply CANCEL to cancel.</div>
-                    <div class="av-sms-bubble in">Perfect, thanks</div>
-                    <div class="av-sms-bubble out">Reminder: your appointment is tomorrow at 14:00 ✓</div>
+                    <div class="av-sms-time" data-i18n="addons.mock.today">Today 09:42</div>
+                    <div class="av-sms-bubble out" data-i18n="addons.mock.sms1">Confirmed! Haircut with Avi, Wed 14:00. Reply CANCEL to cancel.</div>
+                    <div class="av-sms-bubble in" data-i18n="addons.mock.sms2">Perfect, thanks</div>
+                    <div class="av-sms-bubble out" data-i18n="addons.mock.sms3">Reminder: your appointment is tomorrow at 14:00 ✓</div>
                   </div>
                 </div>
                 <!-- Email mockup -->
@@ -2649,13 +2653,13 @@
                   <div class="av-email">
                     <div class="av-email-from">
                       <span class="av-email-dot"></span>
-                      <span class="av-email-sender">Studio Avi</span>
+                      <span class="av-email-sender" data-i18n="mock.shop">Studio Avi</span>
                     </div>
-                    <div class="av-email-subject">Your booking is confirmed ✓</div>
+                    <div class="av-email-subject" data-i18n="addons.mock.email.subject">Your booking is confirmed ✓</div>
                     <div class="av-email-line" style="width:85%"></div>
                     <div class="av-email-line" style="width:65%"></div>
                     <div class="av-email-line" style="width:50%"></div>
-                    <div class="av-email-btn">Add to calendar</div>
+                    <div class="av-email-btn" data-i18n="addons.mock.email.btn">Add to calendar</div>
                   </div>
                 </div>
               </div>
@@ -3003,7 +3007,7 @@
       'pain.label':'Sound familiar?','pain.title':'The real cost of running things manually','pain.sub':"These aren't one-off annoyances. They repeat every week, quietly costing you clients, hours, and revenue.",
       'pain.s0.query':'barber near me','pain.s0.empty':"You're not here",
       'pain.s1.msg':'Hi, are you open tomorrow?','pain.s1.tag':'No reply sent',
-      'pain.s2.tag':'no reminder sent','pain.s2.lost':'slot lost',
+      'pain.s2.tag':'no reminder sent','pain.s2.lost':'slot lost','pain.s2.day':'Tuesday','pain.s2.confirmed':'confirmed','pain.s2.summary':'2 no-shows · 2 slots gone',
       'pain.s3.label':'Rebuilding your week from screenshots. Again.','pain.s3.header':'WhatsApp','pain.s3.p0':'are you open Sunday?','pain.s3.p1':'can I move to 11?','pain.s3.p2':'ok confirmed for 14:00','pain.s3.p3':'wait which day did we say?','pain.s3.p4':'you never replied 😤',
       'pain.0.h':'You are invisible online','pain.0.s':'No profile, no search presence. Someone looked for what you do and found three competitors.',
       'pain.1.h':'Missed leads every night','pain.1.s':'They messaged at 11PM. By morning they had booked someone else. The first reply wins.',
@@ -3066,7 +3070,7 @@
       'pain.label':'נשמע מוכר?','pain.title':'המחיר האמיתי של לנהל הכל ידנית','pain.sub':'אלה לא תקלות חד-פעמיות. הן חוזרות כל שבוע, ושוחקות בשקט לקוחות, שעות, והכנסות.',
       'pain.s0.query':'ברבר קרוב אלי','pain.s0.empty':'אתה לא כאן',
       'pain.s1.msg':'היי, אתה פתוח מחר?','pain.s1.tag':'לא נשלחה תשובה',
-      'pain.s2.tag':'לא נשלחה תזכורת','pain.s2.lost':'תור אבד',
+      'pain.s2.tag':'לא נשלחה תזכורת','pain.s2.lost':'תור אבד','pain.s2.day':'שלישי','pain.s2.confirmed':'מאושר','pain.s2.summary':'2 ביטולים · 2 תורים אבדו',
       'pain.s3.label':'משחזר את השבוע מצילומי מסך. שוב.','pain.s3.header':'וואטסאפ','pain.s3.p0':'אתה פתוח ביום ראשון?','pain.s3.p1':'אפשר להזיז ל-11?','pain.s3.p2':'אוק מאושר ל-14:00','pain.s3.p3':'רגע איזה יום אמרנו?','pain.s3.p4':'לא ענית לי 😤',
       'pain.0.h':'אתה לא קיים אונליין','pain.0.s':'אין פרופיל, אין נוכחות בחיפוש. מישהו חיפש את מה שאתה עושה ומצא שלושה מתחרים.',
       'pain.1.h':'מפספס לקוחות כל לילה','pain.1.s':'הם כתבו ב 11 בלילה. עד הבוקר הם כבר קבעו אצל מישהו אחר. הראשון שעונה מנצח.',
@@ -3084,7 +3088,21 @@
       'dash.title':'השבוע','dash.month':'יוני 2026','dash.free':'תור פנוי','dash.pending':'ממתין לאישור',
       'addons.label':'תוספות','addons.title':'הוסף מה שצריך.','addons.sub':'כל אחד מהשירותים למטה מתחבר ישירות למערכת שלך. בחר מה מתאים, אנחנו מטפלים בשאר.',
       'addons.group.monthly':'רץ כל חודש','addons.group.onetime':'נעשה פעם אחת, עובד לתמיד','addons.monthly':'חודשי','addons.onetime':'חד פעמי',
-      'addons.wa.t':'תזכורות בוואטסאפ','addons.wa.tag':'אישורי הזמנה ותזכורות שנשלחים אוטומטית דרך וואטסאפ','addons.wa.body':'לקוחות מקבלים אישור וואטסאפ ברגע שהם קובעים, ותזכורת לפני שהם מגיעים. <strong>ביטולים יורדים. אתה לא עושה כלום.</strong> עובד סביב השעון, גם ב-11 בלילה כשאתה ישן.',
+      'addons.rem.t':'תזכורות ואישורים','addons.rem.tag':'אישורי הזמנה ותזכורות אוטומטיות דרך וואטסאפ, SMS, או אימייל',
+      'addons.ch.wa':'וואטסאפ','addons.ch.sms':'SMS','addons.ch.email':'אימייל',
+      'addons.wa.body':'לקוחות מקבלים אישור וואטסאפ ברגע שהם קובעים, ותזכורת לפני שהם מגיעים. <strong>ביטולים יורדים. אתה לא עושה כלום.</strong> עובד סביב השעון, גם ב-11 בלילה כשאתה ישן.',
+      'addons.sms.body':'ללקוחות שלא משתמשים בוואטסאפ, SMS שומר עליהם מכוסים. <strong>הזמנה מאושרת, תזכורת נשלחה, תור מוגן.</strong> אותה אוטומציה, ערוץ אחר. שום דבר לא נופל בין הכסאות.',
+      'addons.email.body':'אימייל אישור נקי מגיע לתיבת הדואר של הלקוח ברגע שהוא קובע, עם תזכורת לפני התור. <strong>מקצועי, אוטומטי, אפס מאמץ מצדך.</strong>',
+      'addons.mock.today':'היום 09:42',
+      'addons.mock.wa1':'התור שלך אצל אבי מאושר לרביעי 14:00 ✓',
+      'addons.mock.wa2':'תודה! 👍',
+      'addons.mock.wa3':'תזכורת: יש לך תור מחר ב-14:00. נתראה!',
+      'addons.mock.sms1':'מאושר! תספורת אצל אבי, רביעי 14:00. השב CANCEL לביטול.',
+      'addons.mock.sms2':'מעולה, תודה',
+      'addons.mock.sms3':'תזכורת: התור שלך מחר ב-14:00 ✓',
+      'addons.mock.email.subject':'ההזמנה שלך מאושרת ✓',
+      'addons.mock.email.btn':'הוסף ליומן',
+      'addons.wa.t':'תזכורות בוואטסאפ','addons.wa.tag':'אישורי הזמנה ותזכורות שנשלחים אוטומטית דרך וואטסאפ',
       'addons.sms.t':'אישורי SMS','addons.sms.tag':'אישורי טקסט ותזכורות מיידיות ללקוחות שמעדיפים SMS','addons.sms.body':'ללקוחות שלא משתמשים בוואטסאפ, SMS שומר עליהם מכוסים. <strong>הזמנה מאושרת, תזכורת נשלחה, תור מוגן.</strong> אותה אוטומציה, ערוץ אחר. שום דבר לא נופל בין הכסאות.',
       'addons.pay.t':'תשלומים אונליין','addons.pay.tag':'גביית מקדמה או תשלום מלא בזמן הקביעה','addons.pay.body':'לקוחות משלמים כשהם קובעים. מקדמה או תשלום מלא, אתה בוחר. <strong>ביטולים יורדים בן לילה</strong> כי מי שהשקיע כסף מגיע. הכסף מגיע לחשבון שלך עוד לפני שהם נכנסים.',
       'addons.reviews.t':'ביקורות גוגל','addons.reviews.tag':'בקשות ביקורת אוטומטיות שנשלחות ללקוחות מרוצים ברגע הנכון','addons.reviews.body':'אחרי כל ביקור, אנחנו מבקשים מלקוחות מרוצים ביקורת בגוגל בדיוק ברגע הנכון. <strong>הדירוג שלך עולה, אתה לא עושה כלום.</strong> יותר ביקורות זה יותר אנשים שמוצאים אותך בחיפוש.',
