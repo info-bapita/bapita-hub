@@ -1911,8 +1911,7 @@
 
     /* ─── SCROLL SNAP ────────────────────────────────────── */
     .hero,
-    .section,
-    .final-cta {
+    .section {
       scroll-snap-align: start;
       scroll-snap-stop: normal;
     }
@@ -1924,6 +1923,7 @@
     /* Min-heights ensure proximity snap always triggers cleanly.
        Testimonials intentionally excluded — flows freely between sections. */
     .section.faq    { scroll-snap-align: none; }
+    .final-cta      { scroll-snap-align: none; }
 
     /* ─── FOOTER CTA ─────────────────────────────────────── */
     .footer-cta {
