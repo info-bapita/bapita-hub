@@ -1963,7 +1963,7 @@
     <div class="nav-actions">
       <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">עברית</button>
       <a href="https://dashboard.bapita.com" class="btn-login" data-cta="nav_login" data-i18n="nav.login">Login</a>
-      <a href="https://calendly.com/info-bapita/30min" class="btn-nav" target="_blank" rel="noopener" data-cta="nav_desktop" data-i18n="cta.talk">Let's talk</a>
+      <a href="#" class="btn-nav" onclick="openConnectModal(event)" data-cta="nav_desktop" data-i18n="cta.talk">Let's talk</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -1975,7 +1975,7 @@
     <a href="#automations" data-i18n="nav.addons">Add-ons</a>
     <a href="#faq" data-i18n="nav.faq">FAQ</a>
     <div class="mobile-menu-ctas">
-      <a href="https://calendly.com/info-bapita/30min" class="btn-primary" style="justify-content:center;" target="_blank" rel="noopener" data-cta="nav_mobile" data-i18n="cta.talk">Let's talk</a>
+      <a href="#" class="btn-primary" style="justify-content:center;" onclick="openConnectModal(event)" data-cta="nav_mobile" data-i18n="cta.talk">Let's talk</a>
       <a href="https://dashboard.bapita.com" class="mobile-menu-login" data-cta="nav_login_mobile" data-i18n="nav.login">Login</a>
     </div>
     <div style="border-top:1px solid var(--line);margin-top:.25rem;padding-top:.75rem;">
@@ -1992,7 +1992,7 @@
       <h1 class="display"><span data-i18n="hero.h1a">Your business, online.</span><br><span class="accent" data-i18n="hero.h1b">Done for you.</span></h1>
       <p class="hero-sub" data-i18n="hero.sub">A booking website, owner dashboard, and automations. Built for your business in 48 hours.</p>
       <div class="hero-ctas">
-        <a href="https://calendly.com/info-bapita/30min" class="btn-primary lg" target="_blank" rel="noopener" data-cta="hero_primary" data-i18n="cta.talk">Let's talk</a>
+        <a href="#" class="btn-primary lg" onclick="openConnectModal(event)" data-cta="hero_primary" data-i18n="cta.talk">Let's talk</a>
       </div>
       <p class="hero-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="hero.trust">One 30-minute call. No commitment.</span></p>
     </div>
@@ -2427,7 +2427,7 @@
     <!-- Closer bar -->
     <div class="hiw-closer fade-up">
       <p class="hiw-closer-text" data-i18n="how.closer">One call. 48 hours. Done.</p>
-      <a href="https://calendly.com/info-bapita/30min" class="btn-primary" target="_blank" rel="noopener" data-cta="hiw_cta" data-i18n="cta.talk">Let's talk</a>
+      <a href="#" class="btn-primary" onclick="openConnectModal(event)" data-cta="hiw_cta" data-i18n="cta.talk">Let's talk</a>
     </div>
 
   </div>
@@ -2909,7 +2909,7 @@
   <div class="final-cta-inner fade-up">
     <h2 data-i18n="final.title">Ready to get started?</h2>
     <p data-i18n="final.p">One call, 30 minutes. We will learn your business, tell you exactly what we would build, and answer every question you have. No pitch. No commitment.</p>
-    <a href="https://calendly.com/info-bapita/30min" class="btn-primary lg" target="_blank" rel="noopener" data-cta="final_cta" data-i18n="cta.book">Book a free call</a>
+    <a href="#" class="btn-primary lg" onclick="openConnectModal(event)" data-cta="final_cta" data-i18n="cta.book">Book a free call</a>
     <div class="final-trust-chips">
       <span data-i18n="chip.1">✓ No commitment</span>
       <span data-i18n="chip.2">✓ 48h turnaround</span>
@@ -3494,6 +3494,208 @@
       });
     });
   })();
+</script>
+
+<!-- ─── CONNECT MODAL ──────────────────────────────────────────────────────── -->
+<div id="bap-modal" role="dialog" aria-modal="true" style="display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;">
+  <div id="bap-backdrop" style="position:absolute;inset:0;background:rgba(16,12,8,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);"></div>
+  <div id="bap-box" style="position:relative;z-index:1;width:calc(100% - 32px);max-width:420px;max-height:90vh;overflow-y:auto;background:var(--cream);border-radius:20px;box-shadow:var(--shadow-float);padding:32px 28px;">
+
+    <!-- Close -->
+    <button id="bap-close" onclick="closeConnectModal()" aria-label="Close" style="position:absolute;top:16px;right:16px;left:auto;background:none;border:none;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--text-muted);padding:0;">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+    </button>
+
+    <!-- Screen 1: Choice -->
+    <div id="bap-screen-choice">
+      <p id="bap-title" style="font-size:18px;font-weight:800;color:var(--dark);letter-spacing:-.02em;margin:0 0 6px;padding-right:32px;">How would you like to connect?</p>
+      <p id="bap-sub" style="font-size:13px;color:var(--text-muted);margin:0 0 24px;">Pick whichever works for you.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="openCalendly()" class="bap-opt-btn" style="display:flex;align-items:center;gap:16px;padding:18px 20px;border:1.5px solid var(--cream-3);border-radius:14px;background:white;cursor:pointer;text-align:start;font-family:inherit;width:100%;" onmouseenter="this.style.borderColor='var(--amber)';this.style.boxShadow='0 4px 16px rgba(232,146,10,.12)'" onmouseleave="this.style.borderColor='var(--cream-3)';this.style.boxShadow='none'">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(232,146,10,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div style="text-align:start;">
+            <p id="bap-opt1-h" style="font-size:14px;font-weight:700;color:var(--dark);margin:0 0 2px;">Book a call</p>
+            <p id="bap-opt1-s" style="font-size:12px;color:var(--text-muted);margin:0;">Pick a time, we'll talk — 30 min</p>
+          </div>
+        </button>
+        <button onclick="showConnectForm()" class="bap-opt-btn" style="display:flex;align-items:center;gap:16px;padding:18px 20px;border:1.5px solid var(--cream-3);border-radius:14px;background:white;cursor:pointer;text-align:start;font-family:inherit;width:100%;" onmouseenter="this.style.borderColor='var(--amber)';this.style.boxShadow='0 4px 16px rgba(232,146,10,.12)'" onmouseleave="this.style.borderColor='var(--cream-3)';this.style.boxShadow='none'">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(232,146,10,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+          </div>
+          <div style="text-align:start;">
+            <p id="bap-opt2-h" style="font-size:14px;font-weight:700;color:var(--dark);margin:0 0 2px;">Send your details</p>
+            <p id="bap-opt2-s" style="font-size:12px;color:var(--text-muted);margin:0;">We'll reach out to you</p>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Form -->
+    <div id="bap-screen-form" style="display:none;">
+      <button id="bap-back-btn" onclick="showConnectChoice()" style="display:inline-flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;font-size:12px;font-weight:600;color:var(--text-muted);padding:0;margin-bottom:20px;font-family:inherit;">
+        <svg id="bap-back-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span id="bap-back">Back</span>
+      </button>
+      <p id="bap-form-title" style="font-size:17px;font-weight:800;color:var(--dark);margin:0 0 20px;letter-spacing:-.02em;">Leave your details</p>
+      <form id="bap-form" onsubmit="submitConnectForm(event)" style="display:flex;flex-direction:column;gap:10px;">
+        <input id="bap-f-name"  type="text"  required placeholder="Your name"              style="height:44px;padding:0 14px;border-radius:11px;border:1.5px solid var(--cream-3);background:white;font-size:14px;color:var(--dark);outline:none;font-family:inherit;width:100%;box-sizing:border-box;" onfocus="this.style.borderColor='var(--amber)'" onblur="this.style.borderColor='var(--cream-3)'">
+        <input id="bap-f-biz"   type="text"  placeholder="Business name (optional)"       style="height:44px;padding:0 14px;border-radius:11px;border:1.5px solid var(--cream-3);background:white;font-size:14px;color:var(--dark);outline:none;font-family:inherit;width:100%;box-sizing:border-box;" onfocus="this.style.borderColor='var(--amber)'" onblur="this.style.borderColor='var(--cream-3)'">
+        <input id="bap-f-phone" type="tel"   placeholder="Phone"                          style="height:44px;padding:0 14px;border-radius:11px;border:1.5px solid var(--cream-3);background:white;font-size:14px;color:var(--dark);outline:none;font-family:inherit;width:100%;box-sizing:border-box;" onfocus="this.style.borderColor='var(--amber)'" onblur="this.style.borderColor='var(--cream-3)'">
+        <input id="bap-f-email" type="email" required placeholder="Email"                 style="height:44px;padding:0 14px;border-radius:11px;border:1.5px solid var(--cream-3);background:white;font-size:14px;color:var(--dark);outline:none;font-family:inherit;width:100%;box-sizing:border-box;" onfocus="this.style.borderColor='var(--amber)'" onblur="this.style.borderColor='var(--cream-3)'">
+        <p id="bap-form-err" style="display:none;font-size:12px;color:#EF4444;margin:0;"></p>
+        <button id="bap-submit" type="submit" style="height:46px;border-radius:12px;border:none;background:var(--wash-amber);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px;box-shadow:0 4px 14px rgba(232,146,10,.28);">Send</button>
+      </form>
+    </div>
+
+    <!-- Screen 3: Success -->
+    <div id="bap-screen-success" style="display:none;text-align:center;padding:16px 0;">
+      <div style="width:56px;height:56px;border-radius:16px;background:rgba(232,146,10,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <p id="bap-success-h" style="font-size:17px;font-weight:800;color:var(--dark);margin:0 0 8px;">Sent!</p>
+      <p id="bap-success-s" style="font-size:13px;color:var(--text-muted);line-height:1.6;margin:0 0 24px;">We'll be in touch soon.</p>
+      <button onclick="closeConnectModal()" id="bap-done" style="height:40px;padding:0 24px;border-radius:10px;border:1.5px solid var(--cream-3);background:white;font-size:13px;font-weight:600;color:var(--dark);cursor:pointer;font-family:inherit;">Done</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  var T = {
+    en: {
+      title:'How would you like to connect?', sub:'Pick whichever works for you.',
+      opt1h:'Book a call', opt1s:'Pick a time, we\'ll talk — 30 min',
+      opt2h:'Send your details', opt2s:'We\'ll reach out to you',
+      back:'Back', formTitle:'Leave your details',
+      namePh:'Your name', bizPh:'Business name (optional)', phonePh:'Phone', emailPh:'Email',
+      submit:'Send', errReq:'Please fill in your name and email.', errSrv:'Something went wrong. Please try again.',
+      successH:'Sent!', successS:'We\'ll be in touch soon.', done:'Done',
+    },
+    he: {
+      title:'איך תרצה ליצור קשר?', sub:'בחר את מה שמתאים לך.',
+      opt1h:'קביעת שיחה', opt1s:'בחר זמן, נדבר — 30 דקות',
+      opt2h:'שלח פרטים', opt2s:'ניצור איתך קשר',
+      back:'חזרה', formTitle:'השאר פרטים',
+      namePh:'שם מלא', bizPh:'שם העסק (לא חובה)', phonePh:'טלפון', emailPh:'אימייל',
+      submit:'שליחה', errReq:'אנא מלא שם ואימייל.', errSrv:'משהו השתבש. נסה שוב.',
+      successH:'נשלח!', successS:'ניצור קשר בקרוב.', done:'סגור',
+    }
+  };
+
+  function lang() { return document.documentElement.lang === 'he' ? 'he' : 'en'; }
+  function t(k) { return T[lang()][k] || T.en[k]; }
+
+  function applyTexts() {
+    var isHe = lang() === 'he';
+    document.getElementById('bap-title').textContent    = t('title');
+    document.getElementById('bap-sub').textContent      = t('sub');
+    document.getElementById('bap-opt1-h').textContent   = t('opt1h');
+    document.getElementById('bap-opt1-s').textContent   = t('opt1s');
+    document.getElementById('bap-opt2-h').textContent   = t('opt2h');
+    document.getElementById('bap-opt2-s').textContent   = t('opt2s');
+    document.getElementById('bap-back').textContent     = t('back');
+    document.getElementById('bap-form-title').textContent = t('formTitle');
+    document.getElementById('bap-f-name').placeholder  = t('namePh');
+    document.getElementById('bap-f-biz').placeholder   = t('bizPh');
+    document.getElementById('bap-f-phone').placeholder = t('phonePh');
+    document.getElementById('bap-f-email').placeholder = t('emailPh');
+    document.getElementById('bap-submit').textContent  = t('submit');
+    document.getElementById('bap-success-h').textContent = t('successH');
+    document.getElementById('bap-success-s').textContent = t('successS');
+    document.getElementById('bap-done').textContent    = t('done');
+    // RTL layout
+    var box = document.getElementById('bap-box');
+    box.dir = isHe ? 'rtl' : 'ltr';
+    var closeBtn = document.getElementById('bap-close');
+    closeBtn.style.right = isHe ? 'auto' : '16px';
+    closeBtn.style.left  = isHe ? '16px' : 'auto';
+    // RTL back-arrow direction
+    document.getElementById('bap-back-arrow').querySelector('path')
+      .setAttribute('d', isHe ? 'm9 18 6-6-6-6' : 'm15 18-6-6 6-6');
+    // RTL text-align inside option buttons
+    document.querySelectorAll('.bap-opt-btn > div:last-child').forEach(function(d) {
+      d.style.textAlign = isHe ? 'right' : 'left';
+    });
+  }
+
+  window.openConnectModal = function(e) {
+    if (e) e.preventDefault();
+    applyTexts();
+    showConnectChoice();
+    var m = document.getElementById('bap-modal');
+    m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeConnectModal = function() {
+    document.getElementById('bap-modal').style.display = 'none';
+    document.body.style.overflow = '';
+    document.getElementById('bap-form').reset();
+    document.getElementById('bap-form-err').style.display = 'none';
+    var sb = document.getElementById('bap-submit');
+    sb.disabled = false;
+    sb.textContent = t('submit');
+  };
+
+  window.showConnectChoice = function() {
+    document.getElementById('bap-screen-choice').style.display = 'block';
+    document.getElementById('bap-screen-form').style.display   = 'none';
+    document.getElementById('bap-screen-success').style.display = 'none';
+  };
+
+  window.showConnectForm = function() {
+    document.getElementById('bap-screen-choice').style.display = 'none';
+    document.getElementById('bap-screen-form').style.display   = 'block';
+    document.getElementById('bap-screen-success').style.display = 'none';
+    setTimeout(function() { document.getElementById('bap-f-name').focus(); }, 60);
+  };
+
+  window.openCalendly = function() {
+    window.open('https://calendly.com/info-bapita/30min', '_blank', 'noopener');
+    closeConnectModal();
+  };
+
+  window.submitConnectForm = async function(e) {
+    e.preventDefault();
+    var name  = document.getElementById('bap-f-name').value.trim();
+    var biz   = document.getElementById('bap-f-biz').value.trim();
+    var phone = document.getElementById('bap-f-phone').value.trim();
+    var email = document.getElementById('bap-f-email').value.trim();
+    var errEl = document.getElementById('bap-form-err');
+    var sb    = document.getElementById('bap-submit');
+    if (!name || !email) {
+      errEl.textContent = t('errReq');
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+    sb.disabled = true;
+    sb.textContent = '…';
+    try {
+      var res = await fetch('https://dashboard.bapita.com/api/public/request-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, business_name: biz || null, phone: phone || null, email: email, lang: lang() }),
+      });
+      if (!res.ok) throw new Error('server');
+      document.getElementById('bap-screen-form').style.display    = 'none';
+      document.getElementById('bap-screen-success').style.display = 'block';
+    } catch(_) {
+      errEl.textContent = t('errSrv');
+      errEl.style.display = 'block';
+      sb.disabled = false;
+      sb.textContent = t('submit');
+    }
+  };
+
+  document.getElementById('bap-backdrop').addEventListener('click', closeConnectModal);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('bap-modal').style.display !== 'none') closeConnectModal();
+  });
+})();
 </script>
 
 </body>
