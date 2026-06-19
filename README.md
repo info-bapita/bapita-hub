@@ -72,10 +72,47 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 RESEND_API_KEY=
+NEXT_PUBLIC_VAPID_PUBLIC_KEY=    # web-push — baked into client at BUILD time
+VAPID_PRIVATE_KEY=               # web-push — server only
 ```
+
+> ⚠️ `NEXT_PUBLIC_*` vars are inlined at **build** time, not runtime. After
+> changing any of them you must **redeploy** for the new value to reach the
+> browser bundle.
 
 WhatsApp add-on: `META_VERIFY_TOKEN`, `META_APP_SECRET`, `ANTHROPIC_API_KEY`, `CRON_SECRET`  
 Stripe add-on: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+
+---
+
+## Notifications
+
+Two layers, both keyed to the owner's business (`getOwnerBusinessId` → oldest
+business row for the owner; same rule client + server so they always agree).
+
+**In-app bell** (always on)
+- DB trigger `booking_notify_trigger` → `notify_on_booking_change()` inserts a
+  row into `notifications` on booking insert/cancel/reschedule.
+- `useNotifications` hook (`src/hooks/useNotifications.ts`) loads `/api/notifications`,
+  polls every 60s, and subscribes to Supabase Realtime for live updates.
+- Single bell, in the hamburger drawer header (`AppShell.tsx`). Tapping it opens
+  the notifications sheet. RLS policy `notifications.owner_all` scopes reads to
+  businesses the signed-in user owns.
+
+**Push (PWA)** — opt-in
+- `push_subscriptions` table holds one row per browser subscription.
+- `PushInit.tsx`: on load registers the service worker (`public/sw.js`) and
+  re-sends any existing subscription. It does **not** auto-prompt.
+- The user enables push via the **"Enable push notifications"** button in the
+  bell sheet. This is a deliberate user gesture because iOS Safari rejects
+  `Notification.requestPermission()` outside one, and only allows push when the
+  PWA is **installed to the home screen** (standalone). The button is hidden /
+  shows an "add to home screen" hint accordingly.
+- `/api/push/subscribe` saves the subscription; a Supabase `pg_net` webhook on
+  new notifications calls `/api/push/send`, which signs with the VAPID keys.
+
+Requires `NEXT_PUBLIC_VAPID_PUBLIC_KEY` + `VAPID_PRIVATE_KEY` (see env above).
+Because the public key is build-time inlined, **redeploy after setting it**.
 
 ---
 
