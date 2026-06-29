@@ -8,11 +8,11 @@ import { cn } from "@/lib/cn";
 const FAQS = [
   {
     q: "Do I need to know anything technical to use Bapita?",
-    a: "No. That's the point. We handle all the setup, configuration, and maintenance. You tell us about your business, we build the tool, and you use it — no logins to a complicated dashboard, no settings to figure out.",
+    a: "No. There's zero technical setup on your side — we handle the configuration and maintenance. What you get is simple controls you actually use: a clean dashboard, one-tap actions, easy scheduling and stats. Total daily simplicity, not a system you fight.",
   },
   {
     q: "How is Bapita different from using Calendly, Buffer, or other tools directly?",
-    a: "Those tools are built for people who want to configure software. Bapita is built for people who want the outcome without the configuration. We set everything up to match your business, connect your accounts, write your copy, and keep it running. As the suite grows, you get more tools that share the same approach — pick only the ones you need.",
+    a: "Those tools hand you a blank, complicated dashboard and expect you to configure everything yourself. With Bapita, we build it around your business and keep it running — and your day-to-day stays simple: post in a tap, check stats at a glance, or let a tool run itself. Same warm approach across every product; pick only the ones you need.",
   },
   {
     q: "What does '48 hours' actually mean for Bapita Book?",

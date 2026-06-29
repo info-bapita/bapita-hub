@@ -1,37 +1,65 @@
-export function BrandMark({ className }: { className?: string }) {
+/**
+ * Bapita bowl mark — the "pita" that catches the five tools.
+ * A clean white bowl (rim ellipse + half-ellipse body) reading as both a
+ * bowl and a smile. Neutral white only on the dark hub; the cream card and
+ * five-dot constellation from earlier versions are gone.
+ */
+export function BowlIcon({
+  size = 28,
+  className,
+  color = "#f4f4f2",
+}: {
+  size?: number;
+  className?: string;
+  color?: string;
+}) {
   return (
     <svg
-      width="108"
-      height="28"
-      viewBox="0 0 108 28"
+      width={size}
+      height={size}
+      viewBox="0 0 28 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="Bapita"
+      aria-hidden="true"
       className={className}
     >
-      {/* Five-dot constellation mark — one dot per product (glow wheel) */}
-      <circle cx="6" cy="14" r="3" fill="#f0743a" />
-      <circle cx="13" cy="7" r="2.5" fill="#2bc487" />
-      <circle cx="13" cy="21" r="2.5" fill="#4e86ff" />
-      <circle cx="20" cy="10" r="2" fill="#9277ff" />
-      <circle cx="20" cy="18" r="2" fill="#f2628f" />
-      {/* Connecting lines */}
-      <line x1="6" y1="14" x2="13" y2="7" stroke="#ffffff" strokeOpacity="0.2" strokeWidth="1" />
-      <line x1="6" y1="14" x2="13" y2="21" stroke="#ffffff" strokeOpacity="0.2" strokeWidth="1" />
-      <line x1="13" y1="7" x2="20" y2="10" stroke="#ffffff" strokeOpacity="0.2" strokeWidth="1" />
-      <line x1="13" y1="21" x2="20" y2="18" stroke="#ffffff" strokeOpacity="0.2" strokeWidth="1" />
-      {/* Wordmark */}
-      <text
-        x="28"
-        y="19"
-        fontFamily="Heebo, ui-sans-serif, system-ui, sans-serif"
-        fontSize="17"
-        fontWeight="800"
-        fill="currentColor"
-        letterSpacing="-0.03em"
+      {/* bowl body — a half-ellipse smile */}
+      <path
+        d="M3.5 11.2 A 10.5 11 0 0 0 24.5 11.2 Z"
+        fill={color}
+      />
+      {/* rim opening — thin ellipse above the body */}
+      <ellipse
+        cx="14"
+        cy="11.2"
+        rx="10.5"
+        ry="2.7"
+        stroke={color}
+        strokeWidth="1.8"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
+export function BrandMark({ className }: { className?: string }) {
+  return (
+    <span
+      className={className}
+      style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "#f4f4f2" }}
+    >
+      <BowlIcon size={24} />
+      <span
+        style={{
+          fontFamily: "var(--font-heebo), ui-sans-serif, system-ui, sans-serif",
+          fontWeight: 800,
+          fontSize: "1.0625rem",
+          letterSpacing: "-0.03em",
+          color: "currentColor",
+        }}
       >
         bapita
-      </text>
-    </svg>
+      </span>
+    </span>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Heebo } from "next/font/google";
 import { ScrollProgress } from "@/components/scroll-progress";
+import { LenisProvider } from "@/components/lenis-provider";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -42,8 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={heebo.variable}>
       <body>
-        <ScrollProgress />
-        {children}
+        <LenisProvider>
+          <ScrollProgress />
+          {children}
+        </LenisProvider>
       </body>
     </html>
   );

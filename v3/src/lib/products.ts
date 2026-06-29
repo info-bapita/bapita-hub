@@ -1,5 +1,3 @@
-import type { LucideIcon } from "lucide-react";
-
 export type ProductId = "book" | "social" | "seo" | "outreach" | "bots";
 
 export type ProductStatus = "live" | "beta" | "soon";

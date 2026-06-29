@@ -4,9 +4,11 @@
   /* ── Neutral system (premium dark hub) ── */
   --color-ink: #0b0b0c;        /* hub page background (darkest) */
   --color-ink-800: #141416;    /* raised dark surfaces, nav */
-  --color-ink-700: #1e1e22;    /* hairline base on dark */
+  --color-ink-700: #1e1e22;    /* cards on dark, border base */
+  --color-ink-600: #2a2a30;    /* hairlines on dark */
   --color-surface: #16161a;    /* cards on dark */
   --color-cream: #f4f4f2;      /* primary text / marks on dark */
+  --color-cream-muted: #9a9aa2;/* secondary text on dark */
   --color-paper: #fafaf8;      /* light product-page surface (subdomains) */
 
   /* ── Product color wheel ── */
@@ -36,17 +38,29 @@
   --font-sans: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
 
   /* Radii */
-  --radius-card: 0.875rem;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-card: 0.875rem;      /* legacy alias kept for existing call sites */
   --radius-field: 0.625rem;
   --radius-pill: 9999px;
 
-  /* Shadows (tuned for dark) */
+  /* Shadows (brand system §5, tuned for dark + light) */
+  --shadow-sm: 0 1px 3px rgba(10, 10, 12, 0.18);
+  --shadow-md: 0 6px 18px rgba(10, 10, 12, 0.22);
+  --shadow-lg: 0 14px 40px rgba(10, 10, 12, 0.28);
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-lift: 0 14px 40px rgba(0, 0, 0, 0.45);
 
-  /* Display sizes */
-  --text-display-xl: 3.5rem;
-  --text-display-lg: 2.5rem;
+  /* Spacing */
+  --section-pad: clamp(4rem, 8vw, 8rem);
+  --card-pad: 1.5rem;
+  --grid-gap: 1.5rem;
+  --stack-gap: 1rem;
+
+  /* Display sizes (brand system §3) */
+  --text-display-xl: clamp(2.75rem, 6vw, 4.5rem);
+  --text-display-lg: clamp(1.75rem, 3.5vw, 2.5rem);
 }
 
 @layer base {
@@ -57,7 +71,17 @@
   }
 
   html {
+    /* Lenis drives scroll; native smooth used only as a reduced-motion / no-JS fallback */
     scroll-behavior: smooth;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
   }
 
   body {
@@ -93,8 +117,9 @@
   .product-card:hover {
     transform: translateY(-4px);
     border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45),
-      0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+    box-shadow: var(--shadow-lg),
+      0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent),
+      0 10px 40px -8px color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
   /* ── Social-proof marquee ── */
@@ -110,9 +135,44 @@
       transform: translateX(-50%);
     }
   }
+
+  /* ── Hero ambient glow drift (fallback layer behind/around the canvas) ── */
+  .hero-glow {
+    animation: glow-drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes glow-drift {
+    from {
+      transform: translate3d(-2%, -1%, 0) scale(1);
+      opacity: 0.7;
+    }
+    to {
+      transform: translate3d(2%, 2%, 0) scale(1.08);
+      opacity: 1;
+    }
+  }
+
+  /* ── Static-fallback orb gentle float (reduced-motion turns this off) ── */
+  .orb-float {
+    animation: orb-float 7s ease-in-out infinite alternate;
+  }
+  @keyframes orb-float {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* ── Reduced-motion master off-switch ── */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      animation: none;
+    .marquee-track,
+    .hero-glow,
+    .orb-float {
+      animation: none !important;
+    }
+    html {
+      scroll-behavior: auto;
     }
   }
 }

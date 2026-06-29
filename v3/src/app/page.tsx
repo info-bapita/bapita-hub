@@ -6,6 +6,7 @@ import { HowItWorks } from "@/components/how-it-works";
 import { WhoItsFor } from "@/components/who-its-for";
 import { Pricing } from "@/components/pricing";
 import { FAQ } from "@/components/faq";
+import { CtaBand } from "@/components/cta-band";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
         <WhoItsFor />
         <Pricing />
         <FAQ />
+        <CtaBand />
       </main>
       <Footer />
     </>
