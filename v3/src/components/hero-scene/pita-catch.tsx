@@ -10,7 +10,7 @@ import { ORBS, BOWL_CENTER, BOWL_RADIUS } from "./orbs";
 type OrbState = "drift" | "falling" | "caught";
 
 const BOWL = new THREE.Vector3(...BOWL_CENTER);
-const ORB_R = 0.5;
+const ORB_R = 0.55;
 const MAX_SPEED = 3.0;
 const CATCH_DIST = BOWL_RADIUS + 0.3;
 const IDLE_MS = 3500;
@@ -100,14 +100,14 @@ function Bowl({ pulseRef }: { pulseRef: React.MutableRefObject<number> }) {
         <meshStandardMaterial color="#c8893f" side={THREE.DoubleSide} roughness={0.95} metalness={0} />
       </mesh>
       {/* dark inner pocket (the opening you see into) */}
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -0.12, 0]}>
-        <circleGeometry args={[BOWL_RADIUS * 0.86, 48]} />
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -0.25, 0]}>
+        <circleGeometry args={[BOWL_RADIUS * 0.82, 48]} />
         <meshStandardMaterial color="#6e3f17" roughness={1} metalness={0} />
       </mesh>
       {/* rim */}
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <torusGeometry args={[BOWL_RADIUS, 0.08, 20, 80]} />
-        <meshStandardMaterial color="#b9772f" roughness={0.85} metalness={0} />
+        <torusGeometry args={[BOWL_RADIUS, 0.11, 20, 96]} />
+        <meshStandardMaterial color="#b9772f" roughness={0.8} metalness={0} />
       </mesh>
     </group>
   );
@@ -301,14 +301,16 @@ export default function PitaCatch({ paused = false }: { paused?: boolean }) {
     <Canvas
       dpr={[1, 1.8]}
       frameloop={paused ? "never" : "always"}
-      camera={{ position: [0, 0.6, 10], fov: 42 }}
+      camera={{ position: [0, 1.7, 9.5], fov: 44 }}
+      onCreated={({ camera }) => camera.lookAt(0, -1.5, 0)}
       gl={{ antialias: true, alpha: true }}
       style={{ background: "transparent" }}
     >
-      {/* light, warm studio lighting for clay (no dark fog) */}
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[4, 7, 6]} intensity={2.4} />
-      <directionalLight position={[-6, 2, 4]} intensity={0.7} color="#ffe6c4" />
+      {/* light, warm studio lighting for rounded clay (no dark fog) */}
+      <ambientLight intensity={0.55} />
+      <hemisphereLight args={["#fff3e0", "#c98a55", 0.95]} />
+      <directionalLight position={[5, 8, 6]} intensity={2.0} />
+      <directionalLight position={[-5, 2, 3]} intensity={0.5} color="#ffe6c4" />
       <Physics gravity={[0, 0, 0]} timeStep="vary">
         <Field />
       </Physics>
