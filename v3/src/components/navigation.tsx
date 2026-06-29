@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { Button } from "@/components/ui/button";
@@ -19,9 +20,9 @@ export function Navigation() {
   return (
     <header className="sticky top-0 z-50 border-b border-cream/[0.08] bg-ink/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <a href="/" aria-label="Bapita home" className="text-cream">
+        <Link href="/" aria-label="Bapita home" className="text-cream">
           <BrandMark />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-8 md:flex">
@@ -35,7 +36,7 @@ export function Navigation() {
             </a>
           ))}
           <Button href="#products" size="sm">
-            Get started
+            See the tools
           </Button>
         </nav>
 

@@ -78,7 +78,8 @@ export function Pricing() {
               Pay for what you use. Nothing more.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-cream/55">
-              Every tool is priced per product — no bundles that force you to pay for things you don&apos;t need. Book is live now; the rest open progressively.
+              Pick what you need. Pay for what you use. No lock-in. Each tool is
+              priced per product — Book is live now; the rest open progressively.
             </p>
           </div>
         </Reveal>
