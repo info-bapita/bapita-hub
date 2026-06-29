@@ -67,7 +67,38 @@ function NotifyForm({ productName, productId }: { productName: string; productId
 
 export function Pricing() {
   return (
-    <section id="pricing" className="wash-cream py-24 sm:py-32">
+    <section id="pricing" className="wash-cream relative overflow-hidden py-24 sm:py-32">
+      {/* faint orb motif — book orange top-left, seo blue bottom-right */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-50px",
+          top: "-40px",
+          width: "260px",
+          height: "260px",
+          borderRadius: "9999px",
+          background: "radial-gradient(closest-side, #f0743a, transparent)",
+          opacity: 0.055,
+          filter: "blur(72px)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          right: "-40px",
+          bottom: "80px",
+          width: "220px",
+          height: "220px",
+          borderRadius: "9999px",
+          background: "radial-gradient(closest-side, #4e86ff, transparent)",
+          opacity: 0.05,
+          filter: "blur(68px)",
+          pointerEvents: "none",
+        }}
+      />
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-14 max-w-2xl">

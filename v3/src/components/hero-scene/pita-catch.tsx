@@ -84,25 +84,25 @@ function Orb({
         <sphereGeometry args={[0.45, 16, 16]} />
         <meshBasicMaterial color={color} transparent opacity={0.12} depthWrite={false} />
       </mesh>
-      {hovered && (
-        <Html center distanceFactor={9} position={[0, 0.95, 0]} pointerEvents="none">
-          <span
-            style={{
-              fontFamily: "var(--font-heebo), system-ui, sans-serif",
-              fontSize: "13px",
-              fontWeight: 700,
-              color: "#f4f4f2",
-              background: "rgba(11,11,12,0.7)",
-              padding: "2px 8px",
-              borderRadius: "9999px",
-              whiteSpace: "nowrap",
-              border: `1px solid ${color}`,
-            }}
-          >
-            {label}
-          </span>
-        </Html>
-      )}
+      <Html center distanceFactor={9} position={[0, 0.95, 0]} pointerEvents="none">
+        <span
+          style={{
+            fontFamily: "var(--font-heebo), system-ui, sans-serif",
+            fontSize: "12px",
+            fontWeight: 700,
+            color: "#f4f4f2",
+            background: "rgba(11,11,12,0.72)",
+            padding: "2px 8px",
+            borderRadius: "9999px",
+            whiteSpace: "nowrap",
+            border: `1px solid ${color}66`,
+            opacity: hovered ? 1 : 0.75,
+            transition: "opacity 0.2s ease",
+          }}
+        >
+          {label}
+        </span>
+      </Html>
     </RigidBody>
   );
 }
@@ -117,15 +117,29 @@ function Bowl({ pulseRef }: { pulseRef: React.MutableRefObject<number> }) {
   });
   return (
     <group ref={group} position={BOWL_CENTER}>
-      {/* bowl body — open-top hemisphere */}
+      {/* bowl body — frosted ceramic: clearcoat + matte white */}
       <mesh rotation={[Math.PI, 0, 0]}>
         <sphereGeometry args={[BOWL_RADIUS, 48, 32, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <meshStandardMaterial color="#f4f4f2" side={THREE.DoubleSide} roughness={0.4} metalness={0.05} />
+        <meshPhysicalMaterial
+          color="#f4f4f2"
+          side={THREE.DoubleSide}
+          roughness={0.55}
+          metalness={0}
+          clearcoat={0.65}
+          clearcoatRoughness={0.2}
+          emissive="#f0f4ff"
+          emissiveIntensity={0.03}
+        />
       </mesh>
-      {/* rim */}
+      {/* inner base shadow for depth */}
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -BOWL_RADIUS * 0.88, 0]}>
+        <circleGeometry args={[BOWL_RADIUS * 0.52, 32]} />
+        <meshBasicMaterial color="#040408" transparent opacity={0.22} depthWrite={false} />
+      </mesh>
+      {/* rim highlight — brighter stroke at lip */}
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <torusGeometry args={[BOWL_RADIUS, 0.045, 16, 64]} />
-        <meshStandardMaterial color="#f4f4f2" emissive="#f4f4f2" emissiveIntensity={0.15} />
+        <torusGeometry args={[BOWL_RADIUS, 0.05, 16, 64]} />
+        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.45} />
       </mesh>
     </group>
   );

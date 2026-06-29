@@ -10,12 +10,12 @@ export function Hero() {
         <HeroScene />
       </div>
 
-      {/* legibility veil behind the headline */}
+      {/* legibility veil behind the entire text + button block */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-[18%] z-[1] mx-auto h-[40%] max-w-3xl"
+        className="pointer-events-none absolute inset-x-0 top-[8%] z-[1] mx-auto h-[68%] max-w-4xl"
         style={{
           background:
-            "radial-gradient(ellipse at center, rgba(11,11,12,0.72) 0%, rgba(11,11,12,0.35) 55%, transparent 80%)",
+            "radial-gradient(ellipse at center 40%, rgba(11,11,12,0.85) 0%, rgba(11,11,12,0.50) 45%, rgba(11,11,12,0.18) 68%, transparent 85%)",
         }}
         aria-hidden="true"
       />
