@@ -142,3 +142,50 @@ bots.bapita.com         → Concept
 **Open blocker — Meta token expiry:** connected Meta access tokens are short-lived and expire (~hours). Publishing fails with `Error validating access token: Session has expired`. Need a **long-lived page token** (60d) or a **System User token** (no expiry) from Business Manager, re-stored via `store_account_token`. The connect flow should exchange short→long-lived (`grant_type=fb_exchange_token`) then pull the non-expiring page token from `/me/accounts`.
 
 **Timezone:** ✅ fixed (2026-06-30). Compose now converts the `datetime-local` value to UTC in the browser before saving; previously the UTC Vercel server reinterpreted local wall-clock as UTC, scheduling posts hours late.
+
+**IG publish container wait:** ✅ fixed (2026-06-30). `igPublish` now polls `status_code=FINISHED` before `media_publish`; without it IG threw `Media ID is not available`. Edge function also made per-platform resilient (one channel failing no longer drops the other).
+
+---
+
+## Social — Meta Token Runbook (publishing)
+
+**Verified 2026-06-30:** IG publish works end-to-end (test post `instagram.com/p/18447138145187483`). FB blocked only by a missing permission. Pipeline (compose → cron `*/5` → edge fn → Meta Graph) is healthy.
+
+### TODO to finish publishing
+1. **FB needs `pages_manage_posts`.** The current token was generated without it, so FB photo posts fail with `(#200) ... pages_manage_posts are not available`. Regenerate the token (below) with that scope added.
+2. **Make the token durable.** Current Page token derives from a *short-lived* user token (expires ~1-2h → `Session has expired`). Pick one:
+   - **60-day:** exchange short→long-lived user token, then read the (non-expiring) Page token. Needs the **App Secret** (Meta → App → Settings → Basic).
+   - **Permanent (preferred):** create a **System User** in Meta Business Suite → Business Settings → Users → System Users, assign the Bapita page + IG, generate a token that never expires.
+
+### Required permissions (regenerating a token)
+`pages_show_list`, `pages_read_engagement`, **`pages_manage_posts`**, `business_management`, `instagram_basic`, `instagram_content_publish`.
+
+### Token generation + storage (manual, current process)
+```bash
+# 1. Get a User Token in Graph API Explorer (developers.facebook.com) with the scopes above.
+# 2. (60-day) exchange short -> long-lived user token:
+curl "https://graph.facebook.com/v21.0/oauth/access_token?grant_type=fb_exchange_token&client_id=1032747895966395&client_secret=APP_SECRET&fb_exchange_token=SHORT_USER_TOKEN"
+# 3. Pull the Page token (non-expiring if user token is long-lived) + IG id:
+curl "https://graph.facebook.com/v21.0/me/accounts?fields=name,id,access_token,instagram_business_account&access_token=LONG_LIVED_USER_TOKEN"
+#    -> Bapita page id 1200658073128639, IG business id 17841417534510869
+# 4. Store the Page token into Vault for BOTH connected_accounts rows (IG + FB use the same page token):
+#    via Supabase SQL (Management API or dashboard SQL editor):
+#    select vault.update_secret(token_secret_id, 'PAGE_TOKEN') from connected_accounts where status='connected';
+```
+
+### How to test publishing without waiting for the 5-min cron
+```bash
+SR_JWT=<service_role JWT>   # from cron.job command, or Supabase dashboard -> API
+REF=hgvzskfmxlgjubjhnjlj
+# Make a pending post due now (replace <POST_ID>):
+#   update posts set status='pending', error=null, run_at=now()-interval '1 minute' where id='<POST_ID>';
+# Invoke the edge function directly:
+curl -X POST "https://$REF.supabase.co/functions/v1/publish-due-posts" \
+  -H "Authorization: Bearer $SR_JWT" -H "Content-Type: application/json" -d '{}'
+# Then read result:
+#   select status, error, result_link from posts where id='<POST_ID>';
+# status 'posted' + result_link = success. 'failed' -> error column has the exact Meta message.
+```
+
+### Querying this Supabase project (MCP can't reach it — wrong account)
+Use the Management API with the CLI's PAT (macOS keychain): `security find-generic-password -s "Supabase CLI" -w` → strip `go-keyring-base64:` prefix → base64 -d → Bearer token for `POST https://api.supabase.com/v1/projects/hgvzskfmxlgjubjhnjlj/database/query`.
