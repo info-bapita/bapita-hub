@@ -8,6 +8,7 @@ const ACCENT_MAP: Record<ProductId, string> = {
   seo: "#4e86ff",
   outreach: "#9277ff",
   bots: "#f2628f",
+  ads: "#f5a623",
 };
 
 /**

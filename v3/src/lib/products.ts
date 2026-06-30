@@ -1,4 +1,4 @@
-export type ProductId = "book" | "social" | "seo" | "outreach" | "bots";
+export type ProductId = "book" | "social" | "seo" | "outreach" | "bots" | "ads";
 
 export type ProductStatus = "live" | "beta" | "soon";
 
@@ -113,6 +113,24 @@ export const PRODUCTS: Product[] = [
       "Lead qualification & booking",
     ],
   },
+  {
+    id: "ads",
+    name: "Ads",
+    tagline: "Micro-Budget Campaign Manager",
+    description:
+      "An AI media buyer for micro-budgets ($10–$50 a day). Creative pulls images from your connected Instagram, Smart Targeting configures geo & audience via API, and Auto-Kill Switch pauses underperforming ads to protect your budget.",
+    status: "soon",
+    statusLabel: "Coming soon",
+    href: "https://ads.bapita.com",
+    pricingNote: "Coming soon",
+    pricingCta: "Get notified",
+    features: [
+      "Creative generation from Instagram",
+      "Smart AI targeting",
+      "Auto-kill switch for low performance",
+      "Meta & Google Ads integration",
+    ],
+  },
 ];
 
 export const BUSINESS_TYPES: BusinessType[] = [
@@ -121,7 +139,7 @@ export const BUSINESS_TYPES: BusinessType[] = [
   { id: "agency", label: "Marketing Agency", example: "Creative agency, freelance team", products: ["social", "seo", "outreach", "bots"] },
   { id: "clinic", label: "Clinic / Practice", example: "Physio, dentist, wellness", products: ["book", "bots"] },
   { id: "freelancer", label: "Freelancer / Coach", example: "Personal trainer, consultant", products: ["book", "social"] },
-  { id: "smb", label: "Any SMB", example: "Pick what you need", products: ["book", "social", "seo", "outreach", "bots"] },
+  { id: "smb", label: "Any SMB", example: "Pick what you need", products: ["book", "social", "seo", "outreach", "bots", "ads"] },
 ];
 
 export const SERVED_CATEGORIES = [
