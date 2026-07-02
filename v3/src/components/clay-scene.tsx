@@ -5,13 +5,6 @@ import { useAnimate, useReducedMotion } from "framer-motion";
 import { PRODUCT_ICONS } from "@/lib/icon-map";
 import type { ProductId } from "@/lib/products";
 
-// Decorative clay scene: six product orbs arced around a pita bowl that
-// straddles the hero's bottom edge (the light→dark bridge). Pure DOM/CSS —
-// framer-motion springs drive the drop; idle bob + blob-breathe live in CSS.
-//
-// Orbs drop one-by-one round-robin. Once an orb lands in the pocket it stays
-// hidden (in the pita) until all 6 have landed, then they all reset together.
-
 type Orb = {
   id: ProductId;
   label: string;
@@ -60,14 +53,12 @@ export function ClayScene() {
   const resetAll = useCallback(async () => {
     const root = scope.current as HTMLElement | null;
     if (!root) return;
-    // Fade all hidden orbs back to their lanes
     for (let i = 0; i < ORBS.length; i++) {
-      const ball = root.querySelector<HTMLElement>(`[data-ball="${i}"]`);
+      const group = root.querySelector<HTMLElement>(`[data-orb-group="${i}"]`);
       const shadow = root.querySelector<HTMLElement>(`[data-shadow="${i}"]`);
-      if (!ball) continue;
-      // Snap to lane position, then fade in
-      animate(ball, { x: 0, y: 0, scaleX: 1, scaleY: 1 }, { duration: 0 });
-      animate(ball, { opacity: [0, 1] }, { duration: 0.55, ease: "easeOut" });
+      if (!group) continue;
+      animate(group, { x: 0, y: 0 }, { duration: 0 });
+      animate(group, { opacity: [0, 1] }, { duration: 0.55, ease: "easeOut" });
       if (shadow) animate(shadow, { opacity: 1 }, { duration: 0.4 });
     }
     landedCount.current = 0;
@@ -77,52 +68,51 @@ export function ClayScene() {
     if (busy.current || reduced) return;
     const root = scope.current as HTMLElement | null;
     if (!root) return;
+    const group = root.querySelector<HTMLElement>(`[data-orb-group="${i}"]`);
     const ball = root.querySelector<HTMLElement>(`[data-ball="${i}"]`);
     const shadow = root.querySelector<HTMLElement>(`[data-shadow="${i}"]`);
     const pocket = root.querySelector<HTMLElement>("[data-pocket]");
     const bowl = root.querySelector<HTMLElement>("[data-bowl]");
-    if (!ball || !pocket || !bowl) return;
+    if (!group || !ball || !pocket || !bowl) return;
     busy.current = true;
 
-    const b = ball.getBoundingClientRect();
+    const b = group.getBoundingClientRect();
     const p = pocket.getBoundingClientRect();
     const dx = p.left + p.width / 2 - (b.left + b.width / 2);
     const dy = p.top + p.height * 0.45 - (b.top + b.height / 2);
 
     if (shadow) animate(shadow, { opacity: 0 }, { duration: 0.2 });
 
-    // Bezier-ish arc: x sweeps evenly, y rises then falls into the pocket.
+    // Animate the whole group (ball, shadow, label) along the arc
     await animate(
-      ball,
+      group,
       { x: [0, dx * 0.55, dx], y: [0, Math.min(0, dy * 0.2) - 70, dy] },
       { duration: 0.95, times: [0, 0.42, 1], ease: ["easeOut", "easeIn"] }
     );
 
-    // Land: squash-stretch while the bowl pulses.
+    // Pulse the bowl
     animate(
       bowl,
       { scale: [1, 1.05, 1], filter: ["brightness(1)", "brightness(1.14)", "brightness(1)"] },
       { duration: 0.5, ease: "easeOut" }
     );
+    // Squash‑stretch the ball only
     await animate(ball, { scaleY: 0.55, scaleX: 1.28 }, { duration: 0.12, ease: "easeOut" });
     await animate(ball, { opacity: 0, scaleX: 0.5, scaleY: 0.35 }, { duration: 0.18, ease: "easeIn" });
 
-    // Stay hidden in pita — track how many have landed
     landedCount.current += 1;
 
-    // If all 6 landed, wait a beat then collective reset
     if (landedCount.current >= ORBS.length) {
       await new Promise((r) => setTimeout(r, 1200));
       await resetAll();
     } else {
-      // Snap back to lane but stay invisible until resetAll
-      await animate(ball, { x: 0, y: 0, scaleX: 1, scaleY: 1 }, { duration: 0 });
+      // Snap group back to lane, keep invisible until resetAll
+      await animate(group, { x: 0, y: 0, scaleX: 1, scaleY: 1 }, { duration: 0 });
     }
 
     busy.current = false;
   }
 
-  // Calm auto cadence, round-robin, paused when tab hidden.
   useEffect(() => {
     if (reduced) return;
     const t = setInterval(() => {
@@ -131,10 +121,8 @@ export function ClayScene() {
       nextIdx.current = (nextIdx.current + 1) % ORBS.length;
     }, DROP_INTERVAL_MS);
     return () => clearInterval(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced]);
 
-  // Mouse parallax via CSS vars (orb wrappers read --mx / --my).
   useEffect(() => {
     if (reduced) return;
     const root = scope.current as HTMLElement | null;
@@ -146,7 +134,6 @@ export function ClayScene() {
     }
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced]);
 
   return (
@@ -168,7 +155,11 @@ export function ClayScene() {
               transition: "transform 0.8s ease-out",
             }}
           >
-            <div className={`${orb.floatClass} flex flex-col items-center`}>
+            {/* Group that will be animated during drop */}
+            <div
+              data-orb-group={i}
+              className="flex flex-col items-center"
+            >
               <div
                 data-ball={i}
                 onClick={() => drop(i)}
@@ -178,13 +169,9 @@ export function ClayScene() {
                   height: size,
                   background: `radial-gradient(circle at 30% 26%, ${pal.highlight} 0%, ${pal.base} 42%, ${pal.deep} 100%)`,
                   boxShadow: [
-                    // key light top-left
                     "inset 6px 9px 14px rgba(255, 250, 240, 0.4)",
-                    // core shading
                     "inset -9px -12px 20px rgba(110, 63, 23, 0.28)",
-                    // rim light bottom-right
                     "inset -2px -3px 4px rgba(255, 236, 208, 0.45)",
-                    // cast
                     "0 16px 28px -12px rgba(110, 63, 23, 0.35)",
                   ].join(", "),
                 }}
@@ -212,7 +199,7 @@ export function ClayScene() {
                   background: "radial-gradient(closest-side, rgba(110, 63, 23, 0.32), transparent)",
                 }}
               />
-              {/* caption pill */}
+              {/* caption pill – now moves with the group */}
               <span className="mt-1 rounded-pill bg-clay/80 px-2.5 py-0.5 text-[11px] font-bold text-espresso-muted shadow-sm backdrop-blur-sm max-sm:hidden">
                 {orb.label}
               </span>
@@ -221,7 +208,7 @@ export function ClayScene() {
         );
       })}
 
-      {/* Pita bowl — redesigned to match reference */}
+      {/* Pita bowl – premium 3D version */}
       <div
         data-bowl
         className="pointer-events-none absolute left-1/2 top-full"
@@ -232,54 +219,63 @@ export function ClayScene() {
         }}
       >
         <div className="relative size-full">
-          {/* Rim (lip) at the top */}
+          {/* Rim – wider, with glossy highlight */}
           <div
             className="absolute left-0 right-0 top-0 rounded-full"
             style={{
-              height: "16%",
-              background: "radial-gradient(ellipse at 50% 30%, #d9a55e 0%, #c08438 60%, #b06a2a 100%)",
+              height: "18%",
+              background: "radial-gradient(ellipse at 50% 30%, #e6b87a 0%, #cfa05a 50%, #b8873a 100%)",
               boxShadow: [
-                "inset 0 14px 20px rgba(255, 236, 200, 0.5)",
-                "inset 0 -16px 24px rgba(110, 64, 20, 0.5)",
-                "0 6px 14px rgba(0,0,0,0.15)",
+                "inset 0 14px 24px rgba(255, 236, 200, 0.55)",
+                "inset 0 -12px 20px rgba(110, 64, 20, 0.45)",
+                "0 8px 16px rgba(0,0,0,0.12)",
               ].join(", "),
             }}
           />
-          {/* Body (main bowl) */}
+          {/* Body – deeper gradient, richer shadows */}
           <div
             className="absolute inset-0"
             style={{
-              top: "12%", // start below rim
-              borderRadius: "0 0 380px 380px / 0 0 360px 320px",
-              background: "radial-gradient(circle at 50% 10%, #d9a55e 0%, #b9772f 50%, #7a481c 100%)",
+              top: "10%",
+              borderRadius: "0 0 400px 400px / 0 0 380px 340px",
+              background: "radial-gradient(circle at 50% 8%, #e2bc7a 0%, #c69a52 40%, #9e6f2f 75%, #7a481c 100%)",
               boxShadow: [
-                "inset 20px 26px 40px rgba(255, 236, 200, 0.32)",
-                "inset -22px -30px 48px rgba(90, 52, 18, 0.6)",
-                "0 34px 56px -18px rgba(90, 52, 18, 0.4)",
+                "inset 24px 30px 48px rgba(255, 236, 200, 0.35)",
+                "inset -26px -34px 56px rgba(90, 52, 18, 0.65)",
+                "0 40px 64px -22px rgba(90, 52, 18, 0.45)",
               ].join(", "),
             }}
           />
-          {/* Pocket (indentation where orbs land) */}
+          {/* Specular highlight on the body (3D sheen) */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              top: "10%",
+              borderRadius: "0 0 400px 400px / 0 0 380px 340px",
+              background: "radial-gradient(ellipse at 20% 10%, rgba(255, 240, 200, 0.25) 0%, transparent 60%)",
+            }}
+          />
+          {/* Pocket – deeper and more realistic */}
           <div
             data-pocket
             className="absolute rounded-full"
             style={{
-              top: "5%",
-              left: "7%",
-              right: "7%",
-              height: "18%",
-              background: "radial-gradient(ellipse at center, #5e3614 0%, #7a481c 78%)",
-              boxShadow: "inset 0 14px 28px rgba(0, 0, 0, 0.5)",
+              top: "4%",
+              left: "6%",
+              right: "6%",
+              height: "20%",
+              background: "radial-gradient(ellipse at center, #4a2a12 0%, #6e3d1a 70%, #8a5128 100%)",
+              boxShadow: "inset 0 16px 32px rgba(0, 0, 0, 0.6), inset 0 -4px 8px rgba(180, 120, 70, 0.15)",
             }}
           />
-          {/* Grain texture overlay on the whole bowl */}
+          {/* Grain overlay on the whole bowl */}
           <div
             className="pointer-events-none absolute inset-0"
             style={{
               backgroundImage: GRAIN,
-              opacity: 0.14,
+              opacity: 0.16,
               mixBlendMode: "overlay",
-              borderRadius: "0 0 380px 380px / 0 0 360px 320px",
+              borderRadius: "0 0 400px 400px / 0 0 380px 340px",
             }}
           />
         </div>
