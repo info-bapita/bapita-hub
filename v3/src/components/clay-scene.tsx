@@ -64,13 +64,11 @@ export function ClayScene() {
     for (let i = 0; i < ORBS.length; i++) {
       const ball = root.querySelector<HTMLElement>(`[data-ball="${i}"]`);
       const shadow = root.querySelector<HTMLElement>(`[data-shadow="${i}"]`);
-      const caption = root.querySelector<HTMLElement>(`[data-caption="${i}"]`);
       if (!ball) continue;
       // Snap to lane position, then fade in
       animate(ball, { x: 0, y: 0, scaleX: 1, scaleY: 1 }, { duration: 0 });
       animate(ball, { opacity: [0, 1] }, { duration: 0.55, ease: "easeOut" });
       if (shadow) animate(shadow, { opacity: 1 }, { duration: 0.4 });
-      if (caption) animate(caption, { opacity: [0, 1] }, { duration: 0.45, ease: "easeOut" });
     }
     landedCount.current = 0;
   }, [animate, scope]);
@@ -81,7 +79,6 @@ export function ClayScene() {
     if (!root) return;
     const ball = root.querySelector<HTMLElement>(`[data-ball="${i}"]`);
     const shadow = root.querySelector<HTMLElement>(`[data-shadow="${i}"]`);
-    const caption = root.querySelector<HTMLElement>(`[data-caption="${i}"]`);
     const pocket = root.querySelector<HTMLElement>("[data-pocket]");
     const bowl = root.querySelector<HTMLElement>("[data-bowl]");
     if (!ball || !pocket || !bowl) return;
@@ -93,7 +90,6 @@ export function ClayScene() {
     const dy = p.top + p.height * 0.45 - (b.top + b.height / 2);
 
     if (shadow) animate(shadow, { opacity: 0 }, { duration: 0.2 });
-    if (caption) animate(caption, { opacity: 0 }, { duration: 0.2 });
 
     // Bezier-ish arc: x sweeps evenly, y rises then falls into the pocket.
     await animate(
@@ -217,10 +213,7 @@ export function ClayScene() {
                 }}
               />
               {/* caption pill */}
-              <span
-                data-caption={i}
-                className="mt-1 rounded-pill bg-clay/80 px-2.5 py-0.5 text-[11px] font-bold text-espresso-muted shadow-sm backdrop-blur-sm max-sm:hidden"
-              >
+              <span className="mt-1 rounded-pill bg-clay/80 px-2.5 py-0.5 text-[11px] font-bold text-espresso-muted shadow-sm backdrop-blur-sm max-sm:hidden">
                 {orb.label}
               </span>
             </div>
@@ -228,45 +221,66 @@ export function ClayScene() {
         );
       })}
 
-      {/* Pita bowl — straddles the hero's bottom edge, half in hero / half in dark section */}
+      {/* Pita bowl — redesigned to match reference */}
       <div
         data-bowl
-        className="pointer-events-none absolute left-1/2 top-full w-[min(820px,92vw)]"
-        style={{ translate: "-50% -52%" }}
+        className="pointer-events-none absolute left-1/2 top-full"
+        style={{
+          width: "min(760px, 92vw)",
+          translate: "-50% -52%",
+          aspectRatio: "760 / 560",
+        }}
       >
-        <div className="relative" style={{ aspectRatio: "820 / 460" }}>
-          {/* body — more bulbous, like reference bowl */}
+        <div className="relative size-full">
+          {/* Rim (lip) at the top */}
           <div
-            className="absolute inset-0 rounded-[50%]"
+            className="absolute left-0 right-0 top-0 rounded-full"
             style={{
-              background:
-                "radial-gradient(120% 130% at 32% 16%, color-mix(in srgb, var(--color-bowl-tan) 62%, var(--color-clay-warm)) 0%, var(--color-bowl-tan) 46%, color-mix(in srgb, var(--color-bowl-tan) 52%, var(--color-bowl-dark)) 90%)",
+              height: "16%",
+              background: "radial-gradient(ellipse at 50% 30%, #d9a55e 0%, #c08438 60%, #b06a2a 100%)",
               boxShadow: [
-                "0 26px 60px -18px rgba(110, 63, 23, 0.5)",
-                "inset -12px -16px 32px rgba(110, 63, 23, 0.38)",
-                "inset 10px 12px 24px rgba(255, 242, 222, 0.38)",
+                "inset 0 14px 20px rgba(255, 236, 200, 0.5)",
+                "inset 0 -16px 24px rgba(110, 64, 20, 0.5)",
+                "0 6px 14px rgba(0,0,0,0.15)",
               ].join(", "),
             }}
           />
-          {/* pocket — bigger, deeper for orbs to land in */}
+          {/* Body (main bowl) */}
           <div
-            data-pocket
-            className="absolute rounded-[50%]"
+            className="absolute inset-0"
             style={{
-              left: "16%",
-              right: "16%",
-              top: "10%",
-              height: "54%",
-              background:
-                "radial-gradient(100% 130% at 50% 32%, color-mix(in srgb, var(--color-bowl-dark) 78%, black) 0%, var(--color-bowl-dark) 58%, color-mix(in srgb, var(--color-bowl-dark) 62%, var(--color-bowl-tan)) 100%)",
-              boxShadow:
-                "inset 0 12px 24px rgba(0, 0, 0, 0.45), inset 0 -4px 10px rgba(255, 214, 170, 0.18)",
+              top: "12%", // start below rim
+              borderRadius: "0 0 380px 380px / 0 0 360px 320px",
+              background: "radial-gradient(circle at 50% 10%, #d9a55e 0%, #b9772f 50%, #7a481c 100%)",
+              boxShadow: [
+                "inset 20px 26px 40px rgba(255, 236, 200, 0.32)",
+                "inset -22px -30px 48px rgba(90, 52, 18, 0.6)",
+                "0 34px 56px -18px rgba(90, 52, 18, 0.4)",
+              ].join(", "),
             }}
           />
-          {/* grain */}
+          {/* Pocket (indentation where orbs land) */}
           <div
-            className="absolute inset-0 rounded-[50%]"
-            style={{ backgroundImage: GRAIN, opacity: 0.14, mixBlendMode: "overlay" }}
+            data-pocket
+            className="absolute rounded-full"
+            style={{
+              top: "5%",
+              left: "7%",
+              right: "7%",
+              height: "18%",
+              background: "radial-gradient(ellipse at center, #5e3614 0%, #7a481c 78%)",
+              boxShadow: "inset 0 14px 28px rgba(0, 0, 0, 0.5)",
+            }}
+          />
+          {/* Grain texture overlay on the whole bowl */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: GRAIN,
+              opacity: 0.14,
+              mixBlendMode: "overlay",
+              borderRadius: "0 0 380px 380px / 0 0 360px 320px",
+            }}
           />
         </div>
       </div>
