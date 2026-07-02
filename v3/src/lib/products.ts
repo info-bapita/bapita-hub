@@ -116,7 +116,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "ads",
     name: "Ads",
-    tagline: "Micro-Budget Campaign Manager",
+    tagline: "Ads that run themselves — on micro budgets.",
     description:
       "An AI media buyer for micro-budgets ($10–$50 a day). Creative pulls images from your connected Instagram, Smart Targeting configures geo & audience via API, and Auto-Kill Switch pauses underperforming ads to protect your budget.",
     status: "soon",

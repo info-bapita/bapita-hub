@@ -23,8 +23,8 @@ const FAQS = [
     a: "Yes. Each product is priced and managed independently. Start with Book if that's your biggest pain point. Add Social when you're ready. There's no forced bundle.",
   },
   {
-    q: "When will the other tools (Social, SEO, Outreach, Bots) launch?",
-    a: "Book is live today. Social is in active development and launches next. SEO, Outreach, and Bots are on the roadmap after that. The best way to get early access — and a founding-customer price — is to join the notify list for each product on this page.",
+    q: "When will the other tools (Social, SEO, Outreach, Bots, Ads) launch?",
+    a: "Book is live today. Social is in active development and launches next. SEO, Outreach, Bots, and Ads are on the roadmap after that. The best way to get early access — and a founding-customer price — is to join the notify list for each product on this page.",
   },
   {
     q: "Is my data safe? What happens to my client information?",
@@ -36,7 +36,7 @@ const FAQS = [
   },
 ];
 
-function FAQItem({ q, a, defaultOpen = false }: { q: string; a: string; defaultOpen?: boolean }) {
+function FAQItem({ q, a, id, defaultOpen = false }: { q: string; a: string; id: string; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
@@ -45,6 +45,7 @@ function FAQItem({ q, a, defaultOpen = false }: { q: string; a: string; defaultO
         className="flex w-full items-start justify-between gap-4 py-5 text-left"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
+        aria-controls={id}
       >
         <span className="font-semibold text-[0.9375rem] leading-snug text-cream">{q}</span>
         <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cream/[0.08]">
@@ -55,13 +56,17 @@ function FAQItem({ q, a, defaultOpen = false }: { q: string; a: string; defaultO
           )}
         </span>
       </button>
+      {/* grid-rows collapse: animates to any content height, never clips */}
       <div
+        id={id}
         className={cn(
-          "overflow-hidden transition-all duration-300",
-          open ? "max-h-96 pb-5" : "max-h-0"
+          "grid transition-[grid-template-rows] duration-300",
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         )}
       >
-        <p className="text-[0.9rem] leading-relaxed text-cream/60">{a}</p>
+        <div className="overflow-hidden">
+          <p className="pb-5 text-[0.9rem] leading-relaxed text-cream/65">{a}</p>
+        </div>
       </div>
     </div>
   );
@@ -73,7 +78,7 @@ export function FAQ() {
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cream/40">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cream/50">
               FAQ
             </p>
             <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-cream">
@@ -85,13 +90,13 @@ export function FAQ() {
         <Reveal delay={60}>
           <div>
             {FAQS.map((faq, i) => (
-              <FAQItem key={i} q={faq.q} a={faq.a} defaultOpen={i === 0} />
+              <FAQItem key={i} id={`faq-panel-${i}`} q={faq.q} a={faq.a} defaultOpen={i === 0} />
             ))}
           </div>
         </Reveal>
 
         <Reveal delay={120}>
-          <p className="mt-10 text-center text-sm text-cream/45">
+          <p className="mt-10 text-center text-sm text-cream/55">
             Something else on your mind?{" "}
             <a
               href="mailto:hello@bapita.com"

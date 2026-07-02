@@ -29,7 +29,7 @@ export function HowItWorks() {
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-16 max-w-xl">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cream/40">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cream/50">
               How it works
             </p>
             <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-cream">
@@ -61,7 +61,7 @@ export function HowItWorks() {
                     </span>
                     <div className="pt-1">
                       <div className="flex items-baseline gap-3">
-                        <span className="font-mono text-sm font-bold tracking-tight text-cream/30">
+                        <span className="font-mono text-sm font-bold tracking-tight text-cream/50">
                           {step.n}
                         </span>
                         <h3 className="text-[1.15rem] font-bold tracking-tight text-cream">

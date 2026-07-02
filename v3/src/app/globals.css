@@ -18,6 +18,7 @@
   --color-seo: #2d6cf0;        /* azure */
   --color-outreach: #7c5cfc;   /* violet */
   --color-bots: #e0457b;       /* magenta */
+  --color-ads: #d4881c;        /* amber */
 
   /* glow variants — the product color tuned to read on #0b0b0c */
   --color-book-glow: #f0743a;
@@ -76,6 +77,22 @@
 }
 
 @layer base {
+  /* Tokens referenced only from inline styles (accentStyleLight, clay-scene).
+     Tailwind emits @theme vars only when a utility uses them, so pin these. */
+  :root {
+    --color-book: #d4622a;
+    --color-social: #1fa971;
+    --color-seo: #2d6cf0;
+    --color-outreach: #7c5cfc;
+    --color-bots: #e0457b;
+    --color-ads: #d4881c;
+    --color-clay: #FBF7EF;
+    --color-clay-warm: #F7E8D6;
+    --color-clay-toast: #F3D8BC;
+    --color-bowl-tan: #c8893f;
+    --color-bowl-dark: #6e3f17;
+  }
+
   *,
   *::before,
   *::after {
@@ -176,8 +193,20 @@
   @keyframes orb-float-2 { from { transform: translate(0, 0); } to { transform: translate(6px, -14px); } }
   @keyframes orb-float-3 { from { transform: translate(0, 0); } to { transform: translate(-5px,-10px); } }
   @keyframes orb-float-4 { from { transform: translate(0, 0); } to { transform: translate(1px, -11px); } }
+  .orb-float-5 { animation: orb-float-5 4.7s ease-in-out infinite alternate; }
+  @keyframes orb-float-5 { from { transform: translate(0, 0); } to { transform: translate(-3px, -13px); } }
   /* legacy alias kept for hero-glow */
   .orb-float { animation: orb-float-0 3.8s ease-in-out infinite alternate; }
+
+  /* ── Clay orb "breathing blob" — slow border-radius morph ── */
+  .orb-ball {
+    border-radius: 46% 54% 55% 45% / 48% 44% 56% 52%;
+    animation: blob-breathe 9s ease-in-out infinite alternate;
+  }
+  @keyframes blob-breathe {
+    from { border-radius: 46% 54% 55% 45% / 48% 44% 56% 52%; }
+    to   { border-radius: 56% 44% 46% 54% / 52% 57% 43% 48%; }
+  }
 
   /* ── Reduced-motion master off-switch ── */
   @media (prefers-reduced-motion: reduce) {
@@ -188,7 +217,9 @@
     .orb-float-1,
     .orb-float-2,
     .orb-float-3,
-    .orb-float-4 {
+    .orb-float-4,
+    .orb-float-5,
+    .orb-ball {
       animation: none !important;
     }
     html {

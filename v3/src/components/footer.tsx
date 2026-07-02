@@ -3,9 +3,10 @@ import { PRODUCTS } from "@/lib/products";
 import { accentStyle } from "@/lib/accent";
 
 const FOOTER_LINKS = [
-  { label: "Pricing", href: "#pricing" },
+  { label: "What we offer", href: "#products" },
   { label: "How it works", href: "#how-it-works" },
   { label: "FAQ", href: "#faq" },
+  { label: "Book a free call", href: "#connect" },
   { label: "Contact", href: "mailto:hello@bapita.com" },
 ];
 
@@ -19,7 +20,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <BrandMark className="text-cream opacity-90" />
-            <p className="mt-4 max-w-[280px] text-[0.875rem] leading-relaxed text-cream/45">
+            <p className="mt-4 max-w-[280px] text-[0.875rem] leading-relaxed text-cream/55">
               A suite of digital tools for businesses that want to run better online — without hiring an agency.
             </p>
             <a
@@ -32,14 +33,14 @@ export function Footer() {
 
           {/* Products */}
           <div>
-            <p className="mb-4 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-cream/30">
+            <p className="mb-4 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-cream/50">
               Products
             </p>
             <ul className="flex flex-col gap-2.5">
               {PRODUCTS.map((product) => (
                 <li key={product.id}>
                   <a
-                    href={`#${product.id}`}
+                    href="#products"
                     style={accentStyle(product.id)}
                     className="accent-text flex items-center gap-2 text-[0.875rem] font-medium opacity-70 transition-opacity hover:opacity-100"
                   >
@@ -56,7 +57,7 @@ export function Footer() {
 
           {/* Links */}
           <div>
-            <p className="mb-4 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-cream/30">
+            <p className="mb-4 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-cream/50">
               Company
             </p>
             <ul className="flex flex-col gap-2.5">
@@ -76,14 +77,14 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-cream/[0.08] pt-8">
-          <p className="text-xs text-cream/30">
+          <p className="text-xs text-cream/50">
             © {year} Bapita. All rights reserved.
           </p>
           <div className="flex gap-5">
-            <a href="#" className="text-xs text-cream/30 hover:text-cream/55 transition-colors">
+            <a href="/privacy" className="text-xs text-cream/50 hover:text-cream/80 transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="text-xs text-cream/30 hover:text-cream/55 transition-colors">
+            <a href="/terms" className="text-xs text-cream/50 hover:text-cream/80 transition-colors">
               Terms of Service
             </a>
           </div>

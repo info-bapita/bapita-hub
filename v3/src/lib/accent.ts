@@ -23,3 +23,11 @@ export function accentStyle(id: ProductId): React.CSSProperties {
 export function accentHex(id: ProductId): string {
   return ACCENT_MAP[id];
 }
+
+/**
+ * Light-surface variant — sets --accent to the product's base token
+ * (deeper hue that reads on paper/clay backgrounds).
+ */
+export function accentStyleLight(id: ProductId): React.CSSProperties {
+  return { "--accent": `var(--color-${id})` } as React.CSSProperties;
+}

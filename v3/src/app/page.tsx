@@ -1,12 +1,11 @@
 import { Navigation } from "@/components/navigation";
 import { Hero } from "@/components/hero";
-import { SocialProof } from "@/components/social-proof";
-import { ProductsGrid } from "@/components/products-grid";
+import { ProofBand } from "@/components/proof-band";
+import { WhatWeOffer } from "@/components/what-we-offer";
 import { HowItWorks } from "@/components/how-it-works";
 import { WhoItsFor } from "@/components/who-its-for";
-import { Pricing } from "@/components/pricing";
 import { FAQ } from "@/components/faq";
-import { CtaBand } from "@/components/cta-band";
+import { Connect } from "@/components/connect";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -15,13 +14,12 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
-        <SocialProof />
-        <ProductsGrid />
+        <ProofBand />
+        <WhatWeOffer />
         <HowItWorks />
         <WhoItsFor />
-        <Pricing />
         <FAQ />
-        <CtaBand />
+        <Connect />
       </main>
       <Footer />
     </>

@@ -8,9 +8,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 
 const NAV_LINKS = [
-  { label: "Products", href: "#products" },
+  { label: "What we offer", href: "#products" },
   { label: "How it works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -35,8 +34,8 @@ export function Navigation() {
               {link.label}
             </a>
           ))}
-          <Button href="#products" size="sm">
-            See the tools
+          <Button href="#connect" size="sm">
+            Book a free call
           </Button>
         </nav>
 
@@ -45,6 +44,7 @@ export function Navigation() {
           className="flex md:hidden"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
+          aria-expanded={open}
         >
           {open ? <X className="h-5 w-5 text-cream" /> : <Menu className="h-5 w-5 text-cream" />}
         </button>
@@ -68,8 +68,8 @@ export function Navigation() {
               {link.label}
             </a>
           ))}
-          <Button href="#products" size="sm" className="mt-2">
-            Get started
+          <Button href="#connect" size="sm" className="mt-2">
+            Book a free call
           </Button>
         </nav>
       </div>
