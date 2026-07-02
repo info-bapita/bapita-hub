@@ -14,7 +14,7 @@ export function WhoItsFor() {
   const activeProducts = active.products.map((pid) => PRODUCTS.find((p) => p.id === pid)!);
 
   return (
-    <section id="who-its-for" className="bg-paper py-24 sm:py-32">
+      <section id="who-its-for" className="bg-ink py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-12 max-w-xl">
