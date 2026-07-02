@@ -25,17 +25,23 @@ const STEPS: { n: string; icon: LucideIcon; title: string; body: string }[] = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-ink py-24 sm:py-32">
+      <section
+  id="how-it-works"
+  className="relative z-20 flex min-h-screen flex-col items-center justify-center gap-8 overflow-visible"
+  style={{
+    background: "linear-gradient(168deg, var(--color-clay) 0%, var(--color-clay-warm) 55%, var(--color-clay-toast) 100%)",
+  }}
+>
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
-          <div className="mb-16 max-w-xl">
+          <div className="mb-16 max-w-xl text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cream/50">
               How it works
             </p>
-            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-cream">
+                <h2 className="text-5xl font-extrabold leading-[1.08] tracking-tight text-cream">
               From &ldquo;I need this&rdquo; to live in 48 hours.
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-cream/55">
+                <p className="mt-4 text-xl leading-relaxed text-cream/55">
               Zero technical setup. Total daily simplicity. We do the building; you
               keep easy, full control.
             </p>
@@ -82,3 +88,4 @@ export function HowItWorks() {
     </section>
   );
 }
+
