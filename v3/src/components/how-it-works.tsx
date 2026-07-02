@@ -209,22 +209,18 @@ export function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="relative z-20 flex min-h-screen flex-col items-center justify-center gap-8 overflow-visible py-24"
-      style={{
-        background:
-          "linear-gradient(168deg, var(--color-clay) 0%, var(--color-clay-warm) 55%, var(--color-clay-toast) 100%)",
-      }}
+      className="relative z-20 flex min-h-screen flex-col items-center justify-center gap-8 overflow-visible bg-ink py-24"
     >
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
-          <div className="mx-auto mb-16 max-w-xl text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-espresso/70">
+          <div className="mb-12 max-w-xl">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cinnamon">
               How it works
             </p>
-            <h2 className="text-5xl font-extrabold leading-[1.08] tracking-tight text-espresso">
+            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-espresso">
               From &ldquo;I need this&rdquo; to live in 48 hours.
             </h2>
-            <p className="mt-4 text-xl leading-relaxed text-espresso/70">
+            <p className="mt-4 text-lg leading-relaxed text-espresso-muted/80">
               Pick your tools. We brand and build them for you. Then run
               everything — and add more — from one dashboard.
             </p>
@@ -261,14 +257,14 @@ export function HowItWorks() {
                         setActive(i);
                       }
                     }}
-                    className={`relative -mx-4 flex cursor-pointer items-start gap-6 rounded-2xl px-4 py-2 outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-clay-toast/50 focus-visible:ring-offset-2 focus-visible:ring-offset-clay-warm ${
+                    className={`relative -mx-4 flex cursor-pointer items-start gap-6 rounded-2xl px-4 py-2 outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-clay-toast/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink ${
                       isActive ? "bg-cream/5" : "hover:bg-cream/5"
                     }`}
                   >
                     <span
                       className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border bg-ink-600 shadow-md transition-all duration-300 ${
                         isActive
-                          ? "border-clay-toast/60 ring-2 ring-clay-toast/40 ring-offset-2 ring-offset-clay-warm"
+                          ? "border-clay-toast/60 ring-2 ring-clay-toast/40 ring-offset-2 ring-offset-ink"
                           : "border-cream/15"
                       }`}
                     >
