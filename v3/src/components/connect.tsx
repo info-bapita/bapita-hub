@@ -9,7 +9,7 @@ import { BowlIcon } from "@/components/ui/brand-mark";
 const CALENDLY_URL = "https://calendly.com/info-bapita/30min";
 
 const fieldClass =
-  "w-full rounded-field border border-cream/15 bg-cream/[0.04] px-3.5 py-2.5 text-sm text-cream placeholder:text-cream/35 focus:border-cream/35 focus:outline-none";
+  "w-full rounded-field border border-espresso/15 bg-ink-800/30 px-3.5 py-2.5 text-sm text-espresso placeholder:text-espresso/35 focus:border-espresso/35 focus:outline-none";
 
 function LeadForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -62,7 +62,7 @@ function LeadForm() {
         <input name="phone" type="tel" placeholder="Phone" aria-label="Phone number" autoComplete="tel" className={fieldClass} />
         <input name="email" type="email" placeholder="Email" required aria-label="Email address" autoComplete="email" className={fieldClass} />
       </div>
-      <Button type="submit" disabled={pending} className="w-full">
+      <Button type="submit" disabled={pending} className="w-full !bg-espresso !text-cream">
         {pending ? "Sending…" : "Send my details"}
         <Send className="h-4 w-4" />
       </Button>
@@ -73,7 +73,13 @@ function LeadForm() {
 
 export function Connect() {
   return (
-    <section id="connect" className="relative overflow-hidden bg-ink py-24 sm:py-32">
+    <section
+  id="connect"
+  className="relative overflow-hidden"
+  style={{
+    background: "linear-gradient(168deg, var(--color-clay) 0%, var(--color-clay-warm) 55%, var(--color-clay-toast) 100%)",
+  }}
+>
       {/* faint bowl motif */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 -z-0 -translate-x-1/2 -translate-y-1/2 opacity-[0.04]"
@@ -85,10 +91,10 @@ export function Connect() {
       <div className="relative mx-auto max-w-4xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-12 text-center">
-            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-cream">
+            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-espresso">
               How would you like to connect?
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-lg leading-relaxed text-cream/60">
+            <p className="mx-auto mt-4 max-w-md text-lg leading-relaxed text-espresso/70">
               Pick whichever works for you.
             </p>
           </div>
@@ -96,20 +102,20 @@ export function Connect() {
 
         <div className="grid gap-5 sm:grid-cols-2">
           <Reveal>
-            <a
+<a
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex h-full flex-col rounded-card border border-cream/[0.08] bg-surface p-7 shadow-soft transition-colors hover:border-cream/20"
+              className="group flex h-full flex-col rounded-card border border-cream/[0.08] bg-ink-800 p-7 shadow-soft transition-colors hover:border-cream/20"
             >
-              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-[11px] bg-cream/[0.06] text-cream">
+              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-[11px] bg-ink-800/30 text-espresso">
                 <Calendar className="h-5 w-5" />
               </span>
-              <h3 className="text-xl font-bold text-cream">Book a call</h3>
-              <p className="mt-2 text-sm leading-relaxed text-cream/60">
-                Pick a time, we&apos;ll talk — 30 min.
+              <h3 className="text-xl font-bold text-espresso">Book a call</h3>
+              <p className="mt-2 text-sm leading-relaxed text-espresso/70">
+                Pick a time, we'll talk — 30 min.
               </p>
-              <span className="mt-auto flex items-center gap-1.5 pt-6 text-sm font-semibold text-cream group-hover:underline group-hover:underline-offset-4">
+              <span className="mt-auto flex items-center gap-1.5 pt-6 text-sm font-semibold text-espresso group-hover:underline group-hover:underline-offset-4">
                 Open calendar
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </span>
@@ -117,13 +123,13 @@ export function Connect() {
           </Reveal>
 
           <Reveal delay={80}>
-            <div className="flex h-full flex-col rounded-card border border-cream/[0.08] bg-surface p-7 shadow-soft">
-              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-[11px] bg-cream/[0.06] text-cream">
+<div className="flex h-full flex-col rounded-card border border-cream/[0.08] bg-ink-800 p-7 shadow-soft">
+              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-[11px] bg-ink-800/30 text-espresso">
                 <Send className="h-5 w-5" />
               </span>
-              <h3 className="text-xl font-bold text-cream">Send your details</h3>
-              <p className="mt-2 text-sm leading-relaxed text-cream/60">
-                We&apos;ll reach out to you.
+              <h3 className="text-xl font-bold text-espresso">Send your details</h3>
+              <p className="mt-2 text-sm leading-relaxed text-espresso/70">
+                We'll reach out to you.
               </p>
               <div className="pt-6">
                 <LeadForm />
@@ -133,11 +139,11 @@ export function Connect() {
         </div>
 
         <Reveal>
-          <p className="mt-10 text-center text-sm text-cream/50">
+          <p className="mt-10 text-center text-sm text-espresso/50">
             Prefer email?{" "}
             <a
               href="mailto:hello@bapita.com"
-              className="underline underline-offset-2 hover:text-cream/80"
+              className="underline underline-offset-2 hover:text-espresso/80"
             >
               hello@bapita.com
             </a>
