@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- White background for Wix upload -->
+  <rect width="200" height="200" fill="#FAF5EC" rx="16"/>
+  <!-- Pita icon centered -->
+  <g transform="translate(45, 30) scale(1.0)">
+    <path d="M8 16 Q8 86 55 86 Q102 86 102 16 Z" fill="#E8920A"/>
+    <rect x="8" y="6" width="94" height="14" rx="7" fill="#B86800"/>
+    <path d="M18 34 Q55 52 92 34" stroke="white" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+    <path d="M24 56 Q55 72 86 56" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.55"/>
+  </g>
+  <!-- "bapita" text as SVG paths (Heebo 900 approximation) -->
+  <!-- Using text element with fallback - Wix renders SVG fonts via system -->
+  <text x="100" y="155"
+    font-family="'Heebo', 'Arial Black', 'Arial Bold', sans-serif"
+    font-weight="900"
+    font-size="32"
+    fill="#1E1A14"
+    text-anchor="middle"
+    letter-spacing="-1">bapita</text>
+</svg>

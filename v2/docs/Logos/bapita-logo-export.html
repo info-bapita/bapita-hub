@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #888; display: flex; gap: 20px; padding: 40px; flex-wrap: wrap; }
+
+    .card {
+      width: 300px;
+      height: 300px;
+      background: #FAF5EC;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .card.dark { background: #1E1A14; }
+    .card.white { background: #FFFFFF; border: 1px solid #E0D8CC; }
+
+    .logo-h {
+      display: inline-flex;
+      align-items: center;
+    }
+    .logo-h svg { flex-shrink: 0; transform: translateY(-0.09em); height: 42px; width: auto; }
+    .logo-h .wm {
+      font-family: 'Heebo', sans-serif;
+      font-weight: 900;
+      font-size: 48px;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-left: 0.18em;
+      color: #1E1A14;
+    }
+    .logo-h.inv .wm { color: #FFFFFF; }
+
+    .label {
+      font-family: 'Heebo', sans-serif;
+      font-size: 11px;
+      color: #B0A090;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* SCREENSHOT TARGET — 400x200 cream, horizontal logo */
+    .export-target {
+      width: 400px;
+      height: 200px;
+      background: #FAF5EC;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px dashed #E8920A;
+      position: relative;
+    }
+    .export-target::before {
+      content: "SCREENSHOT THIS";
+      position: absolute;
+      top: -24px;
+      left: 0;
+      font-family: monospace;
+      font-size: 11px;
+      color: #E8920A;
+      font-weight: bold;
+    }
+
+    /* Square icon card — 300x300 for Wix partner slot */
+    .export-square {
+      width: 300px;
+      height: 300px;
+      background: #FAF5EC;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      border: 3px dashed #E8920A;
+      position: relative;
+    }
+    .export-square::before {
+      content: "SCREENSHOT THIS (square)";
+      position: absolute;
+      top: -24px;
+      left: 0;
+      font-family: monospace;
+      font-size: 11px;
+      color: #E8920A;
+      font-weight: bold;
+    }
+    .export-square .wm {
+      font-family: 'Heebo', sans-serif;
+      font-weight: 900;
+      font-size: 38px;
+      letter-spacing: -0.03em;
+      color: #1E1A14;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- OPTION A: Horizontal logo — screenshot this for wide slot -->
+  <div class="export-target">
+    <div class="logo-h">
+      <svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 16 Q8 86 55 86 Q102 86 102 16 Z" fill="#E8920A"/>
+        <rect x="8" y="6" width="94" height="14" rx="7" fill="#B86800"/>
+        <path d="M18 34 Q55 52 92 34" stroke="white" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        <path d="M24 56 Q55 72 86 56" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.55"/>
+      </svg>
+      <span class="wm">bapita</span>
+    </div>
+  </div>
+
+  <!-- OPTION B: Square card — screenshot this for partner image slot -->
+  <div class="export-square">
+    <svg viewBox="0 0 110 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 80px; width: auto;">
+      <path d="M8 16 Q8 86 55 86 Q102 86 102 16 Z" fill="#E8920A"/>
+      <rect x="8" y="6" width="94" height="14" rx="7" fill="#B86800"/>
+      <path d="M18 34 Q55 52 92 34" stroke="white" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+      <path d="M24 56 Q55 72 86 56" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.55"/>
+    </svg>
+    <span class="wm">bapita</span>
+  </div>
+
+</body>
+</html>

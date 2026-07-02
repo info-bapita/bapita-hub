@@ -15,27 +15,31 @@ type Orb = {
   size: number;
   left: string;
   top: string;
-  depth: number; // mouse-parallax travel in px
   floatClass: string;
+  laneX: [number, number];
+  laneY: [number, number];
 };
 
+const ORB_SIZE = 88;
 const ORBS: Orb[] = [
-  { id: "book", label: "Book", size: 96, left: "13%", top: "26%", depth: 10, floatClass: "orb-float-0" },
-  { id: "social", label: "Social", size: 88, left: "87%", top: "26%", depth: 12, floatClass: "orb-float-1" },
-  { id: "seo", label: "SEO", size: 74, left: "6.5%", top: "54%", depth: 16, floatClass: "orb-float-2" },
-  { id: "outreach", label: "Outreach", size: 74, left: "93.5%", top: "54%", depth: 14, floatClass: "orb-float-3" },
-  { id: "bots", label: "Bots", size: 66, left: "21%", top: "76%", depth: 18, floatClass: "orb-float-4" },
-  { id: "ads", label: "Ads", size: 66, left: "79%", top: "76%", depth: 18, floatClass: "orb-float-5" },
+  { id: "book", label: "Book", size: ORB_SIZE, left: "13%", top: "40%", floatClass: "orb-float-0", laneX: [0.05, 0.21], laneY: [0.36, 0.50] },
+  { id: "social", label: "Social", size: ORB_SIZE, left: "87%", top: "40%", floatClass: "orb-float-1", laneX: [0.79, 0.95], laneY: [0.36, 0.50] },
+  { id: "seo", label: "SEO", size: ORB_SIZE, left: "16%", top: "56%", floatClass: "orb-float-2", laneX: [0.08, 0.24], laneY: [0.51, 0.64] },
+  { id: "outreach", label: "Outreach", size: ORB_SIZE, left: "84%", top: "56%", floatClass: "orb-float-3", laneX: [0.76, 0.92], laneY: [0.51, 0.64] },
+  { id: "bots", label: "Bots", size: ORB_SIZE, left: "14%", top: "72%", floatClass: "orb-float-4", laneX: [0.06, 0.22], laneY: [0.65, 0.78] },
+  { id: "ads", label: "Ads", size: ORB_SIZE, left: "86%", top: "72%", floatClass: "orb-float-5", laneX: [0.78, 0.94], laneY: [0.65, 0.78] },
 ];
 
-// Clay-tint every product color into one warm family via the clay tokens.
+const ORB_COLORS: Record<string, { highlight: string; base: string; deep: string }> = {
+  book:     { highlight: "#ffc066", base: "#ef910a", deep: "#b86a00" },
+  social:   { highlight: "#f09a7a", base: "#C75A1F", deep: "#8a3e15" },
+  seo:      { highlight: "#ffffff", base: "#EBF3F5", deep: "#b8ccd0" },
+  outreach: { highlight: "#ffffff", base: "#E8DFE8", deep: "#b8a8b8" },
+  bots:     { highlight: "#ffffff", base: "#FAF0E6", deep: "#d4c0b0" },
+  ads:      { highlight: "#cfe0d5", base: "#8FA89B", deep: "#5c786b" },
+};
 function orbPalette(id: ProductId) {
-  const token = `var(--color-${id})`;
-  return {
-    highlight: `color-mix(in srgb, ${token} 52%, var(--color-clay))`,
-    base: `color-mix(in srgb, ${token} 88%, var(--color-clay-toast))`,
-    deep: `color-mix(in srgb, ${token} 72%, var(--color-bowl-dark))`,
-  };
+  return ORB_COLORS[id];
 }
 
 const GRAIN =
@@ -133,8 +137,8 @@ export function ClayScene() {
               left: orb.left,
               top: orb.top,
               translate: "-50% -50%",
-              transform: `translate3d(calc(var(--mx, 0) * ${orb.depth}px), calc(var(--my, 0) * ${orb.depth}px), 0)`,
-              transition: "transform 0.6s ease-out",
+              transform: `translate3d(calc(var(--mx, 0) * 12px), calc(var(--my, 0) * 8px), 0)`,
+              transition: "transform 0.8s ease-out",
             }}
           >
             <div className={`${orb.floatClass} flex flex-col items-center`}>
@@ -193,10 +197,10 @@ export function ClayScene() {
       {/* Pita bowl — straddles the hero's bottom edge */}
       <div
         data-bowl
-        className="pointer-events-none absolute left-1/2 top-full w-[min(560px,74vw)]"
+        className="pointer-events-none absolute left-1/2 top-full w-[min(760px,90vw)]"
         style={{ translate: "-50% -50%" }}
       >
-        <div className="relative" style={{ aspectRatio: "560 / 230" }}>
+        <div className="relative" style={{ aspectRatio: "760 / 310" }}>
           {/* body */}
           <div
             className="absolute inset-0 rounded-[50%]"

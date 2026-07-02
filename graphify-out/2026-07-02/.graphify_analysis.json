@@ -1,0 +1,672 @@
+{
+  "communities": {
+    "0": [
+      "v3_src_app_page",
+      "v3_src_app_page_home",
+      "v3_src_components_cta_band",
+      "v3_src_components_cta_band_ctaband",
+      "v3_src_components_faq",
+      "v3_src_components_faq_faq",
+      "v3_src_components_faq_faqitem",
+      "v3_src_components_faq_faqs",
+      "v3_src_components_footer",
+      "v3_src_components_footer_footer",
+      "v3_src_components_footer_footer_links",
+      "v3_src_components_how_it_works",
+      "v3_src_components_how_it_works_howitworks",
+      "v3_src_components_how_it_works_steps",
+      "v3_src_components_navigation",
+      "v3_src_components_navigation_nav_links",
+      "v3_src_components_navigation_navigation",
+      "v3_src_components_pricing",
+      "v3_src_components_pricing_notifyform",
+      "v3_src_components_pricing_pricing",
+      "v3_src_components_products_grid",
+      "v3_src_components_products_grid_productsgrid",
+      "v3_src_components_reveal",
+      "v3_src_components_reveal_containervariants",
+      "v3_src_components_reveal_ease",
+      "v3_src_components_reveal_itemvariants",
+      "v3_src_components_reveal_reveal",
+      "v3_src_components_reveal_revealitem",
+      "v3_src_components_reveal_revealprops",
+      "v3_src_components_reveal_revealstagger",
+      "v3_src_components_social_proof",
+      "v3_src_components_social_proof_items",
+      "v3_src_components_social_proof_socialproof",
+      "v3_src_components_ui_badge",
+      "v3_src_components_ui_badge_badge",
+      "v3_src_components_ui_badge_badgeprops",
+      "v3_src_components_ui_badge_badgevariant",
+      "v3_src_components_ui_badge_variantclasses",
+      "v3_src_components_ui_brand_mark",
+      "v3_src_components_ui_brand_mark_bowlicon",
+      "v3_src_components_ui_brand_mark_brandmark",
+      "v3_src_components_ui_button_button",
+      "v3_src_components_who_its_for",
+      "v3_src_components_who_its_for_whoitsfor",
+      "v3_src_lib_accent",
+      "v3_src_lib_accent_accent_map",
+      "v3_src_lib_accent_accenthex",
+      "v3_src_lib_accent_accentstyle",
+      "v3_src_lib_cn",
+      "v3_src_lib_cn_cn",
+      "v3_src_lib_icon_map",
+      "v3_src_lib_icon_map_product_icons",
+      "v3_src_lib_products",
+      "v3_src_lib_products_business_types",
+      "v3_src_lib_products_businesstype",
+      "v3_src_lib_products_product",
+      "v3_src_lib_products_productid",
+      "v3_src_lib_products_products",
+      "v3_src_lib_products_productstatus",
+      "v3_src_lib_products_served_categories"
+    ],
+    "1": [
+      "calendar_patterns",
+      "competitor_boulevard",
+      "competitor_glossgenius",
+      "competitor_profiles_design_audit",
+      "competitor_research_analysis",
+      "component_bottom_nav",
+      "component_button_primary",
+      "component_fab",
+      "component_hamburger_drawer",
+      "design_spec_templates_overhaul",
+      "design_system_colors",
+      "design_system_typography",
+      "design_token_colors",
+      "design_token_spacing",
+      "design_token_typography",
+      "feature_auto_intake_gemini",
+      "feature_booking_overlay_responsive",
+      "feature_eject_custom_page",
+      "feature_section_hours_fix",
+      "feature_shared_primitives",
+      "feature_theme_switcher",
+      "gtm_closing_framework",
+      "gtm_outreach_door_to_door",
+      "gtm_outreach_loom_video",
+      "gtm_plan_sales_system",
+      "gtm_reference_christian_wtc",
+      "hero_section_redesign",
+      "icp_israeli_barber",
+      "index_html",
+      "launch_phase_1_walk_ins",
+      "launch_phase_2_instagram_dms",
+      "launch_phase_3_free_pilots",
+      "pricing_model_bapita",
+      "rtl_hebrew_support",
+      "superpowers_brainstorm_templates_v2",
+      "template_classic",
+      "template_clean",
+      "template_dark",
+      "v1_specs_week1_plan",
+      "v2_docs_design_system_tokens_components",
+      "v2_docs_strategy_business_model"
+    ],
+    "2": [
+      "bapita_book_platform",
+      "bapita_dashboard_platform",
+      "bapita_v3_master_hub",
+      "framer_motion",
+      "github_dostiaziz_dashboard",
+      "github_info_bapita_v3",
+      "github_ramikan96_dashboard",
+      "hero_scene_components",
+      "hero_section",
+      "lenis",
+      "nextjs_16",
+      "pita_catch_scene",
+      "rapier_physics",
+      "react_three_fiber",
+      "readme",
+      "reveal_tsx",
+      "tailwind_css_4",
+      "three_js_react_three_fiber",
+      "v3_package_dependencies",
+      "v3_package_dependencies_clsx",
+      "v3_package_dependencies_framer_motion",
+      "v3_package_dependencies_lenis",
+      "v3_package_dependencies_lucide_react",
+      "v3_package_dependencies_next",
+      "v3_package_dependencies_react",
+      "v3_package_dependencies_react_dom",
+      "v3_package_dependencies_react_three_drei",
+      "v3_package_dependencies_react_three_fiber",
+      "v3_package_dependencies_react_three_rapier",
+      "v3_package_dependencies_tailwind_merge",
+      "v3_package_dependencies_three",
+      "vercel_bapita_dashboard_project",
+      "vercel_dashboard_project",
+      "vercel_v3_project"
+    ],
+    "3": [
+      "bapita_dashboard",
+      "bapita_dashboard_src_app_api_public_book_route",
+      "bapita_dashboard_src_app_api_public_slots_route",
+      "bapita_dashboard_src_app_dashboard_settings_page",
+      "bapita_dashboard_src_components_calendar_booking_drawer",
+      "bapita_dashboard_src_components_loading_skeleton",
+      "booking_flow",
+      "google_calendar_api",
+      "onboarding_checklist",
+      "pricing_model",
+      "resend",
+      "sales_process",
+      "stripe",
+      "supabase",
+      "v2_docs_audits_bapita_launch_qa",
+      "v2_docs_audits_tech_audit_2026_06_17",
+      "v2_docs_audits_ui_ux_audit_2026_06_17",
+      "v2_docs_brand_bapita_brand_doc",
+      "v2_docs_contracts_client_contract",
+      "v2_docs_contracts_client_contract_addons",
+      "v2_docs_google_calendar_staff_design",
+      "v2_docs_sales_cheatsheet",
+      "v2_specs_2026_06_07_bapita_v2_design",
+      "v2_src_dashboard_index_html",
+      "v2_src_dashboard_readme",
+      "vercel"
+    ],
+    "4": [
+      "v3_tsconfig",
+      "v3_tsconfig_compileroptions",
+      "v3_tsconfig_compileroptions_allowjs",
+      "v3_tsconfig_compileroptions_esmoduleinterop",
+      "v3_tsconfig_compileroptions_incremental",
+      "v3_tsconfig_compileroptions_isolatedmodules",
+      "v3_tsconfig_compileroptions_jsx",
+      "v3_tsconfig_compileroptions_lib",
+      "v3_tsconfig_compileroptions_module",
+      "v3_tsconfig_compileroptions_moduleresolution",
+      "v3_tsconfig_compileroptions_noemit",
+      "v3_tsconfig_compileroptions_paths",
+      "v3_tsconfig_compileroptions_plugins",
+      "v3_tsconfig_compileroptions_resolvejsonmodule",
+      "v3_tsconfig_compileroptions_skiplibcheck",
+      "v3_tsconfig_compileroptions_strict",
+      "v3_tsconfig_compileroptions_target",
+      "v3_tsconfig_exclude",
+      "v3_tsconfig_include",
+      "v3_tsconfig_paths"
+    ],
+    "5": [
+      "v3_src_components_hero",
+      "v3_src_components_hero_hero",
+      "v3_src_components_hero_scene_hero_scene",
+      "v3_src_components_hero_scene_hero_scene_heroscene",
+      "v3_src_components_hero_scene_hero_scene_pitacatch",
+      "v3_src_components_hero_scene_hero_scene_supportswebgl",
+      "v3_src_components_hero_scene_orbs",
+      "v3_src_components_hero_scene_orbs_bowl_center",
+      "v3_src_components_hero_scene_orbs_orbdef",
+      "v3_src_components_hero_scene_orbs_orbs",
+      "v3_src_components_hero_scene_pita_catch",
+      "v3_src_components_hero_scene_pita_catch_bowl",
+      "v3_src_components_hero_scene_pita_catch_field",
+      "v3_src_components_hero_scene_pita_catch_orb",
+      "v3_src_components_hero_scene_pita_catch_orbstate",
+      "v3_src_components_hero_scene_pita_catch_pitacatch",
+      "v3_src_components_hero_scene_static_fallback",
+      "v3_src_components_hero_scene_static_fallback_dark",
+      "v3_src_components_hero_scene_static_fallback_staticfallback"
+    ],
+    "6": [
+      "bapita_book_product",
+      "bapita_bots_product",
+      "bapita_outreach_product",
+      "bapita_seo_product",
+      "bapita_social_product",
+      "booking_website_feature",
+      "email_confirmations_feature",
+      "google_business_addon",
+      "online_payments_addon",
+      "owner_dashboard_feature",
+      "v2_booking_agency_model",
+      "v2_src_dashboard_v2_docs_competitors",
+      "v2_src_dashboard_v2_docs_strategy",
+      "v2_src_dashboard_v2_docs_tech_audit_2026_06_17",
+      "v3_docs_bapita_v3",
+      "v3_docs_bapita_v3_gtm",
+      "v3_multi_product_saas_model",
+      "whatsapp_automations_addon"
+    ],
+    "7": [
+      "v3_package",
+      "v3_package_devdependencies",
+      "v3_package_devdependencies_eslint",
+      "v3_package_devdependencies_eslint_config_next",
+      "v3_package_devdependencies_tailwindcss",
+      "v3_package_devdependencies_tailwindcss_postcss",
+      "v3_package_devdependencies_types_node",
+      "v3_package_devdependencies_types_react",
+      "v3_package_devdependencies_types_react_dom",
+      "v3_package_devdependencies_typescript",
+      "v3_package_name",
+      "v3_package_private",
+      "v3_package_scripts",
+      "v3_package_scripts_build",
+      "v3_package_scripts_dev",
+      "v3_package_scripts_lint",
+      "v3_package_scripts_start",
+      "v3_package_version"
+    ],
+    "8": [
+      "bapita_v3_master_hp",
+      "bento_grid",
+      "cta_band_footer",
+      "faq_section",
+      "how_it_works_section",
+      "lenis_provider_tsx",
+      "lenis_scroll",
+      "messaging_strategy",
+      "navigation_section",
+      "pricing_section",
+      "product_book",
+      "product_bots",
+      "product_outreach",
+      "product_seo",
+      "product_social",
+      "social_proof_section",
+      "who_it_is_for_section"
+    ],
+    "9": [
+      "brand_identity_v2",
+      "brand_identity_v3",
+      "color_palette",
+      "component_library",
+      "design_token_system",
+      "typography_system",
+      "v2_src_dashboard_img_favicon",
+      "v2_src_dashboard_img_og_image",
+      "v2_src_dashboard_img_pain_0",
+      "v2_src_dashboard_img_pain_1",
+      "v2_src_dashboard_img_pain_2",
+      "v2_src_dashboard_img_pain_3",
+      "v2_src_dashboard_v2_docs_bapita_launch_qa",
+      "v2_src_dashboard_v2_docs_brand_bapita_brand_doc",
+      "v2_src_dashboard_v2_docs_design_system",
+      "v3_docs_brand_bapita_v3_brand_system"
+    ],
+    "10": [
+      "audience_clinic",
+      "service_analytics_dashboard",
+      "service_booking_page",
+      "service_deposit_collection",
+      "service_dormant_reactivation",
+      "service_last_minute_broadcast",
+      "service_pricing_menu",
+      "service_rebooking_nudge",
+      "shared_research_service_design"
+    ],
+    "11": [
+      "audience_dog_groomer",
+      "competitive_advantage_done_for_you",
+      "competitive_advantage_no_commission",
+      "competitor_automaziot",
+      "competitor_fresha",
+      "competitor_gambot",
+      "competitor_nula_me",
+      "competitor_whale_group",
+      "shared_research_competitive_intel"
+    ],
+    "12": [
+      "brand_voice_rules",
+      "core_value_prop",
+      "hebrew_tagline",
+      "market_gap_hebrew_native",
+      "pricing_bundle_clinic_pack",
+      "pricing_bundle_full_autopilot",
+      "pricing_bundle_no_show_killer",
+      "v1_docs_brand_doc",
+      "visual_identity_direction"
+    ],
+    "13": [
+      "v3_src_components_ui_button",
+      "v3_src_components_ui_button_baseprops",
+      "v3_src_components_ui_button_buttonasanchor",
+      "v3_src_components_ui_button_buttonasbutton",
+      "v3_src_components_ui_button_buttonprops",
+      "v3_src_components_ui_button_size",
+      "v3_src_components_ui_button_sizeclasses",
+      "v3_src_components_ui_button_variant",
+      "v3_src_components_ui_button_variantclasses"
+    ],
+    "14": [
+      "database_table_appointments",
+      "database_table_clients",
+      "database_table_messages_log",
+      "edge_function_jobs_reviews",
+      "github_actions_scheduler",
+      "onboarding_process",
+      "service_review_requests",
+      "v1_docs_mvp_design"
+    ],
+    "15": [
+      "v3_src_app_layout",
+      "v3_src_app_layout_heebo",
+      "v3_src_app_layout_metadata",
+      "v3_src_app_layout_rootlayout",
+      "v3_src_components_lenis_provider",
+      "v3_src_components_lenis_provider_lenisprovider",
+      "v3_src_components_scroll_progress",
+      "v3_src_components_scroll_progress_scrollprogress"
+    ],
+    "16": [
+      "bapita_social_platform",
+      "github_info_bapita_dashboard",
+      "groq_api",
+      "meta_graph_api_v21",
+      "supabase_hgvzskfmxlgjubjhnjlj",
+      "vercel_social_ops_platform",
+      "vitest"
+    ],
+    "17": [
+      "competitor_booksy",
+      "competitor_buffer",
+      "competitor_calendly",
+      "competitor_profiles_overview",
+      "primary_cta_book_call",
+      "product_hero_book_only"
+    ],
+    "18": [
+      "edge_function_jobs_reminders",
+      "edge_function_webhook_whatsapp",
+      "market_gap_price_range",
+      "pricing_bundle_starter",
+      "service_appointment_reminders",
+      "service_whatsapp_auto_responder"
+    ],
+    "19": [
+      "audit_prelaunch_qa",
+      "audit_security_findings",
+      "security_fix_delete_account",
+      "security_fix_double_booking",
+      "security_fix_rate_limiting"
+    ],
+    "20": [
+      "v2_demo_images_classic_gemini_generated_image_1ill8o1ill8o1ill",
+      "v2_demo_images_classic_gemini_generated_image_27y16r27y16r27y1",
+      "v2_demo_images_classic_gemini_generated_image_jkr77zjkr77zjkr7",
+      "v2_demo_images_clean_gemini_generated_image_ell0xjell0xjell0",
+      "v2_demo_images_dark_gemini_generated_image_j2vxqej2vxqej2vx"
+    ],
+    "21": [
+      "audience_barbershop",
+      "audience_salon",
+      "market_gap_vertical_focus",
+      "positioning_statement"
+    ],
+    "22": [
+      "generate_og",
+      "generate_og_chromium",
+      "generate_og_path"
+    ],
+    "23": [
+      "v2_demo_images_classic_gemini_generated_image_4xmpt4xmpt4xmpt4",
+      "v2_demo_images_classic_gemini_generated_image_pmbatrpmbatrpmba",
+      "v2_demo_images_dark_gemini_generated_image_ep0ioyep0ioyep0i"
+    ],
+    "24": [
+      "v2_demo_images_clean_gemini_generated_image_8rlb8rlb8rlb8rlb",
+      "v2_demo_images_clean_gemini_generated_image_igyes3igyes3igye",
+      "v2_demo_images_clean_gemini_generated_image_ndy30yndy30yndy3"
+    ],
+    "25": [
+      "brand_mark_tsx",
+      "white_bowl_logo"
+    ],
+    "26": [
+      "v2_demo_images_classic_gemini_generated_image_c8e2bjc8e2bjc8e2",
+      "v2_demo_images_classic_gemini_generated_image_nc7klcnc7klcnc7k"
+    ],
+    "27": [
+      "v2_demo_images_clean_gemini_generated_image_45agjq45agjq45ag",
+      "v2_demo_images_clean_gemini_generated_image_geauc2geauc2geau"
+    ],
+    "28": [
+      "v2_demo_images_dark_gemini_generated_image_5xdhkk5xdhkk5xdh",
+      "v2_demo_images_dark_gemini_generated_image_ir8bb1ir8bb1ir8b"
+    ],
+    "29": [
+      "v2_demo_images_dark_gemini_generated_image_ebct5febct5febct",
+      "v2_demo_images_dark_gemini_generated_image_lqelbclqelbclqel"
+    ],
+    "30": [
+      "v3_eslint_config",
+      "v3_eslint_config_eslintconfig"
+    ],
+    "31": [
+      "v3_next_config",
+      "v3_next_config_nextconfig"
+    ],
+    "32": [
+      "v3_postcss_config",
+      "v3_postcss_config_config"
+    ],
+    "33": [
+      "v3_src_app_api_waitlist_route",
+      "v3_src_app_api_waitlist_route_post"
+    ],
+    "34": [
+      "v3_src_app_robots",
+      "v3_src_app_robots_robots"
+    ],
+    "35": [
+      "v3_src_app_sitemap",
+      "v3_src_app_sitemap_sitemap"
+    ],
+    "36": [
+      "bapita_dashboard_src_app_book_slug_page"
+    ],
+    "37": [
+      "bapita_dashboard_src_app_dashboard_calendar_page"
+    ],
+    "38": [
+      "bapita_dashboard_src_app_dashboard_new_booking_page"
+    ],
+    "39": [
+      "globals_css"
+    ],
+    "40": [
+      "image_hero_dark_template"
+    ],
+    "41": [
+      "img_favicon"
+    ],
+    "42": [
+      "logo_bapita_wordmark"
+    ],
+    "43": [
+      "meta_ads"
+    ],
+    "44": [
+      "robots"
+    ],
+    "45": [
+      "superpowers_brainstorm_full_page_v1"
+    ],
+    "46": [
+      "superpowers_brainstorm_templates_overview"
+    ],
+    "47": [
+      "v2_demo_images_clean_gemini_generated_image_jqqhtojqqhtojqqh"
+    ],
+    "48": [
+      "v2_docs_reachout_cold_email_script_image"
+    ],
+    "49": [
+      "v2_docs_reachout_phone_script_image"
+    ],
+    "50": [
+      "v3_next_env_d"
+    ]
+  },
+  "cohesion": {
+    "0": 0.07627118644067797,
+    "1": 0.07073170731707316,
+    "2": 0.062388591800356503,
+    "3": 0.09230769230769231,
+    "4": 0.1,
+    "5": 0.13450292397660818,
+    "6": 0.16993464052287582,
+    "7": 0.1111111111111111,
+    "8": 0.1323529411764706,
+    "9": 0.15,
+    "10": 0.2222222222222222,
+    "11": 0.2222222222222222,
+    "12": 0.2222222222222222,
+    "13": 0.2222222222222222,
+    "14": 0.25,
+    "15": 0.32142857142857145,
+    "16": 0.2857142857142857,
+    "17": 0.3333333333333333,
+    "18": 0.3333333333333333,
+    "19": 0.4,
+    "20": 0.4,
+    "21": 0.5,
+    "22": 0.6666666666666666,
+    "23": 0.6666666666666666,
+    "24": 0.6666666666666666,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0,
+    "47": 1.0,
+    "48": 1.0,
+    "49": 1.0,
+    "50": 1.0
+  },
+  "gods": [
+    {
+      "id": "shared_research_service_design",
+      "label": "Service Design Research (14 Services, 4 Bundles)",
+      "degree": 17
+    },
+    {
+      "id": "v3_tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "v3_src_lib_cn_cn",
+      "label": "cn()",
+      "degree": 13
+    },
+    {
+      "id": "bapita_v3_master_hp",
+      "label": "Bapita v3 Master Homepage",
+      "degree": 11
+    },
+    {
+      "id": "v1_docs_brand_doc",
+      "label": "Brand Document: Positioning, Voice, Pricing, Visual Identity",
+      "degree": 10
+    },
+    {
+      "id": "v1_docs_mvp_design",
+      "label": "MVP System Design: Supabase, Meta API, GitHub Actions",
+      "degree": 10
+    },
+    {
+      "id": "bapita_book_product",
+      "label": "Bapita Book \u2014 Appointment Booking Platform",
+      "degree": 10
+    },
+    {
+      "id": "shared_research_competitive_intel",
+      "label": "Competitive Intelligence Report (12 Israeli Competitors)",
+      "degree": 9
+    },
+    {
+      "id": "template_classic",
+      "label": "Booking Template: Classic (Warm Cream + Serif Name)",
+      "degree": 9
+    },
+    {
+      "id": "v2_docs_design_system_tokens_components",
+      "label": "Bapita Design System: Colors, Typography, Spacing, Components",
+      "degree": 9
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Technical Audit \u2013 21 Findings Across 5 Batches",
+      "target": "GET /api/public/slots \u2013 Available Time Slots API",
+      "source_files": [
+        "v2/docs/audits/tech-audit-2026-06-17.md",
+        "bapita-dashboard/src/app/api/public/slots/route.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (doc \u2194 code); connects across different repos/directories; peripheral node `GET /api/public/slots \u2013 Available Time Slots API` unexpectedly reaches hub `Technical Audit \u2013 21 Findings Across 5 Batches`"
+    },
+    {
+      "source": "Technical Audit \u2013 21 Findings Across 5 Batches",
+      "target": "Settings Page \u2013 Business Info, Services, Hours (tsx)",
+      "source_files": [
+        "v2/docs/audits/tech-audit-2026-06-17.md",
+        "bapita-dashboard/src/app/(dashboard)/settings/page.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (doc \u2194 code); connects across different repos/directories; peripheral node `Settings Page \u2013 Business Info, Services, Hours (tsx)` unexpectedly reaches hub `Technical Audit \u2013 21 Findings Across 5 Batches`"
+    },
+    {
+      "source": "Service Design Research (14 Services, 4 Bundles)",
+      "target": "Pricing Tier: Clinic Pack (\u20aa1,699/mo, \u20aa3,000-3,500 setup)",
+      "source_files": [
+        "shared/research/bapita-research-service-design.md",
+        "v1/docs/bapita-brand-doc.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "implements",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `Pricing Tier: Clinic Pack (\u20aa1,699/mo, \u20aa3,000-3,500 setup)` unexpectedly reaches hub `Service Design Research (14 Services, 4 Bundles)`"
+    },
+    {
+      "source": "Service Design Research (14 Services, 4 Bundles)",
+      "target": "Pricing Tier: Full Autopilot (\u20aa1,490/mo, \u20aa2,500 setup)",
+      "source_files": [
+        "shared/research/bapita-research-service-design.md",
+        "v1/docs/bapita-brand-doc.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "implements",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `Pricing Tier: Full Autopilot (\u20aa1,490/mo, \u20aa2,500 setup)` unexpectedly reaches hub `Service Design Research (14 Services, 4 Bundles)`"
+    },
+    {
+      "source": "Service Design Research (14 Services, 4 Bundles)",
+      "target": "Pricing Tier: No-Show Killer (\u20aa999/mo, \u20aa1,800 setup)",
+      "source_files": [
+        "shared/research/bapita-research-service-design.md",
+        "v1/docs/bapita-brand-doc.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "implements",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `Pricing Tier: No-Show Killer (\u20aa999/mo, \u20aa1,800 setup)` unexpectedly reaches hub `Service Design Research (14 Services, 4 Bundles)`"
+    }
+  ],
+  "tokens": {
+    "input": 529610,
+    "output": 81496
+  }
+}

@@ -1,0 +1,5 @@
+{"type":"server-started","port":61733,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:61733","screen_dir":"/Users/admin/Desktop/bapita/.superpowers/brainstorm/80659-1781393850/content","state_dir":"/Users/admin/Desktop/bapita/.superpowers/brainstorm/80659-1781393850/state"}
+{"type":"screen-added","file":"/Users/admin/Desktop/bapita/.superpowers/brainstorm/80659-1781393850/content/templates-overview.html"}
+{"type":"screen-added","file":"/Users/admin/Desktop/bapita/.superpowers/brainstorm/80659-1781393850/content/templates-v2.html"}
+{"type":"screen-added","file":"/Users/admin/Desktop/bapita/.superpowers/brainstorm/80659-1781393850/content/full-page-v1.html"}
+{"type":"server-stopped","reason":"owner process exited"}

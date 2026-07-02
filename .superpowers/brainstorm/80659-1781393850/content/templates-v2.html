@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bapita — Template Directions v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Heebo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Heebo', sans-serif;
+  background: #EDEAE5;
+  min-height: 100vh;
+  padding: 40px 20px 100px;
+}
+
+/* ── Page header ── */
+h1 { font-family: 'Heebo', sans-serif; font-size: 20px; font-weight: 800; color: #1A1A1A; text-align: center; margin-bottom: 4px; letter-spacing: -0.02em; }
+.subtitle { font-size: 13px; color: #777; text-align: center; margin-bottom: 10px; }
+.note { font-size: 12px; color: #999; text-align: center; margin-bottom: 36px; line-height: 1.5; }
+
+/* ── Grid ── */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto 56px; }
+@media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+
+/* ── Template wrapper ── */
+.tpl-wrap { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.tpl-wrap.selected .phone-frame { outline: 3px solid #2563EB; outline-offset: 5px; }
+.tpl-name { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+.tpl-desc { font-size: 12px; color: #777; text-align: center; margin-top: 12px; line-height: 1.55; max-width: 230px; }
+
+/* ── Phone frame ── */
+.phone-frame {
+  width: 258px; height: 530px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.08);
+  position: relative;
+  transition: transform 0.18s ease;
+  flex-shrink: 0;
+}
+.phone-frame:hover { transform: translateY(-5px); }
+
+/* =====================================================
+   TEMPLATE 1 — CLASSIC
+   Deep warm tones. Serif name. Traditional barber.
+   Colors: cream #F8F2E8 / warm dark #221510 / gold #B8862A
+   ===================================================== */
+.classic {
+  background: #F8F2E8;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.classic .hero {
+  height: 175px;
+  background:
+    linear-gradient(180deg, rgba(34,21,16,0.45) 0%, rgba(34,21,16,0.70) 100%),
+    url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=520&q=80') center/cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 16px 20px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* thin gold line above name */
+.classic .hero::before {
+  content: '';
+  position: absolute;
+  bottom: 54px; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 1.5px;
+  background: #B8862A;
+}
+
+.classic .hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 21px; font-weight: 700;
+  color: #FFFAF4;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+.classic .hero-tag {
+  font-size: 10px; font-weight: 400;
+  color: rgba(255,248,235,0.65);
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.classic .body { flex: 1; padding: 14px 14px 0; overflow: hidden; }
+.classic .sec-label {
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: #B8862A; margin-bottom: 9px;
+}
+
+.classic .svc {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  border: 1.5px solid transparent;
+  box-shadow: 0 1px 4px rgba(34,21,16,0.06);
+}
+.classic .svc.active { border-color: #B8862A; }
+.classic .svc-left { display: flex; flex-direction: column; }
+.classic .svc-name { font-size: 12px; font-weight: 700; color: #221510; }
+.classic .svc-dur { font-size: 10px; color: #9B8060; margin-top: 1px; }
+.classic .svc-price { font-size: 13px; font-weight: 800; color: #B8862A; }
+
+.classic .div { height: 1px; background: #EDE5D8; margin: 11px 0; }
+
+.classic .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+.classic .slot {
+  background: #FFF; border: 1.5px solid #EDE5D8;
+  border-radius: 7px; padding: 5px 0;
+  text-align: center; font-size: 10px; font-weight: 600; color: #221510;
+}
+.classic .slot.on { background: #B8862A; border-color: #B8862A; color: #fff; }
+
+.classic .btn {
+  margin-top: 11px; width: 100%;
+  background: #221510; color: #F8F2E8;
+  border: none; border-radius: 10px;
+  padding: 11px; font-size: 12px; font-weight: 800;
+  font-family: 'Heebo', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.classic .foot {
+  text-align: center; font-size: 9px; color: #B0956C;
+  padding: 8px; margin-top: auto;
+}
+
+/* =====================================================
+   TEMPLATE 2 — CLEAN
+   Stark white. Large B&W photo as sidebar accent.
+   Header is TEXT-ONLY — massive bold name, no hero overlay.
+   Colors: white #FFF / black #0A0A0A / mid grey #F2F2F2
+   ===================================================== */
+.clean {
+  background: #FFFFFF;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Top bar: full-width B&W photo strip, name overlaid as pull-quote left */
+.clean .header {
+  display: flex;
+  flex-shrink: 0;
+  height: 160px;
+}
+
+.clean .header-left {
+  flex: 1;
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: #FFFFFF;
+  z-index: 1;
+}
+
+.clean .header-photo {
+  width: 110px;
+  flex-shrink: 0;
+  background:
+    url('https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80') center/cover;
+  filter: grayscale(100%);
+}
+
+.clean .hero-name {
+  font-family: 'Heebo', sans-serif;
+  font-size: 22px; font-weight: 900;
+  color: #0A0A0A;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+.clean .hero-tag {
+  font-size: 10px; font-weight: 400;
+  color: #AAAAAA; margin-top: 5px;
+  letter-spacing: 0.04em;
+}
+
+.clean .top-line { height: 3px; background: #0A0A0A; flex-shrink: 0; }
+
+.clean .body { flex: 1; padding: 14px 14px 0; overflow: hidden; }
+.clean .sec-label {
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: #AAAAAA; margin-bottom: 9px;
+}
+
+.clean .svc {
+  border: 1.5px solid #EBEBEB;
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.clean .svc.active { border-color: #0A0A0A; background: #F5F5F5; }
+.clean .svc-name { font-size: 12px; font-weight: 700; color: #0A0A0A; }
+.clean .svc-dur { font-size: 10px; color: #AAAAAA; margin-top: 1px; }
+.clean .svc-price { font-size: 13px; font-weight: 800; color: #0A0A0A; }
+
+.clean .div { height: 1px; background: #F0F0F0; margin: 11px 0; }
+
+.clean .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+.clean .slot {
+  border: 1.5px solid #EBEBEB;
+  border-radius: 5px; padding: 5px 0;
+  text-align: center; font-size: 10px; font-weight: 600; color: #0A0A0A;
+}
+.clean .slot.on { background: #0A0A0A; border-color: #0A0A0A; color: #fff; }
+
+.clean .btn {
+  margin-top: 11px; width: 100%;
+  background: #0A0A0A; color: #FFFFFF;
+  border: none; border-radius: 6px;
+  padding: 11px; font-size: 12px; font-weight: 800;
+  font-family: 'Heebo', sans-serif; letter-spacing: 0.04em;
+}
+
+.clean .foot { text-align: center; font-size: 9px; color: #CCCCCC; padding: 8px; margin-top: auto; }
+
+/* =====================================================
+   TEMPLATE 3 — DARK
+   Near-black. Gold accents. Glassmorphism cards.
+   Colors: #080808 / gold #C5A24A / white text
+   ===================================================== */
+.dark {
+  background: #080808;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ambient glow */
+.dark::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 50% 10%, rgba(197,162,74,0.10) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark .hero {
+  height: 175px;
+  background:
+    linear-gradient(180deg, rgba(4,4,4,0.55) 0%, rgba(4,4,4,0.85) 100%),
+    url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=520&q=80') center/cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 16px 20px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.dark .hero-name {
+  font-family: 'Heebo', sans-serif;
+  font-size: 20px; font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: center;
+  background: linear-gradient(90deg, #E8D5A0 0%, #C5A24A 40%, #E8D5A0 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.dark .hero-tag {
+  font-size: 10px; font-weight: 400;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.dark .body { flex: 1; padding: 14px 14px 0; overflow: hidden; position: relative; z-index: 1; }
+.dark .sec-label {
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: #C5A24A; margin-bottom: 9px;
+}
+
+.dark .svc {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  backdrop-filter: blur(8px);
+}
+.dark .svc.active {
+  border-color: rgba(197,162,74,0.55);
+  background: rgba(197,162,74,0.08);
+}
+.dark .svc-name { font-size: 12px; font-weight: 700; color: #FFFFFF; }
+.dark .svc-dur { font-size: 10px; color: rgba(255,255,255,0.38); margin-top: 1px; }
+.dark .svc-price { font-size: 13px; font-weight: 800; color: #C5A24A; }
+
+.dark .div { height: 1px; background: rgba(255,255,255,0.07); margin: 11px 0; }
+
+.dark .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+.dark .slot {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 7px; padding: 5px 0;
+  text-align: center; font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.6);
+}
+.dark .slot.on {
+  background: rgba(197,162,74,0.18);
+  border-color: #C5A24A;
+  color: #C5A24A;
+}
+
+.dark .btn {
+  margin-top: 11px; width: 100%;
+  background: linear-gradient(135deg, #D4B85A 0%, #C5A24A 100%);
+  color: #080808;
+  border: none; border-radius: 10px;
+  padding: 11px; font-size: 12px; font-weight: 800;
+  font-family: 'Heebo', sans-serif;
+  box-shadow: 0 4px 18px rgba(197,162,74,0.28);
+}
+
+.dark .foot { text-align: center; font-size: 9px; color: rgba(255,255,255,0.2); padding: 8px; margin-top: auto; position: relative; z-index: 1; }
+
+
+/* ── Date picker section ── */
+.sec-header { text-align: center; margin-bottom: 6px; }
+.sec-header h2 { font-size: 17px; font-weight: 800; color: #1A1A1A; letter-spacing: -0.02em; }
+.sec-header p { font-size: 12px; color: #888; margin-top: 3px; }
+
+.dp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 680px; margin: 24px auto 0; }
+@media (max-width: 560px) { .dp-grid { grid-template-columns: 1fr; } }
+
+.dp-card {
+  background: white; border-radius: 14px;
+  padding: 18px; cursor: pointer;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.dp-card:hover { transform: translateY(-2px); }
+.dp-card.selected { border-color: #2563EB; }
+
+.dp-card .tag { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #AAA; margin-bottom: 8px; }
+.dp-card .dp-title { font-size: 14px; font-weight: 800; color: #1A1A1A; margin-bottom: 3px; letter-spacing: -0.01em; }
+.dp-card .dp-sub { font-size: 11px; color: #888; line-height: 1.5; margin-bottom: 14px; }
+
+/* calendar grid */
+.cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.cal-month-label { font-size: 12px; font-weight: 700; color: #1A1A1A; }
+.cal-nav { font-size: 12px; color: #AAA; }
+.cal-day-labels { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 3px; }
+.cal-day-label { text-align: center; font-size: 8px; font-weight: 700; color: #BBB; text-transform: uppercase; letter-spacing: 0.04em; }
+.cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.c-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #1A1A1A; border-radius: 6px; }
+.c-day.off { color: #E0E0E0; }
+.c-day.avail { background: #F0F4FF; color: #2563EB; }
+.c-day.sel { background: #2563EB; color: white; font-weight: 800; }
+.c-day.closed { color: #DDD; }
+
+/* horizontal scroll */
+.hscroll { display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; }
+.hscroll::-webkit-scrollbar { display: none; }
+.dpill {
+  flex-shrink: 0; width: 46px; padding: 7px 0;
+  text-align: center; border-radius: 10px;
+  border: 1.5px solid #EBEBEB; background: white;
+}
+.dpill.sel { background: #2563EB; border-color: #2563EB; }
+.dpill.sel .dpill-day, .dpill.sel .dpill-num { color: white; }
+.dpill.sel .dpill-slots { color: rgba(255,255,255,0.7); }
+.dpill-day { font-size: 9px; font-weight: 700; color: #AAA; text-transform: uppercase; letter-spacing: 0.04em; }
+.dpill-num { font-size: 15px; font-weight: 800; color: #1A1A1A; line-height: 1.2; }
+.dpill-slots { font-size: 8px; color: #2563EB; font-weight: 700; }
+.dpill-slots.empty { color: #DDD; }
+</style>
+</head>
+<body>
+
+<h1>Template Directions</h1>
+<p class="subtitle">3 styles. Click to compare. Scroll down for date picker options.</p>
+<p class="note">Colors are per-template (not Bapita colors — the barber's page, not ours).<br>If no shop photo, we use a matching stock photo from Unsplash.</p>
+
+<div class="grid">
+
+  <!-- CLASSIC -->
+  <div class="tpl-wrap" id="tpl-a" onclick="pick('tpl','a')">
+    <div class="tpl-name">1 — Classic</div>
+    <div class="phone-frame">
+      <div class="classic">
+        <div class="hero">
+          <div class="hero-name">Studio Avi</div>
+          <div class="hero-tag">ספרות מקצועית. שירות אישי.</div>
+        </div>
+        <div class="body">
+          <div class="sec-label">Choose a service</div>
+          <div class="svc active">
+            <div class="svc-left"><div class="svc-name">Classic Haircut</div><div class="svc-dur">45 min</div></div>
+            <div class="svc-price">₪80</div>
+          </div>
+          <div class="svc">
+            <div class="svc-left"><div class="svc-name">Beard Trim</div><div class="svc-dur">20 min</div></div>
+            <div class="svc-price">₪50</div>
+          </div>
+          <div class="svc">
+            <div class="svc-left"><div class="svc-name">Fade + Lineup</div><div class="svc-dur">60 min</div></div>
+            <div class="svc-price">₪100</div>
+          </div>
+          <div class="div"></div>
+          <div class="sec-label">Available times</div>
+          <div class="slots">
+            <div class="slot">09:00</div>
+            <div class="slot on">10:30</div>
+            <div class="slot">12:00</div>
+            <div class="slot">14:00</div>
+            <div class="slot">15:30</div>
+            <div class="slot">17:00</div>
+          </div>
+          <button class="btn">Confirm Booking</button>
+        </div>
+        <div class="foot">Powered by Bapita</div>
+      </div>
+    </div>
+    <p class="tpl-desc">Warm tones, serif name, gold accents on dark cream. Traditional, trustworthy. For established barbers with older clientele.</p>
+  </div>
+
+  <!-- CLEAN -->
+  <div class="tpl-wrap" id="tpl-b" onclick="pick('tpl','b')">
+    <div class="tpl-name">2 — Clean</div>
+    <div class="phone-frame">
+      <div class="clean">
+        <div class="header">
+          <div class="header-left">
+            <div class="hero-name">STUDIO<br>AVI</div>
+            <div class="hero-tag">Precision cuts. Every time.</div>
+          </div>
+          <div class="header-photo"></div>
+        </div>
+        <div class="top-line"></div>
+        <div class="body">
+          <div class="sec-label">Choose a service</div>
+          <div class="svc active">
+            <div class="svc-left"><div class="svc-name">Classic Haircut</div><div class="svc-dur">45 min</div></div>
+            <div class="svc-price">₪80</div>
+          </div>
+          <div class="svc">
+            <div class="svc-left"><div class="svc-name">Beard Trim</div><div class="svc-dur">20 min</div></div>
+            <div class="svc-price">₪50</div>
+          </div>
+          <div class="svc">
+            <div class="svc-left"><div class="svc-name">Fade + Lineup</div><div class="svc-dur">60 min</div></div>
+            <div class="svc-price">₪100</div>
+          </div>
+          <div class="div"></div>
+          <div class="sec-label">Available times</div>
+          <div class="slots">
+            <div class="slot">09:00</div>
+            <div class="slot on">10:30</div>
+            <div class="slot">12:00</div>
+            <div class="slot">14:00</div>
+            <div class="slot">15:30</div>
+            <div class="slot">17:00</div>
+          </div>
+          <button class="btn">Confirm Booking</button>
+        </div>
+        <div class="foot">Powered by Bapita</div>
+      </div>
+    </div>
+    <p class="tpl-desc">Pure white, B&W photo accent, bold black name. No color at all. Editorial, design-studio feel. For image-conscious urban barbers.</p>
+  </div>
+
+  <!-- DARK -->
+  <div class="tpl-wrap" id="tpl-c" onclick="pick('tpl','c')">
+    <div class="tpl-name">3 — Dark</div>
+    <div class="phone-frame">
+      <div class="dark">
+        <div class="hero">
+          <div class="hero-name">Studio Avi</div>
+          <div class="hero-tag">המקום של הגברים</div>
+        </div>
+        <div class="body">
+          <div class="sec-label">Choose a service</div>
+          <div class="svc active">
+            <div class="svc-left"><div class="svc-name">Classic Haircut</div><div class="svc-dur">45 min</div></div>
+            <div class="svc-price">₪80</div>
+          </div>
+          <div class="svc">
+            <div class="svc-left"><div class="svc-name">Beard Trim</div><div class="svc-dur">20 min</div></div>
+            <div class="svc-price">₪50</div>
+          </div>
+          <div class="svc">
+            <div class="svc-left"><div class="svc-name">Fade + Lineup</div><div class="svc-dur">60 min</div></div>
+            <div class="svc-price">₪100</div>
+          </div>
+          <div class="div"></div>
+          <div class="sec-label">Available times</div>
+          <div class="slots">
+            <div class="slot">09:00</div>
+            <div class="slot on">10:30</div>
+            <div class="slot">12:00</div>
+            <div class="slot">14:00</div>
+            <div class="slot">15:30</div>
+            <div class="slot">17:00</div>
+          </div>
+          <button class="btn">Confirm Booking</button>
+        </div>
+        <div class="foot">Powered by Bapita</div>
+      </div>
+    </div>
+    <p class="tpl-desc">Near-black background, gold accents, frosted glass cards. Members-club feel. For high-ticket barbers who want to impress.</p>
+  </div>
+
+</div>
+
+<!-- DATE PICKER -->
+<div class="sec-header">
+  <h2>Date Picker Style</h2>
+  <p>Same across all templates — pick which feels better</p>
+</div>
+
+<div class="dp-grid">
+  <div class="dp-card" id="dp-a" onclick="pick('dp','a')">
+    <div class="tag">Option A</div>
+    <div class="dp-title">Month Calendar</div>
+    <div class="dp-sub">Full month visible. Highlighted available days. Standard (Calendly, Acuity). Most familiar to barbers.</div>
+    <div class="cal-head">
+      <span class="cal-nav">‹</span>
+      <span class="cal-month-label">June 2026</span>
+      <span class="cal-nav">›</span>
+    </div>
+    <div class="cal-day-labels">
+      <div class="cal-day-label">Su</div><div class="cal-day-label">Mo</div><div class="cal-day-label">Tu</div>
+      <div class="cal-day-label">We</div><div class="cal-day-label">Th</div><div class="cal-day-label">Fr</div><div class="cal-day-label">Sa</div>
+    </div>
+    <div class="cal-days">
+      <div class="c-day off"></div>
+      <div class="c-day closed">2</div><div class="c-day closed">3</div><div class="c-day closed">4</div>
+      <div class="c-day closed">5</div><div class="c-day closed">6</div><div class="c-day closed">7</div>
+      <div class="c-day off">8</div><div class="c-day off">9</div>
+      <div class="c-day closed">10</div><div class="c-day closed">11</div><div class="c-day closed">12</div><div class="c-day closed">13</div>
+      <div class="c-day sel">14</div><div class="c-day avail">15</div>
+      <div class="c-day off">16</div><div class="c-day off">17</div>
+      <div class="c-day avail">18</div><div class="c-day avail">19</div><div class="c-day avail">20</div><div class="c-day closed">21</div>
+      <div class="c-day avail">22</div><div class="c-day off">23</div><div class="c-day off">24</div>
+      <div class="c-day avail">25</div><div class="c-day avail">26</div><div class="c-day avail">27</div><div class="c-day closed">28</div>
+      <div class="c-day avail">29</div><div class="c-day avail">30</div>
+    </div>
+  </div>
+
+  <div class="dp-card" id="dp-b" onclick="pick('dp','b')">
+    <div class="tag">Option B</div>
+    <div class="dp-title">Scroll Row</div>
+    <div class="dp-sub">Swipe through days. Shows slot count. Faster on mobile. Like Fresha/Square.</div>
+    <div style="font-size:10px;font-weight:700;color:#AAA;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">June 2026</div>
+    <div class="hscroll">
+      <div class="dpill"><div class="dpill-day">Sun</div><div class="dpill-num">14</div><div class="dpill-slots empty">·</div></div>
+      <div class="dpill sel"><div class="dpill-day">Mon</div><div class="dpill-num">15</div><div class="dpill-slots">5 slots</div></div>
+      <div class="dpill"><div class="dpill-day">Tue</div><div class="dpill-num">16</div><div class="dpill-slots">3 slots</div></div>
+      <div class="dpill"><div class="dpill-day">Wed</div><div class="dpill-num">17</div><div class="dpill-slots">7 slots</div></div>
+      <div class="dpill"><div class="dpill-day">Thu</div><div class="dpill-num">18</div><div class="dpill-slots">2 slots</div></div>
+      <div class="dpill"><div class="dpill-day">Fri</div><div class="dpill-num">19</div><div class="dpill-slots empty">closed</div></div>
+      <div class="dpill"><div class="dpill-day">Sat</div><div class="dpill-num">20</div><div class="dpill-slots empty">closed</div></div>
+      <div class="dpill"><div class="dpill-day">Sun</div><div class="dpill-num">21</div><div class="dpill-slots">4 slots</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const sel = { tpl: null, dp: null };
+function pick(group, id) {
+  const prefix = group === 'tpl' ? 'tpl-' : 'dp-';
+  const opts = group === 'tpl' ? ['a','b','c'] : ['a','b'];
+  opts.forEach(x => document.getElementById(prefix + x)?.classList.remove('selected'));
+  document.getElementById(prefix + id)?.classList.add('selected');
+  sel[group] = id;
+  const names = {
+    tpl: { a: 'Classic', b: 'Clean', c: 'Dark' },
+    dp:  { a: 'Month Calendar', b: 'Scroll Row' }
+  };
+  console.log('→', group.toUpperCase(), ':', names[group][id]);
+  try {
+    document.dispatchEvent(new CustomEvent('brainstorm-select', {
+      detail: { choice: sel.tpl + '-' + sel.dp, text: `Template: ${names.tpl[sel.tpl] || '?'} | Date: ${names.dp[sel.dp] || '?'}` }
+    }));
+  } catch(e) {}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bapita — Template Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Heebo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: #F0EDE8;
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+  }
+  h1 {
+    font-family: 'Heebo', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #1E1A14;
+    text-align: center;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #6B6052;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  /* ── Grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 980px;
+    margin: 0 auto 60px;
+  }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+  /* ── Template card wrapper ── */
+  .tpl-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  .tpl-wrap.selected .phone-frame {
+    outline: 3px solid #E8920A;
+    outline-offset: 4px;
+  }
+  .tpl-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #1E1A14;
+    margin-bottom: 14px;
+  }
+  .tpl-desc {
+    font-size: 12px;
+    color: #6B6052;
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+    max-width: 240px;
+  }
+
+  /* ── Phone frame ── */
+  .phone-frame {
+    width: 260px;
+    height: 520px;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 16px 56px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+    transition: transform 0.15s ease, outline 0.15s ease;
+    flex-shrink: 0;
+  }
+  .phone-frame:hover { transform: translateY(-4px); }
+
+  /* ========================================
+     TEMPLATE A — HERITAGE
+     Cream/amber/serif. Warm. Classic barber.
+     ======================================== */
+  .heritage {
+    background: #FAF5EC;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .heritage .hero {
+    height: 160px;
+    background: linear-gradient(180deg, rgba(30,26,20,0.55) 0%, rgba(30,26,20,0.35) 100%),
+                url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=520&q=80') center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 16px 18px;
+    flex-shrink: 0;
+  }
+  .heritage .shop-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+    text-align: center;
+  }
+  .heritage .tagline {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+    margin-top: 3px;
+    letter-spacing: 0.01em;
+    text-align: center;
+  }
+  .heritage .body {
+    flex: 1;
+    padding: 16px 14px;
+    overflow: hidden;
+  }
+  .heritage .step-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #6B6052;
+    margin-bottom: 10px;
+  }
+  .heritage .svc-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 4px rgba(30,26,20,0.07);
+    border: 1.5px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .heritage .svc-card:first-of-type { border-color: #E8920A; }
+  .heritage .svc-name { font-size: 13px; font-weight: 700; color: #1E1A14; }
+  .heritage .svc-dur { font-size: 11px; color: #6B6052; margin-top: 1px; }
+  .heritage .svc-price { font-size: 14px; font-weight: 800; color: #E8920A; }
+  .heritage .divider { height: 1px; background: #F0EAE0; margin: 12px 0; }
+  .heritage .slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .heritage .slot {
+    background: #FFFFFF;
+    border: 1.5px solid #F0EAE0;
+    border-radius: 8px;
+    padding: 6px 0;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1E1A14;
+  }
+  .heritage .slot.active {
+    background: #E8920A;
+    border-color: #E8920A;
+    color: #fff;
+  }
+  .heritage .book-btn {
+    margin-top: 14px;
+    width: 100%;
+    background: linear-gradient(135deg, #F5A623 0%, #E8920A 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    font-family: 'Heebo', sans-serif;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 14px rgba(232,146,10,0.3);
+  }
+  .heritage .powered {
+    text-align: center;
+    font-size: 10px;
+    color: #A89880;
+    padding: 8px;
+    background: #FAF5EC;
+  }
+
+  /* ========================================
+     TEMPLATE B — STUDIO
+     Pure B&W. Editorial. Bold.
+     ======================================== */
+  .studio {
+    background: #FFFFFF;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .studio .header {
+    padding: 24px 16px 18px;
+    border-bottom: 1px solid #EBEBEB;
+    flex-shrink: 0;
+  }
+  .studio .shop-name {
+    font-family: 'Heebo', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: #0A0A0A;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .studio .tagline {
+    font-size: 11px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 4px;
+    letter-spacing: 0.01em;
+  }
+  .studio .body {
+    flex: 1;
+    padding: 16px 14px;
+    overflow: hidden;
+  }
+  .studio .step-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin-bottom: 10px;
+  }
+  .studio .svc-card {
+    border: 1.5px solid #E8E8E8;
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+    transition: border-color 0.15s;
+  }
+  .studio .svc-card:first-of-type {
+    border-color: #0A0A0A;
+    background: #F8F8F8;
+  }
+  .studio .svc-name { font-size: 13px; font-weight: 700; color: #0A0A0A; }
+  .studio .svc-dur { font-size: 11px; color: #999; margin-top: 1px; }
+  .studio .svc-price { font-size: 14px; font-weight: 800; color: #0A0A0A; }
+  .studio .divider { height: 1px; background: #F0F0F0; margin: 12px 0; }
+  .studio .slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .studio .slot {
+    border: 1.5px solid #E8E8E8;
+    border-radius: 6px;
+    padding: 6px 0;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #0A0A0A;
+  }
+  .studio .slot.active {
+    background: #0A0A0A;
+    border-color: #0A0A0A;
+    color: #fff;
+  }
+  .studio .book-btn {
+    margin-top: 14px;
+    width: 100%;
+    background: #0A0A0A;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    font-family: 'Heebo', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .studio .powered {
+    text-align: center;
+    font-size: 10px;
+    color: #BBB;
+    padding: 8px;
+  }
+
+  /* ========================================
+     TEMPLATE C — NOIR
+     Dark. Gold. Glassmorphism. Premium.
+     ======================================== */
+  .noir {
+    background: #0D0D0D;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .noir::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .noir .hero {
+    height: 160px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.82) 100%),
+                url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=520&q=80') center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 16px 18px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .noir .shop-name {
+    font-family: 'Heebo', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-align: center;
+    background: linear-gradient(135deg, #F5DFA0 0%, #C9A84C 50%, #F5DFA0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .noir .tagline {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+    margin-top: 3px;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .noir .body {
+    flex: 1;
+    padding: 16px 14px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  .noir .step-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #C9A84C;
+    margin-bottom: 10px;
+  }
+  .noir .svc-card {
+    background: rgba(255,255,255,0.055);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+  }
+  .noir .svc-card:first-of-type {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(201,168,76,0.08);
+  }
+  .noir .svc-name { font-size: 13px; font-weight: 700; color: #FFFFFF; }
+  .noir .svc-dur { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 1px; }
+  .noir .svc-price { font-size: 14px; font-weight: 800; color: #C9A84C; }
+  .noir .divider { height: 1px; background: rgba(255,255,255,0.07); margin: 12px 0; }
+  .noir .slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .noir .slot {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 6px 0;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+  }
+  .noir .slot.active {
+    background: rgba(201,168,76,0.2);
+    border-color: #C9A84C;
+    color: #C9A84C;
+  }
+  .noir .book-btn {
+    margin-top: 14px;
+    width: 100%;
+    background: linear-gradient(135deg, #D4B060 0%, #C9A84C 100%);
+    color: #0D0D0D;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    font-family: 'Heebo', sans-serif;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+  }
+  .noir .powered {
+    text-align: center;
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    padding: 8px;
+  }
+
+  /* ── Date picker section ── */
+  .section-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1E1A14;
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: #6B6052;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .datepicker-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 680px;
+    margin: 0 auto 60px;
+  }
+  @media (max-width: 560px) { .datepicker-grid { grid-template-columns: 1fr; } }
+
+  .dp-wrap {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(30,26,20,0.08);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .dp-wrap:hover { transform: translateY(-2px); }
+  .dp-wrap.selected { border-color: #E8920A; }
+
+  .dp-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6B6052;
+    margin-bottom: 12px;
+  }
+  .dp-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1E1A14;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .dp-sub {
+    font-size: 12px;
+    color: #6B6052;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  /* Calendar grid preview */
+  .cal-grid { width: 100%; }
+  .cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .cal-month { font-size: 13px; font-weight: 700; color: #1E1A14; }
+  .cal-nav { font-size: 12px; color: #6B6052; cursor: pointer; }
+  .cal-days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 4px;
+  }
+  .cal-day-label {
+    text-align: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: #A89880;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 0;
+  }
+  .cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1E1A14;
+    border-radius: 8px;
+  }
+  .cal-day.empty { color: transparent; }
+  .cal-day.disabled { color: #CCC; }
+  .cal-day.available { background: #FAF5EC; }
+  .cal-day.selected { background: #E8920A; color: white; font-weight: 800; }
+  .cal-day.today { font-weight: 800; }
+
+  /* Horizontal scroll preview */
+  .horiz-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .horiz-scroll::-webkit-scrollbar { display: none; }
+  .date-pill {
+    flex-shrink: 0;
+    width: 48px;
+    padding: 8px 0;
+    text-align: center;
+    border-radius: 12px;
+    border: 1.5px solid #F0EAE0;
+    background: white;
+  }
+  .date-pill.selected {
+    background: #E8920A;
+    border-color: #E8920A;
+  }
+  .date-pill.selected .dp-day-name,
+  .date-pill.selected .dp-day-num { color: white; }
+  .dp-day-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: #6B6052;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .dp-day-num {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1E1A14;
+    line-height: 1.2;
+  }
+  .dp-tag-avail {
+    font-size: 9px;
+    color: #E8920A;
+    font-weight: 700;
+  }
+  .dp-tag-avail.empty { color: #CCC; }
+
+  /* selection footer */
+  .select-footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: white;
+    border-top: 1px solid #EEE;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 13px;
+    color: #6B6052;
+  }
+  .badge {
+    display: inline-block;
+    background: #E8920A;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Template Directions</h1>
+<p class="subtitle">Click a template to select it. These show the full booking flow aesthetic.</p>
+
+<div class="grid">
+
+  <!-- HERITAGE -->
+  <div class="tpl-wrap" id="tpl-a" onclick="selectTemplate('a')">
+    <div class="tpl-label">A — Heritage</div>
+    <div class="phone-frame">
+      <div class="heritage">
+        <div class="hero">
+          <div class="shop-name">Studio Avi</div>
+          <div class="tagline">ספרות מקצועית. שירות אישי.</div>
+        </div>
+        <div class="body">
+          <div class="step-label">Choose a service</div>
+          <div class="svc-card">
+            <div>
+              <div class="svc-name">Classic Haircut</div>
+              <div class="svc-dur">45 min</div>
+            </div>
+            <div class="svc-price">₪80</div>
+          </div>
+          <div class="svc-card">
+            <div>
+              <div class="svc-name">Beard Trim</div>
+              <div class="svc-dur">20 min</div>
+            </div>
+            <div class="svc-price">₪50</div>
+          </div>
+          <div class="divider"></div>
+          <div class="step-label">Time slots</div>
+          <div class="slots">
+            <div class="slot">09:00</div>
+            <div class="slot active">10:00</div>
+            <div class="slot">11:00</div>
+            <div class="slot">13:00</div>
+            <div class="slot">14:30</div>
+            <div class="slot">16:00</div>
+          </div>
+          <button class="book-btn">Confirm Booking</button>
+        </div>
+        <div class="powered">Powered by <strong>Bapita</strong></div>
+      </div>
+    </div>
+    <p class="tpl-desc">Warm cream + amber + serif name. Timeless. Trustworthy. Feels like a legacy barber. Best for traditional shops.</p>
+  </div>
+
+  <!-- STUDIO -->
+  <div class="tpl-wrap" id="tpl-b" onclick="selectTemplate('b')">
+    <div class="tpl-label">B — Studio</div>
+    <div class="phone-frame">
+      <div class="studio">
+        <div class="header">
+          <div class="shop-name">STUDIO AVI</div>
+          <div class="tagline">Precision cuts. Every time.</div>
+        </div>
+        <div class="body">
+          <div class="step-label">Choose a service</div>
+          <div class="svc-card">
+            <div>
+              <div class="svc-name">Classic Haircut</div>
+              <div class="svc-dur">45 min</div>
+            </div>
+            <div class="svc-price">₪80</div>
+          </div>
+          <div class="svc-card">
+            <div>
+              <div class="svc-name">Beard Trim</div>
+              <div class="svc-dur">20 min</div>
+            </div>
+            <div class="svc-price">₪50</div>
+          </div>
+          <div class="divider"></div>
+          <div class="step-label">Time slots</div>
+          <div class="slots">
+            <div class="slot">09:00</div>
+            <div class="slot active">10:00</div>
+            <div class="slot">11:00</div>
+            <div class="slot">13:00</div>
+            <div class="slot">14:30</div>
+            <div class="slot">16:00</div>
+          </div>
+          <button class="book-btn">Confirm Booking</button>
+        </div>
+        <div class="powered">Powered by Bapita</div>
+      </div>
+    </div>
+    <p class="tpl-desc">Pure white + black. Bold sans-serif. No color, no fluff. Editorial like a design studio. For image-conscious, urban barbers.</p>
+  </div>
+
+  <!-- NOIR -->
+  <div class="tpl-wrap" id="tpl-c" onclick="selectTemplate('c')">
+    <div class="tpl-label">C — Noir</div>
+    <div class="phone-frame">
+      <div class="noir">
+        <div class="hero">
+          <div class="shop-name">Studio Avi</div>
+          <div class="tagline">המקום של הגברים</div>
+        </div>
+        <div class="body">
+          <div class="step-label">Choose a service</div>
+          <div class="svc-card">
+            <div>
+              <div class="svc-name">Classic Haircut</div>
+              <div class="svc-dur">45 min</div>
+            </div>
+            <div class="svc-price">₪80</div>
+          </div>
+          <div class="svc-card">
+            <div>
+              <div class="svc-name">Beard Trim</div>
+              <div class="svc-dur">20 min</div>
+            </div>
+            <div class="svc-price">₪50</div>
+          </div>
+          <div class="divider"></div>
+          <div class="step-label">Time slots</div>
+          <div class="slots">
+            <div class="slot">09:00</div>
+            <div class="slot active">10:00</div>
+            <div class="slot">11:00</div>
+            <div class="slot">13:00</div>
+            <div class="slot">14:30</div>
+            <div class="slot">16:00</div>
+          </div>
+          <button class="book-btn">Confirm Booking</button>
+        </div>
+        <div class="powered">Powered by Bapita</div>
+      </div>
+    </div>
+    <p class="tpl-desc">Dark near-black + gold. Glassmorphism cards. Gold shimmer on name. Premium members-club feel. For high-ticket barbers.</p>
+  </div>
+
+</div>
+
+<!-- DATE PICKER SECTION -->
+<div class="section-title">Date Picker Style</div>
+<p class="section-sub">Both work on all 3 templates. Which feels right for the demo?</p>
+
+<div class="datepicker-grid">
+
+  <!-- Option 1: Calendar Grid -->
+  <div class="dp-wrap" id="dp-a" onclick="selectDP('a')">
+    <div class="dp-tag">Option A</div>
+    <div class="dp-title">Month Calendar Grid</div>
+    <div class="dp-sub">See the full month. Available days highlighted. Like Calendly.</div>
+    <div class="cal-grid">
+      <div class="cal-header">
+        <span class="cal-nav">‹</span>
+        <span class="cal-month">June 2026</span>
+        <span class="cal-nav">›</span>
+      </div>
+      <div class="cal-days-header">
+        <div class="cal-day-label">Su</div>
+        <div class="cal-day-label">Mo</div>
+        <div class="cal-day-label">Tu</div>
+        <div class="cal-day-label">We</div>
+        <div class="cal-day-label">Th</div>
+        <div class="cal-day-label">Fr</div>
+        <div class="cal-day-label">Sa</div>
+      </div>
+      <div class="cal-days">
+        <div class="cal-day empty"></div>
+        <div class="cal-day disabled">2</div>
+        <div class="cal-day disabled">3</div>
+        <div class="cal-day disabled">4</div>
+        <div class="cal-day disabled">5</div>
+        <div class="cal-day disabled">6</div>
+        <div class="cal-day disabled">7</div>
+        <div class="cal-day disabled">8</div>
+        <div class="cal-day disabled">9</div>
+        <div class="cal-day disabled">10</div>
+        <div class="cal-day disabled">11</div>
+        <div class="cal-day disabled">12</div>
+        <div class="cal-day disabled">13</div>
+        <div class="cal-day today selected">14</div>
+        <div class="cal-day available">15</div>
+        <div class="cal-day available">16</div>
+        <div class="cal-day available">17</div>
+        <div class="cal-day available">18</div>
+        <div class="cal-day disabled">19</div>
+        <div class="cal-day disabled">20</div>
+        <div class="cal-day available">21</div>
+        <div class="cal-day available">22</div>
+        <div class="cal-day available">23</div>
+        <div class="cal-day available">24</div>
+        <div class="cal-day available">25</div>
+        <div class="cal-day disabled">26</div>
+        <div class="cal-day disabled">27</div>
+        <div class="cal-day available">28</div>
+        <div class="cal-day available">29</div>
+        <div class="cal-day available">30</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option 2: Horizontal scroll -->
+  <div class="dp-wrap" id="dp-b" onclick="selectDP('b')">
+    <div class="dp-tag">Option B</div>
+    <div class="dp-title">Horizontal Scroll Row</div>
+    <div class="dp-sub">Swipe through days. Fast, thumb-friendly, very app-native. Like Fresha.</div>
+    <div style="margin-bottom: 10px; font-size: 11px; font-weight: 700; color: #6B6052; letter-spacing: 0.06em; text-transform: uppercase;">June 2026</div>
+    <div class="horiz-scroll">
+      <div class="date-pill">
+        <div class="dp-day-name">Sun</div>
+        <div class="dp-day-num">14</div>
+        <div class="dp-tag-avail empty">·</div>
+      </div>
+      <div class="date-pill selected">
+        <div class="dp-day-name">Mon</div>
+        <div class="dp-day-num">15</div>
+        <div class="dp-tag-avail" style="color:white">5 slots</div>
+      </div>
+      <div class="date-pill">
+        <div class="dp-day-name">Tue</div>
+        <div class="dp-day-num">16</div>
+        <div class="dp-tag-avail">3 slots</div>
+      </div>
+      <div class="date-pill">
+        <div class="dp-day-name">Wed</div>
+        <div class="dp-day-num">17</div>
+        <div class="dp-tag-avail">7 slots</div>
+      </div>
+      <div class="date-pill">
+        <div class="dp-day-name">Thu</div>
+        <div class="dp-day-num">18</div>
+        <div class="dp-tag-avail">2 slots</div>
+      </div>
+      <div class="date-pill">
+        <div class="dp-day-name">Fri</div>
+        <div class="dp-day-num">19</div>
+        <div class="dp-tag-avail empty">closed</div>
+      </div>
+      <div class="date-pill">
+        <div class="dp-day-name">Sat</div>
+        <div class="dp-day-num">20</div>
+        <div class="dp-tag-avail empty">closed</div>
+      </div>
+      <div class="date-pill">
+        <div class="dp-day-name">Sun</div>
+        <div class="dp-day-num">21</div>
+        <div class="dp-tag-avail">4 slots</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let selectedTemplate = null;
+  let selectedDP = null;
+
+  function selectTemplate(id) {
+    ['a','b','c'].forEach(x => {
+      document.getElementById('tpl-' + x).classList.remove('selected');
+    });
+    document.getElementById('tpl-' + id).classList.add('selected');
+    selectedTemplate = id;
+    reportSelection();
+
+    if (window.bapita_select) window.bapita_select('template-' + id);
+  }
+
+  function selectDP(id) {
+    ['a','b'].forEach(x => {
+      document.getElementById('dp-' + x).classList.remove('selected');
+    });
+    document.getElementById('dp-' + id).classList.add('selected');
+    selectedDP = id;
+    reportSelection();
+  }
+
+  function reportSelection() {
+    const label = {
+      template: selectedTemplate ? ({'a':'Heritage','b':'Studio','c':'Noir'}[selectedTemplate]) : null,
+      datepicker: selectedDP ? ({'a':'Calendar grid','b':'Horizontal scroll'}[selectedDP]) : null
+    };
+    console.log('Selection:', label);
+    // fire helper event if available
+    if (typeof toggleSelect !== 'undefined') {
+      // use built-in helper
+    }
+    // custom event for superpowers helper
+    document.dispatchEvent(new CustomEvent('brainstorm-select', {
+      detail: { choice: (selectedTemplate||'') + '-' + (selectedDP||''), text: JSON.stringify(label) }
+    }));
+  }
+</script>
+
+</body>
+</html>
