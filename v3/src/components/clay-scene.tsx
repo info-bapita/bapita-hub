@@ -50,7 +50,7 @@ const STAGGER_MS = 170;
 // landed, before the whole group reappears at once.
 const POCKET_HOLD_MS = 1900;
 // Time between the start of one auto wave and the next.
-const WAVE_INTERVAL_MS = 7200;
+const WAVE_INTERVAL_MS = 14000;
 
 function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
