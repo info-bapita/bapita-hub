@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useAnimate, useReducedMotion } from "framer-motion";
 import { PRODUCT_ICONS } from "@/lib/icon-map";
 import type { ProductId } from "@/lib/products";
@@ -8,6 +8,9 @@ import type { ProductId } from "@/lib/products";
 // Decorative clay scene: six product orbs arced around a pita bowl that
 // straddles the hero's bottom edge (the light→dark bridge). Pure DOM/CSS —
 // framer-motion springs drive the drop; idle bob + blob-breathe live in CSS.
+//
+// Orbs drop one-by-one round-robin. Once an orb lands in the pocket it stays
+// hidden (in the pita) until all 6 have landed, then they all reset together.
 
 type Orb = {
   id: ProductId;
@@ -52,6 +55,25 @@ export function ClayScene() {
   const reduced = useReducedMotion();
   const busy = useRef(false);
   const nextIdx = useRef(0);
+  const landedCount = useRef(0);
+
+  const resetAll = useCallback(async () => {
+    const root = scope.current as HTMLElement | null;
+    if (!root) return;
+    // Fade all hidden orbs back to their lanes
+    for (let i = 0; i < ORBS.length; i++) {
+      const ball = root.querySelector<HTMLElement>(`[data-ball="${i}"]`);
+      const shadow = root.querySelector<HTMLElement>(`[data-shadow="${i}"]`);
+      const caption = root.querySelector<HTMLElement>(`[data-caption="${i}"]`);
+      if (!ball) continue;
+      // Snap to lane position, then fade in
+      animate(ball, { x: 0, y: 0, scaleX: 1, scaleY: 1 }, { duration: 0 });
+      animate(ball, { opacity: [0, 1] }, { duration: 0.55, ease: "easeOut" });
+      if (shadow) animate(shadow, { opacity: 1 }, { duration: 0.4 });
+      if (caption) animate(caption, { opacity: [0, 1] }, { duration: 0.45, ease: "easeOut" });
+    }
+    landedCount.current = 0;
+  }, [animate, scope]);
 
   async function drop(i: number) {
     if (busy.current || reduced) return;
@@ -59,6 +81,7 @@ export function ClayScene() {
     if (!root) return;
     const ball = root.querySelector<HTMLElement>(`[data-ball="${i}"]`);
     const shadow = root.querySelector<HTMLElement>(`[data-shadow="${i}"]`);
+    const caption = root.querySelector<HTMLElement>(`[data-caption="${i}"]`);
     const pocket = root.querySelector<HTMLElement>("[data-pocket]");
     const bowl = root.querySelector<HTMLElement>("[data-bowl]");
     if (!ball || !pocket || !bowl) return;
@@ -70,6 +93,7 @@ export function ClayScene() {
     const dy = p.top + p.height * 0.45 - (b.top + b.height / 2);
 
     if (shadow) animate(shadow, { opacity: 0 }, { duration: 0.2 });
+    if (caption) animate(caption, { opacity: 0 }, { duration: 0.2 });
 
     // Bezier-ish arc: x sweeps evenly, y rises then falls into the pocket.
     await animate(
@@ -87,10 +111,17 @@ export function ClayScene() {
     await animate(ball, { scaleY: 0.55, scaleX: 1.28 }, { duration: 0.12, ease: "easeOut" });
     await animate(ball, { opacity: 0, scaleX: 0.5, scaleY: 0.35 }, { duration: 0.18, ease: "easeIn" });
 
-    // Return at lane position.
-    await animate(ball, { x: 0, y: 0, scaleX: 1, scaleY: 1 }, { duration: 0 });
-    await animate(ball, { opacity: [0, 1] }, { duration: 0.55, ease: "easeOut" });
-    if (shadow) animate(shadow, { opacity: 1 }, { duration: 0.4 });
+    // Stay hidden in pita — track how many have landed
+    landedCount.current += 1;
+
+    // If all 6 landed, wait a beat then collective reset
+    if (landedCount.current >= ORBS.length) {
+      await new Promise((r) => setTimeout(r, 1200));
+      await resetAll();
+    } else {
+      // Snap back to lane but stay invisible until resetAll
+      await animate(ball, { x: 0, y: 0, scaleX: 1, scaleY: 1 }, { duration: 0 });
+    }
 
     busy.current = false;
   }
@@ -186,7 +217,10 @@ export function ClayScene() {
                 }}
               />
               {/* caption pill */}
-              <span className="mt-1 rounded-pill bg-clay/80 px-2.5 py-0.5 text-[11px] font-bold text-espresso-muted shadow-sm backdrop-blur-sm max-sm:hidden">
+              <span
+                data-caption={i}
+                className="mt-1 rounded-pill bg-clay/80 px-2.5 py-0.5 text-[11px] font-bold text-espresso-muted shadow-sm backdrop-blur-sm max-sm:hidden"
+              >
                 {orb.label}
               </span>
             </div>
@@ -194,14 +228,14 @@ export function ClayScene() {
         );
       })}
 
-      {/* Pita bowl — straddles the hero's bottom edge */}
+      {/* Pita bowl — straddles the hero's bottom edge, half in hero / half in dark section */}
       <div
         data-bowl
-        className="pointer-events-none absolute left-1/2 top-full w-[min(920px,95vw)]"
+        className="pointer-events-none absolute left-1/2 top-full w-[min(820px,92vw)]"
         style={{ translate: "-50% -52%" }}
       >
-        <div className="relative" style={{ aspectRatio: "920 / 360" }}>
-          {/* body */}
+        <div className="relative" style={{ aspectRatio: "820 / 460" }}>
+          {/* body — more bulbous, like reference bowl */}
           <div
             className="absolute inset-0 rounded-[50%]"
             style={{
@@ -214,15 +248,15 @@ export function ClayScene() {
               ].join(", "),
             }}
           />
-          {/* pocket */}
+          {/* pocket — bigger, deeper for orbs to land in */}
           <div
             data-pocket
             className="absolute rounded-[50%]"
             style={{
-              left: "14%",
-              right: "14%",
-              top: "11%",
-              height: "48%",
+              left: "16%",
+              right: "16%",
+              top: "10%",
+              height: "54%",
               background:
                 "radial-gradient(100% 130% at 50% 32%, color-mix(in srgb, var(--color-bowl-dark) 78%, black) 0%, var(--color-bowl-dark) 58%, color-mix(in srgb, var(--color-bowl-dark) 62%, var(--color-bowl-tan)) 100%)",
               boxShadow:
