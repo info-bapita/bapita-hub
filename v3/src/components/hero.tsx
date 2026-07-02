@@ -5,7 +5,7 @@ import { ClayScene } from "@/components/clay-scene";
 export function Hero() {
   return (
     <section
-      className="relative z-10 flex min-h-screen items-start overflow-visible pt-32 pb-[320px] sm:pt-36"
+      className="relative z-10 flex min-h-screen items-start overflow-visible pt-32 pb-[180px] sm:pt-36 sm:pb-[200px]"
       style={{
         background:
           "linear-gradient(168deg, var(--color-clay) 0%, var(--color-clay-warm) 55%, var(--color-clay-toast) 100%)",

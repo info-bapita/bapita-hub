@@ -33,9 +33,9 @@ const ORBS: Orb[] = [
 const ORB_COLORS: Record<string, { highlight: string; base: string; deep: string }> = {
   book:     { highlight: "#ffc066", base: "#ef910a", deep: "#b86a00" },
   social:   { highlight: "#f09a7a", base: "#C75A1F", deep: "#8a3e15" },
-  seo:      { highlight: "#ffffff", base: "#EBF3F5", deep: "#b8ccd0" },
-  outreach: { highlight: "#ffffff", base: "#E8DFE8", deep: "#b8a8b8" },
-  bots:     { highlight: "#ffffff", base: "#FAF0E6", deep: "#d4c0b0" },
+  seo:      { highlight: "#b8d9b0", base: "#679e5a", deep: "#3d6b30" },
+  outreach: { highlight: "#d4b0d9", base: "#8e5a9e", deep: "#5c306b" },
+  bots:     { highlight: "#a8c8e8", base: "#4a7fb5", deep: "#2a4f7a" },
   ads:      { highlight: "#cfe0d5", base: "#8FA89B", deep: "#5c786b" },
 };
 function orbPalette(id: ProductId) {
@@ -197,10 +197,10 @@ export function ClayScene() {
       {/* Pita bowl — straddles the hero's bottom edge */}
       <div
         data-bowl
-        className="pointer-events-none absolute left-1/2 top-full w-[min(760px,90vw)]"
-        style={{ translate: "-50% -50%" }}
+        className="pointer-events-none absolute left-1/2 top-full w-[min(920px,95vw)]"
+        style={{ translate: "-50% -52%" }}
       >
-        <div className="relative" style={{ aspectRatio: "760 / 310" }}>
+        <div className="relative" style={{ aspectRatio: "920 / 360" }}>
           {/* body */}
           <div
             className="absolute inset-0 rounded-[50%]"
