@@ -250,7 +250,20 @@ export function HowItWorks() {
                       stepRefs.current[i] = el;
                     }}
                     data-index={i}
-                    className="relative flex items-start gap-6"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setActive(i)}
+                    onMouseEnter={() => setActive(i)}
+                    onFocus={() => setActive(i)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setActive(i);
+                      }
+                    }}
+                    className={`relative -mx-4 flex cursor-pointer items-start gap-6 rounded-2xl px-4 py-2 outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-clay-toast/50 focus-visible:ring-offset-2 focus-visible:ring-offset-clay-warm ${
+                      isActive ? "bg-cream/5" : "hover:bg-cream/5"
+                    }`}
                   >
                     <span
                       className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border bg-ink-600 shadow-md transition-all duration-300 ${
