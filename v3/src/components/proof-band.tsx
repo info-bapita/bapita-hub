@@ -26,7 +26,14 @@ const SEPARATOR = (
 export function ProofBand() {
   return (
     <section className="border-b border-cream/[0.08] bg-ink">
-      <div className="mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pb-20 sm:pt-28">
+      {/*
+        pt increased significantly (was pt-36/sm:pt-48) so the pita's
+        rounded bottom — which pokes down into this section from the
+        hero above — has clear black space to read against before the
+        stats start. Tune this number against the actual bowl height/
+        overlap once clay-scene.tsx is in hand; this is a starting point.
+      */}
+      <div className="mx-auto max-w-7xl px-5 pb-16 pt-64 sm:px-8 sm:pb-20 sm:pt-[26rem]">
         <div className="grid gap-10 sm:grid-cols-3 sm:gap-8">
           {STATS.map((stat, i) => (
             <Reveal key={stat.value} delay={i * 80}>
