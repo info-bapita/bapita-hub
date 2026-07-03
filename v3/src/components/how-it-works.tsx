@@ -189,9 +189,12 @@ const VISUALS = [ToolsVisual, BuildVisual, DashboardVisual];
 export function HowItWorks() {
   const [active, setActive] = useState(0);
   const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [panelOffset, setPanelOffset] = useState(0);
+  const [pinTop, setPinTop] = useState(112); // px from viewport top where the panel pins
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -209,29 +212,50 @@ export function HowItWorks() {
     return () => observer.disconnect();
   }, []);
 
-  // Glides the sticky panel from the top to the bottom of its fold as the
-  // section scrolls, instead of sitting static the whole time it's pinned.
+  // Sets the pin distance to sit just below the section's own title block,
+  // instead of a guessed constant that could land above or under the title.
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const TITLE_GAP = 40; // px of breathing room below the title block
+
+    const measure = () => setPinTop(Math.round(header.getBoundingClientRect().height + TITLE_GAP));
+
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  // Glides the panel from its pin point down toward the section's bottom as
+  // you scroll, hard-capped so it always stops with clearance before the
+  // section actually ends (never runs into the footer content below it).
   useEffect(() => {
     const track = trackRef.current;
     const panel = panelRef.current;
-    if (!track || !panel) return;
+    const section = sectionRef.current;
+    if (!track || !panel || !section) return;
 
-    const TOP_OFFSET = 112; // px — matches `top-28`
+    const BOTTOM_GAP = 56; // px of clearance kept above the section's bottom edge
 
     let frame = 0;
 
     const update = () => {
       frame = 0;
       const trackRect = track.getBoundingClientRect();
+      const sectionRect = section.getBoundingClientRect();
       const panelH = panel.offsetHeight;
-      const travel = Math.max(trackRect.height - panelH, 0);
 
-      const progress =
-        travel > 0
-          ? Math.min(Math.max((TOP_OFFSET - trackRect.top) / travel, 0), 1)
-          : 0;
+      // how far we've scrolled since the panel reached its pin point
+      const scrolledIntoPin = Math.max(pinTop - trackRect.top, 0);
 
-      setPanelOffset(progress * travel);
+      // room the track's own padding makes available
+      const trackTravel = Math.max(trackRect.height - panelH, 0);
+
+      // hard stop: never let the panel get closer than BOTTOM_GAP to the section's bottom
+      const hardCap = Math.max(sectionRect.bottom - BOTTOM_GAP - panelH - pinTop, 0);
+
+      const maxTravel = Math.min(trackTravel, hardCap);
+      setPanelOffset(Math.min(scrolledIntoPin, maxTravel));
     };
 
     const onScroll = () => {
@@ -246,16 +270,17 @@ export function HowItWorks() {
       window.removeEventListener("resize", onScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [pinTop]);
 
   return (
     <section
+      ref={sectionRef}
       id="how-it-works"
       className="relative z-20 flex min-h-screen flex-col items-center justify-center gap-8 overflow-visible bg-[linear-gradient(to_right,#fafaf8_0%,#fafaf8_100%)] py-24"
     >
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
-          <div className="mb-16 max-w-xl">
+          <div ref={headerRef} className="mb-16 max-w-xl">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cinnamon">
               How it works
             </p>
@@ -276,7 +301,7 @@ export function HowItWorks() {
               className="absolute bottom-10 left-[27px] top-10 w-px bg-gradient-to-b from-cream/15 via-cream/10 to-transparent"
               aria-hidden="true"
             />
-            <ol className="flex flex-col gap-10 sm:gap-12 lg:gap-16">
+            <ol className="flex flex-col gap-10 sm:gap-12">
               {STEPS.map((step, i) => {
                 const Icon = step.icon;
                 const Visual = VISUALS[i];
@@ -351,8 +376,8 @@ export function HowItWorks() {
           </div>
 
           {/* desktop only: pinned visual panel that glides top-to-bottom as you scroll the fold */}
-          <div ref={trackRef} className="relative hidden lg:block lg:py-48">
-            <div className="sticky top-28">
+          <div ref={trackRef} className="relative hidden lg:block lg:py-64">
+            <div className="sticky" style={{ top: pinTop }}>
               <div
                 ref={panelRef}
                 style={{ transform: `translateY(${panelOffset}px)` }}
