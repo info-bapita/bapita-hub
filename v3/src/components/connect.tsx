@@ -73,22 +73,25 @@ function LeadForm() {
 
 export function Connect() {
   return (
-    <section id="connect" className="relative overflow-hidden bg-ink py-24 sm:py-32">
+    <section
+      id="connect"
+      className="relative overflow-hidden bg-[linear-gradient(to_right,#fafaf8_0%,#fafaf8_100%)] py-24 sm:py-32"
+    >
       {/* faint bowl motif */}
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-0 -translate-x-1/2 -translate-y-1/2 opacity-[0.04]"
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-0 -translate-x-1/2 -translate-y-1/2 opacity-[0.05]"
         aria-hidden="true"
       >
-        <BowlIcon size={420} />
+        <BowlIcon size={420} color="#2A1D14" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-12 text-center">
-            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-cream">
+            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-espresso">
               How would you like to connect?
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-lg leading-relaxed text-cream/60">
+            <p className="mx-auto mt-4 max-w-md text-lg leading-relaxed text-espresso-muted/70">
               Pick whichever works for you.
             </p>
           </div>
@@ -133,11 +136,11 @@ export function Connect() {
         </div>
 
         <Reveal>
-          <p className="mt-10 text-center text-sm text-cream/50">
+          <p className="mt-10 text-center text-sm text-espresso-muted/70">
             Prefer email?{" "}
             <a
               href="mailto:hello@bapita.com"
-              className="underline underline-offset-2 hover:text-cream/80"
+              className="underline underline-offset-2 hover:text-espresso"
             >
               hello@bapita.com
             </a>
