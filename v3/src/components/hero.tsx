@@ -8,7 +8,7 @@ export function Hero() {
       className="relative z-10 flex min-h-screen items-start overflow-visible pt-32 pb-[180px] sm:pt-36 sm:pb-[200px]"
       style={{
         background:
-          "linear-gradient(168deg, var(--color-clay) 0%, var(--color-clay-warm) 55%, var(--color-clay-toast) 100%)",
+          "linear-gradient(to right, #fafaf8 0%, #fafaf8 100%)",
       }}
     >
       {/* Clay orbs + pita bowl (decorative, DOM/CSS only) */}
