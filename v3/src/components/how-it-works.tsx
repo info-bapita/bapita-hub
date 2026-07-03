@@ -213,28 +213,28 @@ export function HowItWorks() {
     >
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
-          <div className="mb-12 max-w-xl">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cinnamon">
+          <div className="mb-16 max-w-xl">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-espresso/70">
               How it works
             </p>
-            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-espresso">
+            <h2 className="text-5xl font-extrabold leading-[1.08] tracking-tight text-espresso">
               From &ldquo;I need this&rdquo; to live in 48 hours.
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-espresso-muted/80">
+            <p className="mt-4 text-xl leading-relaxed text-espresso/70">
               Pick your tools. We brand and build them for you. Then run
               everything — and add more — from one dashboard.
             </p>
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-24">
           {/* step list */}
-          <div className="relative">
+          <div className="relative lg:self-start">
             <div
               className="absolute bottom-10 left-[27px] top-10 w-px bg-gradient-to-b from-cream/15 via-cream/10 to-transparent"
               aria-hidden="true"
             />
-            <ol className="flex flex-col gap-10 sm:gap-12">
+            <ol className="flex flex-col gap-10 sm:gap-12 lg:gap-16">
               {STEPS.map((step, i) => {
                 const Icon = step.icon;
                 const Visual = VISUALS[i];
@@ -309,7 +309,7 @@ export function HowItWorks() {
           </div>
 
           {/* desktop only: pinned visual panel, cross-fades with the active step */}
-          <div className="relative hidden lg:block">
+          <div className="relative hidden lg:block lg:py-24">
             <div className="sticky top-28">
               <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-3xl border border-cream/10 bg-ink-600 p-8 shadow-xl">
                 {STEPS.map((_, i) => {
