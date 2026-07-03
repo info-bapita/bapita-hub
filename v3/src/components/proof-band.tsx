@@ -33,15 +33,15 @@ export function ProofBand() {
         stats start. Tune this number against the actual bowl height/
         overlap once clay-scene.tsx is in hand; this is a starting point.
       */}
-      <div className="mx-auto max-w-7xl px-5 pb-16 pt-64 sm:px-8 sm:pb-20 sm:pt-[26rem]">
-        <div className="grid gap-10 sm:grid-cols-3 sm:gap-8">
+      <div className="mx-auto max-w-7xl px-5 pb-16 pt-52 sm:px-8 sm:pb-20 sm:pt-[21rem]">
+        <div className="grid gap-10 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-cream/10">
           {STATS.map((stat, i) => (
             <Reveal key={stat.value} delay={i * 80}>
-              <div className="text-center sm:text-start">
-                <p className="text-display-lg font-extrabold tracking-tight text-cream">
+              <div className="text-center sm:px-8">
+                <p className="text-display-lg font-extrabold leading-none tracking-tight text-cream tabular-nums">
                   {stat.value}
                 </p>
-                <p className="mt-2 max-w-[240px] text-sm leading-relaxed text-cream/55 max-sm:mx-auto">
+                <p className="mx-auto mt-3 max-w-[240px] text-[0.9rem] font-medium leading-relaxed text-cream/55">
                   {stat.label}
                 </p>
               </div>
