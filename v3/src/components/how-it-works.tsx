@@ -189,8 +189,7 @@ const VISUALS = [ToolsVisual, BuildVisual, DashboardVisual];
 export function HowItWorks() {
   const [active, setActive] = useState(0);
   const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const headerRef = useRef<HTMLDivElement | null>(null);
-  const [pinTop, setPinTop] = useState(112); // px from viewport top where the panel pins
+  const [pinTop, setPinTop] = useState(88); // px from viewport top where the panel pins
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -208,14 +207,16 @@ export function HowItWorks() {
     return () => observer.disconnect();
   }, []);
 
-  // Sets the pin distance to sit just below the section's own title block,
-  // instead of a guessed constant that could land above or under the title.
+  // Pins the panel right under the sticky nav bar — level with the title's own
+  // row — so it rises all the way up instead of stopping level with an item.
   useEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-    const TITLE_GAP = 40; // px of breathing room below the title block
+    const NAV_GAP = 24; // px of breathing room below the nav bar
 
-    const measure = () => setPinTop(Math.round(header.getBoundingClientRect().height + TITLE_GAP));
+    const measure = () => {
+      const nav = document.querySelector<HTMLElement>("header.sticky");
+      const navHeight = nav?.getBoundingClientRect().height ?? 64;
+      setPinTop(Math.round(navHeight + NAV_GAP));
+    };
 
     measure();
     window.addEventListener("resize", measure);
@@ -229,7 +230,7 @@ export function HowItWorks() {
     >
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
-          <div ref={headerRef} className="mb-16 max-w-xl">
+          <div className="mb-16 max-w-xl">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cinnamon">
               How it works
             </p>
