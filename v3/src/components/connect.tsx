@@ -87,11 +87,14 @@ export function Connect() {
 
       <div className="relative mx-auto max-w-4xl px-5 sm:px-8">
         <Reveal>
-          <div className="mb-12 text-center">
+          <div className="mb-12 max-w-xl">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cinnamon">
+              Let&apos;s connect
+            </p>
             <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-espresso">
               How would you like to connect?
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-lg leading-relaxed text-espresso-muted/70">
+            <p className="mt-4 text-lg leading-relaxed text-espresso-muted/70">
               Pick whichever works for you.
             </p>
           </div>
