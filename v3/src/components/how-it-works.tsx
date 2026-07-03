@@ -189,11 +189,7 @@ const VISUALS = [ToolsVisual, BuildVisual, DashboardVisual];
 export function HowItWorks() {
   const [active, setActive] = useState(0);
   const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const panelRef = useRef<HTMLDivElement | null>(null);
-  const [panelOffset, setPanelOffset] = useState(0);
   const [pinTop, setPinTop] = useState(112); // px from viewport top where the panel pins
 
   useEffect(() => {
@@ -226,55 +222,8 @@ export function HowItWorks() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // Glides the panel from its pin point down toward the section's bottom as
-  // you scroll, hard-capped so it always stops with clearance before the
-  // section actually ends (never runs into the footer content below it).
-  useEffect(() => {
-    const track = trackRef.current;
-    const panel = panelRef.current;
-    const section = sectionRef.current;
-    if (!track || !panel || !section) return;
-
-    const BOTTOM_GAP = 56; // px of clearance kept above the section's bottom edge
-
-    let frame = 0;
-
-    const update = () => {
-      frame = 0;
-      const trackRect = track.getBoundingClientRect();
-      const sectionRect = section.getBoundingClientRect();
-      const panelH = panel.offsetHeight;
-
-      // how far we've scrolled since the panel reached its pin point
-      const scrolledIntoPin = Math.max(pinTop - trackRect.top, 0);
-
-      // room the track's own padding makes available
-      const trackTravel = Math.max(trackRect.height - panelH, 0);
-
-      // hard stop: never let the panel get closer than BOTTOM_GAP to the section's bottom
-      const hardCap = Math.max(sectionRect.bottom - BOTTOM_GAP - panelH - pinTop, 0);
-
-      const maxTravel = Math.min(trackTravel, hardCap);
-      setPanelOffset(Math.min(scrolledIntoPin, maxTravel));
-    };
-
-    const onScroll = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, [pinTop]);
-
   return (
     <section
-      ref={sectionRef}
       id="how-it-works"
       className="relative z-20 flex min-h-screen flex-col items-center justify-center gap-8 overflow-visible bg-[linear-gradient(to_right,#fafaf8_0%,#fafaf8_100%)] py-24"
     >
@@ -373,31 +322,29 @@ export function HowItWorks() {
                 );
               })}
             </ol>
+            {/* extends this column's height a bit past the last step's text, giving the
+                pinned panel a little extra room to glide before it releases */}
+            <div className="h-16" aria-hidden="true" />
           </div>
 
-          {/* desktop only: pinned visual panel that glides top-to-bottom as you scroll the fold */}
-          <div ref={trackRef} className="relative hidden lg:block lg:py-64">
+          {/* desktop only: visual panel pinned at the title line, released natively by
+              CSS sticky once this column (which matches the step list's height) ends */}
+          <div className="relative hidden lg:block">
             <div className="sticky" style={{ top: pinTop }}>
-              <div
-                ref={panelRef}
-                style={{ transform: `translateY(${panelOffset}px)` }}
-                className="will-change-transform"
-              >
-                <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-3xl border border-cream/10 bg-ink-600 p-8 shadow-xl">
-                  {STEPS.map((_, i) => {
-                    const Visual = VISUALS[i];
-                    return (
-                      <div
-                        key={i}
-                        className={`absolute inset-0 flex items-center justify-center p-8 transition-opacity duration-500 ${
-                          active === i ? "opacity-100" : "pointer-events-none opacity-0"
-                        }`}
-                      >
-                        <Visual />
-                      </div>
-                    );
-                  })}
-                </div>
+              <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-3xl border border-cream/10 bg-ink-600 p-8 shadow-xl">
+                {STEPS.map((_, i) => {
+                  const Visual = VISUALS[i];
+                  return (
+                    <div
+                      key={i}
+                      className={`absolute inset-0 flex items-center justify-center p-8 transition-opacity duration-500 ${
+                        active === i ? "opacity-100" : "pointer-events-none opacity-0"
+                      }`}
+                    >
+                      <Visual />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
