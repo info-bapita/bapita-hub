@@ -216,26 +216,22 @@ export function HowItWorks() {
     const panel = panelRef.current;
     if (!track || !panel) return;
 
-    const TOP_OFFSET = 112; // px — matches `top-28`, keeps clearance below the header
-    const BOTTOM_CLEARANCE = 64; // px — keeps the panel off the section's bottom edge
+    const TOP_OFFSET = 112; // px — matches `top-28`
 
     let frame = 0;
 
     const update = () => {
       frame = 0;
       const trackRect = track.getBoundingClientRect();
-      const viewportH = window.innerHeight;
       const panelH = panel.offsetHeight;
-
-      const maxTravel = Math.max(viewportH - TOP_OFFSET - panelH - BOTTOM_CLEARANCE, 0);
-      const scrollableRange = trackRect.height - viewportH + TOP_OFFSET + BOTTOM_CLEARANCE;
+      const travel = Math.max(trackRect.height - panelH, 0);
 
       const progress =
-        scrollableRange > 0
-          ? Math.min(Math.max((TOP_OFFSET - trackRect.top) / scrollableRange, 0), 1)
+        travel > 0
+          ? Math.min(Math.max((TOP_OFFSET - trackRect.top) / travel, 0), 1)
           : 0;
 
-      setPanelOffset(progress * maxTravel);
+      setPanelOffset(progress * travel);
     };
 
     const onScroll = () => {
@@ -260,13 +256,13 @@ export function HowItWorks() {
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-16 max-w-xl">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-espresso/70">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cinnamon">
               How it works
             </p>
-            <h2 className="text-5xl font-extrabold leading-[1.08] tracking-tight text-espresso">
+            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-espresso">
               From &ldquo;I need this&rdquo; to live in 48 hours.
             </h2>
-            <p className="mt-4 text-xl leading-relaxed text-espresso/70">
+            <p className="mt-4 text-lg leading-relaxed text-espresso-muted/80">
               Pick your tools. We brand and build them for you. Then run
               everything — and add more — from one dashboard.
             </p>
@@ -320,14 +316,14 @@ export function HowItWorks() {
                       <div className="flex items-baseline gap-3">
                         <span
                           className={`font-mono text-sm font-bold tracking-tight transition-colors duration-300 ${
-                            isActive ? "text-espresso" : "text-espresso/50"
+                            isActive ? "text-espresso" : "text-espresso-muted/70"
                           }`}
                         >
                           {step.n}
                         </span>
                         <h3
                           className={`text-[1.15rem] font-bold tracking-tight transition-colors duration-300 ${
-                            isActive ? "text-espresso" : "text-espresso/60"
+                            isActive ? "text-espresso" : "text-espresso-muted/70"
                           }`}
                         >
                           {step.title}
@@ -335,7 +331,7 @@ export function HowItWorks() {
                       </div>
                       <p
                         className={`mt-2 max-w-md text-[0.95rem] leading-relaxed transition-colors duration-300 ${
-                          isActive ? "text-espresso/70" : "text-espresso/40"
+                          isActive ? "text-espresso-muted/80" : "text-espresso-muted/60"
                         }`}
                       >
                         {step.body}
@@ -355,12 +351,12 @@ export function HowItWorks() {
           </div>
 
           {/* desktop only: pinned visual panel that glides top-to-bottom as you scroll the fold */}
-          <div ref={trackRef} className="relative hidden lg:block lg:py-24">
+          <div ref={trackRef} className="relative hidden lg:block lg:py-48">
             <div className="sticky top-28">
               <div
                 ref={panelRef}
                 style={{ transform: `translateY(${panelOffset}px)` }}
-                className="transition-transform duration-150 ease-out will-change-transform"
+                className="will-change-transform"
               >
                 <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-3xl border border-cream/10 bg-ink-600 p-8 shadow-xl">
                   {STEPS.map((_, i) => {
