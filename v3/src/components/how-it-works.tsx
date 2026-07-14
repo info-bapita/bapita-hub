@@ -8,21 +8,18 @@ import {
   Gauge,
   Calendar,
   Share2,
-  Search,
-  Send,
   Bot,
-  Megaphone,
+  MapPin,
   Plus,
 } from "lucide-react";
 import { Reveal } from "@/components/reveal";
+import { Button } from "@/components/ui/button";
 
 const TOOLS: { label: string; icon: LucideIcon }[] = [
   { label: "Book", icon: Calendar },
   { label: "Social", icon: Share2 },
-  { label: "SEO", icon: Search },
-  { label: "Outreach", icon: Send },
   { label: "Bots", icon: Bot },
-  { label: "Ads", icon: Megaphone },
+  { label: "Reach", icon: MapPin },
 ];
 
 const STEPS: { n: string; icon: LucideIcon; title: string; body: string }[] = [
@@ -30,7 +27,7 @@ const STEPS: { n: string; icon: LucideIcon; title: string; body: string }[] = [
     n: "01",
     icon: LayoutGrid,
     title: "Pick your tools",
-    body: "Booking, social, SEO, outreach, bots, ads — start with what you need today. Everything else joins the suite whenever you're ready.",
+    body: "Booking, social, WhatsApp bots, local reach — start with what you need today. Everything else joins the suite whenever you're ready.",
   },
   {
     n: "02",
@@ -350,6 +347,22 @@ export function HowItWorks() {
             </div>
           </div>
         </div>
+
+        {/* Second CTA — capture intent right after the process lands */}
+        <Reveal>
+          <div className="mt-20 flex flex-col items-center gap-5 text-center">
+            <p className="text-lg font-semibold text-espresso">
+              That&apos;s it — you&apos;re live in 48 hours.
+            </p>
+            <Button
+              href="#connect"
+              size="lg"
+              className="!bg-espresso !text-clay hover:!bg-espresso-muted"
+            >
+              Book a free call
+            </Button>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

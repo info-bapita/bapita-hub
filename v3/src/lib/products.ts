@@ -1,4 +1,4 @@
-export type ProductId = "book" | "social" | "seo" | "outreach" | "bots" | "ads";
+export type ProductId = "book" | "social" | "bots" | "reach";
 
 export type ProductStatus = "live" | "beta" | "soon";
 
@@ -22,21 +22,23 @@ export interface BusinessType {
   products: ProductId[];
 }
 
+// The menu — 4 falafels. Book is the live hero; the rest are honestly tiered.
+// Order matters: hero first.
 export const PRODUCTS: Product[] = [
   {
     id: "book",
     name: "Book",
     tagline: "Your own booking site. Clients book 24/7.",
     description:
-      "Appointment booking platform — your own site, dashboard, and automations. Clients book 24/7, you see everything in one place.",
+      "Your own branded booking site, owner dashboard, and automations. Clients book around the clock; you see everything in one place — no more back-and-forth on WhatsApp.",
     status: "live",
     statusLabel: "Live",
     href: "https://book.bapita.com",
-    pricingNote: "Available now",
-    pricingCta: "See plans",
+    pricingNote: "Live now",
+    pricingCta: "See Book",
     features: [
       "Booking website with your brand",
-      "Owner dashboard & analytics",
+      "Owner dashboard & calendar",
       "Email & WhatsApp reminders",
       "Online payments",
     ],
@@ -44,115 +46,77 @@ export const PRODUCTS: Product[] = [
   {
     id: "social",
     name: "Social",
-    tagline: "Schedule, post, and grow — from one place.",
+    tagline: "Show up and grow — without the daily grind.",
     description:
-      "Social media management for SMBs — schedule posts, generate captions, translate content, manage Instagram & Facebook from one dashboard.",
+      "Social media, handled. Schedule posts, generate captions, and run Instagram & Facebook from one place — plus a unified inbox for DMs and comments, and analytics that show what's working.",
     status: "soon",
-    statusLabel: "Coming soon",
-    href: "https://social.bapita.com",
-    pricingNote: "Launching next",
-    pricingCta: "Get notified",
+    statusLabel: "Coming next",
+    href: "#connect",
+    pricingNote: "Coming next",
+    pricingCta: "Book a free call",
     features: [
       "Post scheduler & content calendar",
       "AI caption generator",
-      "Multi-language support",
-      "Instagram & Facebook integration",
-    ],
-  },
-  {
-    id: "seo",
-    name: "SEO",
-    tagline: "Rank higher with tools that make SEO simple.",
-    description:
-      "SEO tools for SMBs — keyword research, clustering, SERP analysis, page improvement, content brief generation. Made for non-experts.",
-    status: "soon",
-    statusLabel: "Coming soon",
-    href: "https://seo.bapita.com",
-    pricingNote: "Coming soon",
-    pricingCta: "Get notified",
-    features: [
-      "Keyword research & clustering",
-      "SERP analysis",
-      "Page improvement suggestions",
-      "Content brief generator",
-    ],
-  },
-  {
-    id: "outreach",
-    name: "Outreach",
-    tagline: "Find leads, build links, grow reach — automatically.",
-    description:
-      "Link building and outreach automator — find quote opportunities, discover leads, automate follow-ups. Make your backlink profile grow while you work.",
-    status: "soon",
-    statusLabel: "Coming soon",
-    href: "https://outreach.bapita.com",
-    pricingNote: "Coming soon",
-    pricingCta: "Get notified",
-    features: [
-      "Link building automation",
-      "Quote opportunity finder",
-      "Lead discovery",
-      "Automated outreach sequences",
+      "Instagram & Facebook posting",
+      "Unified inbox + analytics",
     ],
   },
   {
     id: "bots",
     name: "Bots",
-    tagline: "AI chatbots for WhatsApp and Telegram. Never sleep.",
+    tagline: "Answer and book on WhatsApp, 24/7.",
     description:
-      "AI chatbots for WhatsApp and Telegram — answer FAQs, qualify leads, book appointments. Plug and play, no coding.",
+      "An AI assistant on WhatsApp and Telegram that answers FAQs, qualifies leads, and books appointments straight into Book. Stop losing clients to whoever replies first.",
     status: "soon",
-    statusLabel: "Coming soon",
-    href: "https://bots.bapita.com",
-    pricingNote: "Coming soon",
-    pricingCta: "Get notified",
+    statusLabel: "Rolling out",
+    href: "#connect",
+    pricingNote: "Rolling out",
+    pricingCta: "Book a free call",
     features: [
-      "WhatsApp chatbot",
-      "Telegram chatbot",
-      "FAQ automation",
-      "Lead qualification & booking",
+      "WhatsApp & Telegram assistant",
+      "Answers FAQs 24/7",
+      "Qualifies leads automatically",
+      "Books straight into Book",
     ],
   },
   {
-    id: "ads",
-    name: "Ads",
-    tagline: "Ads that run themselves — on micro budgets.",
+    id: "reach",
+    name: "Reach",
+    tagline: "Get found and promoted locally.",
     description:
-      "An AI media buyer for micro-budgets ($10–$50 a day). Creative pulls images from your connected Instagram, Smart Targeting configures geo & audience via API, and Auto-Kill Switch pauses underperforming ads to protect your budget.",
+      "Show up where nearby clients are looking — Google and Maps — boost your best post, and run a simple local promo. Local growth, done for you.",
     status: "soon",
-    statusLabel: "Coming soon",
-    href: "https://ads.bapita.com",
-    pricingNote: "Coming soon",
-    pricingCta: "Get notified",
+    statusLabel: "Rolling out",
+    href: "#connect",
+    pricingNote: "Rolling out",
+    pricingCta: "Book a free call",
     features: [
-      "Creative generation from Instagram",
-      "Smart AI targeting",
-      "Auto-kill switch for low performance",
-      "Meta & Google Ads integration",
+      "Google Business Profile setup",
+      "Show up on Google Maps",
+      "Boost your best posts",
+      "Simple local promotions",
     ],
   },
 ];
 
+// Local, appointment-based service businesses only (Israel-first ICP).
 export const BUSINESS_TYPES: BusinessType[] = [
-  { id: "barber", label: "Barber / Salon", example: "Barbershop, hair salon, nail tech", products: ["book", "social"] },
-  { id: "shopify", label: "Shopify / E-commerce", example: "Online store, branded goods", products: ["social", "seo", "outreach"] },
-  { id: "agency", label: "Marketing Agency", example: "Creative agency, freelance team", products: ["social", "seo", "outreach", "bots"] },
-  { id: "clinic", label: "Clinic / Practice", example: "Physio, dentist, wellness", products: ["book", "bots"] },
-  { id: "freelancer", label: "Freelancer / Coach", example: "Personal trainer, consultant", products: ["book", "social"] },
-  { id: "smb", label: "Any SMB", example: "Pick what you need", products: ["book", "social", "seo", "outreach", "bots", "ads"] },
+  { id: "barber", label: "Barber / Salon", example: "Barbershop, hair salon, nail tech", products: ["book", "social", "reach"] },
+  { id: "clinic", label: "Clinic / Practice", example: "Physio, dentist, wellness", products: ["book", "bots", "social"] },
+  { id: "studio", label: "Studio", example: "Tattoo, massage, beauty", products: ["book", "social", "reach"] },
+  { id: "coach", label: "Coach / Freelancer", example: "Personal trainer, consultant", products: ["book", "social", "bots"] },
+  { id: "local", label: "Any local business", example: "Pick what you need", products: ["book", "social", "bots", "reach"] },
 ];
 
 export const SERVED_CATEGORIES = [
   "Barbershops",
-  "Salons",
+  "Hair salons",
   "Nail techs",
-  "Clinics",
-  "Dog groomers",
+  "Beauty clinics",
   "Physios",
-  "Shopify stores",
-  "Agencies",
+  "Dog groomers",
+  "Massage studios",
+  "Tattoo studios",
   "Coaches",
-  "Freelancers",
-  "E-commerce",
-  "Local businesses",
+  "Personal trainers",
 ];

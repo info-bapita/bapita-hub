@@ -13,12 +13,12 @@ const heebo = Heebo({
 export const metadata: Metadata = {
   title: "Bapita — Your business, online. Without the tech.",
   description:
-    "We build and run your digital tools — booking, social, and more. You use them in one tap. Made for businesses that want to run better online without hiring an agency.",
+    "Done-for-you digital tools for salons, barbers, clinics & studios — booking, social, WhatsApp bots, and local reach. We set it up under your brand, live in 48 hours; you run it from your phone.",
   metadataBase: new URL("https://bapita.com"),
   openGraph: {
     title: "Bapita — Your business, online. Without the tech.",
     description:
-      "We build and run your digital tools — booking, social, and more. You use them in one tap.",
+      "Done-for-you digital tools for local service businesses — booking, social, WhatsApp bots & local reach. Live in 48 hours; run it from your phone.",
     url: "https://bapita.com",
     siteName: "Bapita",
     type: "website",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Bapita — Your business, online. Without the tech.",
     description:
-      "We build and run your digital tools — booking, social, and more. You use them in one tap.",
+      "Done-for-you digital tools for local service businesses — booking, social, WhatsApp bots & local reach. Live in 48 hours; run it from your phone.",
   },
   robots: {
     index: true,

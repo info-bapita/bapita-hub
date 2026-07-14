@@ -5,7 +5,6 @@ import { Check, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
-import { NotifyForm } from "@/components/notify-form";
 import { PRODUCTS } from "@/lib/products";
 import { PRODUCT_ICONS } from "@/lib/icon-map";
 import { accentStyle } from "@/lib/accent";
@@ -114,7 +113,7 @@ export function WhatWeOffer() {
                   </div>
                 </div>
                 <Badge variant={isLive ? "live" : "soon"}>
-                  {isLive ? "Live" : "Launching soon"}
+                  {active.statusLabel}
                 </Badge>
               </div>
 
@@ -147,7 +146,10 @@ export function WhatWeOffer() {
                     <ArrowUpRight className="h-4 w-4" />
                   </Button>
                 ) : (
-                  <NotifyForm productName={active.name} productId={active.id} />
+                  <Button href="#connect" size="sm" className="w-full">
+                    Book a free call
+                    <ArrowUpRight className="h-4 w-4" />
+                  </Button>
                 )}
               </div>
             </div>

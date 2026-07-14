@@ -30,11 +30,12 @@ export default function TermsOfService() {
             Our services
           </h2>
           <p className="text-[0.95rem] leading-relaxed text-cream/70 mb-4">
-            Bapita provides a suite of digital tools for small and medium-sized
-            businesses, including a booking system (Bapita Book), social media
-            scheduling, SEO tools, outreach features, and AI-powered automation.
-            These services are provided on a subscription basis. Your use of
-            Bapita means you agree to these terms.
+            Bapita provides a suite of digital tools for local, appointment-based
+            service businesses, including a booking system (Bapita Book), social
+            media management (Bapita Social), WhatsApp/Telegram assistants (Bapita
+            Bots), and local growth tools (Bapita Reach). These services are
+            provided on a subscription basis. Your use of Bapita means you agree
+            to these terms.
           </p>
         </section>
 

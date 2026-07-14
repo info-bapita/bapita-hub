@@ -19,22 +19,21 @@ type Orb = {
 };
 
 const ORB_SIZE = 88;
+// Four falafels, balanced two per side around the central pita bowl.
 const ORBS: Orb[] = [
-  { id: "book", label: "Book", size: ORB_SIZE, left: "13%", top: "40%", laneX: [0.05, 0.21], laneY: [0.36, 0.50], depth: 0.85 },
-  { id: "social", label: "Social", size: ORB_SIZE, left: "87%", top: "40%", laneX: [0.79, 0.95], laneY: [0.36, 0.50], depth: 1.15 },
-  { id: "seo", label: "SEO", size: ORB_SIZE, left: "16%", top: "56%", laneX: [0.08, 0.24], laneY: [0.51, 0.64], depth: 1.0 },
-  { id: "outreach", label: "Outreach", size: ORB_SIZE, left: "84%", top: "56%", laneX: [0.76, 0.92], laneY: [0.51, 0.64], depth: 0.75 },
-  { id: "bots", label: "Bots", size: ORB_SIZE, left: "14%", top: "72%", laneX: [0.06, 0.22], laneY: [0.65, 0.78], depth: 1.2 },
-  { id: "ads", label: "Ads", size: ORB_SIZE, left: "86%", top: "72%", laneX: [0.78, 0.94], laneY: [0.65, 0.78], depth: 0.9 },
+  { id: "book", label: "Book", size: ORB_SIZE, left: "13%", top: "42%", laneX: [0.05, 0.22], laneY: [0.38, 0.52], depth: 0.9 },
+  { id: "social", label: "Social", size: ORB_SIZE, left: "87%", top: "42%", laneX: [0.78, 0.95], laneY: [0.38, 0.52], depth: 1.15 },
+  { id: "bots", label: "Bots", size: ORB_SIZE, left: "15%", top: "66%", laneX: [0.06, 0.24], laneY: [0.58, 0.72], depth: 1.2 },
+  { id: "reach", label: "Reach", size: ORB_SIZE, left: "85%", top: "66%", laneX: [0.76, 0.94], laneY: [0.58, 0.72], depth: 0.8 },
 ];
 
+// Clay palettes tuned per falafel — orange / emerald / magenta / azure, so the
+// four orbs read as distinct on-brand toppings.
 const ORB_COLORS: Record<string, { highlight: string; base: string; deep: string }> = {
-  book:     { highlight: "#ffc066", base: "#ef910a", deep: "#b86a00" },
-  social:   { highlight: "#f09a7a", base: "#C75A1F", deep: "#8a3e15" },
-  seo:      { highlight: "#b8d9b0", base: "#679e5a", deep: "#3d6b30" },
-  outreach: { highlight: "#d4b0d9", base: "#8e5a9e", deep: "#5c306b" },
-  bots:     { highlight: "#a8c8e8", base: "#4a7fb5", deep: "#2a4f7a" },
-  ads:      { highlight: "#cfe0d5", base: "#8FA89B", deep: "#5c786b" },
+  book:   { highlight: "#ffc066", base: "#ef910a", deep: "#b86a00" },
+  social: { highlight: "#b8d9b0", base: "#679e5a", deep: "#3d6b30" },
+  bots:   { highlight: "#f2a8c4", base: "#cf4f7e", deep: "#8a3252" },
+  reach:  { highlight: "#a8c8e8", base: "#4a7fb5", deep: "#2a4f7a" },
 };
 function orbPalette(id: ProductId) {
   return ORB_COLORS[id];
@@ -222,7 +221,7 @@ export function ClayScene() {
   }, [reduced]);
 
   return (
-    <div ref={scope} className="absolute inset-0 z-0" aria-hidden="true">
+    <div ref={scope} className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
       {ORBS.map((orb, i) => {
         const Icon = PRODUCT_ICONS[orb.id];
         const pal = orbPalette(orb.id);

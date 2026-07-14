@@ -5,10 +5,8 @@ import type { ProductId } from "@/lib/products";
 const ACCENT_MAP: Record<ProductId, string> = {
   book: "#f0743a",
   social: "#2bc487",
-  seo: "#4e86ff",
-  outreach: "#9277ff",
   bots: "#f2628f",
-  ads: "#f5a623",
+  reach: "#4e86ff",
 };
 
 /**

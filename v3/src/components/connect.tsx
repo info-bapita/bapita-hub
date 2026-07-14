@@ -1,12 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Calendar, ArrowUpRight, Send } from "lucide-react";
+import { Check, Calendar, ArrowUpRight, Send, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
 import { BowlIcon } from "@/components/ui/brand-mark";
 
 const CALENDLY_URL = "https://calendly.com/info-bapita/30min";
+
+// TODO(Rami): replace with the real WhatsApp business number (digits only,
+// country code first, no +). Until then this link won't reach a live inbox.
+const WHATSAPP_NUMBER = "972500000000";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hi Bapita — I'd like to hear more about setting up my business.",
+)}`;
 
 const fieldClass =
   "w-full rounded-field border border-cream/15 bg-cream/[0.04] px-3.5 py-2.5 text-sm text-cream placeholder:text-cream/35 focus:border-cream/35 focus:outline-none";
@@ -95,8 +102,19 @@ export function Connect() {
               How would you like to connect?
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-espresso-muted/70">
-              Pick whichever works for you.
+              Pick whichever works for you — WhatsApp is fastest.
             </p>
+            <div className="mt-6">
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 rounded-pill bg-[#25D366] px-5 py-3 text-sm font-bold text-[#0a3d2a] shadow-soft transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-clay"
+              >
+                <MessageCircle className="h-4.5 w-4.5" />
+                Message us on WhatsApp
+              </a>
+            </div>
           </div>
         </Reveal>
 

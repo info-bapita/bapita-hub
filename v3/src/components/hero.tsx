@@ -18,7 +18,7 @@ export function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-3xl px-5 text-center sm:px-8">
         <Reveal>
           <p className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-cinnamon">
-            Digital tools for any business
+            For salons, barbers, clinics &amp; studios
           </p>
         </Reveal>
         <Reveal delay={80}>
@@ -30,8 +30,8 @@ export function Hero() {
         </Reveal>
         <Reveal delay={160}>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-espresso-muted/80">
-            We build and run your digital tools — booking, social, and more.
-            You use them in one tap.
+            We build and set up your booking, social &amp; WhatsApp tools — live in
+            48 hours. You run it all from your phone.
           </p>
         </Reveal>
         <Reveal delay={240}>

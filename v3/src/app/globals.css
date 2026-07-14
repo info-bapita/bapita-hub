@@ -18,6 +18,7 @@
   --color-seo: #2d6cf0;        /* azure */
   --color-outreach: #7c5cfc;   /* violet */
   --color-bots: #e0457b;       /* magenta */
+  --color-reach: #2d6cf0;      /* azure — get found locally */
   --color-ads: #d4881c;        /* amber */
 
   /* glow variants — the product color tuned to read on #0b0b0c */
@@ -27,6 +28,7 @@
   --color-seo-glow: #4e86ff;
   --color-outreach-glow: #9277ff;
   --color-bots-glow: #f2628f;
+  --color-reach-glow: #4e86ff;
 
   /* ── Clay / warm light (hero, brand surfaces on light) ── */
   --color-clay: #FBF7EF;       /* lightest cream surface */
@@ -85,6 +87,7 @@
     --color-seo: #2d6cf0;
     --color-outreach: #7c5cfc;
     --color-bots: #e0457b;
+    --color-reach: #2d6cf0;
     --color-ads: #d4881c;
     --color-clay: #FBF7EF;
     --color-clay-warm: #F7E8D6;

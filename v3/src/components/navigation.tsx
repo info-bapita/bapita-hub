@@ -39,15 +39,20 @@ export function Navigation() {
           </Button>
         </nav>
 
-        {/* Mobile toggle */}
-        <button
-          className="flex md:hidden"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-          aria-expanded={open}
-        >
-          {open ? <X className="h-5 w-5 text-cream" /> : <Menu className="h-5 w-5 text-cream" />}
-        </button>
+        {/* Mobile: persistent CTA + menu toggle */}
+        <div className="flex items-center gap-2 md:hidden">
+          <Button href="#connect" size="sm">
+            Book a call
+          </Button>
+          <button
+            className="flex h-9 w-9 items-center justify-center"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+            aria-expanded={open}
+          >
+            {open ? <X className="h-5 w-5 text-cream" /> : <Menu className="h-5 w-5 text-cream" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}

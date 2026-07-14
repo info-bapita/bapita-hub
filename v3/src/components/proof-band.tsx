@@ -48,6 +48,19 @@ export function ProofBand() {
             </Reveal>
           ))}
         </div>
+
+        {/* Loss-framed nudge — ties the stats to the pain, then to the CTA */}
+        <Reveal delay={240}>
+          <p className="mx-auto mt-12 max-w-md text-center text-[0.95rem] leading-relaxed text-cream/45">
+            Every missed message is a client someone else booked.{" "}
+            <a
+              href="#connect"
+              className="font-semibold text-cream/80 underline decoration-cream/25 underline-offset-4 transition-colors hover:text-cream hover:decoration-cream/60"
+            >
+              Let&apos;s fix that
+            </a>
+          </p>
+        </Reveal>
       </div>
 
       {/* Who we serve marquee */}
