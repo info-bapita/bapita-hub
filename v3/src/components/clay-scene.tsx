@@ -234,7 +234,10 @@ export function ClayScene() {
         return (
           <div
             key={orb.id}
-            className="absolute max-sm:opacity-60"
+            /* Orbs are desktop-only garnish: on narrow screens there are no
+               side margins, so they collide with the centred hero copy. Hide
+               below lg and let the pita bowl carry the metaphor on mobile. */
+            className="absolute hidden lg:block"
             style={{ left: orb.left, top: orb.top, translate: "-50% -50%" }}
           >
             {/* Parallax layer — mouse-follow only. Wraps the whole assembly
