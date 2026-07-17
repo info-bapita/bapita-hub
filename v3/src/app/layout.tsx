@@ -47,6 +47,7 @@ const ORGANIZATION_SCHEMA = {
   "@type": "Organization",
   name: "Bapita",
   url: "https://bapita.com",
+  logo: "https://bapita.com/logo.svg",
   description:
     "Bapita builds and runs done-for-you digital tools for local service businesses in Israel: a booking website, owner dashboard, social scheduling, WhatsApp bots, and local reach. Set up under your brand in 48 hours.",
   areaServed: {
