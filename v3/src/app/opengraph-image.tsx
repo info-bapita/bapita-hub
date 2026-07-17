@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Bapita — Your business, online. Without the tech.";
+export const alt = "Bapita | Your business, online. Without the tech.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -86,7 +86,7 @@ export default function OgImage() {
             lineHeight: 1.4,
           }}
         >
-          We build and run your digital tools — booking, social, and more.
+          We build and run your digital tools: booking, social, and more.
         </div>
       </div>
     ),

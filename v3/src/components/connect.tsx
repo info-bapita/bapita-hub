@@ -12,7 +12,7 @@ const CALENDLY_URL = "https://calendly.com/info-bapita/30min";
 // country code first, no +). Until then this link won't reach a live inbox.
 const WHATSAPP_NUMBER = "972500000000";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Hi Bapita — I'd like to hear more about setting up my business.",
+  "Hi Bapita, I'd like to hear more about setting up my business.",
 )}`;
 
 const fieldClass =
@@ -56,7 +56,7 @@ function LeadForm() {
         className="flex items-center gap-2.5 rounded-field bg-success/15 px-4 py-3 text-sm font-semibold text-success"
       >
         <Check className="h-4 w-4 shrink-0" />
-        Got it — we&apos;ll reach out within one business day.
+        Got it. We&apos;ll reach out within one business day.
       </div>
     );
   }
@@ -102,7 +102,7 @@ export function Connect() {
               How would you like to connect?
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-espresso-muted/70">
-              Pick whichever works for you — WhatsApp is fastest.
+              Pick whichever works for you. WhatsApp is fastest.
             </p>
             <div className="mt-6">
               <a
@@ -131,7 +131,7 @@ export function Connect() {
               </span>
               <h3 className="text-xl font-bold text-cream">Book a call</h3>
               <p className="mt-2 text-sm leading-relaxed text-cream/60">
-                Pick a time, we&apos;ll talk — 30 min.
+                Pick a time, we&apos;ll talk. 30 min.
               </p>
               <span className="mt-auto flex items-center gap-1.5 pt-6 text-sm font-semibold text-cream group-hover:underline group-hover:underline-offset-4">
                 Open calendar

@@ -30,7 +30,7 @@ export function Hero() {
         </Reveal>
         <Reveal delay={160}>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-espresso-muted/80">
-            We build and set up your booking, social &amp; WhatsApp tools — live in
+            We build and set up your booking, social &amp; WhatsApp tools, live in
             48 hours. You run it all from your phone.
           </p>
         </Reveal>

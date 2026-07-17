@@ -8,15 +8,15 @@ import { cn } from "@/lib/cn";
 const FAQS = [
   {
     q: "Do I need to know anything technical to use Bapita?",
-    a: "No. There's zero technical setup on your side — we handle the configuration and maintenance. What you get is simple controls you actually use: a clean dashboard, one-tap actions, easy scheduling and stats. Total daily simplicity, not a system you fight.",
+    a: "No. There's zero technical setup on your side. We handle the configuration and maintenance. What you get is simple controls you actually use: a clean dashboard, one-tap actions, easy scheduling and stats. Total daily simplicity, not a system you fight.",
   },
   {
     q: "How much does it cost?",
-    a: "Pricing is custom and we close it on a quick call — because we set everything up for you and price it to your business, not a generic plan tier. The shape: a one-time setup fee plus a monthly subscription per tool, and the more of your pita you fill, the better the per-tool price. Book a free call and we'll give you a straight number, no pressure.",
+    a: "Pricing is custom and we close it on a quick call, because we set everything up for you and price it to your business, not a generic plan tier. The shape: a one-time setup fee plus a monthly subscription per tool, and the more of your pita you fill, the better the per-tool price. Book a free call and we'll give you a straight number, no pressure.",
   },
   {
     q: "How is Bapita different from using Calendly, Buffer, or other tools directly?",
-    a: "Those tools hand you a blank, complicated dashboard and expect you to configure everything yourself. With Bapita, we build it around your business and keep it running — and your day-to-day stays simple: post in a tap, check stats at a glance, or let a tool run itself. Same warm approach across every product; pick only the ones you need.",
+    a: "Those tools hand you a blank, complicated dashboard and expect you to configure everything yourself. With Bapita, we build it around your business and keep it running, and your day-to-day stays simple: post in a tap, check stats at a glance, or let a tool run itself. Same warm approach across every product; pick only the ones you need.",
   },
   {
     q: "What does '48 hours' actually mean for Bapita Book?",
@@ -24,11 +24,11 @@ const FAQS = [
   },
   {
     q: "Can I use just one tool without committing to the whole suite?",
-    a: "Yes. Each tool is priced and managed independently. Start with Book if that's your biggest pain point, add Social when you're ready. There's no forced bundle — filling more of your pita just earns a better price.",
+    a: "Yes. Each tool is priced and managed independently. Start with Book if that's your biggest pain point, add Social when you're ready. There's no forced bundle. Filling more of your pita just earns a better price.",
   },
   {
     q: "When do Social, Bots, and Reach launch?",
-    a: "Book is live today. Social is in active development and launches next; Bots (WhatsApp) and Reach (local growth) roll out after that. Book a free call and we'll tell you exactly where each one is — and get you first in line, at a founding-customer price, when it ships.",
+    a: "Book is live today. Social is in active development and launches next; Bots (WhatsApp) and Reach (local growth) roll out after that. Book a free call and we'll tell you exactly where each one is, and get you first in line, at a founding-customer price, when it ships.",
   },
   {
     q: "Is my data safe? What happens to my client information?",

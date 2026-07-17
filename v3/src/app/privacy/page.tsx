@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Bapita",
-  description: "Privacy Policy for Bapita — how we handle your data.",
+  title: "Privacy Policy | Bapita",
+  description: "Privacy Policy for Bapita: how we handle your data.",
 };
 
 export default function PrivacyPolicy() {
@@ -58,7 +58,7 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <strong>Product usage:</strong> information about how you use our
-              tools—pages visited, features used, actions taken—to help us
+              tools (pages visited, features used, actions taken) to help us
               improve and track service performance.
             </li>
             <li>

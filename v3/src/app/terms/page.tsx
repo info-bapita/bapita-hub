@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Bapita",
-  description: "Terms of Service for Bapita — our agreements with you.",
+  title: "Terms of Service | Bapita",
+  description: "Terms of Service for Bapita: our agreements with you.",
 };
 
 export default function TermsOfService() {
@@ -80,7 +80,7 @@ export default function TermsOfService() {
               hello@bapita.com
             </a>
             . Cancellation takes effect at the end of your current billing
-            period—we do not offer refunds for unused days, but you can
+            period. We do not offer refunds for unused days, but you can
             continue using the product until your billing cycle ends. No refunds
             are issued for partial months.
           </p>

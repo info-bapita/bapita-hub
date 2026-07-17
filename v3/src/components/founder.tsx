@@ -50,11 +50,11 @@ export function Founder() {
                 Who you&apos;re working with
               </p>
               <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-espresso">
-                You talk to me — not a support queue.
+                You talk to me, not a support queue.
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-espresso-muted/80">
-                I&apos;m Rami. I set up every Bapita account myself — your booking page,
-                your social, your bot — and I&apos;m the person you message when you need
+                I&apos;m Rami. I set up every Bapita account myself: your booking page,
+                your social, your bot, and I&apos;m the person you message when you need
                 something changed. No ticket numbers, no outsourced support.
               </p>
 

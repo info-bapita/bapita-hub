@@ -21,7 +21,7 @@ export function Footer() {
           <div>
             <BrandMark className="text-cream opacity-90" />
             <p className="mt-4 max-w-[280px] text-[0.875rem] leading-relaxed text-cream/55">
-              Done-for-you digital tools for local service businesses — booking, social, WhatsApp bots &amp; local reach. Live in 48 hours.
+              Done-for-you digital tools for local service businesses: booking, social, WhatsApp bots &amp; local reach. Live in 48 hours.
             </p>
             <a
               href="mailto:hello@bapita.com"

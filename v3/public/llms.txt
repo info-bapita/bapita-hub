@@ -1,0 +1,25 @@
+# Bapita
+
+> Bapita is an Israel first digital suite for local service businesses. Done for you booking, social, WhatsApp bots, and local reach, set up under your brand in 48 hours and run from your phone.
+
+## About
+
+Bapita builds and runs digital tools for salons, barbers, clinics, coaches, and studios in Israel. Every account is set up personally by the founder, Rami. The owner does zero technical setup and runs everything from a simple dashboard on their phone. Pricing is custom and closed on a free call: a one time setup fee plus a monthly subscription per tool, with a better per tool price the more tools you use.
+
+## Products
+
+- Book: a branded booking website, owner dashboard, and automated WhatsApp and SMS reminders. Live today. https://book.bapita.com
+- Social: social media scheduling for Instagram and Facebook. In active development.
+- Bots: WhatsApp automation. Planned.
+- Reach: local growth and getting found locally. Planned.
+
+## Key pages
+
+- [Home](https://bapita.com/): product suite overview and how it works
+- [Book product](https://book.bapita.com/): the live booking product
+- [Privacy Policy](https://bapita.com/privacy)
+- [Terms of Service](https://bapita.com/terms)
+
+## Contact
+
+Book a free setup call through the website at https://bapita.com. The call is the main way to start.
