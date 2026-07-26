@@ -244,6 +244,161 @@
     }
   }
 
+  .marquee-rev {
+    animation: marquee-rev 30s linear infinite;
+    width: max-content;
+  }
+  @keyframes marquee-rev {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  /* ── Card loops ("why this works")
+     Each card carries a short scene that plays on a shared 6.4s cycle, so the
+     rail reads as a set of clips rather than a set of tiles. Transform/opacity
+     only — no width or filter animation — so they stay on the compositor while
+     the rail itself is being scrolled. ── */
+  @keyframes fx-row-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    10%,
+    84% {
+      opacity: 1;
+      transform: none;
+    }
+    96%,
+    100% {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+  .fx-row {
+    animation: fx-row-in 6.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  @keyframes fx-fill-fast {
+    0% {
+      transform: scaleX(0);
+    }
+    14%,
+    88% {
+      transform: scaleX(1);
+    }
+    100% {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes fx-fill-slow {
+    0% {
+      transform: scaleX(0);
+    }
+    70% {
+      transform: scaleX(0.4);
+    }
+    88% {
+      transform: scaleX(0.44);
+    }
+    100% {
+      transform: scaleX(0);
+    }
+  }
+  .fx-fill-fast,
+  .fx-fill-slow {
+    transform-origin: left center;
+  }
+  .fx-fill-fast {
+    animation: fx-fill-fast 6.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+  .fx-fill-slow {
+    animation: fx-fill-slow 6.4s linear infinite;
+  }
+
+  @keyframes fx-dot {
+    0%,
+    60%,
+    100% {
+      opacity: 0.25;
+      transform: translateY(0);
+    }
+    30% {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+  }
+  .fx-dot {
+    animation: fx-dot 1.2s ease-in-out infinite;
+  }
+
+  @keyframes fx-send {
+    0% {
+      opacity: 0;
+      transform: translate(-8px, 6px);
+    }
+    12%,
+    42% {
+      opacity: 1;
+      transform: none;
+    }
+    54%,
+    100% {
+      opacity: 0;
+      transform: translate(14px, -8px);
+    }
+  }
+  .fx-send {
+    animation: fx-send 6.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  @keyframes fx-confirm {
+    0%,
+    50% {
+      opacity: 0;
+      transform: translateY(10px) scale(0.94);
+    }
+    62%,
+    90% {
+      opacity: 1;
+      transform: none;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+  .fx-confirm {
+    animation: fx-confirm 6.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  @keyframes fx-bob {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-7px);
+    }
+  }
+  .fx-bob {
+    animation: fx-bob 3.4s ease-in-out infinite alternate;
+  }
+
+  /* Stagger utilities — must come after the animation classes above so the
+     delay isn't reset by the shorthand. */
+  .fx-d1 {
+    animation-delay: 0.45s;
+  }
+  .fx-d2 {
+    animation-delay: 0.9s;
+  }
+  .fx-d3 {
+    animation-delay: 1.35s;
+  }
+
   /* ── Hero ambient glow drift (fallback layer behind/around the canvas) ── */
   .hero-glow {
     animation: glow-drift 18s ease-in-out infinite alternate;
@@ -298,8 +453,31 @@
     .orb-float-3,
     .orb-float-4,
     .orb-float-5,
-    .orb-ball {
+    .orb-ball,
+    .marquee-rev,
+    .fx-row,
+    .fx-fill-fast,
+    .fx-fill-slow,
+    .fx-dot,
+    .fx-send,
+    .fx-confirm,
+    .fx-bob {
       animation: none !important;
+    }
+    /* The scenes above start from opacity:0 / scaleX(0), so switching the
+       animation off has to leave them in their resting state, not invisible. */
+    .fx-row,
+    .fx-send,
+    .fx-confirm {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .fx-fill-fast,
+    .fx-fill-slow {
+      transform: scaleX(1) !important;
+    }
+    .fx-fill-slow {
+      transform: scaleX(0.44) !important;
     }
     html {
       scroll-behavior: auto;
