@@ -3,60 +3,75 @@
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Reveal } from "@/components/reveal";
+import { TwoTone, Eyebrow } from "@/components/ui/type";
 import { cn } from "@/lib/cn";
 
 const FAQS = [
   {
-    q: "Do I need to know anything technical to use Bapita?",
-    a: "No. There's zero technical setup on your side. We handle the configuration and maintenance. What you get is simple controls you actually use: a clean dashboard, one-tap actions, easy scheduling and stats. Total daily simplicity, not a system you fight.",
+    q: "Do I need to know anything technical?",
+    a: "No. There's zero setup on your side — we handle the configuration and keep it running. What you get is the simple part: a clean dashboard, one-tap actions, easy scheduling and stats.",
   },
   {
     q: "How much does it cost?",
-    a: "Pricing is custom and we close it on a quick call, because we set everything up for you and price it to your business, not a generic plan tier. The shape: a one-time setup fee plus a monthly subscription per tool, and the more of your pita you fill, the better the per-tool price. Book a free call and we'll give you a straight number, no pressure.",
+    a: "A one-time setup fee plus a flat monthly rate per tool — around ₪150/month for one tool, ₪300/month for all four at the founding rate. We confirm your exact number on the call, based on what you actually pick. No commission on bookings, ever.",
   },
   {
-    q: "How is Bapita different from using Calendly, Buffer, or other tools directly?",
-    a: "Those tools hand you a blank, complicated dashboard and expect you to configure everything yourself. With Bapita, we build it around your business and keep it running, and your day-to-day stays simple: post in a tap, check stats at a glance, or let a tool run itself. Same warm approach across every product; pick only the ones you need.",
+    q: "How is this different from Calendly, Buffer, or Fresha?",
+    a: "Those hand you an empty dashboard and expect you to configure it, or they take a cut of every booking and keep the client relationship. We build it around your business, keep it running, and you own your client list.",
   },
   {
-    q: "What does '48 hours' actually mean for Bapita Book?",
-    a: "Once you book a free call and we agree on the setup, your booking page and owner dashboard are live within 48 business hours. That includes the page design, your service menu, availability settings, and WhatsApp/SMS reminders.",
+    q: "What does “48 hours” actually mean?",
+    a: "Once we've had the call and agreed the setup, your booking page and owner dashboard are live within 48 business hours — page design, service menu, prices, availability, and WhatsApp/SMS reminders included.",
   },
   {
-    q: "Can I use just one tool without committing to the whole suite?",
-    a: "Yes. Each tool is priced and managed independently. Start with Book if that's your biggest pain point, add Social when you're ready. There's no forced bundle. Filling more of your pita just earns a better price.",
+    q: "Can I take just one tool?",
+    a: "Yes. Each tool is priced and managed on its own. Start with Book if bookings are the pain, add Social when you're ready. Taking more of the pita just earns a better rate.",
   },
   {
-    q: "When do Social, Bots, and Reach launch?",
-    a: "Book is live today. Social is in active development and launches next; Bots (WhatsApp) and Reach (local growth) roll out after that. Book a free call and we'll tell you exactly where each one is, and get you first in line, at a founding-customer price, when it ships.",
+    q: "When do Social, Bots and Reach launch?",
+    a: "Book is live today. Social launches next and is in active development; Bots (WhatsApp) and Reach (local growth) roll out after. Book a call and we'll tell you exactly where each one stands and hold your founding rate for when it ships.",
   },
   {
-    q: "Is my data safe? What happens to my client information?",
-    a: "Your booking data, client details, and business information are stored securely and never sold or shared with third parties. Each product runs on infrastructure that meets standard data protection requirements.",
+    q: "Will my clients notice it's automated?",
+    a: "They notice they got an answer in seconds instead of three hours. The bot answers in your voice, with your prices, and hands anything unusual straight to you.",
+  },
+  {
+    q: "Is my client data safe?",
+    a: "Booking data, client details and business information are stored securely, never sold, and never shared with third parties. You can export your client list any time.",
   },
   {
     q: "What if I want to cancel?",
-    a: "Cancel any time, per tool. There are no annual lock-ins unless you've explicitly chosen an annual plan for a discount. If you cancel Bapita Book, your booking page stays live through the end of your billing period.",
+    a: "Cancel any time, per tool, with no annual lock-in unless you've chosen an annual discount. If you cancel Book, your page stays live through the end of the billing period.",
   },
 ];
 
-function FAQItem({ q, a, id, defaultOpen = false }: { q: string; a: string; id: string; defaultOpen?: boolean }) {
+function FAQItem({
+  q,
+  a,
+  id,
+  defaultOpen = false,
+}: {
+  q: string;
+  a: string;
+  id: string;
+  defaultOpen?: boolean;
+}) {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-cream/[0.08]">
+    <div className="border-b border-espresso/[0.09]">
       <button
         className="flex w-full items-start justify-between gap-4 py-5 text-left"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-controls={id}
       >
-        <span className="font-semibold text-[0.9375rem] leading-snug text-cream">{q}</span>
-        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cream/[0.08]">
+        <span className="text-[1.0625rem] font-bold leading-snug text-espresso">{q}</span>
+        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-espresso/[0.07]">
           {open ? (
-            <Minus className="h-3.5 w-3.5 text-cream/60" />
+            <Minus className="h-3.5 w-3.5 text-espresso/60" />
           ) : (
-            <Plus className="h-3.5 w-3.5 text-cream/60" />
+            <Plus className="h-3.5 w-3.5 text-espresso/60" />
           )}
         </span>
       </button>
@@ -65,11 +80,11 @@ function FAQItem({ q, a, id, defaultOpen = false }: { q: string; a: string; id: 
         id={id}
         className={cn(
           "grid transition-[grid-template-rows] duration-300",
-          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
         <div className="overflow-hidden">
-          <p className="pb-5 text-[0.9rem] leading-relaxed text-cream/65">{a}</p>
+          <p className="pb-5 pr-8 text-[0.9375rem] leading-relaxed text-espresso/60">{a}</p>
         </div>
       </div>
     </div>
@@ -78,16 +93,17 @@ function FAQItem({ q, a, id, defaultOpen = false }: { q: string; a: string; id: 
 
 export function FAQ() {
   return (
-    <section id="faq" className="wash-sand py-24 sm:py-32">
+    <section id="faq" className="wash-flat py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cream/50">
-              FAQ
-            </p>
-            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-cream">
-              Questions we get a lot.
-            </h2>
+            <Eyebrow className="justify-center">FAQ</Eyebrow>
+            <TwoTone
+              size="sm"
+              lead="Questions we get a lot."
+              trail="Straight answers."
+              className="mt-4"
+            />
           </div>
         </Reveal>
 
@@ -100,13 +116,13 @@ export function FAQ() {
         </Reveal>
 
         <Reveal delay={120}>
-          <p className="mt-10 text-center text-sm text-cream/55">
+          <p className="mt-10 text-center text-[0.9375rem] text-espresso/45">
             Something else on your mind?{" "}
             <a
               href="mailto:hello@bapita.com"
-              className="font-semibold text-cream/70 underline underline-offset-2 hover:text-cream"
+              className="font-semibold text-espresso underline decoration-espresso/25 underline-offset-4 hover:decoration-espresso/70"
             >
-              Email us
+              Email me
             </a>
           </p>
         </Reveal>

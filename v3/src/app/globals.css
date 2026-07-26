@@ -40,17 +40,32 @@
   --color-bowl-tan: #c8893f;   /* toasted pita bowl */
   --color-bowl-dark: #6e3f17;  /* bowl inner shadow */
 
+  /* ── Warm page spine (v4 homepage) ──
+     The homepage is ONE continuous warm world, top to bottom — no cream/dark
+     banding. Contrast comes from framed product cards, not from flipping the
+     page background. `espresso` appears as a full stop at the very end only. */
+  --color-paper-warm: #FDFBF7; /* page top / lightest */
+  --color-clay-deep: #F2DFC6;  /* warmest band — the "oven" chapter */
+  /* Signature: line 2 of every headline. Contrast on clay is ~3.1:1 —
+     display type only (48px+), never body copy. */
+  --color-clay-taupe: #9E8878;
+  --color-hairline: rgba(42, 29, 20, 0.1);   /* dividers on warm */
+  --color-hairline-strong: rgba(42, 29, 20, 0.18);
+
   /* ── Semantic ── */
   --color-success: #2bc487;
   --color-warning: #e8920a;
   --color-danger: #d64545;
 
   /* Aliases */
-  --color-background: var(--color-ink);
-  --color-foreground: var(--color-cream);
+  --color-background: var(--color-paper-warm);
+  --color-foreground: var(--color-espresso);
 
   /* Typography */
   --font-sans: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
+  /* Utility face — chapter numerals and data only. System stack on purpose:
+     the numerals are small and infrequent, not worth a font request. */
+  --font-mono: ui-monospace, "SF Mono", "Menlo", "Roboto Mono", monospace;
 
   /* Radii */
   --radius-sm: 8px;
@@ -76,6 +91,10 @@
   /* Display sizes (brand system §3) */
   --text-display-xl: clamp(2.75rem, 6vw, 4.5rem);
   --text-display-lg: clamp(1.75rem, 3.5vw, 2.5rem);
+  /* Chapter headline — the two-tone signature. Deliberately larger than
+     display-lg: chapter openers get their own scale so they read as chapter
+     breaks, not as another subhead. */
+  --text-chapter: clamp(2.25rem, 5.2vw, 4rem);
 }
 
 @layer base {
@@ -94,6 +113,9 @@
     --color-clay-toast: #F3D8BC;
     --color-bowl-tan: #c8893f;
     --color-bowl-dark: #6e3f17;
+    --color-paper-warm: #FDFBF7;
+    --color-clay-deep: #F2DFC6;
+    --color-clay-taupe: #9E8878;
   }
 
   *,
@@ -117,8 +139,8 @@
   }
 
   body {
-    background: var(--color-ink);
-    color: var(--color-cream);
+    background: var(--color-paper-warm);
+    color: var(--color-espresso);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -134,12 +156,66 @@
     background: color-mix(in srgb, var(--accent) 16%, transparent);
   }
 
-  /* ── Dark washes: subtle vertical lifts of the hub bg ── */
-  .wash-cream {
-    background: linear-gradient(to bottom, #0b0b0c, #141416);
+  /* ── Warm page spine ──
+     Each band picks up exactly where the previous one ended, so the whole
+     page reads as one continuous surface warming toward the pita chapter and
+     cooling back out. Order matters; keep these in sync with page.tsx. */
+  .wash-paper {
+    background: linear-gradient(to bottom, #FDFBF7, #FBF7EF);
   }
-  .wash-sand {
-    background: linear-gradient(to bottom, #141416, #0b0b0c);
+  .wash-clay {
+    background: linear-gradient(to bottom, #FBF7EF, #F7E8D6);
+  }
+  .wash-oven {
+    background: linear-gradient(to bottom, #F7E8D6, #F2DFC6 45%, #F7E8D6);
+  }
+  .wash-cool {
+    background: linear-gradient(to bottom, #F7E8D6, #FBF7EF);
+  }
+  .wash-flat {
+    background: #FBF7EF;
+  }
+
+  /* ── Two-tone headline signature ──
+     Line 1 espresso, line 2 clay-taupe. Repeated at every section opener; it
+     is the single device the page is meant to be remembered by. */
+  .two-tone > :last-child {
+    color: var(--color-clay-taupe);
+  }
+
+  /* ── Horizontal card rail (features carousel) ── */
+  .rail {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+  }
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+  .rail > * {
+    scroll-snap-align: start;
+  }
+
+  /* ── Panel cross-fade (scroll-driven product hand-over) ── */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ── Warm card lift ── */
+  .lift {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 44px -16px rgba(60, 34, 12, 0.3);
   }
 
   /* ── Product card hover glow ── */

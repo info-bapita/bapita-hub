@@ -2,7 +2,11 @@ import { cn } from "@/lib/cn";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
 type Size = "sm" | "md" | "lg";
-type Variant = "primary" | "ghost" | "outline";
+/**
+ * The page is warm end-to-end, so `primary` is espresso-on-clay. `onDark` is
+ * the inverse, for the single espresso block that closes the page.
+ */
+type Variant = "primary" | "ghost" | "outline" | "onDark";
 
 interface BaseProps {
   size?: Size;
@@ -27,15 +31,17 @@ const sizeClasses: Record<Size, string> = {
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "bg-cream text-ink hover:bg-cream/90 active:bg-cream/95 shadow-soft",
+    "bg-espresso text-clay hover:bg-espresso-muted active:bg-espresso shadow-[0_8px_20px_-8px_rgba(42,29,20,0.5)]",
   ghost:
-    "bg-transparent text-cream/75 hover:bg-cream/[0.08] hover:text-cream active:bg-cream/10",
+    "bg-transparent text-espresso/65 hover:bg-espresso/[0.06] hover:text-espresso active:bg-espresso/10",
   outline:
-    "bg-transparent border border-cream/20 text-cream hover:bg-cream/[0.06] active:bg-cream/10",
+    "bg-transparent border border-espresso/20 text-espresso hover:bg-espresso/[0.05] active:bg-espresso/[0.08]",
+  onDark:
+    "bg-clay text-espresso hover:bg-white active:bg-clay shadow-[0_8px_24px_-8px_rgba(0,0,0,0.6)]",
 };
 
 const base =
-  "inline-flex items-center justify-center rounded-pill font-semibold leading-none tracking-[-0.01em] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-ink disabled:pointer-events-none disabled:opacity-40 select-none whitespace-nowrap";
+  "inline-flex items-center justify-center rounded-pill font-semibold leading-none tracking-[-0.01em] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cinnamon focus-visible:ring-offset-2 focus-visible:ring-offset-clay disabled:pointer-events-none disabled:opacity-40 select-none whitespace-nowrap";
 
 export function Button({
   size = "md",

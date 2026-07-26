@@ -1,364 +1,267 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { LucideIcon } from "lucide-react";
-import {
-  LayoutGrid,
-  Wrench,
-  Gauge,
-  Calendar,
-  Share2,
-  Bot,
-  MapPin,
-  Plus,
-} from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { Button } from "@/components/ui/button";
+import { TwoTone, Lede, Key, Eyebrow } from "@/components/ui/type";
+import { FALAFEL_COLORS } from "@/components/ui/pita";
+import { PRODUCTS } from "@/lib/products";
+import { PRODUCT_ICONS } from "@/lib/icon-map";
 
-const TOOLS: { label: string; icon: LucideIcon }[] = [
-  { label: "Book", icon: Calendar },
-  { label: "Social", icon: Share2 },
-  { label: "Bots", icon: Bot },
-  { label: "Reach", icon: MapPin },
-];
+/**
+ * The only section on the page that gets numerals.
+ *
+ * Everywhere else the chapter marker is a colored falafel dot, because those
+ * sections aren't ordered — numbering them would be decoration. This one is a
+ * genuine sequence: the reader needs to know the call comes before the build,
+ * and the build before the dashboard. So it's numbered, in the utility face.
+ */
 
-const STEPS: { n: string; icon: LucideIcon; title: string; body: string }[] = [
+const STEPS = [
   {
     n: "01",
-    icon: LayoutGrid,
     title: "Pick your tools",
-    body: "Booking, social, WhatsApp bots, local reach — start with what you need today. Everything else joins the suite whenever you're ready.",
+    body: "A 20-minute call. Tell us what's actually costing you time — we'll tell you which of the four fixes it, and which you can skip.",
   },
   {
     n: "02",
-    icon: Wrench,
-    title: "We build it, under your brand",
-    body: "Your colors, your logo, your domain. We configure and launch it — usually within 48 hours. You don't touch a setting unless you want to.",
+    title: "We build it, under your name",
+    body: "Your colors, your logo, your domain. We configure it, load your services and prices, and launch it. You don't touch a setting.",
   },
   {
     n: "03",
-    icon: Gauge,
-    title: "Run it from one dashboard",
-    body: "Check stats, adjust settings, see every tool in one place. Add another from the suite anytime — no rebuild, no waiting.",
+    title: "You run it from your phone",
+    body: "Check today's bookings, see what posted, adjust a price. Add another tool whenever you want — no rebuild, no waiting.",
   },
 ];
 
-/** Respects reduced-motion so the panel's ambient loops go still, not just slower. */
-function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = () => setReduced(mq.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-  return reduced;
-}
+/* ── Step panels ───────────────────────────────────────────── */
 
-function ToolsVisual() {
-  const reducedMotion = useReducedMotion();
-  const [picked, setPicked] = useState(0);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const id = setInterval(() => setPicked((p) => (p + 1) % TOOLS.length), 1600);
-    return () => clearInterval(id);
-  }, [reducedMotion]);
-
+function PickPanel() {
   return (
-    <div className="grid w-full grid-cols-3 gap-3">
-      {TOOLS.map((tool, i) => {
-        const Icon = tool.icon;
-        const isPicked = i === picked;
+    <div className="w-full max-w-[320px] space-y-2">
+      {PRODUCTS.map((p, i) => {
+        const Icon = PRODUCT_ICONS[p.id];
+        const picked = i < 2;
         return (
           <div
-            key={tool.label}
-            className={`flex flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 transition-all duration-500 ${
-              isPicked
-                ? "scale-105 border-clay-toast/60 bg-clay-toast/15"
-                : "border-cream/10 bg-cream/5"
-            }`}
+            key={p.id}
+            className="flex items-center gap-3 rounded-xl border bg-white px-3.5 py-3"
+            style={{
+              borderColor: picked
+                ? `${FALAFEL_COLORS[p.id].base}66`
+                : "rgba(42,29,20,0.07)",
+            }}
           >
-            <Icon
-              className={`h-5 w-5 transition-colors duration-500 ${
-                isPicked ? "text-clay-toast" : "text-cream/50"
-              }`}
-            />
             <span
-              className={`text-[0.7rem] font-semibold transition-colors duration-500 ${
-                isPicked ? "text-cream" : "text-cream/40"
-              }`}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
+              style={{
+                background: `radial-gradient(circle at 32% 28%, ${FALAFEL_COLORS[p.id].highlight}, ${FALAFEL_COLORS[p.id].base} 60%, ${FALAFEL_COLORS[p.id].deep})`,
+              }}
             >
-              {tool.label}
+              <Icon className="h-3.5 w-3.5 text-espresso/55" strokeWidth={2.4} />
             </span>
+            <span className="flex-1 text-[0.8125rem] font-bold text-espresso">
+              {p.name}
+            </span>
+            {picked ? (
+              <Check
+                className="h-4 w-4"
+                style={{ color: FALAFEL_COLORS[p.id].base }}
+                strokeWidth={3}
+              />
+            ) : (
+              <Plus className="h-4 w-4 text-espresso/20" />
+            )}
           </div>
         );
       })}
+      <p className="pt-1 text-center text-[0.6875rem] text-espresso/40">
+        Start with two. Add the rest later.
+      </p>
     </div>
   );
 }
 
-function BuildVisual() {
-  const reducedMotion = useReducedMotion();
-  const [progress, setProgress] = useState(28);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const id = setInterval(() => setProgress((p) => (p >= 100 ? 18 : p + 4)), 220);
-    return () => clearInterval(id);
-  }, [reducedMotion]);
-
-  const pct = reducedMotion ? 72 : progress;
-
+function BuildPanel() {
   return (
-    <div className="w-full max-w-[260px] rounded-2xl border border-cream/10 bg-cream/5 p-4">
-      <div className="flex items-center justify-between">
-        <span className="h-2.5 w-2.5 rounded-full bg-clay-toast" />
-        <span className="text-[0.65rem] font-semibold uppercase tracking-wide text-cream/50">
-          yourbrand.com
+    <div className="w-full max-w-[280px] overflow-hidden rounded-2xl border border-espresso/[0.08] bg-white shadow-sm">
+      <div className="flex items-center gap-2 border-b border-espresso/[0.06] bg-clay/60 px-3 py-2">
+        <span className="h-2 w-2 rounded-full bg-book" />
+        <span className="font-mono text-[0.625rem] text-espresso/45">
+          shimi.bapita.com
         </span>
       </div>
-      <div className="mt-4 h-20 rounded-lg bg-gradient-to-br from-clay-toast/30 to-clay-warm/10" />
-      <div className="mt-4 space-y-2">
-        <div className="h-2 w-3/4 rounded-full bg-cream/15" />
-        <div className="h-2 w-1/2 rounded-full bg-cream/10" />
-      </div>
-      <div className="mt-4">
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-cream/10">
-          <div
-            className="h-full rounded-full bg-clay-toast transition-all duration-200"
-            style={{ width: `${Math.min(pct, 100)}%` }}
-          />
+      <div className="h-20 bg-gradient-to-br from-clay-toast to-bowl-tan/70" />
+      <div className="space-y-2 p-3.5">
+        <div className="h-2.5 w-3/4 rounded-full bg-espresso/[0.12]" />
+        <div className="h-2.5 w-1/2 rounded-full bg-espresso/[0.07]" />
+        <div className="mt-3.5 flex items-center gap-2 rounded-lg bg-success/10 px-2.5 py-2">
+          <Check className="h-3.5 w-3.5 text-success" strokeWidth={3} />
+          <span className="text-[0.6875rem] font-bold text-success">
+            Live · 41 hours
+          </span>
         </div>
-        <span className="mt-1.5 block text-[0.65rem] text-cream/40">Building your site…</span>
       </div>
     </div>
   );
 }
 
-function DashboardVisual() {
+function RunPanel() {
   const stats = [
-    { label: "Bookings", value: "128" },
-    { label: "New leads", value: "34" },
-    { label: "Messages", value: "212" },
+    { label: "Booked", value: "128" },
+    { label: "Posts out", value: "12" },
+    { label: "Replies", value: "212" },
   ];
-
   return (
-    <div className="w-full max-w-[280px] space-y-3">
+    <div className="w-full max-w-[300px] space-y-2.5">
       <div className="grid grid-cols-3 gap-2">
         {stats.map((s) => (
           <div
             key={s.label}
-            className="rounded-xl border border-cream/10 bg-cream/5 px-2 py-3 text-center"
+            className="rounded-xl border border-espresso/[0.07] bg-white px-2 py-3 text-center"
           >
-            <div className="text-base font-bold text-cream">{s.value}</div>
-            <div className="mt-0.5 text-[0.6rem] text-cream/40">{s.label}</div>
+            <div className="text-lg font-extrabold tabular-nums text-espresso">
+              {s.value}
+            </div>
+            <div className="mt-0.5 text-[0.625rem] text-espresso/40">{s.label}</div>
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-2 rounded-xl border border-cream/10 bg-cream/5 px-3 py-2.5">
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-clay-toast" />
-        <span className="text-[0.7rem] text-cream/60">Live · updated just now</span>
+      <div className="flex items-center gap-2 rounded-xl border border-espresso/[0.07] bg-white px-3 py-2.5">
+        <span className="h-1.5 w-1.5 rounded-full bg-success" />
+        <span className="text-[0.6875rem] text-espresso/55">
+          This month · updated just now
+        </span>
       </div>
       <div className="flex gap-2">
-        {TOOLS.slice(0, 4).map((tool) => {
-          const Icon = tool.icon;
+        {PRODUCTS.map((p) => {
+          const Icon = PRODUCT_ICONS[p.id];
           return (
             <span
-              key={tool.label}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-cream/10 bg-cream/5"
+              key={p.id}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-espresso/[0.07] bg-white"
+              style={{ color: FALAFEL_COLORS[p.id].base }}
             >
-              <Icon className="h-3.5 w-3.5 text-cream/50" />
+              <Icon className="h-4 w-4" />
             </span>
           );
         })}
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-dashed border-cream/20 text-cream/40">
-          <Plus className="h-3.5 w-3.5" />
-        </span>
       </div>
     </div>
   );
 }
 
-const VISUALS = [ToolsVisual, BuildVisual, DashboardVisual];
+const PANELS = [PickPanel, BuildPanel, RunPanel];
+
+/* ── Section ───────────────────────────────────────────────── */
 
 export function HowItWorks() {
   const [active, setActive] = useState(0);
   const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const [pinTop, setPinTop] = useState(88); // px from viewport top where the panel pins
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const idx = Number(entry.target.getAttribute("data-index"));
-            setActive(idx);
+            setActive(Number(entry.target.getAttribute("data-index")));
           }
         });
       },
-      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
     );
     stepRefs.current.forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  // Pins the panel right under the sticky nav bar — level with the title's own
-  // row — so it rises all the way up instead of stopping level with an item.
-  useEffect(() => {
-    const NAV_GAP = 24; // px of breathing room below the nav bar
-
-    const measure = () => {
-      const nav = document.querySelector<HTMLElement>("header.sticky");
-      const navHeight = nav?.getBoundingClientRect().height ?? 64;
-      setPinTop(Math.round(navHeight + NAV_GAP));
-    };
-
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
   return (
-    <section
-      id="how-it-works"
-      className="relative z-20 flex min-h-screen flex-col items-center justify-center gap-8 overflow-visible bg-[linear-gradient(to_right,#fafaf8_0%,#fafaf8_100%)] py-24"
-    >
+    <section id="how-it-works" className="wash-cool py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
-          <div className="mb-16 max-w-xl">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-cinnamon">
-              How it works
-            </p>
-            <h2 className="text-display-lg font-extrabold leading-[1.08] tracking-tight text-espresso">
-              From &ldquo;I need this&rdquo; to live in 48 hours.
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-espresso-muted/80">
-              Pick your tools. We brand and build them for you. Then run
-              everything — and add more — from one dashboard.
-            </p>
+          <div className="max-w-2xl">
+            <Eyebrow>How it works</Eyebrow>
+            <TwoTone
+              size="sm"
+              lead="From “I need this”"
+              trail="to live in 48 hours."
+              className="mt-3"
+            />
+            <Lede className="mt-4 max-w-xl text-base sm:text-lg">
+              You have <Key>one call and one decision</Key>. Everything after that is
+              on us.
+            </Lede>
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-24">
-          {/* step list */}
-          <div className="relative lg:self-start">
-            <div
-              className="absolute bottom-10 left-[27px] top-10 w-px bg-gradient-to-b from-cream/15 via-cream/10 to-transparent"
-              aria-hidden="true"
-            />
-            <ol className="flex flex-col gap-10 sm:gap-12">
-              {STEPS.map((step, i) => {
-                const Icon = step.icon;
-                const Visual = VISUALS[i];
-                const isActive = active === i;
-                return (
-                  <li
-                    key={step.n}
-                    ref={(el) => {
-                      stepRefs.current[i] = el;
-                    }}
-                    data-index={i}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => setActive(i)}
-                    onMouseEnter={() => setActive(i)}
-                    onFocus={() => setActive(i)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setActive(i);
-                      }
-                    }}
-                    className={`relative -mx-4 flex cursor-pointer items-start gap-6 rounded-2xl px-4 py-2 outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-clay-toast/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink ${
-                      isActive ? "bg-cream/5" : "hover:bg-cream/5"
+        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
+          {/* Steps */}
+          <ol className="flex flex-col gap-10 sm:gap-14">
+            {STEPS.map((step, i) => {
+              const Panel = PANELS[i];
+              const isActive = active === i;
+              return (
+                <li
+                  key={step.n}
+                  ref={(el) => {
+                    stepRefs.current[i] = el;
+                  }}
+                  data-index={i}
+                  className="relative"
+                >
+                  <span
+                    className={`font-mono text-[0.8125rem] font-bold tracking-[0.1em] transition-colors duration-300 ${
+                      isActive ? "text-cinnamon" : "text-espresso/25"
                     }`}
                   >
-                    <span
-                      className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border bg-ink-600 shadow-md transition-all duration-300 ${
-                        isActive
-                          ? "border-clay-toast/60 ring-2 ring-clay-toast/40 ring-offset-2 ring-offset-ink"
-                          : "border-cream/15"
-                      }`}
-                    >
-                      <Icon className="h-5 w-5 text-cream" />
-                    </span>
-                    <div className="min-w-0 flex-1 pt-1">
-                      <div className="flex items-baseline gap-3">
-                        <span
-                          className={`font-mono text-sm font-bold tracking-tight transition-colors duration-300 ${
-                            isActive ? "text-espresso" : "text-espresso-muted/70"
-                          }`}
-                        >
-                          {step.n}
-                        </span>
-                        <h3
-                          className={`text-[1.15rem] font-bold tracking-tight transition-colors duration-300 ${
-                            isActive ? "text-espresso" : "text-espresso-muted/70"
-                          }`}
-                        >
-                          {step.title}
-                        </h3>
-                      </div>
-                      <p
-                        className={`mt-2 max-w-md text-[0.95rem] leading-relaxed transition-colors duration-300 ${
-                          isActive ? "text-espresso-muted/80" : "text-espresso-muted/60"
-                        }`}
-                      >
-                        {step.body}
-                      </p>
+                    {step.n}
+                  </span>
+                  <h3
+                    className={`mt-1.5 text-[1.25rem] font-extrabold tracking-[-0.025em] transition-colors duration-300 sm:text-[1.375rem] ${
+                      isActive ? "text-espresso" : "text-espresso/45"
+                    }`}
+                  >
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 max-w-md text-[0.9375rem] leading-relaxed text-espresso/55 sm:text-base">
+                    {step.body}
+                  </p>
 
-                      {/* mobile only: the panel travels inline with whichever step is active */}
-                      {isActive && (
-                        <div className="mt-5 flex justify-center rounded-2xl border border-cream/10 bg-ink-600 p-6 lg:hidden">
-                          <Visual />
-                        </div>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-            {/* extends this column's height a bit past the last step's text, giving the
-                pinned panel a little extra room to glide before it releases */}
-            <div className="h-16" aria-hidden="true" />
-          </div>
+                  {/* Mobile: the panel travels inline with its own step. */}
+                  <div className="mt-5 flex justify-center rounded-2xl border border-espresso/[0.07] bg-clay/50 p-5 lg:hidden">
+                    <Panel />
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
 
-          {/* desktop only: visual panel pinned at the title line, released natively by
-              CSS sticky once this column (which matches the step list's height) ends */}
+          {/* Desktop: one pinned panel that swaps with the active step. */}
           <div className="relative hidden lg:block">
-            <div className="sticky" style={{ top: pinTop }}>
-              <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-3xl border border-cream/10 bg-ink-600 p-8 shadow-xl">
-                {STEPS.map((_, i) => {
-                  const Visual = VISUALS[i];
-                  return (
-                    <div
-                      key={i}
-                      className={`absolute inset-0 flex items-center justify-center p-8 transition-opacity duration-500 ${
-                        active === i ? "opacity-100" : "pointer-events-none opacity-0"
-                      }`}
-                    >
-                      <Visual />
-                    </div>
-                  );
-                })}
+            <div className="sticky top-24">
+              <div className="relative flex aspect-[5/4] w-full items-center justify-center overflow-hidden rounded-3xl border border-espresso/[0.07] bg-clay/60 p-6 shadow-[0_20px_60px_-30px_rgba(60,34,12,0.35)]">
+                {PANELS.map((Panel, i) => (
+                  <div
+                    key={i}
+                    className={`absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-500 ${
+                      active === i ? "opacity-100" : "pointer-events-none opacity-0"
+                    }`}
+                  >
+                    <Panel />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Second CTA — capture intent right after the process lands */}
         <Reveal>
-          <div className="mt-20 flex flex-col items-center gap-5 text-center">
-            <p className="text-lg font-semibold text-espresso">
+          <div className="mt-16 flex flex-col items-center gap-4 text-center">
+            <p className="text-lg font-bold text-espresso sm:text-xl">
               That&apos;s it — you&apos;re live in 48 hours.
             </p>
-            <Button
-              href="#connect"
-              size="lg"
-              className="!bg-espresso !text-clay hover:!bg-espresso-muted"
-            >
+            <Button href="#connect" size="lg">
               Book a free call
             </Button>
           </div>

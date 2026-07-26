@@ -3,6 +3,13 @@
 import { type ReactNode, useEffect } from "react";
 import Lenis from "lenis";
 
+declare global {
+  interface Window {
+    /** Set while Lenis is mounted. Use for any programmatic scroll. */
+    __lenis?: Lenis;
+  }
+}
+
 /**
  * Mounts Lenis inertial smooth-scroll once at the root and drives its rAF loop.
  * Disabled entirely when the user prefers reduced motion (native scroll stands in).
@@ -21,6 +28,11 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
+
+    // Published so other components can scroll programmatically THROUGH Lenis.
+    // Calling window.scrollTo() while Lenis is running fights it: Lenis keeps
+    // animating toward its own target and the position oscillates.
+    window.__lenis = lenis;
 
     let frame = 0;
     function raf(time: number) {
@@ -46,6 +58,7 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       cancelAnimationFrame(frame);
       document.removeEventListener("click", onAnchorClick);
       lenis.destroy();
+      delete window.__lenis;
     };
   }, []);
 

@@ -7,7 +7,7 @@
 export function BowlIcon({
   size = 28,
   className,
-  color = "#f4f4f2",
+  color = "currentColor",
 }: {
   size?: number;
   className?: string;
@@ -46,7 +46,7 @@ export function BrandMark({ className }: { className?: string }) {
   return (
     <span
       className={className}
-      style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "#f4f4f2" }}
+      style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
     >
       <BowlIcon size={24} />
       <span
