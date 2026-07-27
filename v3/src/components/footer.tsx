@@ -10,30 +10,11 @@ const FOOTER_LINKS = [
   { label: "Book a free call", href: "#connect" },
 ];
 
-/** Repeated enough times to fill any viewport before the loop point. */
-const SHOUT = Array.from({ length: 8 });
-
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer id="about" style={{ background: "#231710" }}>
-      {/* Marquee — the promise, at the size it deserves. Continues the espresso
-          block above rather than starting a new surface. */}
-      <div className="overflow-hidden border-y border-clay/[0.07] py-6">
-        <div className="marquee-track flex items-center whitespace-nowrap" aria-hidden="true">
-          {SHOUT.map((_, i) => (
-            <span
-              key={i}
-              className="flex items-center text-[2.5rem] font-extrabold tracking-[-0.03em] text-clay/[0.07] sm:text-[3.5rem]"
-            >
-              LIVE IN 48 HOURS
-              <span className="mx-6 inline-block h-2.5 w-2.5 rounded-full bg-clay/[0.09] sm:mx-8" />
-            </span>
-          ))}
-        </div>
-      </div>
-
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.8fr_1fr_1fr]">
           <div>
