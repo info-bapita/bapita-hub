@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { Band } from "@/components/band";
+import { StickyReveal } from "@/components/sticky-reveal";
 import { PauseOffscreen } from "@/components/pause-offscreen";
 import { Button } from "@/components/ui/button";
 import { Lede, Key, Eyebrow } from "@/components/ui/type";
@@ -31,10 +32,11 @@ import { PRODUCT_ICONS } from "@/lib/icon-map";
  * a column beside one sticky visual, which meant the visual existed on desktop
  * only and each step got no weight of its own.
  *
- * The section header is the display line that used to be its own band between
- * the products and here. Two headers back to back — giant words, then a second
- * headline a screen later — competed with each other, and the giant words had
- * no supporting copy of their own. Merged, each does one job.
+ * The section opens with the display line ("Work smarter") in a white strip of
+ * its own, above the eyebrow. It was briefly folded in under the eyebrow, which
+ * put two headers in one block and forced the giant words to a size that ran off
+ * the right edge. Separated, each does one job: the strip is the chapter break,
+ * the eyebrow and lede are this section's own header.
  */
 
 type Aside = { icon: LucideIcon; title: string; body: string };
@@ -268,18 +270,27 @@ const PANELS = [
 
 export function HowItWorks() {
   return (
-    /* overflow-hidden is what lets the display line run off the right edge
-       instead of adding a horizontal scrollbar to the document. */
-    <section id="how-it-works" className="wash-cool overflow-hidden py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+    <section id="how-it-works" className="wash-cool overflow-hidden">
+      {/* The display line gets its own full-bleed white strip, above the
+          section's own header — one oversized statement per row, nothing else
+          in it, the way the reference does it. It used to sit between the
+          eyebrow and the lede at a size that ran off the right edge, which put
+          two headers in one block and left the giant words cropped. */}
+      <div className="border-b border-espresso/[0.06] bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          {/* Not inside <Reveal>: it holds a translateY while hidden, and the
+              line measures its own distance to the viewport to drive both the
+              wipe and the drift. */}
+          <Band />
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-6xl px-5 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-20">
         <Reveal>
           <Eyebrow>How it works</Eyebrow>
         </Reveal>
-        {/* Not inside <Reveal>: it holds a translateY while hidden, and the
-            line measures its own distance to the viewport to drive the wipe. */}
-        <Band className="mt-5" />
         <Reveal>
-          <Lede className="mt-6 max-w-xl text-base sm:text-lg">
+          <Lede className="mt-5 max-w-xl text-base sm:text-lg">
             Three steps, and <Key>two of them are ours</Key>. One call, one
             decision, and everything after that is on us.
           </Lede>
@@ -308,10 +319,16 @@ export function HowItWorks() {
                 /* Direct child of the <ol> on purpose: a sticky element pins
                    inside its own parent's box, so wrapping each card in its own
                    div gives it a box exactly its own height and nothing to stick
-                   within. The list is the shared box. */
-                <li
+                   within. The list is the shared box.
+
+                   StickyReveal renders the <li> itself and fades it in as it
+                   arrives, so the three steps land one at a time instead of the
+                   whole stack being present from the start. It animates opacity
+                   only — a transform anywhere up the tree would break the
+                   pinning — and hands the lift to .step-in's children. */
+                <StickyReveal
                   key={step.n}
-                  className="grid overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm lg:grid-cols-2"
+                  className="step-in grid overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm lg:grid-cols-2"
                   style={{
                     position: "sticky",
                     top: `calc(5.5rem + ${i * 14}px)`,
@@ -413,7 +430,7 @@ export function HowItWorks() {
                       <Panel />
                     </div>
                   </div>
-                </li>
+                </StickyReveal>
               );
             })}
           </ol>
