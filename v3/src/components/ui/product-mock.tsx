@@ -193,7 +193,7 @@ function SocialMock() {
 
 const CHAT = [
   { from: "them" as const, text: "hey, any space today around 4?" },
-  { from: "us" as const, text: "Yes — 16:00 is open with Shimi. Want it?" },
+  { from: "us" as const, text: "Yes, 16:00 is open with Shimi. Want it?" },
   { from: "them" as const, text: "perfect 🙏" },
   { from: "us" as const, text: "Booked. Thursday 16:00, haircut ₪80. Reminder sent." },
 ];

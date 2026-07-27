@@ -44,8 +44,8 @@ export function Founder() {
                 className="mt-4"
               />
               <Lede className="mt-6">
-                I&apos;m Rami. I set up every Bapita account myself — your booking page,
-                your social, your bot — and{" "}
+                I&apos;m Rami. I set up every Bapita account myself: your booking page,
+                your social, your bot. And{" "}
                 <Key>I&apos;m the person you message when something needs changing</Key>.
                 No ticket numbers, no outsourced support.
               </Lede>

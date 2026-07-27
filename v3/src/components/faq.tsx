@@ -9,19 +9,19 @@ import { cn } from "@/lib/cn";
 const FAQS = [
   {
     q: "Do I need to know anything technical?",
-    a: "No. There's zero setup on your side — we handle the configuration and keep it running. What you get is the simple part: a clean dashboard, one-tap actions, easy scheduling and stats.",
+    a: "No. There's zero setup on your side. We handle the configuration and keep it running. What you get is the simple part: a clean dashboard, one-tap actions, easy scheduling and stats.",
   },
   {
     q: "How much does it cost?",
-    a: "A one-time setup fee plus a flat monthly rate per tool — around ₪150/month for one tool, ₪300/month for all four at the founding rate. We confirm your exact number on the call, based on what you actually pick. No commission on bookings, ever.",
+    a: "A one-time setup fee plus a flat monthly rate per tool: around ₪150/month for one tool, ₪300/month for all four at the founding rate. We confirm your exact number on the call, based on what you actually pick. No commission on bookings, ever.",
   },
   {
     q: "How is this different from Calendly, Buffer, or Fresha?",
     a: "Those hand you an empty dashboard and expect you to configure it, or they take a cut of every booking and keep the client relationship. We build it around your business, keep it running, and you own your client list.",
   },
   {
-    q: "What does “48 hours” actually mean?",
-    a: "Once we've had the call and agreed the setup, your booking page and owner dashboard are live within 48 business hours — page design, service menu, prices, availability, and WhatsApp/SMS reminders included.",
+    q: "How long does setup take?",
+    a: "Once we've had the call and agreed the setup, your booking page and owner dashboard are live within a few business days: page design, service menu, prices, availability, and WhatsApp/SMS reminders included.",
   },
   {
     q: "Can I take just one tool?",

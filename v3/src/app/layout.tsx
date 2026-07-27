@@ -12,9 +12,9 @@ const heebo = Heebo({
 
 const TITLE = "Bapita | Your business, online. Without the tech.";
 const DESCRIPTION =
-  "Done-for-you digital tools for salons, barbers, clinics & studios: booking, social, WhatsApp bots, and local reach. We set it up under your brand, live in 48 hours; you run it from your phone.";
+  "Done-for-you digital tools for salons, barbers, clinics & studios: booking, social, WhatsApp bots, and local reach. We set it up under your brand and keep it running; you run it from your phone.";
 const OG_DESCRIPTION =
-  "Done-for-you digital tools for local service businesses: booking, social, WhatsApp bots & local reach. Live in 48 hours; run it from your phone.";
+  "Done-for-you digital tools for local service businesses: booking, social, WhatsApp bots & local reach. Set up under your brand; run it from your phone.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -49,7 +49,7 @@ const ORGANIZATION_SCHEMA = {
   url: "https://bapita.com",
   logo: "https://bapita.com/logo.svg",
   description:
-    "Bapita builds and runs done-for-you digital tools for local service businesses in Israel: a booking website, owner dashboard, social scheduling, WhatsApp bots, and local reach. Set up under your brand in 48 hours.",
+    "Bapita builds and runs done-for-you digital tools for local service businesses in Israel: a booking website, owner dashboard, social scheduling, WhatsApp bots, and local reach. Set up and kept running under your brand.",
   areaServed: {
     "@type": "Country",
     name: "Israel",

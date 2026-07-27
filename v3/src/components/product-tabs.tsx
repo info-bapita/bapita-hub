@@ -20,7 +20,7 @@ const ACCENT: Record<ProductId, string> = {
  */
 const STATEMENT: Record<ProductId, string> = {
   book:
-    "Clients book themselves, at 2am, from their phone — and your calendar fills while you're cutting.",
+    "Clients book themselves at 2am from their phone, and your calendar fills while you're cutting.",
   social:
     "A week of posts goes out on schedule, so you look active without opening Instagram once.",
   bots:
@@ -131,8 +131,8 @@ export function ProductTabs() {
               className="mt-3"
             />
             <Lede className="mx-auto mt-4 text-base sm:text-lg">
-              Four tools, one login, one bill. Take <Key>one or take all four</Key> —
-              we set up whichever you pick, under your own name and colors.
+              Four tools, one login, one bill. Take <Key>one or take all four</Key>.
+              We set up whichever you pick, under your own name and colors.
             </Lede>
           </div>
 

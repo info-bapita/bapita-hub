@@ -3,9 +3,7 @@ import { Hero } from "@/components/hero";
 import { ProductTabs } from "@/components/product-tabs";
 import { HowItWorks } from "@/components/how-it-works";
 import { Features } from "@/components/features";
-import { ProofShops } from "@/components/proof-shops";
 import { Pricing } from "@/components/pricing";
-import { Founder } from "@/components/founder";
 import { FAQ } from "@/components/faq";
 import { Connect } from "@/components/connect";
 import { Footer } from "@/components/footer";
@@ -14,11 +12,14 @@ import { Footer } from "@/components/footer";
  * Reading order is the argument:
  *
  *   the whole idea, shown → what each tool is → how you get it → why trust it →
- *   who else has it → what it costs → who you're dealing with → objections →
- *   close.
+ *   what it costs → objections → close.
  *
- * The hero carries the metaphor itself (mess and tools dropping into one pita)
+ * The hero carries the metaphor itself (the tools dropping into one pita)
  * rather than stating a claim and illustrating it later.
+ *
+ * ProofShops ("first shops") and Founder ("who you're working with") were cut
+ * on 2026-07-27: the page was too long and both sections asked for trust the
+ * pricing and FAQ now earn directly.
  *
  * The statistics that once sat between the hero and the products moved into
  * Features: three bare percentages arriving before the reader knew what Bapita
@@ -33,9 +34,7 @@ export default function Home() {
         <ProductTabs />
         <HowItWorks />
         <Features />
-        <ProofShops />
         <Pricing />
-        <Founder />
         <FAQ />
         <Connect />
       </main>

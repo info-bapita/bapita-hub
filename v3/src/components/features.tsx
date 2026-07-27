@@ -148,7 +148,7 @@ export function Features() {
                     strokeWidth={2.4}
                   />
                   <p className="text-[0.75rem] leading-snug text-espresso/70">
-                    Hi Dana — tomorrow at 16:00 with Shimi. Reply{" "}
+                    Hi Dana, tomorrow at 16:00 with Shimi. Reply{" "}
                     <span className="font-bold text-espresso">1</span> to confirm.
                   </p>
                 </div>
@@ -156,7 +156,7 @@ export function Features() {
               <div className="fx-confirm col-start-1 row-start-1 flex items-center justify-center self-center">
                 <span className="inline-flex items-center gap-2 rounded-pill bg-success/12 px-3.5 py-2 text-[0.8125rem] font-bold text-success">
                   <Check className="h-4 w-4" strokeWidth={3} />
-                  Confirmed — seat held
+                  Confirmed. Seat held
                 </span>
               </div>
             </div>

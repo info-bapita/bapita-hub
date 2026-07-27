@@ -40,7 +40,7 @@ export function Footer() {
             <BrandMark className="text-clay opacity-90" />
             <p className="mt-4 max-w-[280px] text-[0.875rem] leading-relaxed text-clay/45">
               Done-for-you booking, social, WhatsApp bots and local reach for salons,
-              barbers, clinics and studios. Set up under your brand, live in 48 hours.
+              barbers, clinics and studios. Set up and kept running under your brand.
             </p>
             <a
               href="mailto:hello@bapita.com"

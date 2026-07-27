@@ -22,7 +22,7 @@ const STEPS = [
   {
     n: "01",
     title: "Pick your tools",
-    body: "A 20-minute call. Tell us what's actually costing you time — we'll tell you which of the four fixes it, and which you can skip.",
+    body: "A 20-minute call. Tell us what's actually costing you time, and we'll tell you which of the four fixes it, and which you can skip.",
   },
   {
     n: "02",
@@ -32,7 +32,7 @@ const STEPS = [
   {
     n: "03",
     title: "You run it from your phone",
-    body: "Check today's bookings, see what posted, adjust a price. Add another tool whenever you want — no rebuild, no waiting.",
+    body: "Check today's bookings, see what posted, adjust a price. Add another tool whenever you want. No rebuild, no waiting.",
   },
 ];
 
@@ -185,7 +185,7 @@ export function HowItWorks() {
             <TwoTone
               size="sm"
               lead="From “I need this”"
-              trail="to live in 48 hours."
+              trail="to live and running."
               className="mt-3"
             />
             <Lede className="mt-4 max-w-xl text-base sm:text-lg">
@@ -259,7 +259,7 @@ export function HowItWorks() {
         <Reveal>
           <div className="mt-16 flex flex-col items-center gap-4 text-center">
             <p className="text-lg font-bold text-espresso sm:text-xl">
-              That&apos;s it — you&apos;re live in 48 hours.
+              That&apos;s it. You&apos;re live, and we keep it running.
             </p>
             <Button href="#connect" size="lg">
               Book a free call

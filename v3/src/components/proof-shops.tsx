@@ -37,7 +37,7 @@ export function ProofShops() {
               />
               <Lede className="mt-5">
                 Bapita is new and we&apos;re taking on a handful of shops at{" "}
-                <Key>founding-client pricing</Key> — lower rate, direct line to me,
+                <Key>founding-client pricing</Key>: lower rate, direct line to me,
                 and your feedback shapes what gets built next.
               </Lede>
 

@@ -30,13 +30,18 @@
   --color-bots-glow: #f2628f;
   --color-reach-glow: #4e86ff;
 
-  /* ── Clay / warm light (hero, brand surfaces on light) ── */
-  --color-clay: #FBF7EF;       /* lightest cream surface */
-  --color-clay-warm: #F7E8D6;  /* mid warm */
-  --color-clay-toast: #F3D8BC; /* deep toast */
-  --color-espresso: #2A1D14;   /* dark warm text / CTA */
-  --color-espresso-muted: #3a2c20; /* secondary text */
-  --color-cinnamon: #9a5a3c;   /* warm accent text / spice */
+  /* ── Clay / warm light (hero, brand surfaces on light) ──
+     BRIGHT-NEUTRAL TEST: the ramp keeps its warm bias but drops most of the
+     yellow, so surfaces read as bright off-white paper with grey text rather
+     than tan. Names unchanged so no component has to move. Previous warm
+     values: clay #FBF7EF, clay-warm #F7E8D6, clay-toast #F3D8BC,
+     espresso #2A1D14, espresso-muted #3a2c20, cinnamon #9a5a3c. */
+  --color-clay: #F5F4EE;       /* card / raised surface */
+  --color-clay-warm: #F0EEE6;  /* mid band */
+  --color-clay-toast: #E9E6DC; /* deepest band */
+  --color-espresso: #141413;   /* primary text / CTA fill — neutral near-black */
+  --color-espresso-muted: #3D3D3A; /* secondary text */
+  --color-cinnamon: #C96442;   /* terracotta accent */
   --color-bowl-tan: #c8893f;   /* toasted pita bowl */
   --color-bowl-dark: #6e3f17;  /* bowl inner shadow */
 
@@ -44,13 +49,13 @@
      The homepage is ONE continuous warm world, top to bottom — no cream/dark
      banding. Contrast comes from framed product cards, not from flipping the
      page background. `espresso` appears as a full stop at the very end only. */
-  --color-paper-warm: #FDFBF7; /* page top / lightest */
-  --color-clay-deep: #F2DFC6;  /* warmest band — the "oven" chapter */
-  /* Signature: line 2 of every headline. Contrast on clay is ~3.1:1 —
-     display type only (48px+), never body copy. */
-  --color-clay-taupe: #9E8878;
-  --color-hairline: rgba(42, 29, 20, 0.1);   /* dividers on warm */
-  --color-hairline-strong: rgba(42, 29, 20, 0.18);
+  --color-paper-warm: #FAF9F5; /* page background */
+  --color-clay-deep: #EDEBE3;  /* deepest band — the "oven" chapter */
+  /* Signature: line 2 of every headline. Display type only (48px+). */
+  --color-clay-taupe: #8A8A85;
+  --color-chip: #FFFFFF;       /* floating chips/cards — pure white on paper */
+  --color-hairline: rgba(0, 0, 0, 0.08);   /* dividers */
+  --color-hairline-strong: rgba(0, 0, 0, 0.16);
 
   /* ── Semantic ── */
   --color-success: #2bc487;
@@ -108,14 +113,15 @@
     --color-bots: #e0457b;
     --color-reach: #2d6cf0;
     --color-ads: #d4881c;
-    --color-clay: #FBF7EF;
-    --color-clay-warm: #F7E8D6;
-    --color-clay-toast: #F3D8BC;
+    --color-clay: #F5F4EE;
+    --color-clay-warm: #F0EEE6;
+    --color-clay-toast: #E9E6DC;
     --color-bowl-tan: #c8893f;
     --color-bowl-dark: #6e3f17;
-    --color-paper-warm: #FDFBF7;
-    --color-clay-deep: #F2DFC6;
-    --color-clay-taupe: #9E8878;
+    --color-paper-warm: #FAF9F5;
+    --color-clay-deep: #EDEBE3;
+    --color-clay-taupe: #8A8A85;
+    --color-chip: #FFFFFF;
   }
 
   *,
@@ -161,19 +167,19 @@
      page reads as one continuous surface warming toward the pita chapter and
      cooling back out. Order matters; keep these in sync with page.tsx. */
   .wash-paper {
-    background: linear-gradient(to bottom, #FDFBF7, #FBF7EF);
+    background: linear-gradient(to bottom, #FAF9F5, #F5F4EE);
   }
   .wash-clay {
-    background: linear-gradient(to bottom, #FBF7EF, #F7E8D6);
+    background: linear-gradient(to bottom, #F5F4EE, #F0EEE6);
   }
   .wash-oven {
-    background: linear-gradient(to bottom, #F7E8D6, #F2DFC6 45%, #F7E8D6);
+    background: linear-gradient(to bottom, #F0EEE6, #EDEBE3 45%, #F0EEE6);
   }
   .wash-cool {
-    background: linear-gradient(to bottom, #F7E8D6, #FBF7EF);
+    background: linear-gradient(to bottom, #F0EEE6, #F5F4EE);
   }
   .wash-flat {
-    background: #FBF7EF;
+    background: #F5F4EE;
   }
 
   /* ── Two-tone headline signature ──
@@ -215,7 +221,7 @@
   }
   .lift:hover {
     transform: translateY(-3px);
-    box-shadow: 0 18px 44px -16px rgba(60, 34, 12, 0.3);
+    box-shadow: 0 18px 44px -16px rgba(0, 0, 0, 0.18);
   }
 
   /* ── Product card hover glow ── */

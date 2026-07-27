@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import {
+  Globe,
   MessageCircle,
-  CalendarX,
-  Instagram,
-  MapPinOff,
-  Receipt,
-  PhoneMissed,
+  BellRing,
+  Inbox,
+  CalendarClock,
+  MapPin,
   type LucideIcon,
 } from "lucide-react";
 import { Falafel, PitaBowl } from "@/components/ui/pita";
@@ -19,10 +19,15 @@ import type { ProductId } from "@/lib/products";
 /**
  * The hero IS the metaphor.
  *
- * Everything a shop owner juggles today — a missed WhatsApp, an unposted photo,
- * a no-show — floats above an open pita alongside the four falafels. Scrolling
- * drops the mess in first, then the tools, and the payoff line lands once the
- * pita is full. The product claim and the brand image are the same gesture.
+ * The concrete things you actually get — a booking website, a WhatsApp
+ * assistant, reminders — float above an open pita alongside the four falafels.
+ * Scrolling drops the capabilities in first, then the four products they group
+ * into, and the payoff line lands once the pita is full. The product claim and
+ * the brand image are the same gesture.
+ *
+ * Earlier the chits named problems (missed WhatsApp, no-show). They now name
+ * capabilities: the section sells picking tools, so the floating objects are
+ * the menu, not the mess.
  *
  * Scroll-driven rather than auto-playing, so the reader controls the reveal.
  * Progress is written straight to the DOM inside a rAF tick — React never
@@ -36,17 +41,17 @@ type Obj = Chit | Ball;
 
 /**
  * Resting positions are fractions of the scene box, measured from its centre.
- * They deliberately avoid the bottom-centre wedge where the pita sits: the mess
- * lives above it and in the side gutters, so nothing is ever hidden behind the
- * bowl before it falls.
+ * They deliberately avoid the bottom-centre wedge where the pita sits: the
+ * chits live above it and in the side gutters, so nothing is ever hidden behind
+ * the bowl before it falls.
  */
 const OBJECTS: Obj[] = [
-  { kind: "chit", label: "Missed WhatsApp", icon: MessageCircle, rx: -0.34, ry: -0.4, rot: -9, start: 0.05 },
-  { kind: "chit", label: "Unposted photo", icon: Instagram, rx: 0.3, ry: -0.44, rot: 7, start: 0.09 },
-  { kind: "chit", label: "No-show", icon: CalendarX, rx: -0.44, ry: -0.14, rot: 5, start: 0.13 },
-  { kind: "chit", label: "Missed call", icon: PhoneMissed, rx: 0.43, ry: -0.16, rot: -6, start: 0.17 },
-  { kind: "chit", label: "Nobody found you", icon: MapPinOff, rx: -0.4, ry: 0.1, rot: 8, start: 0.21 },
-  { kind: "chit", label: "Lost ₪80", icon: Receipt, rx: 0.38, ry: 0.12, rot: -4, start: 0.25 },
+  { kind: "chit", label: "Booking website", icon: Globe, rx: -0.34, ry: -0.4, rot: -9, start: 0.05 },
+  { kind: "chit", label: "Scheduled posts", icon: CalendarClock, rx: 0.3, ry: -0.44, rot: 7, start: 0.09 },
+  { kind: "chit", label: "WhatsApp assistant", icon: MessageCircle, rx: -0.44, ry: -0.14, rot: 5, start: 0.13 },
+  { kind: "chit", label: "Auto reminders", icon: BellRing, rx: 0.43, ry: -0.16, rot: -6, start: 0.17 },
+  { kind: "chit", label: "Unified inbox", icon: Inbox, rx: -0.4, ry: 0.1, rot: 8, start: 0.21 },
+  { kind: "chit", label: "Found on Google", icon: MapPin, rx: 0.38, ry: 0.12, rot: -4, start: 0.25 },
 
   { kind: "ball", id: "book", label: "Book", rx: -0.22, ry: -0.3, rot: 0, start: 0.34 },
   { kind: "ball", id: "social", label: "Social", rx: 0.21, ry: -0.34, rot: 0, start: 0.4 },
@@ -184,7 +189,7 @@ export function Hero() {
       >
         <div className="text-center">
           <Eyebrow className="justify-center">
-            For salons, barbers, clinics &amp; studios
+            For businesses that run on appointments
           </Eyebrow>
 
           <TwoTone
@@ -196,9 +201,9 @@ export function Hero() {
           />
 
           <Lede className="mx-auto mt-4 max-w-xl">
-            Booking, social, WhatsApp and local reach —{" "}
-            <Key>built for you, live in 48 hours</Key>. You run all of it from your
-            phone.
+            Pick the tools your business needs.{" "}
+            <Key>We build them and set them up under your brand.</Key> You run all
+            of it from your phone.
           </Lede>
 
           <div className="mt-6 flex flex-col items-center gap-3">
@@ -244,12 +249,12 @@ export function Hero() {
                     size="clamp(48px, 7vw, 70px)"
                     icon={PRODUCT_ICONS[o.id]}
                   />
-                  <span className="rounded-pill border border-espresso/[0.06] bg-[#FFFDF9] px-2 py-0.5 text-[10px] font-bold text-espresso/70 shadow-sm">
+                  <span className="rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2 py-0.5 text-[10px] font-bold text-espresso/70 shadow-sm">
                     {o.label}
                   </span>
                 </div>
               ) : (
-                <span className="flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-espresso/[0.08] bg-[#FFFDF9] px-2.5 py-1.5 text-[10px] font-semibold text-espresso/55 shadow-sm sm:text-[11px]">
+                <span className="flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-espresso/[0.08] bg-[var(--color-chip)] px-2.5 py-1.5 text-[10px] font-semibold text-espresso/55 shadow-sm sm:text-[11px]">
                   <o.icon className="h-3 w-3 shrink-0 text-cinnamon/70" strokeWidth={2.4} />
                   {o.label}
                 </span>
@@ -283,7 +288,7 @@ export function Hero() {
             className="absolute bottom-[54%] left-1/2 z-20 w-max text-center"
             style={reduced ? { transform: "translate(-50%, 0)" } : { opacity: 0, transform: "translate(-50%, 16px)" }}
           >
-            <span className="inline-flex items-center gap-2 rounded-pill border border-espresso/10 bg-[#FFFDF9] px-4 py-2 text-[0.8125rem] font-bold text-espresso shadow-[0_10px_30px_-12px_rgba(60,34,12,0.4)]">
+            <span className="inline-flex items-center gap-2 rounded-pill border border-espresso/10 bg-[var(--color-chip)] px-4 py-2 text-[0.8125rem] font-bold text-espresso shadow-[0_10px_30px_-12px_rgba(60,34,12,0.4)]">
               <span className="h-1.5 w-1.5 rounded-full bg-success" />
               One dashboard. One bill. One person to call.
             </span>
