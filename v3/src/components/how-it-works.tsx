@@ -270,19 +270,14 @@ const PANELS = [
 export function HowItWorks() {
   return (
     <section id="how-it-works" className="wash-cool overflow-hidden">
-      {/* The display line gets its own full-bleed white strip, above the
-          section's own header — one oversized statement per row, nothing else
-          in it, the way the reference does it. It used to sit between the
-          eyebrow and the lede at a size that ran off the right edge, which put
-          two headers in one block and left the giant words cropped. */}
-      <div className="overflow-hidden border-b border-espresso/[0.06] bg-white py-8 sm:py-11">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          {/* Not inside <Reveal>: it holds a translateY while hidden, and the
-              line measures its own distance to the viewport to drive both the
-              wipe and the drift. */}
-          <Band />
-        </div>
-      </div>
+      {/* The display line brings its own full-bleed white strip and sits above
+          the section's own header — one oversized statement per row, nothing
+          else in it, the way the reference does it. The strip belongs to <Band>
+          because the word's travel is measured against it.
+
+          Not inside <Reveal>: that holds a translateY while hidden, and the
+          line measures its own position to drive both the wipe and the drift. */}
+      <Band />
 
       <div className="mx-auto max-w-6xl px-5 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-20">
         <Reveal>

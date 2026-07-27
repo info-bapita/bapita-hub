@@ -39,17 +39,6 @@ import { cn } from "@/lib/cn";
  */
 const FILL = "linear-gradient(98deg, #ef910a 0%, #ee5528 45%, #cf4f7e 100%)";
 
-/**
- * How far the trail word rides, as a fraction of its own line height.
- *
- * It has to be big enough that the word is visibly travelling against the word
- * beside it while you scroll. At 0.16 the two read as one static line with a
- * rendering wobble; at 0.42 "smarter" is unmistakably climbing past "Work",
- * which is the whole effect. The strip clips it, so the travel can exceed the
- * air the strip has.
- */
-const DRIFT = 0.42;
-
 function clamp01(n: number) {
   return n < 0 ? 0 : n > 1 ? 1 : n;
 }
@@ -63,6 +52,7 @@ export function Band({
   trail?: string;
   className?: string;
 }) {
+  const stripRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLParagraphElement>(null);
   const maskRef = useRef<HTMLSpanElement>(null);
   const moverRef = useRef<HTMLSpanElement>(null);
@@ -129,10 +119,12 @@ export function Band({
       // StrictMode double-mount the captured element can be the discarded one,
       // and the loop then spends its life styling a node nobody can see.
       const el = lineRef.current;
+      const strip = stripRef.current;
       const target = maskRef.current;
       const mover = moverRef.current;
-      if (!el || !target || !mover) return;
+      if (!el || !strip || !target || !mover) return;
       const rect = el.getBoundingClientRect();
+      const stripRect = strip.getBoundingClientRect();
       const vh = window.innerHeight;
 
       // Wipe: zero when the line's top edge touches the bottom of the viewport,
@@ -147,11 +139,21 @@ export function Band({
         target.style.clipPath = `inset(-20% 0 -20% ${p * 100}%)`;
       }
 
-      // Drift: measured across the line's whole passage through the viewport,
+      // Drift: measured across the strip's whole passage through the viewport,
       // not the wipe's window, so the word is still moving long after the
       // colour has landed. Down-page scrolling carries it up.
-      const q = clamp01((vh - rect.top) / (vh + rect.height));
-      const shift = (0.5 - q) * rect.height * DRIFT;
+      const q = clamp01((vh - stripRect.top) / (vh + stripRect.height));
+      // The word runs the full height of the strip and stops there: at the top
+      // of the scroll range its cap-line sits on the strip's top edge, at the
+      // bottom its baseline sits on the strip's bottom edge. That range is
+      // exactly the air the strip has around the line — the strip's height
+      // minus the line's — so it is measured rather than guessed, and the word
+      // is never clipped however tall the strip is or however large the fitted
+      // size came out. GUARD keeps a hair of white so the letters graze the
+      // edges instead of colliding with them.
+      const GUARD = 3;
+      const travel = Math.max(0, stripRect.height - rect.height - GUARD * 2);
+      const shift = (0.5 - q) * travel;
       if (!(Math.abs(shift - lastShift) < 0.25)) {
         lastShift = shift;
         mover.style.transform = `translateY(${shift.toFixed(2)}px)`;
@@ -176,49 +178,65 @@ export function Band({
   }, []);
 
   return (
-    /* One line, always. The moment it wraps it stops being a statement and
-       starts being a paragraph, so the size is solved against the column width
-       and the line is held with nowrap. */
-    <p
-      ref={lineRef}
+    /* The strip is the component's own, not the caller's. The word's travel is
+       measured against it — it rides from the strip's top edge to its bottom
+       edge — so the element that defines that range has to be the one this
+       component can measure. The padding here IS the travel: it is the only
+       air the line has, and all of it is used. */
+    <div
+      ref={stripRef}
       className={cn(
-        "flex w-max items-baseline gap-x-[0.16em] whitespace-nowrap font-extrabold leading-[0.84] tracking-[-0.058em]",
+        "border-b border-espresso/[0.06] bg-white py-11 sm:py-16",
         className,
       )}
-      /* Server-render size: close enough to the fitted result at common
-         widths that the correction isn't a visible jump, and a sane standalone
-         value if the effect never runs. */
-      style={{ fontSize: "clamp(2.5rem, 15vw, 20rem)" }}
     >
-      <span className="text-espresso/[0.17]">{lead}</span>
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        {/* One line, always. The moment it wraps it stops being a statement and
+            starts being a paragraph, so the size is solved against the column
+            width and the line is held with nowrap. */}
+        <p
+          ref={lineRef}
+          className="flex w-max items-baseline gap-x-[0.16em] whitespace-nowrap font-extrabold leading-[0.84] tracking-[-0.058em]"
+          /* Server-render size: close enough to the fitted result at common
+             widths that the correction isn't a visible jump, and a sane
+             standalone value if the effect never runs. */
+          style={{ fontSize: "clamp(2.5rem, 15vw, 20rem)" }}
+        >
+          <span className="text-espresso/[0.17]">{lead}</span>
 
-      {/* The colored word, with a grey copy stacked exactly on top of it. Both
-          are laid out in the same inline box so the wipe can never drift out of
-          register with the letters underneath — including while the pair is
-          being translated, which is why the transform goes on the wrapper and
-          not on either copy. The mask is inset vertically by a negative amount
-          so the clip never shaves an ascender. */}
-      <span ref={moverRef} className="relative inline-block will-change-transform">
-        <span
-          className="band-fill"
-          style={{
-            backgroundImage: FILL,
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-          }}
-        >
-          {trail}
-        </span>
-        <span
-          ref={maskRef}
-          aria-hidden="true"
-          className="absolute inset-0 text-espresso/[0.17]"
-          style={{ clipPath: "inset(-20% 0 -20% 0)" }}
-        >
-          {trail}
-        </span>
-      </span>
-    </p>
+          {/* The colored word, with a grey copy stacked exactly on top of it.
+              Both are laid out in the same inline box so the wipe can never
+              drift out of register with the letters underneath — including
+              while the pair is being translated, which is why the transform
+              goes on the wrapper and not on either copy. The mask is inset
+              vertically by a negative amount so the clip never shaves an
+              ascender. */}
+          <span
+            ref={moverRef}
+            className="relative inline-block will-change-transform"
+          >
+            <span
+              className="band-fill"
+              style={{
+                backgroundImage: FILL,
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              {trail}
+            </span>
+            <span
+              ref={maskRef}
+              aria-hidden="true"
+              className="absolute inset-0 text-espresso/[0.17]"
+              style={{ clipPath: "inset(-20% 0 -20% 0)" }}
+            >
+              {trail}
+            </span>
+          </span>
+        </p>
+      </div>
+    </div>
   );
 }
