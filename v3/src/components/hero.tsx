@@ -189,7 +189,7 @@ export function Hero() {
       >
         <div className="text-center">
           <Eyebrow className="justify-center">
-            For businesses that run on appointments
+            For appointment based businesses
           </Eyebrow>
 
           <TwoTone

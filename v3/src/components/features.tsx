@@ -1,38 +1,31 @@
 "use client";
 
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight, Check, Clock, MessageCircle } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  Clock,
+  MessageCircle,
+  MapPin,
+  PhoneOff,
+  Search,
+} from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { TwoTone, Lede, Key, Eyebrow } from "@/components/ui/type";
-import { Falafel } from "@/components/ui/pita";
-import { PRODUCT_ICONS } from "@/lib/icon-map";
-import { PRODUCTS, SERVED_CATEGORIES } from "@/lib/products";
 
 /**
- * The reasons to trust it, as a horizontal rail of mixed cards.
+ * The reasons to trust it, as a horizontal rail of statistic cards.
  *
- * Deliberately not a grid of identical icon-and-paragraph tiles — the card
- * shapes differ (a clip, an object, a claim, a list) so the section reads as one
- * considered spread rather than a feature dump. Native scroll-snap does the
- * work; the arrows are a convenience, not the only way through.
+ * Every card is now one number, one source, and a clip that plays the thing the
+ * number claims. The mixed cards that used to sit here (an object, a claim, a
+ * promise list, a category marquee) were cut on 2026-07-27: they made this a
+ * feature dump, and the numbers are the argument.
  *
- * The three statistic cards used to be a standalone band on the second fold,
- * where three bare percentages arrived before the reader knew what the product
- * was. They earn their place here: each one now plays the thing it claims, so
- * the number is evidence for a card rather than a fact on its own.
+ * One card per tool at minimum, so the evidence covers the whole suite rather
+ * than only the booking website. Sources are printed on the card on purpose —
+ * an unattributed percentage reads as marketing.
  */
-
-const PROMISES = [
-  "Hebrew or English, your call",
-  "Runs on the phone you already have",
-  "WhatsApp & SMS reminders included",
-  "Your client list stays yours",
-  "No commission on a single booking",
-  "Cancel any tool, any month",
-];
-
-/** Doubled so each marquee row loops seamlessly. */
-const CATEGORY_LOOP = [...SERVED_CATEGORIES, ...SERVED_CATEGORIES];
 
 export function Features() {
   const rail = useRef<HTMLDivElement>(null);
@@ -50,10 +43,10 @@ export function Features() {
           <div className="flex flex-wrap items-end justify-between gap-8">
             <div className="max-w-xl">
               <Eyebrow>Why this works</Eyebrow>
-              <TwoTone lead="Built by hand." trail="Run by you." className="mt-4" />
+              <TwoTone lead="Built by us." trail="Run by you." className="mt-4" />
               <Lede className="mt-6">
                 You know your trade. We know the software. We do the setup once, then{" "}
-                <Key>hand you something simple enough to run between clients</Key>.
+                <Key>hand you something simple to run</Key>.
               </Lede>
             </div>
 
@@ -84,9 +77,41 @@ export function Features() {
         className="rail mt-14 flex gap-5 overflow-x-auto px-5 pb-4 sm:px-8"
         style={{ scrollPaddingLeft: "1.25rem" }}
       >
-        {/* 1 — after hours: bookings landing while the shop is shut */}
+        {/* 1 — Book: the shop that takes bookings online gets picked */}
         <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
-          <Stat value="35%" label="of appointments get booked after business hours" />
+          <Stat
+            value="94%"
+            label="more likely to pick a shop that books online"
+            source="GetApp"
+          />
+          <Scene className="mt-6 flex-1 justify-center gap-2.5">
+            <p className="mb-1 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-espresso/40">
+              Same street, two shops
+            </p>
+            <div className="fx-row flex items-center gap-2.5 rounded-lg border border-cinnamon/30 bg-paper-warm px-2.5 py-2.5">
+              <span className="min-w-0 flex-1 truncate text-[0.75rem] font-bold text-espresso">
+                Books online
+              </span>
+              <span className="fx-bob rounded-pill bg-success/12 px-2 py-0.5 text-[0.6875rem] font-bold text-success">
+                Booked
+              </span>
+            </div>
+            <div className="fx-row fx-d2 flex items-center gap-2.5 rounded-lg border border-espresso/[0.07] px-2.5 py-2.5 opacity-60">
+              <PhoneOff className="h-3.5 w-3.5 shrink-0 text-espresso/35" strokeWidth={2.4} />
+              <span className="min-w-0 flex-1 truncate text-[0.75rem] text-espresso/55">
+                Call during opening hours
+              </span>
+            </div>
+          </Scene>
+        </Card>
+
+        {/* 2 — Book: bookings landing while the shop is shut */}
+        <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+          <Stat
+            value="50%"
+            label="of salon bookings happen while the shop is closed"
+            source="Boulevard"
+          />
           <Scene className="mt-6 flex-1 justify-center gap-2">
             <p className="mb-1 flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-espresso/40">
               <Clock className="h-3 w-3" strokeWidth={2.4} />
@@ -116,18 +141,22 @@ export function Features() {
           </Scene>
         </Card>
 
-        {/* 2 — first reply wins: your answer against the shop that never replies */}
+        {/* 3 — Bots: the message that gets answered against the one that doesn't */}
         <Card glow="#e0457b" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
-          <Stat value="78%" label="of customers book with whoever answers first" />
+          <Stat
+            value="85%"
+            label="of people who reach voicemail never call back"
+            source="OnCallClerk"
+          />
           <Scene className="mt-6 flex-1 justify-center gap-5">
             <Race
-              who="You, on Bapita"
+              who="Your bot on WhatsApp"
               detail="replied in 4 seconds"
               fill="fx-fill-fast"
               color="#1fa971"
             />
             <Race
-              who="The shop down the road"
+              who="Voicemail"
               detail={<TypingDots />}
               fill="fx-fill-slow"
               color="rgba(42,29,20,0.22)"
@@ -135,9 +164,13 @@ export function Features() {
           </Scene>
         </Card>
 
-        {/* 3 — reminders: the message goes out, the seat gets confirmed */}
+        {/* 4 — Book: reminders. The message goes out, the seat gets confirmed. */}
         <Card glow="#1fa971" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
-          <Stat value="80%" label="fewer no-shows once reminders go out on their own" />
+          <Stat
+            value="25%"
+            label="fewer no shows once reminders go out on their own"
+            source="Am. J. of Medicine"
+          />
           <Scene className="mt-6 flex-1 justify-center">
             {/* Both beats share one grid cell so the card never reflows mid-loop. */}
             <div className="grid">
@@ -163,96 +196,75 @@ export function Features() {
           </Scene>
         </Card>
 
-        {/* 4 — the object card */}
-        <Card glow="#c8893f" className="flex min-h-[380px] w-[300px] flex-col justify-between sm:w-[340px]">
-          <div className="relative flex flex-1 items-center justify-center">
-            <div
-              className="absolute h-40 w-40 rounded-full blur-3xl"
-              style={{ background: "radial-gradient(circle, #f0743a55, transparent 70%)" }}
-              aria-hidden="true"
-            />
-            <div className="relative grid grid-cols-2 gap-3">
-              {PRODUCTS.map((p, i) => (
-                <div key={p.id} className={`fx-bob ${DELAY[i % DELAY.length]}`}>
-                  <Falafel id={p.id} size="58px" icon={PRODUCT_ICONS[p.id]} />
+        {/* 5 — Social: the week of posts they check before they walk in */}
+        <Card glow="#1fa971" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+          <Stat
+            value="76%"
+            label="check your online presence before they visit"
+            source="Visual Objects"
+          />
+          <Scene className="mt-6 flex-1 justify-center">
+            <p className="mb-3 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-espresso/40">
+              This week, scheduled
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, i) => (
+                <div
+                  key={day}
+                  className="fx-row flex aspect-square flex-col items-center justify-center rounded-lg border border-espresso/[0.07] bg-paper-warm"
+                  /* Inline, not the fx-d* classes: six tiles need a finer
+                     stagger than the three-step scale those provide. */
+                  style={{ animationDelay: `${i * 0.18}s` }}
+                >
+                  <span className="text-[0.625rem] font-bold text-espresso/50">
+                    {day}
+                  </span>
+                  <Check className="mt-1 h-3 w-3 text-success" strokeWidth={3} />
                 </div>
               ))}
             </div>
-          </div>
-          <p className="mt-6 text-[1.0625rem] font-bold leading-snug text-espresso">
-            Four tools built for one trade.{" "}
-            <span className="font-medium text-espresso/50">
-              Not a general-purpose platform you have to bend into shape.
-            </span>
-          </p>
+          </Scene>
         </Card>
 
-        {/* 5 — the claim card */}
-        <Card glow="#2d6cf0" className="flex min-h-[380px] w-[300px] items-center sm:w-[380px]">
-          <p className="text-[1.375rem] font-bold leading-[1.35] tracking-[-0.02em] text-espresso">
-            <span className="font-medium text-espresso/45">
-              Marketplaces take 20% of every booking and keep the client. We take
-            </span>{" "}
-            nothing per booking, and your client list is yours to export any day you
-            like.
-          </p>
-        </Card>
-
-        {/* 6 — the list card */}
-        <Card glow="#1fa971" className="flex min-h-[380px] w-[300px] flex-col justify-center sm:w-[340px]">
-          <p className="mb-6 text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-cinnamon">
-            Included, always
-          </p>
-          <ul className="space-y-3.5">
-            {PROMISES.map((p) => (
-              <li key={p} className="flex items-start gap-3 text-[0.9375rem] text-espresso/70">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" strokeWidth={3} />
-                {p}
-              </li>
-            ))}
-          </ul>
-        </Card>
-
-        {/* 7 — who it's for. The old page-wide category strip, now a card: two
-               rows drifting in opposite directions so it reads as a long list
-               rather than a decorative band. */}
-        <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col justify-center sm:w-[340px]">
-          <p className="text-[1.0625rem] font-bold leading-snug text-espresso">
-            Built for shops where the calendar{" "}
-            <span className="font-medium text-espresso/50">is the business.</span>
-          </p>
-          <div className="-mx-7 mt-7 space-y-2.5 sm:-mx-8">
-            <p className="sr-only">Business types Bapita is built for</p>
-            {(["marquee-track", "marquee-rev"] as const).map((track, row) => (
-              <div key={track} className="overflow-hidden" aria-hidden="true">
-                <div className={`${track} flex items-center whitespace-nowrap`}>
-                  {CATEGORY_LOOP.map((cat, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center text-[0.8125rem] font-medium text-espresso/55"
-                    >
-                      {/* Offset the second row so the two never line up. */}
-                      {row === 1 ? CATEGORY_LOOP[(i + 3) % CATEGORY_LOOP.length] : cat}
-                      <span className="mx-4 inline-block h-1 w-1 rounded-full bg-cinnamon/40" />
-                    </span>
-                  ))}
-                </div>
+        {/* 6 — Reach: the near-me search that ends in a visit */}
+        <Card glow="#2d6cf0" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+          <Stat
+            value="76%"
+            label="who search near me visit a shop within 24 hours"
+            source="Think with Google"
+          />
+          <Scene className="mt-6 flex-1 justify-center gap-2">
+            <p className="mb-1 flex items-center gap-1.5 rounded-lg border border-espresso/[0.07] bg-paper-warm px-2.5 py-2 font-mono text-[0.6875rem] text-espresso/50">
+              <Search className="h-3 w-3 shrink-0" strokeWidth={2.4} />
+              barber near me
+            </p>
+            {[
+              { name: "Your shop", mine: true },
+              { name: "Shop on the corner", mine: false },
+              { name: "Shop two streets over", mine: false },
+            ].map((row, i) => (
+              <div
+                key={row.name}
+                className={`fx-row ${DELAY[i]} flex items-center gap-2.5 rounded-lg px-2.5 py-2 ${
+                  row.mine
+                    ? "border border-cinnamon/30 bg-paper-warm"
+                    : "border border-espresso/[0.05] opacity-55"
+                }`}
+              >
+                <MapPin
+                  className={`h-3.5 w-3.5 shrink-0 ${row.mine ? "text-cinnamon" : "text-espresso/30"}`}
+                  strokeWidth={2.4}
+                />
+                <span
+                  className={`min-w-0 truncate text-[0.75rem] ${
+                    row.mine ? "font-bold text-espresso" : "text-espresso/55"
+                  }`}
+                >
+                  {row.name}
+                </span>
               </div>
             ))}
-          </div>
-        </Card>
-
-        {/* 8 — the closing card */}
-        <Card glow="#e0457b" className="flex min-h-[380px] w-[300px] items-center sm:w-[340px]">
-          <div>
-            <p className="text-[1.375rem] font-bold leading-[1.35] tracking-[-0.02em] text-espresso">
-              Something breaks, you message a person.
-            </p>
-            <p className="mt-3 text-[1.0625rem] leading-relaxed text-espresso/50">
-              Not a ticket number, not a chatbot, not a queue in another timezone.
-              Usually the same person who built your setup.
-            </p>
-          </div>
+          </Scene>
         </Card>
 
         <div className="w-1 shrink-0" aria-hidden="true" />
@@ -261,12 +273,11 @@ export function Features() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <p className="mt-12 max-w-md text-[0.9375rem] leading-relaxed text-espresso/50">
-            Every missed message is a client someone else booked.{" "}
             <a
               href="#connect"
               className="font-semibold text-espresso underline decoration-espresso/25 underline-offset-4 transition-colors hover:decoration-espresso/70"
             >
-              Let&apos;s fix that
+              Let&apos;s fix your problems
             </a>
           </p>
         </Reveal>
@@ -302,14 +313,25 @@ function Card({
 /** Stagger classes, in order. Defined in globals.css after the loop classes. */
 const DELAY = ["", "fx-d1", "fx-d2", "fx-d3"] as const;
 
-/** The number, then what it means. Only the statistic cards carry one. */
-function Stat({ value, label }: { value: string; label: string }) {
+/** The number, what it means, and who published it. */
+function Stat({
+  value,
+  label,
+  source,
+}: {
+  value: string;
+  label: string;
+  source: string;
+}) {
   return (
     <div>
       <p className="text-[2.75rem] font-extrabold leading-none tracking-[-0.04em] tabular-nums text-espresso">
         {value}
       </p>
       <p className="mt-2 text-[0.9375rem] leading-snug text-espresso/55">{label}</p>
+      <p className="mt-2.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-espresso/35">
+        {source}
+      </p>
     </div>
   );
 }
