@@ -1,12 +1,21 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { Check, Plus } from "lucide-react";
+import {
+  Check,
+  Plus,
+  Boxes,
+  BadgePercent,
+  Palette,
+  Languages,
+  Smartphone,
+  CalendarX,
+  type LucideIcon,
+} from "lucide-react";
 import { Reveal } from "@/components/reveal";
+import { Band } from "@/components/band";
+import { PauseOffscreen } from "@/components/pause-offscreen";
 import { Button } from "@/components/ui/button";
-import { TwoTone, Lede, Key, Eyebrow } from "@/components/ui/type";
+import { Lede, Key, Eyebrow } from "@/components/ui/type";
 import { FALAFEL_COLORS } from "@/components/ui/pita";
-import { PRODUCTS } from "@/lib/products";
+import { PRODUCTS, type ProductId } from "@/lib/products";
 import { PRODUCT_ICONS } from "@/lib/icon-map";
 
 /**
@@ -14,40 +23,110 @@ import { PRODUCT_ICONS } from "@/lib/icon-map";
  *
  * Everywhere else the chapter marker is a colored falafel dot, because those
  * sections aren't ordered — numbering them would be decoration. This one is a
- * genuine sequence: the reader needs to know the call comes before the build,
- * and the build before the dashboard. So it's numbered, in the utility face.
+ * genuine sequence, and the headlines chain: each step's trail becomes the next
+ * step's lead, so the order can't be misread even by someone skimming the big
+ * type only.
+ *
+ * Three stacked panels, alternating sides. The earlier version put the copy in
+ * a column beside one sticky visual, which meant the visual existed on desktop
+ * only and each step got no weight of its own.
+ *
+ * The section header is the display line that used to be its own band between
+ * the products and here. Two headers back to back — giant words, then a second
+ * headline a screen later — competed with each other, and the giant words had
+ * no supporting copy of their own. Merged, each does one job.
  */
 
-const STEPS = [
+type Aside = { icon: LucideIcon; title: string; body: string };
+
+type Step = {
+  n: string;
+  /** Which falafel lights this step. Amber → magenta → green: the same sweep
+   *  the display line makes, resolving on the green that means "live". */
+  accent: ProductId;
+  lead: string;
+  trail: string;
+  body: string;
+  asides: [Aside, Aside];
+};
+
+const STEPS: Step[] = [
   {
     n: "01",
-    title: "Pick your tools",
-    body: "A 20-minute call. Tell us what's actually costing you time, and we'll tell you which of the four fixes it, and which you can skip.",
+    accent: "book",
+    lead: "One call to",
+    trail: "your shortlist",
+    body: "Twenty minutes. Tell us what's actually costing you time, and we'll tell you which of the four fixes it and which you can skip.",
+    asides: [
+      {
+        icon: Boxes,
+        title: "One or all four",
+        body: "Take what you need now. The rest can follow whenever.",
+      },
+      {
+        icon: BadgePercent,
+        title: "No commission",
+        body: "You keep every shekel your bookings bring in.",
+      },
+    ],
   },
   {
     n: "02",
-    title: "We build it, under your name",
-    body: "Your colors, your logo, your domain. We configure it, load your services and prices, and launch it. You don't touch a setting.",
+    accent: "bots",
+    lead: "Shortlist to",
+    // Was "set up and branded" — an adjective phrase sitting between two
+    // concrete images. The chain still works: 03 leads with "Live to".
+    trail: "live under your name",
+    body: "We configure whatever you picked, load your services and prices, and put your name on it. You don't touch a setting.",
+    asides: [
+      {
+        icon: Palette,
+        title: "Your name, your colors",
+        body: "Nothing on it looks like a template someone else uses.",
+      },
+      {
+        icon: Languages,
+        title: "Hebrew or English",
+        body: "Your call, and your clients get the same either way.",
+      },
+    ],
   },
   {
     n: "03",
-    title: "You run it from your phone",
+    accent: "social",
+    lead: "Live to",
+    trail: "running on your phone",
     body: "Check today's bookings, see what posted, adjust a price. Add another tool whenever you want. No rebuild, no waiting.",
+    asides: [
+      {
+        icon: Smartphone,
+        title: "The phone you have",
+        body: "No new hardware, no app your staff has to learn.",
+      },
+      {
+        icon: CalendarX,
+        title: "Cancel any month",
+        body: "Per tool, no lock-in, and your client list leaves with you.",
+      },
+    ],
   },
 ];
+
+/** Stagger classes, in order. Defined in globals.css. */
+const DELAY = ["", "fx-d1", "fx-d2", "fx-d3"] as const;
 
 /* ── Step panels ───────────────────────────────────────────── */
 
 function PickPanel() {
   return (
-    <div className="w-full max-w-[320px] space-y-2">
+    <div className="w-full max-w-[380px] space-y-2.5">
       {PRODUCTS.map((p, i) => {
         const Icon = PRODUCT_ICONS[p.id];
         const picked = i < 2;
         return (
           <div
             key={p.id}
-            className="flex items-center gap-3 rounded-xl border bg-white px-3.5 py-3"
+            className={`${picked ? `fx-row ${DELAY[i]}` : ""} flex items-center gap-3.5 rounded-xl border bg-white px-4 py-3.5 shadow-[0_1px_2px_rgba(60,34,12,0.04)]`}
             style={{
               borderColor: picked
                 ? `${FALAFEL_COLORS[p.id].base}66`
@@ -55,29 +134,29 @@ function PickPanel() {
             }}
           >
             <span
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
               style={{
                 background: `radial-gradient(circle at 32% 28%, ${FALAFEL_COLORS[p.id].highlight}, ${FALAFEL_COLORS[p.id].base} 60%, ${FALAFEL_COLORS[p.id].deep})`,
               }}
             >
-              <Icon className="h-3.5 w-3.5 text-espresso/55" strokeWidth={2.4} />
+              <Icon className="h-4 w-4 text-espresso/55" strokeWidth={2.4} />
             </span>
-            <span className="flex-1 text-[0.8125rem] font-bold text-espresso">
+            <span className="flex-1 text-[0.875rem] font-bold text-espresso">
               {p.name}
             </span>
             {picked ? (
               <Check
-                className="h-4 w-4"
+                className="h-[1.125rem] w-[1.125rem]"
                 style={{ color: FALAFEL_COLORS[p.id].base }}
                 strokeWidth={3}
               />
             ) : (
-              <Plus className="h-4 w-4 text-espresso/20" />
+              <Plus className="h-[1.125rem] w-[1.125rem] text-espresso/20" />
             )}
           </div>
         );
       })}
-      <p className="pt-1 text-center text-[0.6875rem] text-espresso/40">
+      <p className="pt-1.5 text-center text-[0.75rem] text-espresso/40">
         Start with two. Add the rest later.
       </p>
     </div>
@@ -86,22 +165,22 @@ function PickPanel() {
 
 function BuildPanel() {
   return (
-    <div className="w-full max-w-[280px] overflow-hidden rounded-2xl border border-espresso/[0.08] bg-white shadow-sm">
-      <div className="flex items-center gap-2 border-b border-espresso/[0.06] bg-clay/60 px-3 py-2">
+    <div className="w-full max-w-[360px] overflow-hidden rounded-2xl border border-espresso/[0.08] bg-white shadow-[0_18px_44px_-24px_rgba(60,34,12,0.35)]">
+      <div className="flex items-center gap-2 border-b border-espresso/[0.06] bg-clay/60 px-3.5 py-2.5">
         <span className="h-2 w-2 rounded-full bg-book" />
-        <span className="font-mono text-[0.625rem] text-espresso/45">
+        <span className="font-mono text-[0.6875rem] text-espresso/45">
           shimi.bapita.com
         </span>
       </div>
-      <div className="h-20 bg-gradient-to-br from-clay-toast to-bowl-tan/70" />
-      <div className="space-y-2 p-3.5">
-        <div className="h-2.5 w-3/4 rounded-full bg-espresso/[0.12]" />
-        <div className="h-2.5 w-1/2 rounded-full bg-espresso/[0.07]" />
-        <div className="mt-3.5 flex items-center gap-2 rounded-lg bg-success/10 px-2.5 py-2">
-          <Check className="h-3.5 w-3.5 text-success" strokeWidth={3} />
-          <span className="text-[0.6875rem] font-bold text-success">
-            Live · 41 hours
-          </span>
+      <div className="h-28 bg-gradient-to-br from-clay-toast to-bowl-tan/70" />
+      {/* The page assembling: bars land, then the badge. No turnaround claim —
+          the old "Live · 41 hours" was a promise nobody made. */}
+      <div className="space-y-2.5 p-4">
+        <div className="fx-row h-3 w-3/4 rounded-full bg-espresso/[0.12]" />
+        <div className="fx-row fx-d1 h-3 w-1/2 rounded-full bg-espresso/[0.07]" />
+        <div className="fx-row fx-d2 mt-4 flex items-center gap-2 rounded-lg bg-success/10 px-3 py-2.5">
+          <Check className="h-4 w-4 text-success" strokeWidth={3} />
+          <span className="text-[0.75rem] font-bold text-success">Live</span>
         </div>
       </div>
     </div>
@@ -115,36 +194,54 @@ function RunPanel() {
     { label: "Replies", value: "212" },
   ];
   return (
-    <div className="w-full max-w-[300px] space-y-2.5">
-      <div className="grid grid-cols-3 gap-2">
-        {stats.map((s) => (
+    <div className="w-full max-w-[380px] space-y-3">
+      <div className="grid grid-cols-3 gap-2.5">
+        {stats.map((s, i) => (
           <div
             key={s.label}
-            className="rounded-xl border border-espresso/[0.07] bg-white px-2 py-3 text-center"
+            className={`fx-row ${DELAY[i]} rounded-xl border border-espresso/[0.07] bg-white px-2 py-4 text-center shadow-[0_1px_2px_rgba(60,34,12,0.04)]`}
           >
-            <div className="text-lg font-extrabold tabular-nums text-espresso">
+            <div className="text-2xl font-extrabold tabular-nums text-espresso">
               {s.value}
             </div>
-            <div className="mt-0.5 text-[0.625rem] text-espresso/40">{s.label}</div>
+            <div className="mt-1 text-[0.6875rem] text-espresso/40">
+              {s.label}
+            </div>
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-2 rounded-xl border border-espresso/[0.07] bg-white px-3 py-2.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-success" />
-        <span className="text-[0.6875rem] text-espresso/55">
-          This month · updated just now
-        </span>
+
+      {/* One booking arriving while the owner isn't looking. Both beats share a
+          grid cell so the panel never reflows mid-loop. */}
+      <div className="grid">
+        <div className="fx-send col-start-1 row-start-1">
+          <div className="flex items-center gap-2.5 rounded-xl border border-espresso/[0.07] bg-white px-3.5 py-3">
+            <span className="h-2 w-2 rounded-full bg-success" />
+            <span className="text-[0.75rem] text-espresso/55">
+              New booking · 16:00 Thursday
+            </span>
+          </div>
+        </div>
+        <div className="fx-confirm col-start-1 row-start-1">
+          <div className="flex items-center gap-2.5 rounded-xl border border-espresso/[0.07] bg-white px-3.5 py-3">
+            <Check className="h-4 w-4 shrink-0 text-success" strokeWidth={3} />
+            <span className="text-[0.75rem] font-bold text-espresso">
+              In your calendar
+            </span>
+          </div>
+        </div>
       </div>
-      <div className="flex gap-2">
+
+      <div className="flex gap-2.5">
         {PRODUCTS.map((p) => {
           const Icon = PRODUCT_ICONS[p.id];
           return (
             <span
               key={p.id}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-espresso/[0.07] bg-white"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-espresso/[0.07] bg-white shadow-[0_1px_2px_rgba(60,34,12,0.04)]"
               style={{ color: FALAFEL_COLORS[p.id].base }}
             >
-              <Icon className="h-4 w-4" />
+              <Icon className="h-[1.125rem] w-[1.125rem]" />
             </span>
           );
         })}
@@ -153,111 +250,178 @@ function RunPanel() {
   );
 }
 
-const PANELS = [PickPanel, BuildPanel, RunPanel];
+/**
+ * Step 02's panel is the one that runs past the card edge.
+ *
+ * A browser chrome cropped by the frame reads as a window onto something real.
+ * Doing the same to 01 and 03 would just amputate the checkmarks and the
+ * product row — those two panels are lists, and a list with its right column
+ * sliced off reads as a layout bug, not as a crop.
+ */
+const PANELS = [
+  { Panel: PickPanel, bleed: false },
+  { Panel: BuildPanel, bleed: true },
+  { Panel: RunPanel, bleed: false },
+];
 
 /* ── Section ───────────────────────────────────────────────── */
 
 export function HowItWorks() {
-  const [active, setActive] = useState(0);
-  const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActive(Number(entry.target.getAttribute("data-index")));
-          }
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-    );
-    stepRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section id="how-it-works" className="wash-cool py-20 sm:py-24">
-      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+    /* overflow-hidden is what lets the display line run off the right edge
+       instead of adding a horizontal scrollbar to the document. */
+    <section id="how-it-works" className="wash-cool overflow-hidden py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
-          <div className="max-w-2xl">
-            <Eyebrow>How it works</Eyebrow>
-            <TwoTone
-              size="sm"
-              lead="From “I need this”"
-              trail="to live and running."
-              className="mt-3"
-            />
-            <Lede className="mt-4 max-w-xl text-base sm:text-lg">
-              You have <Key>one call and one decision</Key>. Everything after that is
-              on us.
-            </Lede>
-          </div>
+          <Eyebrow>How it works</Eyebrow>
+        </Reveal>
+        {/* Not inside <Reveal>: it holds a translateY while hidden, and the
+            line measures its own distance to the viewport to drive the wipe. */}
+        <Band className="mt-5" />
+        <Reveal>
+          <Lede className="mt-6 max-w-xl text-base sm:text-lg">
+            Three steps, and <Key>two of them are ours</Key>. One call, one
+            decision, and everything after that is on us.
+          </Lede>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* Steps */}
-          <ol className="flex flex-col gap-10 sm:gap-14">
+        {/* A stack, not a list.
+            Each step pins near the top and the next one slides up over it, so
+            only one step is ever being read: 01 holds, 02 covers it, 03 covers
+            that. Each card sits a few pixels lower than the one beneath so the
+            stack stays legible as a stack.
+
+            No <Reveal> on these: it holds a translateY while hidden, and a
+            transformed ancestor becomes the containing block for position
+            sticky, which silently kills the pinning. PauseOffscreen adds no
+            transform, so it is safe to wrap the list. */}
+        <PauseOffscreen>
+          <ol className="mt-14">
             {STEPS.map((step, i) => {
-              const Panel = PANELS[i];
-              const isActive = active === i;
+              const { Panel, bleed } = PANELS[i];
+              const pal = FALAFEL_COLORS[step.accent];
+              // Alternates, so the stack doesn't read as the same card three
+              // times with the words swapped.
+              const flip = i % 2 === 1;
+              const last = i === STEPS.length - 1;
               return (
+                /* Direct child of the <ol> on purpose: a sticky element pins
+                   inside its own parent's box, so wrapping each card in its own
+                   div gives it a box exactly its own height and nothing to stick
+                   within. The list is the shared box. */
                 <li
                   key={step.n}
-                  ref={(el) => {
-                    stepRefs.current[i] = el;
+                  className="grid overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm lg:grid-cols-2"
+                  style={{
+                    position: "sticky",
+                    top: `calc(5.5rem + ${i * 14}px)`,
+                    zIndex: i + 1,
+                    marginBottom: last ? undefined : "22vh",
+                    // Deep enough that the incoming card visibly sits ON the
+                    // one below rather than appearing to crop it. With the old
+                    // soft shadow, a card cut mid-sentence read as a bug.
+                    boxShadow:
+                      "0 -1px 0 rgba(60,34,12,0.10), 0 -18px 60px -22px rgba(60,34,12,0.40)",
                   }}
-                  data-index={i}
-                  className="relative"
                 >
-                  <span
-                    className={`font-mono text-[0.8125rem] font-bold tracking-[0.1em] transition-colors duration-300 ${
-                      isActive ? "text-cinnamon" : "text-espresso/25"
-                    }`}
+                  <div
+                    className={`p-7 sm:p-9 lg:p-11 ${flip ? "lg:order-2" : ""}`}
                   >
-                    {step.n}
-                  </span>
-                  <h3
-                    className={`mt-1.5 text-[1.25rem] font-extrabold tracking-[-0.025em] transition-colors duration-300 sm:text-[1.375rem] ${
-                      isActive ? "text-espresso" : "text-espresso/45"
-                    }`}
-                  >
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 max-w-md text-[0.9375rem] leading-relaxed text-espresso/55 sm:text-base">
-                    {step.body}
-                  </p>
+                    <span className="flex items-center gap-3">
+                      <span
+                        className="font-mono text-[0.875rem] font-bold tracking-[0.12em]"
+                        style={{ color: pal.deep }}
+                      >
+                        {step.n}
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="h-px w-10"
+                        style={{ background: `${pal.base}59` }}
+                      />
+                    </span>
 
-                  {/* Mobile: the panel travels inline with its own step. */}
-                  <div className="mt-5 flex justify-center rounded-2xl border border-espresso/[0.07] bg-clay/50 p-5 lg:hidden">
-                    <Panel />
+                    <p className="mt-5 text-[1.0625rem] font-semibold text-espresso/35 sm:text-lg">
+                      {step.lead}
+                    </p>
+                    <h3 className="font-extrabold leading-[1.02] tracking-[-0.04em] text-espresso text-[clamp(1.875rem,3.4vw,3rem)]">
+                      {step.trail}
+                    </h3>
+                    <p className="mt-5 max-w-md text-[0.9375rem] leading-relaxed text-espresso/55 sm:text-base">
+                      {step.body}
+                    </p>
+
+                    <div className="mt-8 grid gap-5 border-t border-espresso/[0.07] pt-7 sm:grid-cols-2 sm:gap-6">
+                      {step.asides.map((aside) => (
+                        <div key={aside.title}>
+                          <span
+                            className="flex h-9 w-9 items-center justify-center rounded-lg"
+                            style={{ background: `${pal.base}1f` }}
+                          >
+                            <aside.icon
+                              className="h-[1.125rem] w-[1.125rem]"
+                              style={{ color: pal.deep }}
+                              strokeWidth={2.3}
+                            />
+                          </span>
+                          <p className="mt-3.5 text-[0.9375rem] font-bold text-espresso">
+                            {aside.title}
+                          </p>
+                          <p className="mt-1 text-[0.8125rem] leading-relaxed text-espresso/50">
+                            {aside.body}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Flush to the card's edges, not a padded box floating in
+                      the middle of one. The old pane sat 2% off the card colour
+                      with a 280px mock adrift in it, so it read as empty space
+                      rather than as the other half of the card. */}
+                  <div
+                    className={`relative flex min-h-[300px] items-center justify-center overflow-hidden p-8 lg:min-h-[440px] lg:p-10 ${
+                      flip ? "lg:order-1" : ""
+                    }`}
+                    style={{
+                      background: `radial-gradient(120% 90% at ${
+                        flip ? "20%" : "80%"
+                      } 12%, ${pal.base}1a 0%, transparent 62%), linear-gradient(155deg, #F1EFE7 0%, #E9E6DC 100%)`,
+                    }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`absolute inset-y-0 w-px bg-espresso/[0.07] ${
+                        flip ? "right-0" : "left-0"
+                      }`}
+                    />
+                    {/* Grows toward the card's outer edge and is cropped by it.
+                        A visual that runs past the frame reads as a window onto
+                        something real; one that fits neatly reads as a sticker. */}
+                    <div
+                      className={`flex w-full lg:scale-[1.14] ${
+                        bleed
+                          ? flip
+                            ? "justify-center lg:-translate-x-[16%] lg:justify-start"
+                            : "justify-center lg:translate-x-[16%] lg:justify-end"
+                          : "justify-center"
+                      }`}
+                      style={{
+                        transformOrigin: flip ? "right center" : "left center",
+                      }}
+                    >
+                      <Panel />
+                    </div>
                   </div>
                 </li>
               );
             })}
           </ol>
-
-          {/* Desktop: one pinned panel that swaps with the active step. */}
-          <div className="relative hidden lg:block">
-            <div className="sticky top-24">
-              <div className="relative flex aspect-[5/4] w-full items-center justify-center overflow-hidden rounded-3xl border border-espresso/[0.07] bg-clay/60 p-6 shadow-[0_20px_60px_-30px_rgba(60,34,12,0.35)]">
-                {PANELS.map((Panel, i) => (
-                  <div
-                    key={i}
-                    className={`absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-500 ${
-                      active === i ? "opacity-100" : "pointer-events-none opacity-0"
-                    }`}
-                  >
-                    <Panel />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        </PauseOffscreen>
 
         <Reveal>
-          <div className="mt-16 flex flex-col items-center gap-4 text-center">
+          {/* Sits above the stack so the last card slides under it, not past it. */}
+          <div className="relative z-10 mt-16 flex flex-col items-center gap-4 bg-transparent text-center">
             <p className="text-lg font-bold text-espresso sm:text-xl">
               That&apos;s it. You&apos;re live, and we keep it running.
             </p>

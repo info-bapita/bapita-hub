@@ -21,6 +21,11 @@ import { Footer } from "@/components/footer";
  * on 2026-07-27: the page was too long and both sections asked for trust the
  * pricing and FAQ now earn directly.
  *
+ * The "Work smarter" display band was a section of its own between the
+ * products and the steps until 2026-07-27. It now opens How it works instead:
+ * as a standalone band it broke the warm background spine in two places and
+ * left the page with two competing headers a screen apart.
+ *
  * The statistics that once sat between the hero and the products moved into
  * Features: three bare percentages arriving before the reader knew what Bapita
  * was had nothing to attach to.

@@ -393,6 +393,44 @@
     animation: fx-bob 3.4s ease-in-out infinite alternate;
   }
 
+  /* ── Display-line gradient drift ──
+     The band's colour arrives with a scroll wipe and would then sit frozen.
+     Over-sizing the gradient and walking it across keeps the word alive
+     without moving a single pixel of the letterforms. ── */
+  .band-fill {
+    /* Only modestly over-sized: at 190% the visible window covered barely half
+       the ramp, so the word rendered as flat amber and the magenta never
+       appeared at all. 128% shows ~80% of the ramp at any instant and still
+       leaves somewhere for the drift to go. */
+    background-size: 128% 100%;
+    background-position: 0% 50%;
+    animation: band-drift 17s ease-in-out infinite alternate;
+  }
+  @keyframes band-drift {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* ── Off-screen loop hold ──
+     The step panels run 6.4s loops forever. Wrapping them in <PauseOffscreen>
+     adds this class whenever the group is out of view, so three simultaneous
+     scenes aren't compositing behind the rest of the page. The class is only
+     ever added by JS — with no JS the loops simply run, because fx-row starts
+     at opacity 0 and a paused-by-default rule would leave content invisible. */
+  .fx-hold .fx-row,
+  .fx-hold .fx-send,
+  .fx-hold .fx-confirm,
+  .fx-hold .fx-fill-fast,
+  .fx-hold .fx-fill-slow,
+  .fx-hold .fx-dot,
+  .fx-hold .fx-bob {
+    animation-play-state: paused;
+  }
+
   /* Stagger utilities — must come after the animation classes above so the
      delay isn't reset by the shorthand. */
   .fx-d1 {
@@ -467,8 +505,14 @@
     .fx-dot,
     .fx-send,
     .fx-confirm,
-    .fx-bob {
+    .fx-bob,
+    .band-fill {
       animation: none !important;
+    }
+    /* Without the drift the gradient must sit at its authored position, not
+       wherever background-size:190% happens to leave it. */
+    .band-fill {
+      background-size: 100% 100% !important;
     }
     /* The scenes above start from opacity:0 / scaleX(0), so switching the
        animation off has to leave them in their resting state, not invisible. */
