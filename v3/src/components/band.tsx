@@ -39,8 +39,16 @@ import { cn } from "@/lib/cn";
  */
 const FILL = "linear-gradient(98deg, #ef910a 0%, #ee5528 45%, #cf4f7e 100%)";
 
-/** How far the trail word rides, as a fraction of its own line height. */
-const DRIFT = 0.16;
+/**
+ * How far the trail word rides, as a fraction of its own line height.
+ *
+ * It has to be big enough that the word is visibly travelling against the word
+ * beside it while you scroll. At 0.16 the two read as one static line with a
+ * rendering wobble; at 0.42 "smarter" is unmistakably climbing past "Work",
+ * which is the whole effect. The strip clips it, so the travel can exceed the
+ * air the strip has.
+ */
+const DRIFT = 0.42;
 
 function clamp01(n: number) {
   return n < 0 ? 0 : n > 1 ? 1 : n;

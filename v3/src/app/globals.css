@@ -415,20 +415,6 @@
     }
   }
 
-  /* ── Sticky step-card reveal ──
-     The card itself can only animate opacity: it is position:sticky, and a
-     transform on a sticky element (or any ancestor of one) re-parents its
-     containing block and kills the pinning. The lift therefore rides on its
-     children, where a transform is free. Hidden state is only ever applied by
-     <StickyReveal> once an observer is armed, so with no JS the cards render
-     in their resting position. */
-  .step-in > * {
-    transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .step-in[data-shown="false"] > * {
-    transform: translateY(22px);
-  }
-
   /* ── Off-screen loop hold ──
      The step panels run 6.4s loops forever. Wrapping them in <PauseOffscreen>
      adds this class whenever the group is out of view, so three simultaneous
@@ -534,10 +520,6 @@
     .fx-send,
     .fx-confirm {
       opacity: 1 !important;
-      transform: none !important;
-    }
-    .step-in > * {
-      transition: none !important;
       transform: none !important;
     }
     .fx-fill-fast,

@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { Band } from "@/components/band";
-import { StickyReveal } from "@/components/sticky-reveal";
 import { PauseOffscreen } from "@/components/pause-offscreen";
 import { Button } from "@/components/ui/button";
 import { Lede, Key, Eyebrow } from "@/components/ui/type";
@@ -276,7 +275,7 @@ export function HowItWorks() {
           in it, the way the reference does it. It used to sit between the
           eyebrow and the lede at a size that ran off the right edge, which put
           two headers in one block and left the giant words cropped. */}
-      <div className="border-b border-espresso/[0.06] bg-white py-14 sm:py-20">
+      <div className="overflow-hidden border-b border-espresso/[0.06] bg-white py-8 sm:py-11">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           {/* Not inside <Reveal>: it holds a translateY while hidden, and the
               line measures its own distance to the viewport to drive both the
@@ -296,16 +295,25 @@ export function HowItWorks() {
           </Lede>
         </Reveal>
 
-        {/* A stack, not a list.
-            Each step pins near the top and the next one slides up over it, so
-            only one step is ever being read: 01 holds, 02 covers it, 03 covers
-            that. Each card sits a few pixels lower than the one beneath so the
-            stack stays legible as a stack.
+        {/* A deck, not a list.
+            Each step pins near the top and the next one slides up and covers
+            it, so only one step is ever being read: 01 holds, 02 hides it, 03
+            hides that. Each card pins a few pixels lower than the one beneath
+            so the covered ones stay visible as a stack of edges.
 
-            No <Reveal> on these: it holds a translateY while hidden, and a
-            transformed ancestor becomes the containing block for position
-            sticky, which silently kills the pinning. PauseOffscreen adds no
-            transform, so it is safe to wrap the list. */}
+            The cards are flush — no gap between them. With a gap, the incoming
+            card first sat alone in the open against the page background and
+            only then slid over its predecessor, which read as three separate
+            cards scrolling past rather than one deck dealing itself. Flush,
+            the only way a card can enter is by covering the one before it.
+            The scroll distance for each hand-off is that card's own height.
+
+            No reveal animation on these either: a card fading in on top of
+            another is transparent while it does it, so you read both at once.
+            The slide IS the reveal. And no <Reveal> wrapper — it holds a
+            translateY while hidden, and a transformed ancestor becomes the
+            containing block for position sticky, which silently kills the
+            pinning. PauseOffscreen adds no transform, so it is safe here. */}
         <PauseOffscreen>
           <ol className="mt-14">
             {STEPS.map((step, i) => {
@@ -314,29 +322,21 @@ export function HowItWorks() {
               // Alternates, so the stack doesn't read as the same card three
               // times with the words swapped.
               const flip = i % 2 === 1;
-              const last = i === STEPS.length - 1;
               return (
                 /* Direct child of the <ol> on purpose: a sticky element pins
                    inside its own parent's box, so wrapping each card in its own
                    div gives it a box exactly its own height and nothing to stick
-                   within. The list is the shared box.
-
-                   StickyReveal renders the <li> itself and fades it in as it
-                   arrives, so the three steps land one at a time instead of the
-                   whole stack being present from the start. It animates opacity
-                   only — a transform anywhere up the tree would break the
-                   pinning — and hands the lift to .step-in's children. */
-                <StickyReveal
+                   within. The list is the shared box. */
+                <li
                   key={step.n}
-                  className="step-in grid overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm lg:grid-cols-2"
+                  className="grid overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm lg:grid-cols-2"
                   style={{
                     position: "sticky",
                     top: `calc(5.5rem + ${i * 14}px)`,
                     zIndex: i + 1,
-                    marginBottom: last ? undefined : "22vh",
                     // Deep enough that the incoming card visibly sits ON the
-                    // one below rather than appearing to crop it. With the old
-                    // soft shadow, a card cut mid-sentence read as a bug.
+                    // one below rather than appearing to crop it. With a soft
+                    // shadow, a card cut mid-sentence read as a bug.
                     boxShadow:
                       "0 -1px 0 rgba(60,34,12,0.10), 0 -18px 60px -22px rgba(60,34,12,0.40)",
                   }}
@@ -430,7 +430,7 @@ export function HowItWorks() {
                       <Panel />
                     </div>
                   </div>
-                </StickyReveal>
+                </li>
               );
             })}
           </ol>
