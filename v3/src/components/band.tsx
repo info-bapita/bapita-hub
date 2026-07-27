@@ -18,10 +18,13 @@ import { cn } from "@/lib/cn";
  *     The size is solved for the container, so the fill is exact at any width.
  *  2. The colored word arrives with the scroll — a flat grey copy sits exactly
  *     on top and wipes away left to right.
- *  3. The colored word then keeps moving vertically with the scroll, riding a
- *     few percent up as the strip crosses the viewport, under a gradient that
- *     drifts on its own. A gradient that lands and freezes reads as a picture
- *     of an effect.
+ *  3. The colored word rides the scroll vertically, and it rides right out of
+ *     the strip: it comes in cropped by the top edge, lands level with its grey
+ *     twin exactly as the colour finishes, then keeps travelling down and out
+ *     through the bottom edge, which crops it away to nothing while the band is
+ *     still on screen. Earlier the travel was capped at the air around the line
+ *     so the word could never touch an edge, which made it a nudge rather than
+ *     a move.
  *
  * Progress is written straight to the DOM inside a rAF tick, so nothing
  * re-renders while the wipe plays.
@@ -139,21 +142,38 @@ export function Band({
         target.style.clipPath = `inset(-20% 0 -20% ${p * 100}%)`;
       }
 
-      // Drift: measured across the strip's whole passage through the viewport,
-      // not the wipe's window, so the word is still moving long after the
-      // colour has landed. Down-page scrolling carries it up.
-      const q = clamp01((vh - stripRect.top) / (vh + stripRect.height));
-      // The word runs the full height of the strip and stops there: at the top
-      // of the scroll range its cap-line sits on the strip's top edge, at the
-      // bottom its baseline sits on the strip's bottom edge. That range is
-      // exactly the air the strip has around the line — the strip's height
-      // minus the line's — so it is measured rather than guessed, and the word
-      // is never clipped however tall the strip is or however large the fitted
-      // size came out. GUARD keeps a hair of white so the letters graze the
-      // edges instead of colliding with them.
-      const GUARD = 3;
-      const travel = Math.max(0, stripRect.height - rect.height - GUARD * 2);
-      const shift = (0.5 - q) * travel;
+      // Drift: one continuous move, downward throughout. The word settles into
+      // place as the colour arrives, then keeps going and slides out through
+      // the bottom of the strip, which crops it. Both legs are keyed to the
+      // line's own position in the viewport — the same measure the wipe uses —
+      // so the instant it lands is the instant it finishes colouring, and the
+      // arrival reads as one gesture rather than two effects that happen to
+      // overlap.
+      //
+      // The two ends are measured off the strip and the line rather than set as
+      // constants, so they stay honest at any size: at the top of the range the
+      // word hangs PEEK of its own height above the strip's top edge — cropped,
+      // but still showing, so the band is never simply empty — and at the far
+      // end it has cleared the bottom edge completely and is gone. Scroll on
+      // and only the grey half of the line is left, which is the behaviour the
+      // reference has.
+      //
+      // HOLD and OUT are the two edges of the exit, in the same units as the
+      // wipe: fractions of the viewport height that the line's top has reached.
+      // It waits until HOLD before starting to leave, which is the only reason
+      // the word is ever simply legible and still — landing and immediately
+      // sliding away gave it no moment of its own. And it is gone by OUT, with
+      // the band still well inside the screen. Keyed instead to the strip's own
+      // passage the exit would only complete once the band had left the top of
+      // the viewport, so the disappearance — the whole point of the move —
+      // would happen where nobody could watch it.
+      const PEEK = 0.5;
+      const HOLD = 0.3;
+      const OUT = 0;
+      const h = rect.height;
+      const half = Math.max(0, (stripRect.height - h) / 2);
+      const leave = clamp01((vh * HOLD - rect.top) / (vh * (HOLD - OUT)));
+      const shift = leave * (half + h) - (1 - p) * (half + PEEK * h);
       if (!(Math.abs(shift - lastShift) < 0.25)) {
         lastShift = shift;
         mover.style.transform = `translateY(${shift.toFixed(2)}px)`;
@@ -179,14 +199,15 @@ export function Band({
 
   return (
     /* The strip is the component's own, not the caller's. The word's travel is
-       measured against it — it rides from the strip's top edge to its bottom
-       edge — so the element that defines that range has to be the one this
-       component can measure. The padding here IS the travel: it is the only
-       air the line has, and all of it is used. */
+       measured against it and overruns it at both ends, so the element that
+       defines that range has to be the one this component can measure — and
+       the one that crops it. overflow-hidden is what makes the word leave:
+       without it the letters would simply hang outside the white into the
+       section above and below. */
     <div
       ref={stripRef}
       className={cn(
-        "border-b border-espresso/[0.06] bg-white py-11 sm:py-16",
+        "overflow-hidden border-b border-espresso/[0.06] bg-white py-11 sm:py-16",
         className,
       )}
     >

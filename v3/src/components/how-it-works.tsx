@@ -269,7 +269,12 @@ const PANELS = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="wash-cool overflow-hidden">
+    /* overflow-x-clip, never overflow-hidden. `hidden` makes this section a
+       scroll container, and a sticky element pins against its nearest scrolling
+       ancestor — so every card in the deck below was pinning against a box that
+       never scrolls, i.e. not pinning at all, and all three simply scrolled past
+       as a list. `clip` crops the same pixels without becoming one. */
+    <section id="how-it-works" className="wash-cool overflow-x-clip">
       {/* The display line brings its own full-bleed white strip and sits above
           the section's own header — one oversized statement per row, nothing
           else in it, the way the reference does it. The strip belongs to <Band>
@@ -303,6 +308,21 @@ export function HowItWorks() {
             the only way a card can enter is by covering the one before it.
             The scroll distance for each hand-off is that card's own height.
 
+            A pinned card fills the viewport. Its natural height is around
+            455px, so pinned at 88px on an 800px screen it left 257px of the
+            NEXT card sitting in the open underneath — all three were readable
+            at once and the deck had nothing to deal. Sized to the screen, the
+            next card starts just past the fold: you get one step at a time,
+            and the second and third arrive because you scrolled to them. The
+            leftover slack goes to the content, which centres in the card
+            rather than hugging the top of a tall box.
+
+            Below lg the deck is off entirely. Stacked single-column these
+            cards run ~900px, taller than a phone screen, so a card pinned at
+            88px kept its own last 180px permanently below the fold — the
+            panel was unreachable, not merely covered. At that height the
+            cards already arrive one at a time on their own.
+
             No reveal animation on these either: a card fading in on top of
             another is transparent while it does it, so you read both at once.
             The slide IS the reveal. And no <Reveal> wrapper — it holds a
@@ -324,20 +344,20 @@ export function HowItWorks() {
                    within. The list is the shared box. */
                 <li
                   key={step.n}
-                  className="grid overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm lg:grid-cols-2"
+                  /* The upward shadow is the deck's: deep enough that the
+                     incoming card visibly sits ON the one below rather than
+                     appearing to crop it — with a soft shadow, a card cut
+                     mid-sentence read as a bug. It is lg-only because nothing
+                     overlaps below that, where a dark blur cast upward into
+                     the gap is just a smudge over the previous card. */
+                  className="static mb-5 grid overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm shadow-[0_1px_2px_rgba(60,34,12,0.04)] lg:sticky lg:mb-0 lg:min-h-[calc(100svh-7rem)] lg:grid-cols-2 lg:shadow-[0_-1px_0_rgba(60,34,12,0.10),0_-18px_60px_-22px_rgba(60,34,12,0.40)]"
                   style={{
-                    position: "sticky",
                     top: `calc(5.5rem + ${i * 14}px)`,
                     zIndex: i + 1,
-                    // Deep enough that the incoming card visibly sits ON the
-                    // one below rather than appearing to crop it. With a soft
-                    // shadow, a card cut mid-sentence read as a bug.
-                    boxShadow:
-                      "0 -1px 0 rgba(60,34,12,0.10), 0 -18px 60px -22px rgba(60,34,12,0.40)",
                   }}
                 >
                   <div
-                    className={`p-7 sm:p-9 lg:p-11 ${flip ? "lg:order-2" : ""}`}
+                    className={`flex flex-col justify-center p-7 sm:p-9 lg:p-11 ${flip ? "lg:order-2" : ""}`}
                   >
                     <span className="flex items-center gap-3">
                       <span
@@ -428,6 +448,17 @@ export function HowItWorks() {
                 </li>
               );
             })}
+
+            {/* Pin room for the last card, and it has to be a real child.
+                A sticky element is held inside its parent's CONTENT box, so
+                padding on the <ol> buys nothing — measured, not assumed: 18vh
+                and 40vh of padding released the deck at the same scroll
+                position. Without something occupying flow after it, the third
+                card's own bottom IS the bottom of that box, so it lands and is
+                immediately dragged off: the one step that never got read at
+                rest. Empty and hidden from the a11y tree — it is scroll
+                distance, not a fourth item. */}
+            <li aria-hidden="true" className="hidden lg:block lg:h-[40vh]" />
           </ol>
         </PauseOffscreen>
 
