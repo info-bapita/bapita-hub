@@ -78,7 +78,7 @@ export function Features() {
         style={{ scrollPaddingLeft: "1.25rem" }}
       >
         {/* 1 — Book: the shop that takes bookings online gets picked */}
-        <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
           <Stat
             value="94%"
             label="more likely to pick a shop that books online"
@@ -106,7 +106,7 @@ export function Features() {
         </Card>
 
         {/* 2 — Book: bookings landing while the shop is shut */}
-        <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
           <Stat
             value="50%"
             label="of salon bookings happen while the shop is closed"
@@ -165,7 +165,7 @@ export function Features() {
         </Card>
 
         {/* 4 — Book: reminders. The message goes out, the seat gets confirmed. */}
-        <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
           <Stat
             value="25%"
             label="fewer no shows once reminders go out on their own"
@@ -197,7 +197,7 @@ export function Features() {
         </Card>
 
         {/* 5 — Social: the week of posts they check before they walk in */}
-        <Card glow="#e8920a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
           <Stat
             value="76%"
             label="check your online presence before they visit"

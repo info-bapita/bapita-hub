@@ -42,7 +42,7 @@ type Aside = { icon: LucideIcon; title: string; body: string };
 
 type Step = {
   n: string;
-  /** Which falafel lights this step. Terracotta → amber → green: the same sweep
+  /** Which falafel lights this step. Amber → terracotta → green: the same sweep
    *  the display line makes, resolving on the green that means "live". */
   accent: ProductId;
   lead: string;

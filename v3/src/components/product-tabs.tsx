@@ -7,8 +7,8 @@ import { PRODUCT_MOCKS } from "@/components/ui/product-mock";
 import { PRODUCTS, type ProductId } from "@/lib/products";
 
 const ACCENT: Record<ProductId, string> = {
-  book: "#d4622a",
-  social: "#e8920a",
+  book: "#e8920a",
+  social: "#d4622a",
   bots: "#1fa971",
   reach: "#2d6cf0",
 };

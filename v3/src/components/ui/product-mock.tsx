@@ -12,8 +12,8 @@ import type { ProductId } from "@/lib/products";
  * numbers) so nothing here reads as a claim about a specific client.
  */
 
-const BOOK = "#d4622a";
-const SOCIAL = "#e8920a";
+const BOOK = "#e8920a";
+const SOCIAL = "#d4622a";
 const BOTS = "#1fa971";
 const REACH = "#2d6cf0";
 

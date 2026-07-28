@@ -5,8 +5,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const ORBS = [
-  { color: "#f0743a", x: 880, y: 120, r: 44 },
-  { color: "#f7ab2e", x: 1010, y: 220, r: 34 },
+  { color: "#f7ab2e", x: 880, y: 120, r: 44 },
+  { color: "#f0743a", x: 1010, y: 220, r: 34 },
   { color: "#4e86ff", x: 940, y: 340, r: 38 },
   { color: "#9277ff", x: 1070, y: 420, r: 30 },
   { color: "#2bc487", x: 860, y: 470, r: 26 },

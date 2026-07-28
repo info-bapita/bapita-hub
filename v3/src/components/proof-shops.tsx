@@ -28,7 +28,7 @@ export function ProofShops() {
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
           <Reveal>
             <div>
-              <Eyebrow dot="#d4622a">First shops</Eyebrow>
+              <Eyebrow dot="#e8920a">First shops</Eyebrow>
               <TwoTone
                 size="sm"
                 lead="Early, on purpose."
@@ -58,7 +58,7 @@ export function ProofShops() {
           {/* The one shop that's live, shown plainly. */}
           <Reveal delay={100}>
             <div className="relative">
-              <BrowserFrame url="shimi.bapita.com" accent="#d4622a">
+              <BrowserFrame url="shimi.bapita.com" accent="#e8920a">
                 <div className="bg-white px-6 py-7">
                   <div className="flex items-center gap-3">
                     <span className="flex h-11 w-11 items-center justify-center rounded-full bg-book text-base font-extrabold text-white">
