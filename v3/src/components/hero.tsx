@@ -43,7 +43,7 @@ type Obj = Chit | Ball;
  *  so they arrive smaller and just under their parent rather than beside it. */
 const BALL_SIZE = {
   main: "clamp(54px, 8vw, 80px)",
-  "add-on": "clamp(38px, 5.4vw, 54px)",
+  "add-on": "clamp(46px, 6.6vw, 66px)",
 } as const;
 
 /**
@@ -268,8 +268,8 @@ export function Hero() {
                   <span
                     className={`flex items-center gap-1 rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2 py-0.5 font-bold shadow-sm ${
                       o.tier === "main"
-                        ? "text-[10px] text-espresso/70"
-                        : "text-[9px] text-espresso/45"
+                        ? "text-[11px] text-espresso/75"
+                        : "text-[10px] text-espresso/60"
                     }`}
                   >
                     {o.tier === "add-on" && (
