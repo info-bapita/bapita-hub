@@ -43,7 +43,7 @@ type Obj = Chit | Ball;
  *  so they arrive smaller and just under their parent rather than beside it. */
 const BALL_SIZE = {
   main: "clamp(54px, 8vw, 80px)",
-  "add-on": "clamp(46px, 6.6vw, 66px)",
+  "add-on": "clamp(56px, 7.4vw, 74px)",
 } as const;
 
 /**
@@ -266,10 +266,10 @@ export function Hero() {
                       a second row of labels under the mains would compete with
                       the six capability chits already in the gutters. */}
                   <span
-                    className={`flex items-center gap-1 rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2 py-0.5 font-bold shadow-sm ${
+                    className={`flex items-center gap-1 rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2.5 py-1 font-bold shadow-sm ${
                       o.tier === "main"
-                        ? "text-[11px] text-espresso/75"
-                        : "text-[10px] text-espresso/60"
+                        ? "text-[14px] text-espresso/80"
+                        : "text-[12.5px] text-espresso/70"
                     }`}
                   >
                     {o.tier === "add-on" && (
