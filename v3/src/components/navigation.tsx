@@ -49,7 +49,7 @@ export function Navigation() {
             Book a call
           </Button>
           <button
-            className="flex h-9 w-9 items-center justify-center text-espresso"
+            className="-mr-2 flex h-11 w-11 items-center justify-center text-espresso"
             onClick={() => setOpen(!open)}
             aria-label="Toggle menu"
             aria-expanded={open}
@@ -71,7 +71,7 @@ export function Navigation() {
               key={link.label}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="rounded-md px-3 py-2.5 text-sm font-medium text-espresso/60 transition-colors hover:bg-espresso/[0.05] hover:text-espresso"
+              className="flex min-h-11 items-center rounded-md px-3 text-sm font-medium text-espresso/60 transition-colors hover:bg-espresso/[0.05] hover:text-espresso"
             >
               {link.label}
             </a>

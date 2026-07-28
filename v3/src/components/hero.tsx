@@ -34,7 +34,14 @@ import type { ProductId } from "@/lib/products";
  * re-renders on scroll, which keeps ten animated nodes on the compositor.
  */
 
-type Base = { rx: number; ry: number; rot: number; start: number };
+type Base = {
+  rx: number;
+  ry: number;
+  rot: number;
+  start: number;
+  /** Narrow-viewport resting position. See MOBILE_BP. */
+  mob?: { rx: number; ry: number };
+};
 type Chit = Base & { kind: "chit"; label: string; icon: LucideIcon };
 type Ball = Base & { kind: "ball"; id: ProductId; label: string; tier: "main" | "add-on" };
 type Obj = Chit | Ball;
@@ -42,8 +49,10 @@ type Obj = Chit | Ball;
 /** Falafel diameters. The two mains are the offer; the add-ons hang off them,
  *  so they arrive smaller and just under their parent rather than beside it. */
 const BALL_SIZE = {
-  main: "clamp(54px, 8vw, 80px)",
-  "add-on": "clamp(56px, 7.4vw, 74px)",
+  main: "clamp(56px, 8vw, 80px)",
+  /* Below ~700px the add-on clamp bottomed out ABOVE the main's, which inverted
+     the hierarchy on every phone. Its floor is now genuinely smaller. */
+  "add-on": "clamp(46px, 7.4vw, 74px)",
 } as const;
 
 /**
@@ -58,19 +67,30 @@ const BALL_SIZE = {
  * is in the same half as the product that delivers it.
  */
 const OBJECTS: Obj[] = [
-  { kind: "chit", label: "Booking website", icon: Globe, rx: -0.34, ry: -0.4, rot: -9, start: 0.05 },
-  { kind: "chit", label: "Scheduled posts", icon: CalendarClock, rx: 0.3, ry: -0.44, rot: 7, start: 0.09 },
-  { kind: "chit", label: "WhatsApp assistant", icon: MessageCircle, rx: -0.44, ry: -0.14, rot: 5, start: 0.13 },
-  { kind: "chit", label: "Unified inbox", icon: Inbox, rx: 0.43, ry: -0.16, rot: -6, start: 0.17 },
-  { kind: "chit", label: "Auto reminders", icon: BellRing, rx: -0.4, ry: 0.1, rot: 8, start: 0.21 },
-  { kind: "chit", label: "Found on Google", icon: MapPin, rx: 0.38, ry: 0.12, rot: -4, start: 0.25 },
+  { kind: "chit", label: "Booking website", icon: Globe, rx: -0.34, ry: -0.4, rot: -9, start: 0.05, mob: { rx: -0.25, ry: -0.46 } },
+  { kind: "chit", label: "Scheduled posts", icon: CalendarClock, rx: 0.3, ry: -0.44, rot: 7, start: 0.09, mob: { rx: 0.25, ry: -0.46 } },
+  { kind: "chit", label: "WhatsApp assistant", icon: MessageCircle, rx: -0.44, ry: -0.14, rot: 5, start: 0.13, mob: { rx: -0.24, ry: -0.32 } },
+  { kind: "chit", label: "Unified inbox", icon: Inbox, rx: 0.43, ry: -0.16, rot: -6, start: 0.17, mob: { rx: 0.27, ry: -0.32 } },
+  { kind: "chit", label: "Auto reminders", icon: BellRing, rx: -0.4, ry: 0.1, rot: 8, start: 0.21, mob: { rx: -0.26, ry: -0.18 } },
+  { kind: "chit", label: "Found on Google", icon: MapPin, rx: 0.38, ry: 0.12, rot: -4, start: 0.25, mob: { rx: 0.26, ry: -0.18 } },
 
   // Book, then what extends it; Social, then what extends it.
-  { kind: "ball", id: "book", label: "Book", tier: "main", rx: -0.23, ry: -0.29, rot: 0, start: 0.34 },
-  { kind: "ball", id: "bots", label: "Bots", tier: "add-on", rx: -0.25, ry: 0.01, rot: 0, start: 0.4 },
-  { kind: "ball", id: "social", label: "Social", tier: "main", rx: 0.22, ry: -0.32, rot: 0, start: 0.46 },
-  { kind: "ball", id: "reach", label: "Reach", tier: "add-on", rx: 0.24, ry: -0.01, rot: 0, start: 0.52 },
+  { kind: "ball", id: "book", label: "Book", tier: "main", rx: -0.23, ry: -0.29, rot: 0, start: 0.34, mob: { rx: -0.24, ry: 0.03 } },
+  { kind: "ball", id: "bots", label: "Bots", tier: "add-on", rx: -0.25, ry: 0.01, rot: 0, start: 0.4, mob: { rx: -0.25, ry: 0.27 } },
+  { kind: "ball", id: "social", label: "Social", tier: "main", rx: 0.22, ry: -0.32, rot: 0, start: 0.46, mob: { rx: 0.24, ry: 0.03 } },
+  { kind: "ball", id: "reach", label: "Reach", tier: "add-on", rx: 0.24, ry: -0.01, rot: 0, start: 0.52, mob: { rx: 0.25, ry: 0.27 } },
 ];
+
+/**
+ * Under this the six chits can no longer live in side gutters — a chit is
+ * ~140px wide on a phone, which is most of the scene, so anything beside a
+ * falafel lands on top of it. The mobile layout drops them into three full-width
+ * rows above the falafels instead, which is why every object carries a `mob`
+ * position. Same choreography, laid out for the column.
+ */
+const MOBILE_BP = 640; // Tailwind `sm` — the markup switches at the same width.
+/** Scene height the mobile layout is spaced for; shorter phones scale down. */
+const MOBILE_REF_H = 400;
 
 /** How much of the scroll each object's arc occupies. */
 const FALL_DURATION = 0.16;
@@ -128,13 +148,19 @@ export function Hero() {
 
       const w = scene!.clientWidth;
       const h = scene!.clientHeight;
-      const pitaW = Math.min(320, w * 0.54);
+      const mobile = w < MOBILE_BP;
+      // vw, matching the bowl's CSS width — the scene box is narrower than the
+      // viewport, so measuring off `w` aimed the fall short of the pocket.
+      const pitaW = Math.min(320, window.innerWidth * (mobile ? 0.46 : 0.54));
       const pitaH = pitaW * PITA_ASPECT;
       const targetY = h / 2 - pitaH * (1 - POCKET_Y) - 6;
 
-      // Narrow viewports have no side gutters, so pull the spread in rather
-      // than letting the chits run off the edge of the scene.
-      const spread = w < 520 ? 0.7 : 1;
+      // The mobile rows are spaced for MOBILE_REF_H. On a shorter screen the
+      // whole arrangement shrinks together rather than letting the rows close
+      // up and collide — composition holds, it just gets smaller.
+      const fit = mobile
+        ? Math.min(1, Math.max(0.7, h / MOBILE_REF_H))
+        : 1;
 
       OBJECTS.forEach((o, i) => {
         const el = objRefs.current[i];
@@ -144,15 +170,16 @@ export function Hero() {
         // Ease into the fall so it reads as tipped, not yanked.
         const e = t * t;
 
-        const fromX = o.rx * w * spread;
-        const fromY = o.ry * h;
+        const rest = mobile && o.mob ? o.mob : o;
+        const fromX = rest.rx * w;
+        const fromY = rest.ry * h;
         const x = fromX + (0 - fromX) * e;
         const y = fromY + (targetY - fromY) * e - Math.sin(t * Math.PI) * h * 0.05;
 
         // Squash into the pocket over the last fifth of the arc, then vanish.
         const land = clamp01((t - 0.8) / 0.2);
 
-        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotate(${o.rot * (1 - e)}deg) scale(${1 - land * 0.55})`;
+        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotate(${o.rot * (1 - e)}deg) scale(${fit * (1 - land * 0.55)})`;
         el.style.opacity = String(1 - land);
       });
 
@@ -197,7 +224,12 @@ export function Hero() {
         className={
           reduced
             ? "px-5 pb-24 pt-16 sm:px-8"
-            : "sticky top-0 flex h-screen flex-col items-center overflow-hidden px-5 pb-8 pt-20 sm:px-8 sm:pt-24"
+            : /* svh, not vh: with dvh the pinned scene resizes every time the
+                 mobile URL bar collapses, and 100vh overflows behind it. */
+              /* Pinned BELOW the sticky header (h-16), not under it: at
+                 top-0 the last row of falafels was pushed off the bottom of
+                 the screen by exactly the header's height. */
+              "sticky top-16 flex h-[calc(100svh-4rem)] flex-col items-center overflow-hidden px-5 pb-4 pt-5 sm:px-8 sm:pb-8 sm:pt-14"
         }
       >
         <div className="text-center">
@@ -210,22 +242,22 @@ export function Hero() {
             size="hero"
             lead="Four tools."
             trail="One pita."
-            className="mt-3"
+            className="mt-2 text-[2.25rem] sm:mt-3 sm:text-display-xl"
           />
 
-          <Lede className="mx-auto mt-4 max-w-xl">
+          <Lede className="mx-auto mt-3 max-w-xl text-base sm:mt-4 sm:text-xl">
             Pick the tools your business needs.{" "}
             <Key>We build them and set them up under your brand.</Key> You run all
             of it from your phone.
           </Lede>
 
-          <div className="mt-6 flex flex-col items-center gap-3">
+          <div className="mt-5 flex flex-col items-center gap-3 sm:mt-6">
             <Button href="#connect" size="lg">
               Book a free call
             </Button>
             <a
               href="#products"
-              className="text-sm font-semibold text-espresso/45 underline decoration-espresso/20 underline-offset-4 transition-colors hover:text-espresso hover:decoration-espresso/50"
+              className="-my-2 px-3 py-3 text-sm font-semibold text-espresso/45 underline decoration-espresso/20 underline-offset-4 transition-colors hover:text-espresso hover:decoration-espresso/50"
             >
               See the four tools
             </a>
@@ -281,7 +313,7 @@ export function Hero() {
                   </span>
                 </div>
               ) : (
-                <span className="flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-espresso/[0.08] bg-[var(--color-chip)] px-2.5 py-1.5 text-[10px] font-semibold text-espresso/55 shadow-sm sm:text-[11px]">
+                <span className="flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-espresso/[0.08] bg-[var(--color-chip)] px-2.5 py-1.5 text-[11px] font-semibold text-espresso/55 shadow-sm">
                   <o.icon className="h-3 w-3 shrink-0 text-cinnamon/70" strokeWidth={2.4} />
                   {o.label}
                 </span>
@@ -291,8 +323,8 @@ export function Hero() {
 
           {/* The pita, bottom-centred. Objects fall into its pocket. */}
           <div
-            className="absolute bottom-0 left-1/2 z-0 -translate-x-1/2"
-            style={{ width: "min(320px, 54vw)", aspectRatio: "760 / 560" }}
+            className="absolute bottom-0 left-1/2 z-0 w-[min(320px,46vw)] -translate-x-1/2 sm:w-[min(320px,54vw)]"
+            style={{ aspectRatio: "760 / 560" }}
           >
             <PitaBowl className="size-full" />
             <div
@@ -312,10 +344,10 @@ export function Hero() {
             ref={payoffRef}
             /* Sits above the rim, not across the bowl — it's the outcome of the
                pita being full, not a label stuck on it. */
-            className="absolute bottom-[54%] left-1/2 z-20 w-max text-center"
+            className="absolute bottom-[52%] left-1/2 z-20 w-max max-w-[calc(100vw-2.5rem)] text-center sm:bottom-[54%]"
             style={reduced ? { transform: "translate(-50%, 0)" } : { opacity: 0, transform: "translate(-50%, 16px)" }}
           >
-            <span className="inline-flex items-center gap-2 rounded-pill border border-espresso/10 bg-[var(--color-chip)] px-4 py-2 text-[0.8125rem] font-bold text-espresso shadow-[0_10px_30px_-12px_rgba(60,34,12,0.4)]">
+            <span className="inline-flex items-center gap-2 rounded-pill border border-espresso/10 bg-[var(--color-chip)] px-3.5 py-2 text-[0.75rem] font-bold text-espresso shadow-[0_10px_30px_-12px_rgba(60,34,12,0.4)] sm:px-4 sm:text-[0.8125rem]">
               <span className="h-1.5 w-1.5 rounded-full bg-success" />
               One dashboard. One bill. One person to call.
             </span>

@@ -25,7 +25,7 @@ export function Footer() {
             </p>
             <a
               href="mailto:info.bapita@gmail.com"
-              className="mt-4 inline-block text-sm font-medium text-clay/45 underline underline-offset-4 transition-colors hover:text-clay/80"
+              className="mt-3 inline-flex min-h-11 items-center text-sm font-medium text-clay/45 underline underline-offset-4 transition-colors hover:text-clay/80"
             >
               info.bapita@gmail.com
             </a>
@@ -35,12 +35,12 @@ export function Footer() {
             <p className="mb-4 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-clay/40">
               Products
             </p>
-            <ul className="flex flex-col gap-2.5">
+            <ul className="flex flex-col">
               {PRODUCTS.map((product) => (
                 <li key={product.id}>
                   <a
                     href="#products"
-                    className="flex items-center gap-2.5 text-[0.875rem] font-medium text-clay/55 transition-colors hover:text-clay"
+                    className="-mx-2 flex min-h-11 items-center gap-2.5 rounded-md px-2 text-[0.875rem] font-medium text-clay/55 transition-colors hover:text-clay"
                   >
                     <span
                       className="h-2 w-2 rounded-full"
@@ -57,12 +57,12 @@ export function Footer() {
             <p className="mb-4 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-clay/40">
               Company
             </p>
-            <ul className="flex flex-col gap-2.5">
+            <ul className="flex flex-col">
               {FOOTER_LINKS.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-[0.875rem] font-medium text-clay/45 transition-colors hover:text-clay/80"
+                    className="-mx-2 flex min-h-11 items-center rounded-md px-2 text-[0.875rem] font-medium text-clay/45 transition-colors hover:text-clay/80"
                   >
                     {link.label}
                   </a>
@@ -74,11 +74,11 @@ export function Footer() {
 
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-clay/[0.08] pt-8">
           <p className="text-xs text-clay/40">© {year} Bapita. All rights reserved.</p>
-          <div className="flex gap-5">
-            <a href="/privacy" className="text-xs text-clay/40 transition-colors hover:text-clay/70">
+          <div className="-mx-2 flex gap-3">
+            <a href="/privacy" className="flex min-h-11 items-center px-2 text-xs text-clay/40 transition-colors hover:text-clay/70">
               Privacy Policy
             </a>
-            <a href="/terms" className="text-xs text-clay/40 transition-colors hover:text-clay/70">
+            <a href="/terms" className="flex min-h-11 items-center px-2 text-xs text-clay/40 transition-colors hover:text-clay/70">
               Terms of Service
             </a>
           </div>

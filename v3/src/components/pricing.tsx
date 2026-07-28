@@ -95,7 +95,7 @@ export function Pricing() {
                     type="button"
                     aria-pressed={on}
                     onClick={() => toggle(t.id)}
-                    className={`inline-flex items-center gap-2 rounded-pill border px-4 py-2 text-[0.8125rem] font-semibold transition-colors duration-150 ${
+                    className={`inline-flex min-h-11 items-center gap-2 rounded-pill border px-4 py-2 text-[0.8125rem] font-semibold transition-colors duration-150 ${
                       on
                         ? "border-cinnamon/40 bg-cinnamon/10 text-cinnamon"
                         : "border-espresso/15 text-espresso/55 hover:border-espresso/30 hover:text-espresso"
