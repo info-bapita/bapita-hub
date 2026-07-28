@@ -8,8 +8,8 @@ import { PRODUCTS, type ProductId } from "@/lib/products";
 
 const ACCENT: Record<ProductId, string> = {
   book: "#d4622a",
-  social: "#1fa971",
-  bots: "#e0457b",
+  social: "#e8920a",
+  bots: "#1fa971",
   reach: "#2d6cf0",
 };
 

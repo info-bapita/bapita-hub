@@ -14,20 +14,20 @@
   /* ── Product color wheel ── */
   --color-book: #d4622a;       /* orange / terracotta */
   --color-analytics: #16A6B3;  /* teal */
-  --color-social: #1fa971;     /* emerald */
+  --color-social: #e8920a;     /* amber — matches the Social platform's accent */
   --color-seo: #2d6cf0;        /* azure */
   --color-outreach: #7c5cfc;   /* violet */
-  --color-bots: #e0457b;       /* magenta */
+  --color-bots: #1fa971;       /* emerald */
   --color-reach: #2d6cf0;      /* azure — get found locally */
   --color-ads: #d4881c;        /* amber */
 
   /* glow variants — the product color tuned to read on #0b0b0c */
   --color-book-glow: #f0743a;
   --color-analytics-glow: #26c6d4;
-  --color-social-glow: #2bc487;
+  --color-social-glow: #f7ab2e;
   --color-seo-glow: #4e86ff;
   --color-outreach-glow: #9277ff;
-  --color-bots-glow: #f2628f;
+  --color-bots-glow: #2bc487;
   --color-reach-glow: #4e86ff;
 
   /* ── Clay / warm light (hero, brand surfaces on light) ──
@@ -107,10 +107,10 @@
      Tailwind emits @theme vars only when a utility uses them, so pin these. */
   :root {
     --color-book: #d4622a;
-    --color-social: #1fa971;
+    --color-social: #e8920a;
     --color-seo: #2d6cf0;
     --color-outreach: #7c5cfc;
-    --color-bots: #e0457b;
+    --color-bots: #1fa971;
     --color-reach: #2d6cf0;
     --color-ads: #d4881c;
     --color-clay: #F5F4EE;

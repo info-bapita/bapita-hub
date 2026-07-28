@@ -4,8 +4,8 @@ import type { ProductId } from "@/lib/products";
 // See docs/brand/bapita-v3-brand-system.md §2.2.
 const ACCENT_MAP: Record<ProductId, string> = {
   book: "#f0743a",
-  social: "#2bc487",
-  bots: "#f2628f",
+  social: "#f7ab2e",
+  bots: "#2bc487",
   reach: "#4e86ff",
 };
 

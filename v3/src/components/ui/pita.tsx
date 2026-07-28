@@ -13,14 +13,16 @@ import type { ProductId } from "@/lib/products";
 export const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E\")";
 
-/** Clay palettes per falafel — orange / emerald / magenta / azure. */
+/** Clay palettes per falafel — terracotta / amber / emerald / azure.
+ * Book sits on its terracotta token rather than amber so it stays distinct
+ * from Social, which now carries the amber of the Social platform. */
 export const FALAFEL_COLORS: Record<
   ProductId,
   { highlight: string; base: string; deep: string }
 > = {
-  book: { highlight: "#ffc066", base: "#ef910a", deep: "#b86a00" },
-  social: { highlight: "#b8d9b0", base: "#679e5a", deep: "#3d6b30" },
-  bots: { highlight: "#f2a8c4", base: "#cf4f7e", deep: "#8a3252" },
+  book: { highlight: "#ffb082", base: "#e2703a", deep: "#a8460f" },
+  social: { highlight: "#ffd28a", base: "#e8a01a", deep: "#a06405" },
+  bots: { highlight: "#b8d9b0", base: "#679e5a", deep: "#3d6b30" },
   reach: { highlight: "#a8c8e8", base: "#4a7fb5", deep: "#2a4f7a" },
 };
 

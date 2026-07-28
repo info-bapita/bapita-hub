@@ -42,7 +42,7 @@ type Aside = { icon: LucideIcon; title: string; body: string };
 
 type Step = {
   n: string;
-  /** Which falafel lights this step. Amber → magenta → green: the same sweep
+  /** Which falafel lights this step. Terracotta → amber → green: the same sweep
    *  the display line makes, resolving on the green that means "live". */
   accent: ProductId;
   lead: string;
@@ -73,7 +73,7 @@ const STEPS: Step[] = [
   },
   {
     n: "02",
-    accent: "bots",
+    accent: "social",
     lead: "Shortlist to",
     // Was "set up and branded" — an adjective phrase sitting between two
     // concrete images. The chain still works: 03 leads with "Live to".
@@ -94,7 +94,7 @@ const STEPS: Step[] = [
   },
   {
     n: "03",
-    accent: "social",
+    accent: "bots",
     lead: "Live to",
     trail: "running on your phone",
     body: "Check today's bookings, see what posted, adjust a price. Add another tool whenever you want. No rebuild, no waiting.",

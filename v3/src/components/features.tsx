@@ -142,7 +142,7 @@ export function Features() {
         </Card>
 
         {/* 3 — Bots: the message that gets answered against the one that doesn't */}
-        <Card glow="#e0457b" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#1fa971" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
           <Stat
             value="85%"
             label="of people who reach voicemail never call back"
@@ -165,7 +165,7 @@ export function Features() {
         </Card>
 
         {/* 4 — Book: reminders. The message goes out, the seat gets confirmed. */}
-        <Card glow="#1fa971" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
           <Stat
             value="25%"
             label="fewer no shows once reminders go out on their own"
@@ -197,7 +197,7 @@ export function Features() {
         </Card>
 
         {/* 5 — Social: the week of posts they check before they walk in */}
-        <Card glow="#1fa971" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
           <Stat
             value="76%"
             label="check your online presence before they visit"

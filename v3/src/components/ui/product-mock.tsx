@@ -13,8 +13,8 @@ import type { ProductId } from "@/lib/products";
  */
 
 const BOOK = "#d4622a";
-const SOCIAL = "#1fa971";
-const BOTS = "#e0457b";
+const SOCIAL = "#e8920a";
+const BOTS = "#1fa971";
 const REACH = "#2d6cf0";
 
 /* ─────────────────────────── Book ─────────────────────────── */
