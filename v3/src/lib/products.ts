@@ -13,6 +13,14 @@ export interface Product {
   pricingNote: string;
   pricingCta: string;
   features: string[];
+  /**
+   * Two products carry the offer; two extend one of them. Bots is what Book
+   * looks like inside a chat, Reach is what Social looks like outside the feed —
+   * so they read as add-ons, not as two more equal choices to weigh up.
+   */
+  tier: "main" | "add-on";
+  /** Set on add-ons: the product this one extends. */
+  parent?: ProductId;
 }
 
 export interface BusinessType {
@@ -22,8 +30,10 @@ export interface BusinessType {
   products: ProductId[];
 }
 
-// The menu — 4 falafels. Book is the live hero; the rest are honestly tiered.
-// Order matters: hero first.
+// The menu — 4 falafels, in the order they're meant to be read: each main
+// product is followed by the add-on that extends it. Book → Bots (the same
+// calendar, answered in a chat), Social → Reach (the same presence, outside
+// the feed).
 export const PRODUCTS: Product[] = [
   {
     id: "book",
@@ -36,29 +46,12 @@ export const PRODUCTS: Product[] = [
     href: "https://book.bapita.com",
     pricingNote: "Live now",
     pricingCta: "See Book",
+    tier: "main",
     features: [
       "Booking website with your brand",
       "Owner dashboard & calendar",
       "Email & WhatsApp reminders",
       "Online payments",
-    ],
-  },
-  {
-    id: "social",
-    name: "Social",
-    tagline: "Show up and grow — without the daily grind.",
-    description:
-      "Social media, handled. Schedule posts, generate captions, and run Instagram & Facebook from one place — plus a unified inbox for DMs and comments, and analytics that show what's working.",
-    status: "soon",
-    statusLabel: "Coming next",
-    href: "#connect",
-    pricingNote: "Coming next",
-    pricingCta: "Book a free call",
-    features: [
-      "Post scheduler & content calendar",
-      "AI caption generator",
-      "Instagram & Facebook posting",
-      "Unified inbox + analytics",
     ],
   },
   {
@@ -72,11 +65,33 @@ export const PRODUCTS: Product[] = [
     href: "#connect",
     pricingNote: "Rolling out",
     pricingCta: "Book a free call",
+    tier: "add-on",
+    parent: "book",
     features: [
       "WhatsApp & Telegram assistant",
-      "Answers FAQs 24/7",
+      "Answers your FAQs 24/7",
       "Qualifies leads automatically",
       "Books straight into Book",
+    ],
+  },
+  {
+    id: "social",
+    name: "Social",
+    tagline: "Show up and grow — without the daily grind.",
+    description:
+      "Social media, handled. Write and schedule a month of posts in one sitting, publish to every channel from one place, and keep DMs, comments and reviews in a single inbox — with the sentiment already read for you.",
+    status: "soon",
+    statusLabel: "Coming next",
+    href: "#connect",
+    pricingNote: "Coming next",
+    pricingCta: "Book a free call",
+    tier: "main",
+    features: [
+      "Create and schedule a month of posts at once",
+      "One platform, every channel — Instagram, Facebook, TikTok",
+      "Unified inbox for DMs and comments",
+      "Sentiment analysis on reviews and comments",
+      "AI caption generator",
     ],
   },
   {
@@ -90,6 +105,8 @@ export const PRODUCTS: Product[] = [
     href: "#connect",
     pricingNote: "Rolling out",
     pricingCta: "Book a free call",
+    tier: "add-on",
+    parent: "social",
     features: [
       "Google Business Profile setup",
       "Show up on Google Maps",

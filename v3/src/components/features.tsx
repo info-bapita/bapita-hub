@@ -181,7 +181,7 @@ export function Features() {
                     strokeWidth={2.4}
                   />
                   <p className="text-[0.75rem] leading-snug text-espresso/70">
-                    Hi Dana, tomorrow at 16:00 with Shimi. Reply{" "}
+                    Hi Dana, your appointment is tomorrow at 16:00. Reply{" "}
                     <span className="font-bold text-espresso">1</span> to confirm.
                   </p>
                 </div>
@@ -205,7 +205,7 @@ export function Features() {
           />
           <Scene className="mt-6 flex-1 justify-center">
             <p className="mb-3 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-espresso/40">
-              This week, scheduled
+              Posts, scheduled ahead
             </p>
             <div className="grid grid-cols-3 gap-2">
               {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, i) => (
@@ -236,7 +236,7 @@ export function Features() {
           <Scene className="mt-6 flex-1 justify-center gap-2">
             <p className="mb-1 flex items-center gap-1.5 rounded-lg border border-espresso/[0.07] bg-paper-warm px-2.5 py-2 font-mono text-[0.6875rem] text-espresso/50">
               <Search className="h-3 w-3 shrink-0" strokeWidth={2.4} />
-              barber near me
+              massage near me
             </p>
             {[
               { name: "Your shop", mine: true },

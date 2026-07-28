@@ -4,9 +4,12 @@ import {
   Boxes,
   BadgePercent,
   Palette,
-  Languages,
-  Smartphone,
+  Video,
+  KeyRound,
   CalendarX,
+  Phone,
+  FileText,
+  PlayCircle,
   type LucideIcon,
 } from "lucide-react";
 import { Reveal } from "@/components/reveal";
@@ -55,9 +58,9 @@ const STEPS: Step[] = [
   {
     n: "01",
     accent: "book",
-    lead: "One call to",
-    trail: "your shortlist",
-    body: "Twenty minutes. Tell us what's actually costing you time, and we'll tell you which of the four fixes it and which you can skip.",
+    lead: "Start by",
+    trail: "picking your tools",
+    body: "Book on its own, Book with Bots answering your chats, Social on its own, or all four. Tell us what's actually costing you time and we'll say which ones earn their keep and which you can skip.",
     asides: [
       {
         icon: Boxes,
@@ -74,35 +77,33 @@ const STEPS: Step[] = [
   {
     n: "02",
     accent: "social",
-    lead: "Shortlist to",
-    // Was "set up and branded" — an adjective phrase sitting between two
-    // concrete images. The chain still works: 03 leads with "Live to".
-    trail: "live under your name",
-    body: "We configure whatever you picked, load your services and prices, and put your name on it. You don't touch a setting.",
+    lead: "Your tools to",
+    trail: "your details",
+    body: "A short call or a form — whichever you prefer. Accounts and logins are quicker to set up together on the call. If you'd rather do that part alone, you get a short video showing exactly what to click.",
     asides: [
       {
-        icon: Palette,
-        title: "Your name, your colors",
-        body: "Nothing on it looks like a template someone else uses.",
+        icon: Video,
+        title: "Call or form, your pick",
+        body: "Twenty minutes on a call, or fill it in whenever suits you.",
       },
       {
-        icon: Languages,
-        title: "Hebrew or English",
-        body: "Your call, and your clients get the same either way.",
+        icon: KeyRound,
+        title: "Logins, done together",
+        body: "We connect your accounts on the call so nothing gets stuck.",
       },
     ],
   },
   {
     n: "03",
     accent: "bots",
-    lead: "Live to",
-    trail: "running on your phone",
-    body: "Check today's bookings, see what posted, adjust a price. Add another tool whenever you want. No rebuild, no waiting.",
+    lead: "Your details to",
+    trail: "live, and shown to you",
+    body: "We build it, put your name and colors on it in Hebrew or English, then walk you through it screen by screen. After that it's yours, on the phone you already have.",
     asides: [
       {
-        icon: Smartphone,
-        title: "The phone you have",
-        body: "No new hardware, no app your staff has to learn.",
+        icon: Palette,
+        title: "Your name, your colors",
+        body: "Nothing on it looks like a template someone else uses.",
       },
       {
         icon: CalendarX,
@@ -123,11 +124,18 @@ function PickPanel() {
     <div className="w-full max-w-[380px] space-y-2.5">
       {PRODUCTS.map((p, i) => {
         const Icon = PRODUCT_ICONS[p.id];
-        const picked = i < 2;
+        const addOn = p.tier === "add-on";
+        // The two mains are shown taken and the add-ons shown available — the
+        // panel is the shape of the decision, not a recommendation.
+        const picked = !addOn;
         return (
           <div
             key={p.id}
-            className={`${picked ? `fx-row ${DELAY[i]}` : ""} flex items-center gap-3.5 rounded-xl border bg-white px-4 py-3.5 shadow-[0_1px_2px_rgba(60,34,12,0.04)]`}
+            className={`${picked ? `fx-row ${DELAY[i]}` : ""} ${
+              addOn ? "ml-7" : ""
+            } flex items-center gap-3.5 rounded-xl border bg-white px-4 shadow-[0_1px_2px_rgba(60,34,12,0.04)] ${
+              addOn ? "py-2.5" : "py-3.5"
+            }`}
             style={{
               borderColor: picked
                 ? `${FALAFEL_COLORS[p.id].base}66`
@@ -135,14 +143,29 @@ function PickPanel() {
             }}
           >
             <span
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
+              className={`flex shrink-0 items-center justify-center rounded-full ${
+                addOn ? "h-7 w-7" : "h-9 w-9"
+              }`}
               style={{
                 background: `radial-gradient(circle at 32% 28%, ${FALAFEL_COLORS[p.id].highlight}, ${FALAFEL_COLORS[p.id].base} 60%, ${FALAFEL_COLORS[p.id].deep})`,
               }}
             >
-              <Icon className="h-4 w-4 text-espresso/55" strokeWidth={2.4} />
+              <Icon
+                className={addOn ? "h-3.5 w-3.5" : "h-4 w-4"}
+                style={{ color: "rgba(42,29,20,0.55)" }}
+                strokeWidth={2.4}
+              />
             </span>
-            <span className="flex-1 text-[0.875rem] font-bold text-espresso">
+            <span
+              className={`flex-1 font-bold ${
+                addOn ? "text-[0.8125rem] text-espresso/60" : "text-[0.875rem] text-espresso"
+              }`}
+            >
+              {addOn && (
+                <span aria-hidden="true" className="mr-1 text-espresso/25">
+                  ↳
+                </span>
+              )}
               {p.name}
             </span>
             {picked ? (
@@ -158,14 +181,82 @@ function PickPanel() {
         );
       })}
       <p className="pt-1.5 text-center text-[0.75rem] text-espresso/40">
-        Start with two. Add the rest later.
+        Start with the two you need. Add the rest later.
       </p>
     </div>
   );
 }
 
-function BuildPanel() {
+/**
+ * Step 02 — the hand-over.
+ *
+ * Two routes to the same place, shown side by side so neither reads as the
+ * fallback: a call, or a form in your own time. Underneath, the one thing the
+ * step is actually about — connecting your accounts — with the video offered
+ * for anyone who'd rather not do it live.
+ */
+function SharePanel() {
+  const routes = [
+    { icon: Phone, title: "A 20-min call", body: "We fill it in with you." },
+    { icon: FileText, title: "Or a form", body: "Whenever it suits you." },
+  ];
   return (
+    <div className="w-full max-w-[380px] space-y-2.5">
+      <div className="grid grid-cols-2 gap-2.5">
+        {routes.map((r, i) => (
+          <div
+            key={r.title}
+            className={`fx-row ${DELAY[i]} rounded-xl border border-espresso/[0.07] bg-white p-3.5 shadow-[0_1px_2px_rgba(60,34,12,0.04)]`}
+          >
+            <r.icon className="h-4 w-4 text-espresso/45" strokeWidth={2.3} />
+            <p className="mt-2.5 text-[0.8125rem] font-bold text-espresso">
+              {r.title}
+            </p>
+            <p className="mt-1 text-[0.6875rem] leading-snug text-espresso/45">
+              {r.body}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="fx-row fx-d2 rounded-xl border border-espresso/[0.07] bg-white p-3.5 shadow-[0_1px_2px_rgba(60,34,12,0.04)]">
+        <p className="text-[0.75rem] font-bold text-espresso">
+          Connecting your accounts
+        </p>
+        <div className="mt-3 space-y-2">
+          {["Instagram & Facebook", "Google Business", "WhatsApp Business"].map(
+            (name) => (
+              <div key={name} className="flex items-center gap-2.5">
+                <Check className="h-3.5 w-3.5 shrink-0 text-success" strokeWidth={3} />
+                <span className="text-[0.6875rem] text-espresso/55">{name}</span>
+                <span className="ml-auto text-[0.625rem] font-semibold text-espresso/30">
+                  connected
+                </span>
+              </div>
+            ),
+          )}
+        </div>
+        <div className="mt-3.5 flex items-center gap-2 border-t border-espresso/[0.07] pt-3">
+          <PlayCircle className="h-4 w-4 shrink-0 text-espresso/35" />
+          <span className="text-[0.6875rem] text-espresso/45">
+            Rather do it yourself? 2-min video.
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Step 03 — built, then handed over.
+ *
+ * The page assembling and the first real booking arriving are one panel, because
+ * the step is one promise: we build it, we show you, and then it works while
+ * you're not looking.
+ */
+function LivePanel() {
+  return (
+    <div className="w-full max-w-[360px] space-y-2.5">
     <div className="w-full max-w-[360px] overflow-hidden rounded-2xl border border-espresso/[0.08] bg-white shadow-[0_18px_44px_-24px_rgba(60,34,12,0.35)]">
       <div className="flex items-center gap-2 border-b border-espresso/[0.06] bg-clay/60 px-3.5 py-2.5">
         <span className="h-2 w-2 rounded-full bg-book" />
@@ -184,36 +275,10 @@ function BuildPanel() {
           <span className="text-[0.75rem] font-bold text-success">Live</span>
         </div>
       </div>
-    </div>
-  );
-}
-
-function RunPanel() {
-  const stats = [
-    { label: "Booked", value: "128" },
-    { label: "Posts out", value: "12" },
-    { label: "Replies", value: "212" },
-  ];
-  return (
-    <div className="w-full max-w-[380px] space-y-3">
-      <div className="grid grid-cols-3 gap-2.5">
-        {stats.map((s, i) => (
-          <div
-            key={s.label}
-            className={`fx-row ${DELAY[i]} rounded-xl border border-espresso/[0.07] bg-white px-2 py-4 text-center shadow-[0_1px_2px_rgba(60,34,12,0.04)]`}
-          >
-            <div className="text-2xl font-extrabold tabular-nums text-espresso">
-              {s.value}
-            </div>
-            <div className="mt-1 text-[0.6875rem] text-espresso/40">
-              {s.label}
-            </div>
-          </div>
-        ))}
       </div>
 
-      {/* One booking arriving while the owner isn't looking. Both beats share a
-          grid cell so the panel never reflows mid-loop. */}
+      {/* The first booking arriving while the owner isn't looking. Both beats
+          share a grid cell so the panel never reflows mid-loop. */}
       <div className="grid">
         <div className="fx-send col-start-1 row-start-1">
           <div className="flex items-center gap-2.5 rounded-xl border border-espresso/[0.07] bg-white px-3.5 py-3">
@@ -232,37 +297,22 @@ function RunPanel() {
           </div>
         </div>
       </div>
-
-      <div className="flex gap-2.5">
-        {PRODUCTS.map((p) => {
-          const Icon = PRODUCT_ICONS[p.id];
-          return (
-            <span
-              key={p.id}
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-espresso/[0.07] bg-white shadow-[0_1px_2px_rgba(60,34,12,0.04)]"
-              style={{ color: FALAFEL_COLORS[p.id].base }}
-            >
-              <Icon className="h-[1.125rem] w-[1.125rem]" />
-            </span>
-          );
-        })}
-      </div>
     </div>
   );
 }
 
 /**
- * Step 02's panel is the one that runs past the card edge.
+ * Step 03's panel is the one that runs past the card edge.
  *
  * A browser chrome cropped by the frame reads as a window onto something real.
- * Doing the same to 01 and 03 would just amputate the checkmarks and the
- * product row — those two panels are lists, and a list with its right column
- * sliced off reads as a layout bug, not as a crop.
+ * Doing the same to 01 and 02 would just amputate the checkmarks — those two
+ * panels are lists, and a list with its right column sliced off reads as a
+ * layout bug, not as a crop.
  */
 const PANELS = [
   { Panel: PickPanel, bleed: false },
-  { Panel: BuildPanel, bleed: true },
-  { Panel: RunPanel, bleed: false },
+  { Panel: SharePanel, bleed: false },
+  { Panel: LivePanel, bleed: true },
 ];
 
 /* ── Section ───────────────────────────────────────────────── */
@@ -290,8 +340,9 @@ export function HowItWorks() {
         </Reveal>
         <Reveal>
           <Lede className="mt-5 max-w-xl text-base sm:text-lg">
-            Three steps, and <Key>two of them are ours</Key>. One call, one
-            decision, and everything after that is on us.
+            Three steps, and <Key>the building is ours</Key>. You pick what you
+            want and tell us about your business — once on a call or a form.
+            Everything after that is on us.
           </Lede>
         </Reveal>
 

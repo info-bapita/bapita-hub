@@ -1,4 +1,14 @@
-import { Star, Check, CheckCheck, MapPin, TrendingUp, Plus } from "lucide-react";
+import {
+  Star,
+  Check,
+  CheckCheck,
+  MapPin,
+  TrendingUp,
+  Plus,
+  Sparkles,
+  Inbox,
+  Smile,
+} from "lucide-react";
 import { BrowserFrame, PhoneFrame } from "@/components/ui/frame";
 import type { ProductId } from "@/lib/products";
 
@@ -111,66 +121,93 @@ function BookMock() {
 
 /* ────────────────────────── Social ────────────────────────── */
 
-const WEEK = ["M", "T", "W", "T", "F", "S", "S"];
+const WEEKDAYS = ["M", "T", "W", "T", "F", "S", "S"];
+/**
+ * A month, not a week. The product's claim is that you sit down once and the
+ * next four weeks are done — a seven-cell strip showed the opposite, a calendar
+ * you come back to every Sunday. Days are indexed 0–27 across four rows.
+ */
 const POSTS = [
-  { day: 0, label: "Fade reel", tone: 1 },
-  { day: 2, label: "Before / after", tone: 0.7 },
-  { day: 3, label: "Story: slots", tone: 0.45 },
+  { day: 1, label: "New set reel", tone: 1 },
+  { day: 3, label: "Before / after", tone: 0.7 },
   { day: 5, label: "Weekend promo", tone: 0.85 },
+  { day: 8, label: "Client review", tone: 0.55 },
+  { day: 10, label: "Open slots", tone: 0.45 },
+  { day: 13, label: "Behind the scenes", tone: 0.8 },
+  { day: 15, label: "Aftercare tips", tone: 0.6 },
+  { day: 18, label: "Before / after", tone: 0.7 },
+  { day: 20, label: "Weekend promo", tone: 0.85 },
+  { day: 23, label: "New set reel", tone: 1 },
+  { day: 25, label: "Client review", tone: 0.55 },
+  { day: 27, label: "Month recap", tone: 0.9 },
 ];
 
 function SocialMock() {
   return (
     <BrowserFrame url="app.bapita.com/social" accent={SOCIAL}>
       <div className="bg-white p-5">
-        <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm font-bold text-espresso">This week</p>
+        <div className="mb-3 flex items-center justify-between">
+          <p className="text-sm font-bold text-espresso">This month</p>
           <span
             className="rounded-pill px-2.5 py-1 text-[0.6875rem] font-bold"
             style={{ background: `${SOCIAL}1a`, color: SOCIAL }}
           >
-            4 scheduled
+            {POSTS.length} scheduled
           </span>
         </div>
 
-        <div className="grid grid-cols-7 gap-1.5">
-          {WEEK.map((d, i) => {
+        <div className="grid grid-cols-7 gap-1">
+          {WEEKDAYS.map((d, i) => (
+            <span
+              key={i}
+              className="pb-0.5 text-center text-[0.5625rem] font-bold text-espresso/30"
+            >
+              {d}
+            </span>
+          ))}
+          {Array.from({ length: 28 }, (_, i) => {
             const post = POSTS.find((p) => p.day === i);
             return (
-              <div key={i} className="flex flex-col gap-1.5">
-                <span className="text-center text-[0.625rem] font-bold text-espresso/30">
-                  {d}
-                </span>
-                <div
-                  className="flex h-20 flex-col justify-end rounded-lg p-1.5"
-                  style={{
-                    background: post
-                      ? `color-mix(in srgb, ${SOCIAL} ${post.tone * 22}%, #fff)`
-                      : "rgba(42,29,20,0.035)",
-                    border: post ? `1px solid ${SOCIAL}44` : "1px solid transparent",
-                  }}
-                >
-                  {post && (
-                    <span className="text-[0.5625rem] font-semibold leading-tight text-espresso/70">
-                      {post.label}
-                    </span>
-                  )}
-                </div>
+              <div
+                key={i}
+                /* h-8, not h-9: all four mocks share one grid cell in the tab
+                   panel, so the tallest sets the panel height — and the panel
+                   is inside a pinned viewport. Four rows of h-9 pushed Social
+                   past Book and cost the section 16px it doesn't have. */
+                className="flex h-8 items-end rounded-md p-1"
+                style={{
+                  background: post
+                    ? `color-mix(in srgb, ${SOCIAL} ${post.tone * 24}%, #fff)`
+                    : "rgba(42,29,20,0.035)",
+                  border: post ? `1px solid ${SOCIAL}44` : "1px solid transparent",
+                }}
+              >
+                {post && (
+                  <span className="line-clamp-2 text-[0.4375rem] font-semibold leading-[1.15] text-espresso/70">
+                    {post.label}
+                  </span>
+                )}
               </div>
             );
           })}
         </div>
 
-        {/* composer */}
-        <div className="mt-4 rounded-xl border border-espresso/[0.08] p-3">
-          <div className="flex items-center gap-2">
-            <span className="h-6 w-6 rounded-md bg-gradient-to-br from-clay-toast to-bowl-tan" />
+        {/* composer — one caption, every channel, written for you */}
+        <div className="mt-3.5 rounded-xl border border-espresso/[0.08] p-3">
+          <div className="flex items-center justify-between gap-2">
             <span className="text-[0.6875rem] font-semibold text-espresso/50">
               Instagram · Facebook · TikTok
             </span>
+            <span
+              className="flex items-center gap-1 rounded-pill px-2 py-0.5 text-[0.5625rem] font-bold"
+              style={{ background: `${SOCIAL}1a`, color: SOCIAL }}
+            >
+              <Sparkles className="h-2.5 w-2.5" />
+              AI caption
+            </span>
           </div>
-          <p className="mt-2.5 text-[0.75rem] leading-relaxed text-espresso/70">
-            Two slots left this Friday. Tap the link to grab one ✂️
+          <p className="mt-2 text-[0.75rem] leading-relaxed text-espresso/70">
+            Two slots left this Friday. Tap the link to grab one ✨
           </p>
           <div className="mt-2.5 flex items-center justify-between">
             <span className="font-mono text-[0.625rem] text-espresso/35">
@@ -184,6 +221,18 @@ function SocialMock() {
             </span>
           </div>
         </div>
+
+        {/* the inbox half — DMs, comments and reviews, already read for tone */}
+        <div className="mt-2.5 flex items-center gap-2 rounded-xl border border-espresso/[0.08] px-3 py-2.5">
+          <Inbox className="h-3.5 w-3.5 shrink-0" style={{ color: SOCIAL }} />
+          <span className="text-[0.6875rem] font-semibold text-espresso/60">
+            18 in your inbox
+          </span>
+          <span className="ml-auto flex items-center gap-1 text-[0.625rem] font-bold text-success">
+            <Smile className="h-3 w-3" />
+            92% positive
+          </span>
+        </div>
       </div>
     </BrowserFrame>
   );
@@ -191,11 +240,16 @@ function SocialMock() {
 
 /* ─────────────────────────── Bots ─────────────────────────── */
 
+// A physio clinic, not the barbershop the Book mock uses. Same page, four
+// different trades — the reader should never conclude this is a barber product.
 const CHAT = [
-  { from: "them" as const, text: "hey, any space today around 4?" },
-  { from: "us" as const, text: "Yes, 16:00 is open with Shimi. Want it?" },
+  { from: "them" as const, text: "hi, anything after work this week?" },
+  { from: "us" as const, text: "Yes — Thursday 17:15 with Lior. Want it?" },
   { from: "them" as const, text: "perfect 🙏" },
-  { from: "us" as const, text: "Booked. Thursday 16:00, haircut ₪80. Reminder sent." },
+  {
+    from: "us" as const,
+    text: "Booked. Thursday 17:15, first session ₪280. Reminder sent.",
+  },
 ];
 
 function BotsMock() {
@@ -208,10 +262,10 @@ function BotsMock() {
             className="flex h-7 w-7 items-center justify-center rounded-full text-[0.625rem] font-extrabold text-white"
             style={{ background: BOTS }}
           >
-            B
+            L
           </span>
           <div>
-            <p className="text-[0.75rem] font-bold text-white">Shimi Barbershop</p>
+            <p className="text-[0.75rem] font-bold text-white">Lior Physio</p>
             <p className="text-[0.5625rem] text-white/60">answers in seconds</p>
           </div>
         </div>
@@ -266,7 +320,7 @@ function ReachMock() {
       <div className="bg-white p-5">
         <div className="mb-3 flex items-center gap-2 rounded-pill border border-espresso/[0.08] px-3 py-2">
           <MapPin className="h-3.5 w-3.5" style={{ color: REACH }} />
-          <span className="text-[0.75rem] text-espresso/50">barber near me</span>
+          <span className="text-[0.75rem] text-espresso/50">dog groomer near me</span>
         </div>
 
         {/* the win: ranked first */}
@@ -276,7 +330,7 @@ function ReachMock() {
         >
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[0.8125rem] font-bold text-espresso">Shimi Barbershop</p>
+              <p className="text-[0.8125rem] font-bold text-espresso">Bark &amp; Bath Grooming</p>
               <div className="mt-0.5 flex items-center gap-1">
                 <span className="text-[0.6875rem] font-bold text-espresso">4.9</span>
                 <span className="flex" aria-hidden="true">
@@ -311,7 +365,7 @@ function ReachMock() {
         </div>
 
         {/* two quieter competitors, to show the ranking is relative */}
-        {["Cuts & Co.", "The Barber Room"].map((n) => (
+        {["Paws & Co.", "The Grooming Room"].map((n) => (
           <div
             key={n}
             className="mt-1.5 flex items-center justify-between rounded-xl border border-espresso/[0.06] px-3.5 py-2.5"

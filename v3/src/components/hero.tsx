@@ -36,27 +36,40 @@ import type { ProductId } from "@/lib/products";
 
 type Base = { rx: number; ry: number; rot: number; start: number };
 type Chit = Base & { kind: "chit"; label: string; icon: LucideIcon };
-type Ball = Base & { kind: "ball"; id: ProductId; label: string };
+type Ball = Base & { kind: "ball"; id: ProductId; label: string; tier: "main" | "add-on" };
 type Obj = Chit | Ball;
+
+/** Falafel diameters. The two mains are the offer; the add-ons hang off them,
+ *  so they arrive smaller and just under their parent rather than beside it. */
+const BALL_SIZE = {
+  main: "clamp(54px, 8vw, 80px)",
+  "add-on": "clamp(38px, 5.4vw, 54px)",
+} as const;
 
 /**
  * Resting positions are fractions of the scene box, measured from its centre.
  * They deliberately avoid the bottom-centre wedge where the pita sits: the
  * chits live above it and in the side gutters, so nothing is ever hidden behind
  * the bowl before it falls.
+ *
+ * The scene is split down the middle: Book and everything it does on the left,
+ * Social and everything it does on the right. That's why "Auto reminders" sits
+ * left with Book and "Unified inbox" sits right with Social — each capability
+ * is in the same half as the product that delivers it.
  */
 const OBJECTS: Obj[] = [
   { kind: "chit", label: "Booking website", icon: Globe, rx: -0.34, ry: -0.4, rot: -9, start: 0.05 },
   { kind: "chit", label: "Scheduled posts", icon: CalendarClock, rx: 0.3, ry: -0.44, rot: 7, start: 0.09 },
   { kind: "chit", label: "WhatsApp assistant", icon: MessageCircle, rx: -0.44, ry: -0.14, rot: 5, start: 0.13 },
-  { kind: "chit", label: "Auto reminders", icon: BellRing, rx: 0.43, ry: -0.16, rot: -6, start: 0.17 },
-  { kind: "chit", label: "Unified inbox", icon: Inbox, rx: -0.4, ry: 0.1, rot: 8, start: 0.21 },
+  { kind: "chit", label: "Unified inbox", icon: Inbox, rx: 0.43, ry: -0.16, rot: -6, start: 0.17 },
+  { kind: "chit", label: "Auto reminders", icon: BellRing, rx: -0.4, ry: 0.1, rot: 8, start: 0.21 },
   { kind: "chit", label: "Found on Google", icon: MapPin, rx: 0.38, ry: 0.12, rot: -4, start: 0.25 },
 
-  { kind: "ball", id: "book", label: "Book", rx: -0.22, ry: -0.3, rot: 0, start: 0.34 },
-  { kind: "ball", id: "social", label: "Social", rx: 0.21, ry: -0.34, rot: 0, start: 0.4 },
-  { kind: "ball", id: "bots", label: "Bots", rx: -0.31, ry: -0.02, rot: 0, start: 0.46 },
-  { kind: "ball", id: "reach", label: "Reach", rx: 0.29, ry: -0.04, rot: 0, start: 0.52 },
+  // Book, then what extends it; Social, then what extends it.
+  { kind: "ball", id: "book", label: "Book", tier: "main", rx: -0.23, ry: -0.29, rot: 0, start: 0.34 },
+  { kind: "ball", id: "bots", label: "Bots", tier: "add-on", rx: -0.25, ry: 0.01, rot: 0, start: 0.4 },
+  { kind: "ball", id: "social", label: "Social", tier: "main", rx: 0.22, ry: -0.32, rot: 0, start: 0.46 },
+  { kind: "ball", id: "reach", label: "Reach", tier: "add-on", rx: 0.24, ry: -0.01, rot: 0, start: 0.52 },
 ];
 
 /** How much of the scroll each object's arc occupies. */
@@ -246,10 +259,24 @@ export function Hero() {
                 <div className="flex flex-col items-center gap-1.5">
                   <Falafel
                     id={o.id}
-                    size="clamp(48px, 7vw, 70px)"
+                    size={BALL_SIZE[o.tier]}
                     icon={PRODUCT_ICONS[o.id]}
                   />
-                  <span className="rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2 py-0.5 text-[10px] font-bold text-espresso/70 shadow-sm">
+                  {/* The caret is the whole hierarchy cue on an add-on's chip —
+                      a second row of labels under the mains would compete with
+                      the six capability chits already in the gutters. */}
+                  <span
+                    className={`flex items-center gap-1 rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2 py-0.5 font-bold shadow-sm ${
+                      o.tier === "main"
+                        ? "text-[10px] text-espresso/70"
+                        : "text-[9px] text-espresso/45"
+                    }`}
+                  >
+                    {o.tier === "add-on" && (
+                      <span aria-hidden="true" className="text-espresso/25">
+                        ↳
+                      </span>
+                    )}
                     {o.label}
                   </span>
                 </div>

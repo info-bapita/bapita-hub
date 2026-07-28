@@ -24,10 +24,10 @@ export function Footer() {
               barbers, clinics and studios. Set up and kept running under your brand.
             </p>
             <a
-              href="mailto:hello@bapita.com"
+              href="mailto:info.bapita@gmail.com"
               className="mt-4 inline-block text-sm font-medium text-clay/45 underline underline-offset-4 transition-colors hover:text-clay/80"
             >
-              hello@bapita.com
+              info.bapita@gmail.com
             </a>
           </div>
 

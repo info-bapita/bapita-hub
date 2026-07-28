@@ -13,7 +13,7 @@ const FAQS = [
   },
   {
     q: "How much does it cost?",
-    a: "A one-time setup fee plus a flat monthly rate per tool: around ₪150/month for one tool, ₪300/month for all four at the founding rate. We confirm your exact number on the call, based on what you actually pick. No commission on bookings, ever.",
+    a: "The booking website is ₪1,500 to build, then ₪200 a month. Social, Bots and Reach are ₪300 a month each, and the rate per tool drops as you add more. Fill in the calculator above to see your exact number. No commission on bookings, ever.",
   },
   {
     q: "How is this different from Calendly, Buffer, or Fresha?",
@@ -21,7 +21,7 @@ const FAQS = [
   },
   {
     q: "How long does setup take?",
-    a: "Once we've had the call and agreed the setup, your booking page and owner dashboard are live within a few business days: page design, service menu, prices, availability, and WhatsApp/SMS reminders included.",
+    a: "It depends on which tools you take and how much of your service menu and prices you already have written down. We give you a date on the call and stick to it. Whatever you picked arrives set up and running: nothing is left for you to configure.",
   },
   {
     q: "Can I take just one tool?",
@@ -110,7 +110,7 @@ export function FAQ() {
         <Reveal delay={60}>
           <div>
             {FAQS.map((faq, i) => (
-              <FAQItem key={i} id={`faq-panel-${i}`} q={faq.q} a={faq.a} defaultOpen={i === 0} />
+              <FAQItem key={i} id={`faq-panel-${i}`} q={faq.q} a={faq.a} />
             ))}
           </div>
         </Reveal>
@@ -119,10 +119,10 @@ export function FAQ() {
           <p className="mt-10 text-center text-[0.9375rem] text-espresso/45">
             Something else on your mind?{" "}
             <a
-              href="mailto:hello@bapita.com"
+              href="mailto:info.bapita@gmail.com"
               className="font-semibold text-espresso underline decoration-espresso/25 underline-offset-4 hover:decoration-espresso/70"
             >
-              Email me
+              Email us
             </a>
           </p>
         </Reveal>

@@ -33,10 +33,11 @@ type Tool = {
   y: number;
 };
 
+// Same order as the tab row and the footer: each main followed by its add-on.
 const TOOLS: Tool[] = [
   { id: "book", label: "Book", monthly: 200, setup: 1500, x: 33, y: 9 },
-  { id: "social", label: "Social", monthly: 300, x: 52, y: 2 },
   { id: "bots", label: "Bots", monthly: 300, x: 68, y: 10 },
+  { id: "social", label: "Social", monthly: 300, x: 52, y: 2 },
   { id: "reach", label: "Reach", monthly: 300, x: 45, y: 16 },
 ];
 

@@ -49,8 +49,8 @@ export default function TermsOfService() {
             secure and confidential. Do not share your account with others
             unless you explicitly add them as authorized users. If you suspect
             unauthorized access, notify us immediately at{" "}
-            <a href="mailto:hello@bapita.com" className="text-cream hover:underline">
-              hello@bapita.com
+            <a href="mailto:info.bapita@gmail.com" className="text-cream hover:underline">
+              info.bapita@gmail.com
             </a>
             .
           </p>
@@ -76,8 +76,8 @@ export default function TermsOfService() {
           <p className="text-[0.95rem] leading-relaxed text-cream/70 mb-4">
             You can cancel any product at any time from your account settings or
             by emailing{" "}
-            <a href="mailto:hello@bapita.com" className="text-cream hover:underline">
-              hello@bapita.com
+            <a href="mailto:info.bapita@gmail.com" className="text-cream hover:underline">
+              info.bapita@gmail.com
             </a>
             . Cancellation takes effect at the end of your current billing
             period. We do not offer refunds for unused days, but you can
@@ -186,8 +186,8 @@ export default function TermsOfService() {
           </h2>
           <p className="text-[0.95rem] leading-relaxed text-cream/70 mb-4">
             Questions about these terms? Get in touch at{" "}
-            <a href="mailto:hello@bapita.com" className="text-cream hover:underline">
-              hello@bapita.com
+            <a href="mailto:info.bapita@gmail.com" className="text-cream hover:underline">
+              info.bapita@gmail.com
             </a>
             . We&apos;re here to help.
           </p>

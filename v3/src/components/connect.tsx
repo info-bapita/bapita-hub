@@ -1,20 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Calendar, ArrowUpRight, Send, MessageCircle } from "lucide-react";
+import { Check, Calendar, ArrowUpRight, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
 import { TwoTone } from "@/components/ui/type";
 import { BowlIcon } from "@/components/ui/brand-mark";
 
 const CALENDLY_URL = "https://calendly.com/info-bapita/30min";
-
-// TODO(Rami): replace with the real WhatsApp business number (digits only,
-// country code first, no +). Until then this link won't reach a live inbox.
-const WHATSAPP_NUMBER = "972500000000";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Hi Bapita, I'd like to hear more about setting up my business.",
-)}`;
+const EMAIL = "info.bapita@gmail.com";
 
 /**
  * The close, and the page's only dark surface.
@@ -52,7 +46,7 @@ function LeadForm() {
       if (!res.ok) throw new Error();
       setSubmitted(true);
     } catch {
-      setError("Something went wrong. Try again, or email hello@bapita.com.");
+      setError(`Something went wrong. Try again, or email ${EMAIL}.`);
     } finally {
       setPending(false);
     }
@@ -113,19 +107,6 @@ export function Connect() {
               Twenty minutes. I&apos;ll ask what&apos;s eating your time, show you what
               it looks like fixed, and give you a straight number. No slides.
             </p>
-
-            <div className="mt-9 flex justify-center">
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-pill bg-[#25D366] px-6 py-3.5 text-[0.9375rem] font-bold text-[#06301f] shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-espresso"
-              >
-                <MessageCircle className="h-5 w-5" />
-                Message me on WhatsApp
-              </a>
-            </div>
-            <p className="mt-3 text-[0.8125rem] text-clay/35">Fastest way to reach me</p>
           </div>
         </Reveal>
 
@@ -171,10 +152,10 @@ export function Connect() {
           <p className="mt-10 text-center text-sm text-clay/40">
             Prefer email?{" "}
             <a
-              href="mailto:hello@bapita.com"
+              href={`mailto:${EMAIL}`}
               className="text-clay/70 underline underline-offset-4 hover:text-clay"
             >
-              hello@bapita.com
+              {EMAIL}
             </a>
           </p>
         </Reveal>

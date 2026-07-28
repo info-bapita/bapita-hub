@@ -17,16 +17,20 @@ const ACCENT: Record<ProductId, string> = {
  * One line per product, in the owner's language — what changes for them, not
  * what the software does. Deliberately separate from the longer `description`
  * in products.ts: that one explains, this one lands.
+ *
+ * Each line is set in a different trade on purpose. The page sells to anyone who
+ * books appointments — physios, groomers, tattoo studios, trainers — and four
+ * lines all set in a barbershop quietly told everyone else this wasn't for them.
  */
 const STATEMENT: Record<ProductId, string> = {
   book:
-    "Clients book themselves at 2am from their phone, and your calendar fills while you're cutting.",
-  social:
-    "A week of posts goes out on schedule, so you look active without opening Instagram once.",
+    "A client books a 2am slot from their phone, and your week fills in while you're with someone else.",
   bots:
-    "Every WhatsApp message gets an answer in seconds, and the booking lands in your calendar.",
+    "Someone messages the clinic at midnight asking about prices. They get an answer in seconds — and the appointment is already in your calendar.",
+  social:
+    "A month of posts goes out on schedule, and every comment, DM and review lands in one inbox instead of five apps.",
   reach:
-    "When someone nearby searches for what you do, you're the shop they find first.",
+    "When someone nearby searches for a physio, a groomer, a studio like yours — you're the one they find first.",
 };
 
 /**
@@ -108,6 +112,9 @@ export function ProductTabs() {
   const active = PRODUCTS[index];
   const accent = ACCENT[active.id];
   const isLive = active.status === "live";
+  const parent = active.parent
+    ? PRODUCTS.find((p) => p.id === active.parent)
+    : undefined;
 
   return (
     <section
@@ -131,8 +138,9 @@ export function ProductTabs() {
               className="mt-3"
             />
             <Lede className="mx-auto mt-4 text-base sm:text-lg">
-              Four tools, one login, one bill. Take <Key>one or take all four</Key>.
-              We set up whichever you pick, under your own name and colors.
+              Two core tools — Book and Social — with an add-on each. Take{" "}
+              <Key>one or take all four</Key>. One login, one bill, and whatever
+              you pick gets set up under your own name and colors.
             </Lede>
           </div>
 
@@ -144,22 +152,41 @@ export function ProductTabs() {
           >
             {PRODUCTS.map((product, i) => {
               const isActive = i === index;
+              const isAddOn = product.tier === "add-on";
               return (
                 <button
                   key={product.id}
                   type="button"
                   role="tab"
                   aria-selected={isActive}
+                  aria-label={
+                    isAddOn
+                      ? `${product.name}, add-on to ${product.parent === "book" ? "Book" : "Social"}`
+                      : product.name
+                  }
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => goTo(i)}
                   onKeyDown={(e) => onKeyDown(e, i)}
-                  className={`-mb-px shrink-0 border-b-2 px-3 pb-3 pt-1 text-[0.9375rem] font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cinnamon/50 sm:px-6 ${
+                  /* Add-ons sit a size down and carry a caret. The row is read
+                     left to right as two pairs — main, its add-on, main, its
+                     add-on — so the hierarchy is in the row itself and doesn't
+                     need a second line of labels under it. */
+                  className={`-mb-px flex shrink-0 items-center gap-1 border-b-2 pb-3 pt-1 font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cinnamon/50 ${
+                    isAddOn
+                      ? "px-2 text-[0.8125rem] sm:px-4"
+                      : "px-3 text-[0.9375rem] sm:px-6"
+                  } ${
                     isActive
                       ? "text-espresso"
-                      : "border-transparent text-espresso/35 hover:text-espresso/70"
+                      : `border-transparent hover:text-espresso/70 ${isAddOn ? "text-espresso/25" : "text-espresso/35"}`
                   }`}
                   style={isActive ? { borderColor: ACCENT[product.id] } : undefined}
                 >
+                  {isAddOn && (
+                    <span aria-hidden="true" className="text-espresso/25">
+                      ↳
+                    </span>
+                  )}
                   {product.name}
                 </button>
               );
@@ -189,6 +216,14 @@ export function ProductTabs() {
                 >
                   {active.statusLabel}
                 </span>
+                {parent && (
+                  /* Stated, not implied. Someone landing straight on this tab
+                     from the tab row needs to know Bots is bought on top of
+                     Book, not instead of it. */
+                  <span className="rounded-pill border border-espresso/10 px-2.5 py-1 text-[0.6875rem] font-bold text-espresso/40">
+                    ↳ Add-on to {parent.name}
+                  </span>
+                )}
               </div>
 
               {/* Keyed so the copy cross-fades as scroll hands over to the next

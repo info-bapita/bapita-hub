@@ -134,8 +134,8 @@ export default function PrivacyPolicy() {
           </ul>
           <p className="text-[0.95rem] leading-relaxed text-cream/70 mb-4">
             To exercise these rights, email us at{" "}
-            <a href="mailto:hello@bapita.com" className="text-cream hover:underline">
-              hello@bapita.com
+            <a href="mailto:info.bapita@gmail.com" className="text-cream hover:underline">
+              info.bapita@gmail.com
             </a>
             .
           </p>
@@ -160,8 +160,8 @@ export default function PrivacyPolicy() {
           <p className="text-[0.95rem] leading-relaxed text-cream/70 mb-4">
             If you have any questions about our privacy practices, please
             contact us at{" "}
-            <a href="mailto:hello@bapita.com" className="text-cream hover:underline">
-              hello@bapita.com
+            <a href="mailto:info.bapita@gmail.com" className="text-cream hover:underline">
+              info.bapita@gmail.com
             </a>
             .
           </p>
