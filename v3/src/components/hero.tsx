@@ -34,14 +34,7 @@ import type { ProductId } from "@/lib/products";
  * re-renders on scroll, which keeps ten animated nodes on the compositor.
  */
 
-type Base = {
-  rx: number;
-  ry: number;
-  rot: number;
-  start: number;
-  /** Narrow-viewport resting position. See MOBILE_BP. */
-  mob?: { rx: number; ry: number };
-};
+type Base = { rx: number; ry: number; rot: number; start: number };
 type Chit = Base & { kind: "chit"; label: string; icon: LucideIcon };
 type Ball = Base & { kind: "ball"; id: ProductId; label: string; tier: "main" | "add-on" };
 type Obj = Chit | Ball;
@@ -49,10 +42,8 @@ type Obj = Chit | Ball;
 /** Falafel diameters. The two mains are the offer; the add-ons hang off them,
  *  so they arrive smaller and just under their parent rather than beside it. */
 const BALL_SIZE = {
-  main: "clamp(56px, 8vw, 80px)",
-  /* Below ~700px the add-on clamp bottomed out ABOVE the main's, which inverted
-     the hierarchy on every phone. Its floor is now genuinely smaller. */
-  "add-on": "clamp(46px, 7.4vw, 74px)",
+  main: "clamp(54px, 8vw, 80px)",
+  "add-on": "clamp(46px, 6.6vw, 66px)",
 } as const;
 
 /**
@@ -67,30 +58,51 @@ const BALL_SIZE = {
  * is in the same half as the product that delivers it.
  */
 const OBJECTS: Obj[] = [
-  { kind: "chit", label: "Booking website", icon: Globe, rx: -0.34, ry: -0.4, rot: -9, start: 0.05, mob: { rx: -0.25, ry: -0.46 } },
-  { kind: "chit", label: "Scheduled posts", icon: CalendarClock, rx: 0.3, ry: -0.44, rot: 7, start: 0.09, mob: { rx: 0.25, ry: -0.46 } },
-  { kind: "chit", label: "WhatsApp assistant", icon: MessageCircle, rx: -0.44, ry: -0.14, rot: 5, start: 0.13, mob: { rx: -0.24, ry: -0.32 } },
-  { kind: "chit", label: "Unified inbox", icon: Inbox, rx: 0.43, ry: -0.16, rot: -6, start: 0.17, mob: { rx: 0.27, ry: -0.32 } },
-  { kind: "chit", label: "Auto reminders", icon: BellRing, rx: -0.4, ry: 0.1, rot: 8, start: 0.21, mob: { rx: -0.26, ry: -0.18 } },
-  { kind: "chit", label: "Found on Google", icon: MapPin, rx: 0.38, ry: 0.12, rot: -4, start: 0.25, mob: { rx: 0.26, ry: -0.18 } },
+  { kind: "chit", label: "Booking website", icon: Globe, rx: -0.34, ry: -0.4, rot: -9, start: 0.05 },
+  { kind: "chit", label: "Scheduled posts", icon: CalendarClock, rx: 0.3, ry: -0.44, rot: 7, start: 0.09 },
+  { kind: "chit", label: "WhatsApp assistant", icon: MessageCircle, rx: -0.44, ry: -0.14, rot: 5, start: 0.13 },
+  { kind: "chit", label: "Unified inbox", icon: Inbox, rx: 0.43, ry: -0.16, rot: -6, start: 0.17 },
+  { kind: "chit", label: "Auto reminders", icon: BellRing, rx: -0.4, ry: 0.1, rot: 8, start: 0.21 },
+  { kind: "chit", label: "Found on Google", icon: MapPin, rx: 0.38, ry: 0.12, rot: -4, start: 0.25 },
 
   // Book, then what extends it; Social, then what extends it.
-  { kind: "ball", id: "book", label: "Book", tier: "main", rx: -0.23, ry: -0.29, rot: 0, start: 0.34, mob: { rx: -0.24, ry: 0.03 } },
-  { kind: "ball", id: "bots", label: "Bots", tier: "add-on", rx: -0.25, ry: 0.01, rot: 0, start: 0.4, mob: { rx: -0.25, ry: 0.27 } },
-  { kind: "ball", id: "social", label: "Social", tier: "main", rx: 0.22, ry: -0.32, rot: 0, start: 0.46, mob: { rx: 0.24, ry: 0.03 } },
-  { kind: "ball", id: "reach", label: "Reach", tier: "add-on", rx: 0.24, ry: -0.01, rot: 0, start: 0.52, mob: { rx: 0.25, ry: 0.27 } },
+  { kind: "ball", id: "book", label: "Book", tier: "main", rx: -0.23, ry: -0.29, rot: 0, start: 0.34 },
+  { kind: "ball", id: "bots", label: "Bots", tier: "add-on", rx: -0.25, ry: 0.01, rot: 0, start: 0.4 },
+  { kind: "ball", id: "social", label: "Social", tier: "main", rx: 0.22, ry: -0.32, rot: 0, start: 0.46 },
+  { kind: "ball", id: "reach", label: "Reach", tier: "add-on", rx: 0.24, ry: -0.01, rot: 0, start: 0.52 },
 ];
 
 /**
- * Under this the six chits can no longer live in side gutters — a chit is
- * ~140px wide on a phone, which is most of the scene, so anything beside a
- * falafel lands on top of it. The mobile layout drops them into three full-width
- * rows above the falafels instead, which is why every object carries a `mob`
- * position. Same choreography, laid out for the column.
+ * A phone cannot hold this composition at rest. A chit is ~150px wide and a
+ * falafel with its label ~90px tall; ten of them plus the bowl need roughly
+ * twice the room a portrait scene box has, which is why they used to pile onto
+ * each other and onto the pita.
+ *
+ * So mobile plays the same choreography as a queue instead of a tableau: an
+ * object fades in just before its own fall and is gone before the next pair
+ * arrives, so only two or three are ever on screen. Rest positions come from
+ * MOBILE_SLOTS rather than the desktop `rx`/`ry`, and consecutive objects never
+ * share a slot — see slotFor().
  */
 const MOBILE_BP = 640; // Tailwind `sm` — the markup switches at the same width.
-/** Scene height the mobile layout is spaced for; shorter phones scale down. */
-const MOBILE_REF_H = 400;
+/** Half-height reserved per slot row: a main falafel + its label, plus air. */
+const MOBILE_ROW_HALF = 52;
+/** Mobile retiming. Tighter falls, evenly spaced, all landed before the payoff. */
+const MOBILE_FIRST_START = 0.05;
+const MOBILE_STAGGER = 0.05;
+const MOBILE_FALL = 0.11;
+/** Scroll spent fading an object in ahead of its own fall. */
+const MOBILE_LEAD = 0.045;
+
+/**
+ * Four slots, cycled: left-top, right-top, left-bottom, right-bottom. Neighbours
+ * in time therefore differ in column or row (or both), and an object only reuses
+ * a slot four turns later — by which point the earlier tenant has landed.
+ */
+function slotFor(i: number) {
+  const slot = i % 4;
+  return { col: slot % 2 === 0 ? -1 : 1, bottom: slot >= 2 };
+}
 
 /** How much of the scroll each object's arc occupies. */
 const FALL_DURATION = 0.16;
@@ -148,39 +160,68 @@ export function Hero() {
 
       const w = scene!.clientWidth;
       const h = scene!.clientHeight;
-      const mobile = w < MOBILE_BP;
+      const mobile = window.innerWidth < MOBILE_BP;
       // vw, matching the bowl's CSS width — the scene box is narrower than the
       // viewport, so measuring off `w` aimed the fall short of the pocket.
       const pitaW = Math.min(320, window.innerWidth * (mobile ? 0.46 : 0.54));
       const pitaH = pitaW * PITA_ASPECT;
       const targetY = h / 2 - pitaH * (1 - POCKET_Y) - 6;
 
-      // The mobile rows are spaced for MOBILE_REF_H. On a shorter screen the
-      // whole arrangement shrinks together rather than letting the rows close
-      // up and collide — composition holds, it just gets smaller.
-      const fit = mobile
-        ? Math.min(1, Math.max(0.7, h / MOBILE_REF_H))
-        : 1;
+      // Mobile slot geometry, in scene-centre coordinates. The band is whatever
+      // sits above the bowl; if two rows don't fit in it the whole arrangement
+      // scales down together rather than letting the rows overlap the pita.
+      const band = h - pitaH - 12;
+      // Two rows have to fit the band. Rather than let them run into each other
+      // (or into the bowl) on a short phone, the row height — and with it every
+      // object — shrinks until they do.
+      const rowHalf = mobile
+        ? Math.max(30, Math.min(MOBILE_ROW_HALF, (band - 8) / 4))
+        : MOBILE_ROW_HALF;
+      const fit = mobile ? rowHalf / MOBILE_ROW_HALF : 1;
+      const rowTop = -h / 2 + rowHalf + 4;
+      const rowBottom = rowTop + 2 * rowHalf + 8;
+      // A chit is the widest object; keep it inside the scene box, not just
+      // near the edge, so nothing is ever clipped on a narrow phone.
+      const colX = Math.max(56, Math.min(w * 0.24, w / 2 - 80 * fit));
 
       OBJECTS.forEach((o, i) => {
         const el = objRefs.current[i];
         if (!el) return;
 
-        const t = clamp01((p - o.start) / FALL_DURATION);
+        const start = mobile ? MOBILE_FIRST_START + i * MOBILE_STAGGER : o.start;
+        const t = clamp01((p - start) / (mobile ? MOBILE_FALL : FALL_DURATION));
         // Ease into the fall so it reads as tipped, not yanked.
         const e = t * t;
 
-        const rest = mobile && o.mob ? o.mob : o;
-        const fromX = rest.rx * w;
-        const fromY = rest.ry * h;
+        // Desktop holds every object at rest from the first frame; mobile fades
+        // each one in over the scroll just before it drops.
+        const intro = mobile ? clamp01((p - (start - MOBILE_LEAD)) / MOBILE_LEAD) : 1;
+
+        let fromX: number;
+        let fromY: number;
+        if (mobile) {
+          const { col, bottom } = slotFor(i);
+          fromX = col * colX;
+          fromY = bottom ? rowBottom : rowTop;
+        } else {
+          fromX = o.rx * w;
+          fromY = o.ry * h;
+        }
+
         const x = fromX + (0 - fromX) * e;
-        const y = fromY + (targetY - fromY) * e - Math.sin(t * Math.PI) * h * 0.05;
+        const y =
+          fromY +
+          (targetY - fromY) * e -
+          Math.sin(t * Math.PI) * h * 0.05 +
+          // Rises the last few pixels into its slot as it appears.
+          (1 - intro) * 14;
 
         // Squash into the pocket over the last fifth of the arc, then vanish.
         const land = clamp01((t - 0.8) / 0.2);
+        const scale = fit * (0.9 + intro * 0.1) * (1 - land * 0.55);
 
-        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotate(${o.rot * (1 - e)}deg) scale(${fit * (1 - land * 0.55)})`;
-        el.style.opacity = String(1 - land);
+        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotate(${o.rot * (1 - e)}deg) scale(${scale})`;
+        el.style.opacity = String(intro * (1 - land));
       });
 
       // The pita warms as it fills. A single opacity write on a plain overlay —
@@ -298,10 +339,10 @@ export function Hero() {
                       a second row of labels under the mains would compete with
                       the six capability chits already in the gutters. */}
                   <span
-                    className={`flex items-center gap-1 rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2.5 py-1 font-bold shadow-sm ${
+                    className={`flex items-center gap-1 rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2 py-0.5 font-bold shadow-sm ${
                       o.tier === "main"
-                        ? "text-[14px] text-espresso/80"
-                        : "text-[12.5px] text-espresso/70"
+                        ? "text-[11px] text-espresso/75"
+                        : "text-[10px] text-espresso/60"
                     }`}
                   >
                     {o.tier === "add-on" && (
@@ -313,7 +354,7 @@ export function Hero() {
                   </span>
                 </div>
               ) : (
-                <span className="flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-espresso/[0.08] bg-[var(--color-chip)] px-2.5 py-1.5 text-[11px] font-semibold text-espresso/55 shadow-sm">
+                <span className="flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-espresso/[0.08] bg-[var(--color-chip)] px-2.5 py-1.5 text-[10px] font-semibold text-espresso/55 shadow-sm sm:text-[11px]">
                   <o.icon className="h-3 w-3 shrink-0 text-cinnamon/70" strokeWidth={2.4} />
                   {o.label}
                 </span>
