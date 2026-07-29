@@ -37,7 +37,7 @@ export function Features() {
   }
 
   return (
-    <section className="wash-paper overflow-hidden py-24 sm:py-32">
+    <section className="wash-paper overflow-hidden py-16 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-8">

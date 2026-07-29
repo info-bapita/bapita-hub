@@ -110,6 +110,9 @@ const FALL_DURATION = 0.16;
 const PITA_ASPECT = 560 / 760;
 /** Pocket centre, as a fraction of the pita box height from its top. */
 const POCKET_Y = 0.14;
+/** Warm light out of the pocket as the pita fills. */
+const POCKET_GLOW =
+  "radial-gradient(ellipse at center, rgba(255, 214, 150, 0.85) 0%, transparent 72%)";
 
 const MQ = "(prefers-reduced-motion: reduce)";
 
@@ -161,9 +164,14 @@ export function Hero() {
       const w = scene!.clientWidth;
       const h = scene!.clientHeight;
       const mobile = window.innerWidth < MOBILE_BP;
+      // Short phones get a smaller bowl so the falafels still have a stage.
+      const short = mobile && window.innerHeight <= 700;
       // vw, matching the bowl's CSS width — the scene box is narrower than the
       // viewport, so measuring off `w` aimed the fall short of the pocket.
-      const pitaW = Math.min(320, window.innerWidth * (mobile ? 0.46 : 0.54));
+      // Kept in step with the phone-short / sm: widths in the markup below.
+      const pitaW = short
+        ? Math.min(250, window.innerWidth * 0.42)
+        : Math.min(320, window.innerWidth * (mobile ? 0.46 : 0.54));
       const pitaH = pitaW * PITA_ASPECT;
       const targetY = h / 2 - pitaH * (1 - POCKET_Y) - 6;
 
@@ -264,7 +272,7 @@ export function Hero() {
       <div
         className={
           reduced
-            ? "px-5 pb-24 pt-16 sm:px-8"
+            ? "flex flex-col items-center px-5 pb-20 pt-10 sm:px-8 sm:pt-14"
             : /* svh, not vh: with dvh the pinned scene resizes every time the
                  mobile URL bar collapses, and 100vh overflows behind it. */
               /* Pinned BELOW the sticky header (h-16), not under it: at
@@ -283,118 +291,184 @@ export function Hero() {
             size="hero"
             lead="Four tools."
             trail="One pita."
-            className="mt-2 text-[2.25rem] sm:mt-3 sm:text-display-xl"
+            className="mt-2 text-[2.25rem] phone-short:text-[1.875rem] sm:mt-3 sm:text-display-xl"
           />
 
-          <Lede className="mx-auto mt-3 max-w-xl text-base sm:mt-4 sm:text-xl">
+          <Lede className="mx-auto mt-3 max-w-xl text-base phone-short:mt-2 phone-short:text-[0.9375rem] phone-short:leading-snug sm:mt-4 sm:text-xl">
             Pick the tools your business needs.{" "}
             <Key>We build them and set them up under your brand.</Key> You run all
             of it from your phone.
           </Lede>
 
-          <div className="mt-5 flex flex-col items-center gap-3 sm:mt-6">
+          <div className="mt-5 flex flex-col items-center gap-3 phone-short:mt-3 sm:mt-6">
             <Button href="#connect" size="lg">
               Book a free call
             </Button>
+            {/* Dropped on short phones: it duplicates the header's Products
+                link, and those 44px are the difference between the scene
+                fitting under the fold and the falafels landing on the bowl. */}
             <a
               href="#products"
-              className="-my-2 px-3 py-3 text-sm font-semibold text-espresso/45 underline decoration-espresso/20 underline-offset-4 transition-colors hover:text-espresso hover:decoration-espresso/50"
+              className="-my-2 px-3 py-3 text-sm font-semibold text-espresso/45 underline decoration-espresso/20 underline-offset-4 transition-colors phone-short:hidden hover:text-espresso hover:decoration-espresso/50"
             >
               See the four tools
             </a>
           </div>
         </div>
 
-        {/* Scene */}
-        <div ref={sceneRef} className="relative mt-4 w-full max-w-3xl flex-1">
-          {/* Objects sit above the pita so nothing is hidden behind the bowl
-              while it floats; the squash-and-fade at the pocket is what sells
-              the drop, not z-order. */}
-          {OBJECTS.map((o, i) => (
+        {reduced ? (
+          <StaticScene />
+        ) : (
+          /* Scene */
+          <div ref={sceneRef} className="relative mt-4 w-full max-w-3xl flex-1">
+            {/* Objects sit above the pita so nothing is hidden behind the bowl
+                while it floats; the squash-and-fade at the pocket is what sells
+                the drop, not z-order. */}
+            {OBJECTS.map((o, i) => (
+              <div
+                key={i}
+                ref={(el) => {
+                  objRefs.current[i] = el;
+                }}
+                className="absolute left-1/2 top-1/2 z-10 will-change-transform"
+                /* Starts hidden: the mobile queue fades each object in on
+                   scroll, and on desktop the first rAF tick runs before paint. */
+                style={{ opacity: 0 }}
+              >
+                {o.kind === "ball" ? <BallStack o={o} /> : <ChitChip o={o} />}
+              </div>
+            ))}
+
+            {/* The pita, bottom-centred. Objects fall into its pocket. */}
             <div
-              key={i}
-              ref={(el) => {
-                objRefs.current[i] = el;
-              }}
-              className="absolute left-1/2 top-1/2 z-10 will-change-transform"
-              style={
-                reduced
-                  ? {
-                      transform: `translate(-50%, -50%) translate3d(${o.rx * 100}%, ${o.ry * 100}%, 0)`,
-                    }
-                  : undefined
-              }
+              className="absolute bottom-0 left-1/2 z-0 w-[min(320px,46vw)] -translate-x-1/2 phone-short:w-[min(250px,42vw)] sm:w-[min(320px,54vw)]"
+              style={{ aspectRatio: "760 / 560" }}
             >
-              {/* Opaque fills on purpose. These nodes have their transform
-                  rewritten every frame; a backdrop-filter under a moving
-                  element re-rasterizes per frame and locks the main thread. */}
-              {o.kind === "ball" ? (
-                <div className="flex flex-col items-center gap-1.5">
-                  <Falafel
-                    id={o.id}
-                    size={BALL_SIZE[o.tier]}
-                    icon={PRODUCT_ICONS[o.id]}
-                  />
-                  {/* The caret is the whole hierarchy cue on an add-on's chip —
-                      a second row of labels under the mains would compete with
-                      the six capability chits already in the gutters. */}
-                  <span
-                    className={`flex items-center gap-1 rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2 py-0.5 font-bold shadow-sm ${
-                      o.tier === "main"
-                        ? "text-[11px] text-espresso/75"
-                        : "text-[10px] text-espresso/60"
-                    }`}
-                  >
-                    {o.tier === "add-on" && (
-                      <span aria-hidden="true" className="text-espresso/25">
-                        ↳
-                      </span>
-                    )}
-                    {o.label}
-                  </span>
-                </div>
-              ) : (
-                <span className="flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-espresso/[0.08] bg-[var(--color-chip)] px-2.5 py-1.5 text-[10px] font-semibold text-espresso/55 shadow-sm sm:text-[11px]">
-                  <o.icon className="h-3 w-3 shrink-0 text-cinnamon/70" strokeWidth={2.4} />
-                  {o.label}
-                </span>
-              )}
+              <PitaBowl className="size-full" />
+              <div
+                ref={glowRef}
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-[10%] top-[2%] h-[26%] rounded-full"
+                style={{ background: POCKET_GLOW, opacity: 0 }}
+              />
             </div>
-          ))}
 
-          {/* The pita, bottom-centred. Objects fall into its pocket. */}
-          <div
-            className="absolute bottom-0 left-1/2 z-0 w-[min(320px,46vw)] -translate-x-1/2 sm:w-[min(320px,54vw)]"
-            style={{ aspectRatio: "760 / 560" }}
-          >
-            <PitaBowl className="size-full" />
+            {/* Payoff, once the pita is full */}
             <div
-              ref={glowRef}
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-x-[10%] top-[2%] h-[26%] rounded-full"
-              style={{
-                background:
-                  "radial-gradient(ellipse at center, rgba(255, 214, 150, 0.85) 0%, transparent 72%)",
-                opacity: 0,
-              }}
-            />
+              ref={payoffRef}
+              /* Sits above the rim, not across the bowl — it's the outcome of
+                 the pita being full, not a label stuck on it. */
+              className="absolute bottom-[52%] left-1/2 z-20 w-max max-w-[calc(100vw-2.5rem)] text-center sm:bottom-[54%]"
+              style={{ opacity: 0, transform: "translate(-50%, 16px)" }}
+            >
+              <PayoffChip />
+            </div>
           </div>
-
-          {/* Payoff, once the pita is full */}
-          <div
-            ref={payoffRef}
-            /* Sits above the rim, not across the bowl — it's the outcome of the
-               pita being full, not a label stuck on it. */
-            className="absolute bottom-[52%] left-1/2 z-20 w-max max-w-[calc(100vw-2.5rem)] text-center sm:bottom-[54%]"
-            style={reduced ? { transform: "translate(-50%, 0)" } : { opacity: 0, transform: "translate(-50%, 16px)" }}
-          >
-            <span className="inline-flex items-center gap-2 rounded-pill border border-espresso/10 bg-[var(--color-chip)] px-3.5 py-2 text-[0.75rem] font-bold text-espresso shadow-[0_10px_30px_-12px_rgba(60,34,12,0.4)] sm:px-4 sm:text-[0.8125rem]">
-              <span className="h-1.5 w-1.5 rounded-full bg-success" />
-              One dashboard. One bill. One person to call.
-            </span>
-          </div>
-        </div>
+        )}
       </div>
     </section>
+  );
+}
+
+/** One capability. Opaque fill on purpose: these nodes have their transform
+ *  rewritten every frame, and a backdrop-filter under a moving element
+ *  re-rasterizes per frame and locks the main thread. */
+function ChitChip({ o }: { o: Chit }) {
+  return (
+    <span className="flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-espresso/[0.08] bg-[var(--color-chip)] px-2.5 py-1.5 text-[10px] font-semibold text-espresso/55 shadow-sm sm:text-[11px]">
+      <o.icon className="h-3 w-3 shrink-0 text-cinnamon/70" strokeWidth={2.4} />
+      {o.label}
+    </span>
+  );
+}
+
+/** One product: the falafel and its name. The caret is the whole hierarchy cue
+ *  on an add-on's chip — a second row of labels under the mains would compete
+ *  with the six capability chits. */
+function BallStack({ o }: { o: Ball }) {
+  return (
+    <div className="flex flex-col items-center gap-1.5">
+      <Falafel id={o.id} size={BALL_SIZE[o.tier]} icon={PRODUCT_ICONS[o.id]} />
+      <span
+        className={`flex items-center gap-1 rounded-pill border border-espresso/[0.06] bg-[var(--color-chip)] px-2 py-0.5 font-bold shadow-sm ${
+          o.tier === "main"
+            ? "text-[11px] text-espresso/75"
+            : "text-[10px] text-espresso/60"
+        }`}
+      >
+        {o.tier === "add-on" && (
+          <span aria-hidden="true" className="text-espresso/25">
+            ↳
+          </span>
+        )}
+        {o.label}
+      </span>
+    </div>
+  );
+}
+
+function PayoffChip() {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-pill border border-espresso/10 bg-[var(--color-chip)] px-3.5 py-2 text-[0.75rem] font-bold text-espresso shadow-[0_10px_30px_-12px_rgba(60,34,12,0.4)] sm:px-4 sm:text-[0.8125rem]">
+      <span className="h-1.5 w-1.5 rounded-full bg-success" />
+      One dashboard. One bill. One person to call.
+    </span>
+  );
+}
+
+/**
+ * Reduced motion gets a composition, not a frozen frame of the animation.
+ *
+ * The scroll scene is absolutely positioned inside a flex-sized box, so with the
+ * pinning removed it collapsed to nothing: the bowl painted over the call-to-
+ * action and every object landed in a pile on the lede. This lays the same story
+ * out in ordinary flow instead — the capabilities, the four products they group
+ * into, the pita that holds them, the payoff — so it reads top to bottom with no
+ * overlap at any width.
+ */
+function StaticScene() {
+  const chits = OBJECTS.filter((o): o is Chit => o.kind === "chit");
+  const balls = OBJECTS.filter((o): o is Ball => o.kind === "ball");
+  // book + bots, then social + reach: each main followed by what extends it.
+  const groups = [balls.slice(0, 2), balls.slice(2)];
+
+  return (
+    <div className="mt-10 w-full max-w-3xl sm:mt-12">
+      <div className="mx-auto flex max-w-md flex-wrap items-center justify-center gap-2">
+        {chits.map((o) => (
+          <ChitChip key={o.label} o={o} />
+        ))}
+      </div>
+
+      <div className="mt-8 flex items-start justify-center gap-7 sm:mt-10 sm:gap-16">
+        {groups.map((group, i) => (
+          <div key={i} className="flex items-start gap-4 sm:gap-6">
+            {group.map((o) => (
+              // The add-on hangs lower than the tool it extends — the same
+              // hierarchy the caret states on its label, said in position.
+              <div key={o.id} className={o.tier === "add-on" ? "pt-5" : undefined}>
+                <BallStack o={o} />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div
+        className="relative mx-auto mt-8 w-[min(320px,62vw)] sm:mt-10"
+        style={{ aspectRatio: "760 / 560" }}
+      >
+        <PitaBowl className="size-full" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-[10%] top-[2%] h-[26%] rounded-full"
+          style={{ background: POCKET_GLOW, opacity: 0.5 }}
+        />
+      </div>
+
+      <div className="mt-7 text-center">
+        <PayoffChip />
+      </div>
+    </div>
   );
 }

@@ -83,7 +83,7 @@ function LeadForm() {
 
 export function Connect() {
   return (
-    <section id="connect" className="relative overflow-hidden bg-espresso py-24 sm:py-32">
+    <section id="connect" className="relative overflow-hidden bg-espresso py-16 sm:py-32">
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-clay opacity-[0.04]"
         aria-hidden="true"

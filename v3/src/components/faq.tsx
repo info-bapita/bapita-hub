@@ -93,7 +93,7 @@ function FAQItem({
 
 export function FAQ() {
   return (
-    <section id="faq" className="wash-flat py-24 sm:py-32">
+    <section id="faq" className="wash-flat py-16 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-12 text-center">

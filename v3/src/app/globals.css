@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Short phones — an iPhone SE / mini in portrait, where the pinned hero has
+   roughly 560px to hold the headline, the call to action AND the pita scene.
+   Deliberately scoped to narrow screens too, so it can never fight `sm:`. */
+@custom-variant phone-short (@media (max-height: 700px) and (max-width: 639px));
+
 @theme inline {
   /* ── Neutral system (premium dark hub) ── */
   --color-ink: #0b0b0c;        /* hub page background (darkest) */
