@@ -43,11 +43,13 @@ import type { ProductId } from "@/lib/products";
  * being auto-height it ran past the bottom of a phone screen, cutting the pita
  * in half.
  *
- * Both tiers now play the same pinned scene, and the tier decides only how an
- * object gets from its slot into the pita:
+ * Both tiers now play the same pinned scene, and every object makes the same
+ * trip into the pita — that trip IS the section, and a calm tier that only
+ * dissolved things where they stood threw the idea away. The tier decides the
+ * flourish around it:
  *
- *   full — it falls, on an eased arc, rotating as it goes.
- *   calm — it dissolves where it stands while the pocket warms underneath.
+ *   full — it falls, accelerating, swinging out on an arc and rotating.
+ *   calm — it eases in and settles, no spin and no swing.
  *
  * Same objects, same order, same payoff, and because the scene is pinned to
  * exactly one screen in both tiers it can no longer overflow.
@@ -254,29 +256,33 @@ export function Hero() {
           fromY = o.ry * h;
         }
 
-        // Calm holds every object at its slot: no arc, no swing, no rotation,
-        // no 14px rise. What travels on this tier is nothing.
-        const travel = calm ? 0 : 1;
-        const x = fromX + (0 - fromX) * e * travel;
+        // Both tiers put the object INTO the pita — that trip is the whole
+        // idea of the section, and a calm tier that only dissolved things
+        // where they stood threw the metaphor away to save motion nobody had
+        // objected to. What calm drops is the flourish around the trip: the
+        // object doesn't spin, doesn't swing out on an arc, and doesn't get
+        // yanked (it eases the whole way rather than accelerating), so it
+        // reads as being set down in the pocket rather than tipped into it.
+        const flourish = calm ? 0 : 1;
+        // Calm travels on `e2`, a gentler ease-in-out; full keeps the t² drop.
+        const e2 = calm ? t * t * (3 - 2 * t) : e;
+        const x = fromX + (0 - fromX) * e2;
         const y =
           fromY +
-          (targetY - fromY) * e * travel -
-          Math.sin(t * Math.PI) * h * 0.05 * travel +
+          (targetY - fromY) * e2 -
+          Math.sin(t * Math.PI) * h * 0.05 * flourish +
           // Rises the last few pixels into its slot as it appears.
-          (1 - intro) * 14 * travel;
+          (1 - intro) * 14 * flourish;
 
-        // Full: squash into the pocket over the last fifth of the arc, then
-        // vanish. Calm: dissolve across the whole window instead, so the object
-        // reads as being absorbed rather than switched off — the pocket glow
-        // warming underneath at the same time is what says where it went.
+        // Squash into the pocket over the last fifth of the arc, then vanish.
+        // Calm squashes less; the pocket glow warming underneath is doing more
+        // of the work of saying where it went.
         const land = clamp01((t - 0.8) / 0.2);
-        const gone = calm ? t : land;
-        const scale = calm
-          ? fit * (1 - land * 0.04)
-          : fit * (0.9 + intro * 0.1) * (1 - land * 0.55);
+        const scale =
+          fit * (0.9 + intro * 0.1) * (1 - land * (calm ? 0.3 : 0.55));
 
-        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotate(${o.rot * (1 - e) * travel}deg) scale(${scale})`;
-        el.style.opacity = String(intro * (1 - gone));
+        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotate(${o.rot * (1 - e) * flourish}deg) scale(${scale})`;
+        el.style.opacity = String(intro * (1 - land));
       });
 
       // The pita warms as it fills. A single opacity write on a plain overlay —
