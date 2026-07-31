@@ -24,7 +24,11 @@ type ButtonAsAnchor = BaseProps &
 type ButtonProps = ButtonAsButton | ButtonAsAnchor;
 
 const sizeClasses: Record<Size, string> = {
-  sm: "h-9 px-4 text-sm gap-1.5",
+  /* The pill stays 36px so the header keeps its proportions; an invisible
+     pseudo-element extends the hit area to the 44px floor. `sm` is the size
+     the mobile nav uses, and it was the smallest target on the page.
+     Padding the button instead would have made the pill itself 44px tall. */
+  sm: "h-9 px-4 text-sm gap-1.5 relative after:absolute after:inset-x-0 after:-inset-y-1 after:content-['']",
   md: "h-11 px-5 text-[0.9375rem] gap-2",
   lg: "h-13 px-7 text-base gap-2",
 };

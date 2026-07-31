@@ -37,10 +37,14 @@ const STATEMENT: Record<ProductId, string> = {
  * Viewport-heights of scroll spent on each product before it hands over.
  * At 85 this took ~800px of scrolling per tab, which read as a stuck page —
  * 50vh puts each hand-over at roughly one flick of the wheel.
+ *
+ * A phone gets more, not less: touch scrolling carries momentum, and at 50vh a
+ * single flick threw the reader past two products.
  */
 const VH_PER_PRODUCT = 50;
+const VH_PER_PRODUCT_COMPACT = 65;
 
-/** Tailwind `sm`. Below it the deck is a swipe rail, not a pinned sequence. */
+/** Tailwind `sm`. Below it the panel is laid out compactly — see <Panel>. */
 const NARROW = "(max-width: 639px)";
 
 function subscribeNarrow(onChange: () => void) {
@@ -50,9 +54,9 @@ function subscribeNarrow(onChange: () => void) {
 }
 
 /**
- * Read as an external store rather than effect-set state: the value decides
- * whether the section is 300vh of pinned scroll or an auto-height rail, and
- * getting that wrong for one frame reflows the whole page under the reader.
+ * Read as an external store rather than effect-set state: the value decides how
+ * tall the section is, and getting that wrong for one frame reflows the whole
+ * page under the reader.
  */
 function useNarrow() {
   return useSyncExternalStore(
@@ -65,25 +69,30 @@ function useNarrow() {
 /**
  * The four products.
  *
- * On a laptop the section pins and each product gets its own stretch of scroll,
- * so reading down the page walks you through all four instead of asking you to
- * notice a tab row and click it.
+ * The section pins and each product gets its own stretch of scroll, so reading
+ * down the page walks you through all four instead of asking you to notice a
+ * tab row and click it.
  *
- * A phone can't hold that: the panel — statement, five features, CTA and the
- * product mock — is roughly twice the height of the screen, and a pinned element
- * taller than the viewport hides its own bottom half with no way to scroll to
- * it. So below `sm` the same four panels become a snap rail you swipe, which is
- * the gesture a phone already has. The tab row drives, and reflects, both.
+ * Phones used to be carved out of that: the panel — statement, five features,
+ * CTA and the product mock — ran to ~1000px, and a pinned element taller than
+ * the viewport hides its own bottom half with no way to reach it. So below `sm`
+ * the four panels became a swipe rail instead. That solved the overflow and
+ * lost the argument: the whole point is that scrolling the page walks you
+ * through the range, and a rail asks for a gesture nobody knew was there —
+ * the product mock also sat ~600px below the fold, so you never saw a product
+ * and its screenshot at the same time.
+ *
+ * Fixed at the cause instead: <Panel> is ~420px on a phone, which fits a pinned
+ * screen, so every width now behaves the same way. The tab row still drives,
+ * and reflects, the sequence.
  */
 export function ProductTabs() {
   const sectionRef = useRef<HTMLElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const narrow = useNarrow();
 
-  // ── Desktop: scroll position drives the active product ──
+  // ── Scroll position drives the active product ──
   useEffect(() => {
-    if (narrow) return;
     const section = sectionRef.current;
     if (!section) return;
 
@@ -116,48 +125,10 @@ export function ProductTabs() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [narrow]);
-
-  // ── Mobile: the rail's own scroll position drives it ──
-  useEffect(() => {
-    if (!narrow) return;
-    const rail = railRef.current;
-    if (!rail) return;
-
-    let frame = 0;
-    function apply() {
-      frame = 0;
-      const card = rail!.firstElementChild as HTMLElement | null;
-      if (!card) return;
-      // Card width plus the flex gap — measured rather than assumed, so the
-      // card width can stay a vw value in the markup.
-      const step =
-        (rail!.scrollWidth - card.offsetWidth) / (PRODUCTS.length - 1) || 1;
-      const next = Math.min(
-        PRODUCTS.length - 1,
-        Math.max(0, Math.round(rail!.scrollLeft / step)),
-      );
-      setIndex((prev) => (prev === next ? prev : next));
-    }
-    function onScroll() {
-      if (!frame) frame = requestAnimationFrame(apply);
-    }
-    rail.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      rail.removeEventListener("scroll", onScroll);
-    };
-  }, [narrow]);
+  }, []);
 
   /** Scroll to the middle of a product's stretch, so it lands settled. */
   function goTo(i: number) {
-    if (narrow) {
-      const rail = railRef.current;
-      const card = rail?.children[i] as HTMLElement | undefined;
-      if (!rail || !card) return;
-      rail.scrollTo({ left: card.offsetLeft - rail.offsetLeft, behavior: "smooth" });
-      return;
-    }
     const section = sectionRef.current;
     if (!section) return;
     const scrollable = section.offsetHeight - window.innerHeight;
@@ -184,22 +155,15 @@ export function ProductTabs() {
       ref={sectionRef}
       id="products"
       className="wash-clay relative"
-      style={
-        narrow
-          ? undefined
-          : { height: `calc(100vh + ${VH_PER_PRODUCT * PRODUCTS.length}vh)` }
-      }
+      style={{
+        height: `calc(100vh + ${
+          (narrow ? VH_PER_PRODUCT_COMPACT : VH_PER_PRODUCT) * PRODUCTS.length
+        }vh)`,
+      }}
     >
       {/* Pinned under the header (h-16) and sized in svh, so what's pinned is
-          exactly what's on screen. Auto-height on a phone — see the note on the
-          component. */}
-      <div
-        className={
-          narrow
-            ? "py-20"
-            : "sticky top-16 flex min-h-[calc(100svh-4rem)] flex-col justify-center py-8"
-        }
-      >
+          exactly what's on screen. */}
+      <div className="sticky top-16 flex min-h-[calc(100svh-4rem)] flex-col justify-center py-3 phone-short:py-2 sm:py-8">
         <div className="mx-auto w-full max-w-6xl">
           <div className="mx-auto max-w-2xl px-5 text-center sm:px-8">
             <Eyebrow className="justify-center">Products</Eyebrow>
@@ -209,9 +173,11 @@ export function ProductTabs() {
               size="sm"
               lead="Four tools you need."
               trail="Built, branded, running."
-              className="mt-3"
+              className="mt-2 sm:mt-3"
             />
-            <Lede className="mx-auto mt-4 text-base sm:text-lg">
+            {/* Four lines of lede on a phone cost 90px the panel needs. Held
+                to the compact scale below `sm`; no words removed. */}
+            <Lede className="mx-auto mt-2 text-[0.8125rem] leading-snug phone-short:mt-1.5 phone-short:text-[0.75rem] sm:mt-4 sm:text-lg sm:leading-relaxed">
               Two core tools — Book and Social — with an add-on each. Take{" "}
               <Key>one or take all four</Key>. One login, one bill, and whatever
               you pick gets set up under your own name and colors.
@@ -224,7 +190,7 @@ export function ProductTabs() {
           <div
             role="tablist"
             aria-label="Bapita products"
-            className="rail mt-8 flex justify-start gap-1 overflow-x-auto border-b border-espresso/10 px-5 sm:justify-center sm:gap-2 sm:px-8"
+            className="rail mt-4 flex justify-start gap-1 overflow-x-auto border-b border-espresso/10 px-5 sm:mt-8 sm:justify-center sm:gap-2 sm:px-8"
           >
             {PRODUCTS.map((product, i) => {
               const isActive = i === index;
@@ -248,7 +214,7 @@ export function ProductTabs() {
                      add-on — so the hierarchy is in the row itself and doesn't
                      need a second line of labels under it.
                      min-h-11 keeps every tab a 44px touch target. */
-                  className={`-mb-px flex min-h-11 shrink-0 items-center gap-1 border-b-2 pb-3 pt-2 font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cinnamon/50 ${
+                  className={`-mb-px flex min-h-11 shrink-0 items-center gap-1 border-b-2 pb-2 pt-1 font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cinnamon/50 sm:pb-3 sm:pt-2 ${
                     isAddOn
                       ? "px-2.5 text-[0.8125rem] sm:px-4"
                       : "px-3 text-[0.9375rem] sm:px-6"
@@ -270,55 +236,13 @@ export function ProductTabs() {
             })}
           </div>
 
-          {narrow ? (
-            <>
-              {/* Snap rail. All four panels exist, one per card, and the browser
-                  does the momentum and the snapping — no scroll listener drives
-                  the motion, so a swipe stays on the compositor. */}
-              <div
-                ref={railRef}
-                className="rail mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2"
-              >
-                {PRODUCTS.map((product) => (
-                  <div
-                    key={product.id}
-                    role="tabpanel"
-                    aria-label={`Bapita ${product.name}`}
-                    className="w-[86vw] shrink-0 snap-center"
-                  >
-                    <Panel product={product} />
-                  </div>
-                ))}
-              </div>
-              <div
-                aria-hidden="true"
-                className="mt-4 flex justify-center gap-1.5"
-              >
-                {PRODUCTS.map((product, i) => (
-                  <span
-                    key={product.id}
-                    className="h-1.5 rounded-full transition-all duration-300"
-                    style={{
-                      width: i === index ? 20 : 6,
-                      background:
-                        i === index ? ACCENT[product.id] : "rgba(20,20,19,0.15)",
-                    }}
-                  />
-                ))}
-              </div>
-              <p className="mt-3 text-center text-[0.75rem] text-espresso/35">
-                Swipe to see all four
-              </p>
-            </>
-          ) : (
-            <div
-              role="tabpanel"
-              aria-label={`Bapita ${active.name}`}
-              className="mx-auto mt-6 px-5 sm:px-8"
-            >
-              <Panel product={active} crossFade />
-            </div>
-          )}
+          <div
+            role="tabpanel"
+            aria-label={`Bapita ${active.name}`}
+            className="mx-auto mt-3 px-5 sm:mt-6 sm:px-8"
+          >
+            <Panel product={active} compact={narrow} />
+          </div>
         </div>
       </div>
     </section>
@@ -326,20 +250,27 @@ export function ProductTabs() {
 }
 
 /**
- * One product's case. `crossFade` is for the pinned desktop deck, where the copy
- * has to hand over inside a fixed frame; the mobile rail gives each product its
- * own card, so there is nothing to fade between.
+ * One product's case.
+ *
+ * `compact` is the phone layout. Everything is the same and nothing is cut —
+ * the statement, all the features, the CTA and the mock are all still here —
+ * but the type comes down a step, the air comes out, and the mock is shown
+ * through a fixed-height window instead of at full height. That last one is
+ * what makes the panel fit: the mocks are 300–400px tall, and stacked under a
+ * paragraph and a five-item list they put the screenshot two-thirds of a screen
+ * below the words describing it. Cropped, the product and its picture are on
+ * screen together, and a browser chrome running past the frame reads as a
+ * window onto something real rather than as a sticker.
  */
-function Panel({ product, crossFade }: { product: Product; crossFade?: boolean }) {
+function Panel({ product, compact }: { product: Product; compact?: boolean }) {
   const accent = ACCENT[product.id];
   const isLive = product.status === "live";
   const parent = product.parent
     ? PRODUCTS.find((p) => p.id === product.parent)
     : undefined;
-  const Mock = PRODUCT_MOCKS[product.id];
 
   return (
-    <div className="grid h-full items-center gap-6 overflow-hidden rounded-3xl border border-espresso/[0.07] bg-paper-warm p-5 shadow-[0_20px_60px_-30px_rgba(60,34,12,0.35)] sm:p-6 lg:grid-cols-[1fr_1.05fr] lg:gap-10 lg:p-8">
+    <div className="grid h-full items-center gap-3 overflow-hidden rounded-3xl border border-espresso/[0.07] bg-paper-warm p-3.5 shadow-[0_20px_60px_-30px_rgba(60,34,12,0.35)] sm:gap-6 sm:p-6 lg:grid-cols-[1fr_1.05fr] lg:gap-10 lg:p-8">
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
           <span
@@ -369,22 +300,19 @@ function Panel({ product, crossFade }: { product: Product; crossFade?: boolean }
 
         {/* Keyed so the copy cross-fades as scroll hands over to the next
             product, rather than swapping abruptly mid-sentence. */}
-        <div
-          key={product.id}
-          className={crossFade ? "animate-[fadeIn_300ms_ease-out]" : undefined}
-        >
-          <p className="mt-4 text-[1.1875rem] font-bold leading-[1.32] tracking-[-0.02em] text-balance text-espresso sm:mt-5 sm:text-[1.5rem]">
+        <div key={product.id} className="animate-[fadeIn_300ms_ease-out]">
+          <p className="mt-2.5 text-[1rem] font-bold leading-[1.24] tracking-[-0.02em] text-balance text-espresso phone-short:mt-2 phone-short:text-[0.9375rem] sm:mt-5 sm:text-[1.5rem] sm:leading-[1.32]">
             {STATEMENT[product.id]}
           </p>
 
-          <ul className="mt-5 space-y-2 sm:mt-6 sm:space-y-2.5">
+          <ul className="mt-2.5 space-y-1 phone-short:mt-2 phone-short:space-y-0.5 sm:mt-6 sm:space-y-2.5">
             {product.features.map((feat) => (
               <li
                 key={feat}
-                className="flex items-start gap-2.5 text-[0.875rem] text-espresso/65 sm:gap-3 sm:text-[0.9375rem]"
+                className="flex items-start gap-2 text-[0.8125rem] leading-snug text-espresso/65 phone-short:text-[0.75rem] sm:gap-3 sm:text-[0.9375rem] sm:leading-normal"
               >
                 <Check
-                  className="mt-0.5 h-4 w-4 shrink-0"
+                  className="mt-0.5 h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4"
                   style={{ color: accent }}
                   strokeWidth={3}
                 />
@@ -394,7 +322,7 @@ function Panel({ product, crossFade }: { product: Product; crossFade?: boolean }
           </ul>
         </div>
 
-        <div className="mt-6 sm:mt-7">
+        <div className="mt-3 phone-short:mt-1.5 sm:mt-7">
           {isLive ? (
             <a
               href={product.href}
@@ -418,34 +346,38 @@ function Panel({ product, crossFade }: { product: Product; crossFade?: boolean }
       </div>
 
       {/* What it actually looks like.
-          In the pinned deck all four mocks share a single grid cell, so the
-          container is as tall as the tallest one and nothing reflows on
-          hand-over. The rail doesn't need that — each card owns its mock. */}
+          All four mocks share a single grid cell, so the container is as tall
+          as the tallest one and nothing reflows on hand-over.
+
+          On a phone that cell is a fixed-height window the mock is scaled into
+          and cropped by. `origin-top` so the crop always takes the bottom —
+          the browser chrome, the shop header and the first rows survive, which
+          is the part that says "this is your site". */}
       <div
-        className="grid rounded-2xl p-3 transition-colors duration-500 sm:p-5"
+        className={`grid rounded-2xl p-2.5 transition-colors duration-500 sm:p-5 ${
+          compact ? "h-[132px] overflow-hidden phone-short:h-[60px]" : ""
+        }`}
         style={{
           background: `linear-gradient(150deg, ${accent}14, ${accent}05 60%, transparent)`,
         }}
       >
-        {crossFade ? (
-          PRODUCTS.map((p) => {
-            const Stacked = PRODUCT_MOCKS[p.id];
-            const isActive = p.id === product.id;
-            return (
-              <div
-                key={p.id}
-                className={`col-start-1 row-start-1 self-center transition-opacity duration-300 ${
-                  isActive ? "opacity-100" : "pointer-events-none opacity-0"
-                }`}
-                aria-hidden={!isActive}
-              >
-                <Stacked />
-              </div>
-            );
-          })
-        ) : (
-          <Mock />
-        )}
+        {PRODUCTS.map((p) => {
+          const Stacked = PRODUCT_MOCKS[p.id];
+          const isActive = p.id === product.id;
+          return (
+            <div
+              key={p.id}
+              className={`col-start-1 row-start-1 transition-opacity duration-300 ${
+                compact
+                  ? "origin-top scale-[0.55] self-start phone-short:scale-[0.4]"
+                  : "self-center"
+              } ${isActive ? "opacity-100" : "pointer-events-none opacity-0"}`}
+              aria-hidden={!isActive}
+            >
+              <Stacked />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

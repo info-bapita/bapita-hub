@@ -491,51 +491,163 @@
     to   { border-radius: 56% 44% 46% 54% / 52% 57% 43% 48%; }
   }
 
-  /* ── Reduced-motion master off-switch ── */
+  /* ── Calm tier ───────────────────────────────────────────────
+     NOT an off switch. Reduce Motion is a request to drop large-scale travel —
+     parallax, sweeps, spin, anything that moves across the screen — because
+     that is what causes vestibular symptoms. Opacity, colour and a couple of
+     pixels of lift are fine, and killing them left the page completely inert
+     for the ~30% of iOS users who have the setting on.
+
+     So the loops keep playing here; they just stop translating. The clips in
+     "Why this works" and "How it works" still tell their story, the display
+     word still colours in, the reveals still fade.
+
+     Two selectors, one rule set:
+       @media  — the honest signal, and the only one that works without JS.
+                 Scoped :not([data-motion="full"]) so the dev-only ?motion=full
+                 override can opt back out of it.
+       [data-motion="calm"] — set from the same hook the components read, so
+                 ?motion=calm moves the CSS loops and the JS scenes together.
+     Keep the two lists in sync; they are deliberately identical. ── */
+
+  /* Travel-based ambience has no calm equivalent — it is nothing but travel. */
+  :root[data-motion="calm"] .marquee-track,
+  :root[data-motion="calm"] .marquee-rev,
+  :root[data-motion="calm"] .hero-glow,
+  :root[data-motion="calm"] .orb-float,
+  :root[data-motion="calm"] .orb-float-0,
+  :root[data-motion="calm"] .orb-float-1,
+  :root[data-motion="calm"] .orb-float-2,
+  :root[data-motion="calm"] .orb-float-3,
+  :root[data-motion="calm"] .orb-float-4,
+  :root[data-motion="calm"] .orb-float-5,
+  :root[data-motion="calm"] .orb-ball {
+    animation: none !important;
+  }
+
+  /* The card loops keep their timing and lose their travel: same beats, same
+     6.4s cycle, fading instead of sliding. */
+  :root[data-motion="calm"] .fx-row {
+    animation-name: fx-row-in-calm;
+  }
+  :root[data-motion="calm"] .fx-send {
+    animation-name: fx-send-calm;
+  }
+  :root[data-motion="calm"] .fx-confirm {
+    animation-name: fx-confirm-calm;
+  }
+  :root[data-motion="calm"] .fx-dot {
+    animation-name: fx-dot-calm;
+  }
+  :root[data-motion="calm"] .fx-bob {
+    animation: none !important;
+  }
+  /* The two race bars grow rather than move, and growth IS the comparison the
+     card is making — a bar chart is not vestibular motion. Slowed, not cut. */
+  :root[data-motion="calm"] .fx-fill-fast,
+  :root[data-motion="calm"] .fx-fill-slow {
+    animation-timing-function: ease-in-out;
+  }
+  /* The gradient walks inside the letterforms; not one pixel of the word moves.
+     Slowed so it reads as a shift in light rather than a sweep. */
+  :root[data-motion="calm"] .band-fill {
+    animation-duration: 34s;
+  }
+  /* Anchor jumps land rather than glide. Lenis is already off on this tier;
+     this is the native equivalent. */
+  :root[data-motion="calm"] {
+    scroll-behavior: auto;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track,
-    .hero-glow,
-    .orb-float,
-    .orb-float-0,
-    .orb-float-1,
-    .orb-float-2,
-    .orb-float-3,
-    .orb-float-4,
-    .orb-float-5,
-    .orb-ball,
-    .marquee-rev,
-    .fx-row,
-    .fx-fill-fast,
-    .fx-fill-slow,
-    .fx-dot,
-    .fx-send,
-    .fx-confirm,
-    .fx-bob,
-    .band-fill {
+    :root:not([data-motion="full"]) .marquee-track,
+    :root:not([data-motion="full"]) .marquee-rev,
+    :root:not([data-motion="full"]) .hero-glow,
+    :root:not([data-motion="full"]) .orb-float,
+    :root:not([data-motion="full"]) .orb-float-0,
+    :root:not([data-motion="full"]) .orb-float-1,
+    :root:not([data-motion="full"]) .orb-float-2,
+    :root:not([data-motion="full"]) .orb-float-3,
+    :root:not([data-motion="full"]) .orb-float-4,
+    :root:not([data-motion="full"]) .orb-float-5,
+    :root:not([data-motion="full"]) .orb-ball {
       animation: none !important;
     }
-    /* Without the drift the gradient must sit at its authored position, not
-       wherever background-size:190% happens to leave it. */
-    .band-fill {
-      background-size: 100% 100% !important;
+    :root:not([data-motion="full"]) .fx-row {
+      animation-name: fx-row-in-calm;
     }
-    /* The scenes above start from opacity:0 / scaleX(0), so switching the
-       animation off has to leave them in their resting state, not invisible. */
-    .fx-row,
-    .fx-send,
-    .fx-confirm {
-      opacity: 1 !important;
-      transform: none !important;
+    :root:not([data-motion="full"]) .fx-send {
+      animation-name: fx-send-calm;
     }
-    .fx-fill-fast,
-    .fx-fill-slow {
-      transform: scaleX(1) !important;
+    :root:not([data-motion="full"]) .fx-confirm {
+      animation-name: fx-confirm-calm;
     }
-    .fx-fill-slow {
-      transform: scaleX(0.44) !important;
+    :root:not([data-motion="full"]) .fx-dot {
+      animation-name: fx-dot-calm;
+    }
+    :root:not([data-motion="full"]) .fx-bob {
+      animation: none !important;
+    }
+    :root:not([data-motion="full"]) .fx-fill-fast,
+    :root:not([data-motion="full"]) .fx-fill-slow {
+      animation-timing-function: ease-in-out;
+    }
+    :root:not([data-motion="full"]) .band-fill {
+      animation-duration: 34s;
     }
     html {
       scroll-behavior: auto;
+    }
+  }
+
+  /* Calm counterparts — identical timing to the originals, opacity only. */
+  @keyframes fx-row-in-calm {
+    0% {
+      opacity: 0;
+    }
+    10%,
+    84% {
+      opacity: 1;
+    }
+    96%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes fx-send-calm {
+    0% {
+      opacity: 0;
+    }
+    12%,
+    42% {
+      opacity: 1;
+    }
+    54%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes fx-confirm-calm {
+    0%,
+    50% {
+      opacity: 0;
+    }
+    62%,
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes fx-dot-calm {
+    0%,
+    60%,
+    100% {
+      opacity: 0.25;
+    }
+    30% {
+      opacity: 1;
     }
   }
 }

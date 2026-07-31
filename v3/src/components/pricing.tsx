@@ -65,7 +65,7 @@ export function Pricing() {
   const setup = chosen.reduce((sum, t) => sum + (t.setup ?? 0), 0);
 
   return (
-    <section id="pricing" className="wash-clay py-16 sm:py-20">
+    <section id="pricing" className="wash-clay py-8 phone-short:py-6 sm:py-20">
       <div className="mx-auto max-w-4xl px-5 sm:px-8">
         <Reveal>
           <div className="mx-auto max-w-xl text-center">
@@ -73,19 +73,27 @@ export function Pricing() {
             <TwoTone
               lead="Fill more of your pita."
               trail="Pay less per tool."
-              className="mt-3"
+              className="mt-2 sm:mt-3"
             />
-            <Lede className="mx-auto mt-4">
+            <Lede className="mx-auto mt-2 text-[0.8125rem] leading-snug phone-short:text-[0.75rem] sm:mt-4 sm:text-base sm:leading-relaxed">
               Pick what you need. <Key>The rate per tool drops as the pita
               fills.</Key>
             </Lede>
           </div>
         </Reveal>
 
-        {/* ── The calculator ── */}
+        {/* ── The calculator ──
+            Held to one phone screen. The four pills used to wrap to two rows,
+            the bowl was 230px, and the "Book a free call" button ended up below
+            the fold on a 15/16 — the one thing in the section that had to be
+            reachable. */}
         <Reveal delay={80}>
-          <div className="mt-8 rounded-3xl border border-espresso/[0.09] bg-paper-warm p-5 text-center sm:p-7">
-            <div className="flex flex-wrap justify-center gap-2.5">
+          <div className="mt-5 rounded-3xl border border-espresso/[0.09] bg-paper-warm p-4 text-center sm:mt-8 sm:p-7">
+            {/* Four pills, one row, down to 360px wide. At px-3/gap-1.5 they
+                measured 333px against a 321px column and Reach dropped to a
+                second row on its own, which read as an afterthought rather
+                than as the fourth of four. */}
+            <div className="flex flex-wrap justify-center gap-1 sm:gap-2.5">
               {TOOLS.map((t) => {
                 const on = picked.includes(t.id);
                 const Icon = PRODUCT_ICONS[t.id];
@@ -95,7 +103,7 @@ export function Pricing() {
                     type="button"
                     aria-pressed={on}
                     onClick={() => toggle(t.id)}
-                    className={`inline-flex min-h-11 items-center gap-2 rounded-pill border px-4 py-2 text-[0.8125rem] font-semibold transition-colors duration-150 ${
+                    className={`inline-flex min-h-11 items-center gap-1 rounded-pill border px-2 py-2 text-[0.8125rem] font-semibold transition-colors duration-150 sm:gap-2 sm:px-4 ${
                       on
                         ? "border-cinnamon/40 bg-cinnamon/10 text-cinnamon"
                         : "border-espresso/15 text-espresso/55 hover:border-espresso/30 hover:text-espresso"
@@ -112,8 +120,10 @@ export function Pricing() {
                 are picked; nothing moves position, so toggling reads as
                 filling rather than re-laying-out. */}
             <div
-              className="relative mx-auto mt-6"
-              style={{ width: "min(230px, 56vw)", aspectRatio: "760 / 560" }}
+              /* The falafel rides the bowl: one token, so shrinking the bowl on
+                 a phone can't leave four oversized balls sitting in it. */
+              className="relative mx-auto mt-3 w-[min(175px,44vw)] [--falafel:min(40px,10vw)] phone-short:mt-2 phone-short:w-[min(118px,32vw)] phone-short:[--falafel:min(27px,7.2vw)] sm:mt-6 sm:w-[min(230px,56vw)] sm:[--falafel:min(52px,12vw)]"
+              style={{ aspectRatio: "760 / 560" }}
             >
               <PitaBowl className="size-full" />
               {TOOLS.map((t) => {
@@ -132,7 +142,7 @@ export function Pricing() {
                   >
                     <Falafel
                       id={t.id}
-                      size="min(52px, 12vw)"
+                      size="var(--falafel)"
                       icon={PRODUCT_ICONS[t.id]}
                     />
                   </div>
@@ -141,28 +151,34 @@ export function Pricing() {
             </div>
 
             {/* ── The bill ── */}
-            <div className="mt-6 grid grid-cols-3 gap-4 border-t border-espresso/[0.09] pt-5">
+            <div className="mt-4 grid grid-cols-3 gap-2 border-t border-espresso/[0.09] pt-4 sm:mt-6 sm:gap-4 sm:pt-5">
               <div>
-                <p className="text-[1.75rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso">
+                <p className="text-[1.375rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.1875rem] sm:text-[1.75rem]">
                   {count ? shekel(total) : shekel(0)}
                 </p>
-                <p className="mt-2 text-[0.8125rem] text-espresso/45">Per month</p>
+                <p className="mt-1.5 text-[0.75rem] text-espresso/45 sm:mt-2 sm:text-[0.8125rem]">
+                  Per month
+                </p>
               </div>
               <div>
-                <p className="text-[1.75rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso">
+                <p className="text-[1.375rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.1875rem] sm:text-[1.75rem]">
                   {count ? shekel(perTool) : shekel(0)}
                 </p>
-                <p className="mt-2 text-[0.8125rem] text-espresso/45">Per tool</p>
+                <p className="mt-1.5 text-[0.75rem] text-espresso/45 sm:mt-2 sm:text-[0.8125rem]">
+                  Per tool
+                </p>
               </div>
               <div>
-                <p className="text-[1.75rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso">
+                <p className="text-[1.375rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.1875rem] sm:text-[1.75rem]">
                   {count} of 4
                 </p>
-                <p className="mt-2 text-[0.8125rem] text-espresso/45">Tools picked</p>
+                <p className="mt-1.5 text-[0.75rem] text-espresso/45 sm:mt-2 sm:text-[0.8125rem]">
+                  Tools picked
+                </p>
               </div>
             </div>
 
-            <p className="mt-5 min-h-[1.25rem] text-[0.8125rem] text-espresso/55">
+            <p className="mt-3 min-h-[1.25rem] text-[0.75rem] leading-snug text-espresso/55 sm:mt-5 sm:text-[0.8125rem]">
               {count === 0 ? (
                 "Pick a tool to see the price."
               ) : (
@@ -189,7 +205,7 @@ export function Pricing() {
               )}
             </p>
 
-            <div className="mt-5">
+            <div className="mt-4 sm:mt-5">
               <Button href="#connect">
                 Book a free call
               </Button>

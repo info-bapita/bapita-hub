@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef } from "react";
 import {
   Globe,
   MessageCircle,
@@ -14,6 +14,7 @@ import { Falafel, PitaBowl } from "@/components/ui/pita";
 import { Button } from "@/components/ui/button";
 import { TwoTone, Lede, Key, Eyebrow } from "@/components/ui/type";
 import { PRODUCT_ICONS } from "@/lib/icon-map";
+import { useMotionTier } from "@/lib/motion";
 import type { ProductId } from "@/lib/products";
 
 /**
@@ -32,6 +33,24 @@ import type { ProductId } from "@/lib/products";
  * Scroll-driven rather than auto-playing, so the reader controls the reveal.
  * Progress is written straight to the DOM inside a rAF tick — React never
  * re-renders on scroll, which keeps ten animated nodes on the compositor.
+ *
+ * ── One scene, two tiers ──
+ *
+ * There used to be a second, completely different composition for Reduce
+ * Motion: a tall column of chits, then falafels, then the bowl, laid out in
+ * ordinary flow. It had two problems. It never animated at all, so a third of
+ * iOS visitors met a homepage where the central idea simply sat there; and
+ * being auto-height it ran past the bottom of a phone screen, cutting the pita
+ * in half.
+ *
+ * Both tiers now play the same pinned scene, and the tier decides only how an
+ * object gets from its slot into the pita:
+ *
+ *   full — it falls, on an eased arc, rotating as it goes.
+ *   calm — it dissolves where it stands while the pocket warms underneath.
+ *
+ * Same objects, same order, same payoff, and because the scene is pinned to
+ * exactly one screen in both tiers it can no longer overflow.
  */
 
 type Base = { rx: number; ry: number; rot: number; start: number };
@@ -93,6 +112,19 @@ const MOBILE_STAGGER = 0.05;
 const MOBILE_FALL = 0.11;
 /** Scroll spent fading an object in ahead of its own fall. */
 const MOBILE_LEAD = 0.045;
+/**
+ * How many objects are already sitting in their slots at scroll zero.
+ *
+ * Without this the mobile hero opened on a headline and an empty bowl: every
+ * object's fade-in began at `start - MOBILE_LEAD`, and the earliest of those is
+ * 0.005, so at p = 0 all ten were at opacity 0. The first screen — the one
+ * screen everybody sees — had nothing in it.
+ *
+ * Four is one per slot, so the opening frame is a full tableau and the queue
+ * still never overlaps itself: slot 0 is not reused until object 4, by which
+ * time object 0 has long since fallen.
+ */
+const MOBILE_PRESET = 4;
 
 /**
  * Four slots, cycled: left-top, right-top, left-bottom, right-bottom. Neighbours
@@ -114,27 +146,6 @@ const POCKET_Y = 0.14;
 const POCKET_GLOW =
   "radial-gradient(ellipse at center, rgba(255, 214, 150, 0.85) 0%, transparent 72%)";
 
-const MQ = "(prefers-reduced-motion: reduce)";
-
-function subscribeMotion(onChange: () => void) {
-  const mq = window.matchMedia(MQ);
-  mq.addEventListener("change", onChange);
-  return () => mq.removeEventListener("change", onChange);
-}
-
-/**
- * Read as an external store, not effect-set state: the value has to be right on
- * the first client render because it decides whether the hero is a pinned
- * scroll sequence or a single static screen.
- */
-function useReducedMotion() {
-  return useSyncExternalStore(
-    subscribeMotion,
-    () => window.matchMedia(MQ).matches,
-    () => false,
-  );
-}
-
 function clamp01(n: number) {
   return n < 0 ? 0 : n > 1 ? 1 : n;
 }
@@ -145,10 +156,9 @@ export function Hero() {
   const objRefs = useRef<(HTMLDivElement | null)[]>([]);
   const glowRef = useRef<HTMLDivElement>(null);
   const payoffRef = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const calm = useMotionTier() === "calm";
 
   useEffect(() => {
-    if (reduced) return;
     const section = sectionRef.current;
     const scene = sceneRef.current;
     if (!section || !scene) return;
@@ -201,9 +211,13 @@ export function Hero() {
         // Ease into the fall so it reads as tipped, not yanked.
         const e = t * t;
 
-        // Desktop holds every object at rest from the first frame; mobile fades
-        // each one in over the scroll just before it drops.
-        const intro = mobile ? clamp01((p - (start - MOBILE_LEAD)) / MOBILE_LEAD) : 1;
+        // Desktop holds every object at rest from the first frame. On mobile
+        // the opening slots are already filled (MOBILE_PRESET) and everything
+        // after that fades in over the scroll just before it drops.
+        const intro =
+          !mobile || i < MOBILE_PRESET
+            ? 1
+            : clamp01((p - (start - MOBILE_LEAD)) / MOBILE_LEAD);
 
         let fromX: number;
         let fromY: number;
@@ -216,20 +230,29 @@ export function Hero() {
           fromY = o.ry * h;
         }
 
-        const x = fromX + (0 - fromX) * e;
+        // Calm holds every object at its slot: no arc, no swing, no rotation,
+        // no 14px rise. What travels on this tier is nothing.
+        const travel = calm ? 0 : 1;
+        const x = fromX + (0 - fromX) * e * travel;
         const y =
           fromY +
-          (targetY - fromY) * e -
-          Math.sin(t * Math.PI) * h * 0.05 +
+          (targetY - fromY) * e * travel -
+          Math.sin(t * Math.PI) * h * 0.05 * travel +
           // Rises the last few pixels into its slot as it appears.
-          (1 - intro) * 14;
+          (1 - intro) * 14 * travel;
 
-        // Squash into the pocket over the last fifth of the arc, then vanish.
+        // Full: squash into the pocket over the last fifth of the arc, then
+        // vanish. Calm: dissolve across the whole window instead, so the object
+        // reads as being absorbed rather than switched off — the pocket glow
+        // warming underneath at the same time is what says where it went.
         const land = clamp01((t - 0.8) / 0.2);
-        const scale = fit * (0.9 + intro * 0.1) * (1 - land * 0.55);
+        const gone = calm ? t : land;
+        const scale = calm
+          ? fit * (1 - land * 0.04)
+          : fit * (0.9 + intro * 0.1) * (1 - land * 0.55);
 
-        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotate(${o.rot * (1 - e)}deg) scale(${scale})`;
-        el.style.opacity = String(intro * (1 - land));
+        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotate(${o.rot * (1 - e) * travel}deg) scale(${scale})`;
+        el.style.opacity = String(intro * (1 - gone));
       });
 
       // The pita warms as it fills. A single opacity write on a plain overlay —
@@ -243,7 +266,9 @@ export function Hero() {
         // read by the time the pinned screen begins scrolling away.
         const reveal = clamp01((p - 0.62) / 0.12);
         payoffRef.current.style.opacity = String(reveal);
-        payoffRef.current.style.transform = `translate(-50%, ${(1 - reveal) * 16}px)`;
+        // 16px of lift is travel; calm gets the 6px that reads as a settle.
+        const lift = (1 - reveal) * (calm ? 6 : 16);
+        payoffRef.current.style.transform = `translate(-50%, ${lift}px)`;
       }
     }
 
@@ -259,48 +284,49 @@ export function Hero() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [reduced]);
+  }, [calm]);
 
   return (
     <section
       ref={sectionRef}
       className="wash-paper relative"
-      /* Enough scroll for ten objects to fall in sequence, tuned so the last
-         falafel lands well before the reader would give up on the section. */
-      style={{ height: reduced ? "auto" : "260vh" }}
+      /* Enough scroll for ten objects to arrive in sequence, tuned so the last
+         one lands well before the reader would give up on the section. Was
+         260vh, which on a phone meant three full flicks before the payoff. */
+      style={{ height: "220vh" }}
     >
       <div
-        className={
-          reduced
-            ? "flex flex-col items-center px-5 pb-20 pt-10 sm:px-8 sm:pt-14"
-            : /* svh, not vh: with dvh the pinned scene resizes every time the
-                 mobile URL bar collapses, and 100vh overflows behind it. */
-              /* Pinned BELOW the sticky header (h-16), not under it: at
-                 top-0 the last row of falafels was pushed off the bottom of
-                 the screen by exactly the header's height. */
-              "sticky top-16 flex h-[calc(100svh-4rem)] flex-col items-center overflow-hidden px-5 pb-4 pt-5 sm:px-8 sm:pb-8 sm:pt-14"
-        }
+        /* svh, not vh: with dvh the pinned scene resizes every time the mobile
+           URL bar collapses, and 100vh overflows behind it.
+           Pinned BELOW the sticky header (h-16), not under it: at top-0 the
+           last row of falafels was pushed off the bottom of the screen by
+           exactly the header's height. */
+        className="sticky top-16 flex h-[calc(100svh-4rem)] flex-col items-center overflow-hidden px-5 pb-4 pt-4 sm:px-8 sm:pb-8 sm:pt-14"
       >
         <div className="text-center">
           <Eyebrow className="justify-center">
             For appointment based businesses
           </Eyebrow>
 
+          {/* Phone sizes are held down deliberately. The header block ran to
+              ~240px before the scene even started, which on a 745px Safari
+              viewport left the pita cropped by the bottom edge. Every value
+              below `sm:` is the compact one; the desktop scale is untouched. */}
           <TwoTone
             as="h1"
             size="hero"
             lead="Four tools."
             trail="One pita."
-            className="mt-2 text-[2.25rem] phone-short:text-[1.875rem] sm:mt-3 sm:text-display-xl"
+            className="mt-1.5 text-[2rem] leading-[1.08] phone-short:text-[1.75rem] sm:mt-3 sm:text-display-xl"
           />
 
-          <Lede className="mx-auto mt-3 max-w-xl text-base phone-short:mt-2 phone-short:text-[0.9375rem] phone-short:leading-snug sm:mt-4 sm:text-xl">
+          <Lede className="mx-auto mt-2.5 max-w-xl text-[0.9375rem] leading-snug phone-short:mt-2 phone-short:text-[0.875rem] sm:mt-4 sm:text-xl sm:leading-relaxed">
             Pick the tools your business needs.{" "}
             <Key>We build them and set them up under your brand.</Key> You run all
             of it from your phone.
           </Lede>
 
-          <div className="mt-5 flex flex-col items-center gap-3 phone-short:mt-3 sm:mt-6">
+          <div className="mt-4 flex flex-col items-center gap-2 phone-short:mt-3 sm:mt-6 sm:gap-3">
             <Button href="#connect" size="lg">
               Book a free call
             </Button>
@@ -316,55 +342,52 @@ export function Hero() {
           </div>
         </div>
 
-        {reduced ? (
-          <StaticScene />
-        ) : (
-          /* Scene */
-          <div ref={sceneRef} className="relative mt-4 w-full max-w-3xl flex-1">
-            {/* Objects sit above the pita so nothing is hidden behind the bowl
-                while it floats; the squash-and-fade at the pocket is what sells
-                the drop, not z-order. */}
-            {OBJECTS.map((o, i) => (
-              <div
-                key={i}
-                ref={(el) => {
-                  objRefs.current[i] = el;
-                }}
-                className="absolute left-1/2 top-1/2 z-10 will-change-transform"
-                /* Starts hidden: the mobile queue fades each object in on
-                   scroll, and on desktop the first rAF tick runs before paint. */
-                style={{ opacity: 0 }}
-              >
-                {o.kind === "ball" ? <BallStack o={o} /> : <ChitChip o={o} />}
-              </div>
-            ))}
-
-            {/* The pita, bottom-centred. Objects fall into its pocket. */}
+        {/* Scene */}
+        <div ref={sceneRef} className="relative mt-3 w-full max-w-3xl flex-1 sm:mt-4">
+          {/* Objects sit above the pita so nothing is hidden behind the bowl
+              while it floats; the squash-and-fade at the pocket is what sells
+              the drop, not z-order. */}
+          {OBJECTS.map((o, i) => (
             <div
-              className="absolute bottom-0 left-1/2 z-0 w-[min(320px,46vw)] -translate-x-1/2 phone-short:w-[min(250px,42vw)] sm:w-[min(320px,54vw)]"
-              style={{ aspectRatio: "760 / 560" }}
+              key={i}
+              ref={(el) => {
+                objRefs.current[i] = el;
+              }}
+              className="absolute left-1/2 top-1/2 z-10 will-change-transform"
+              /* Starts hidden; the first rAF tick places and reveals it. Both
+                 tiers are driven by the same loop, so neither ships a frame of
+                 ten objects piled at the centre. */
+              style={{ opacity: 0 }}
             >
-              <PitaBowl className="size-full" />
-              <div
-                ref={glowRef}
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-[10%] top-[2%] h-[26%] rounded-full"
-                style={{ background: POCKET_GLOW, opacity: 0 }}
-              />
+              {o.kind === "ball" ? <BallStack o={o} /> : <ChitChip o={o} />}
             </div>
+          ))}
 
-            {/* Payoff, once the pita is full */}
+          {/* The pita, bottom-centred. Objects fall into its pocket. */}
+          <div
+            className="absolute bottom-0 left-1/2 z-0 w-[min(320px,46vw)] -translate-x-1/2 phone-short:w-[min(250px,42vw)] sm:w-[min(320px,54vw)]"
+            style={{ aspectRatio: "760 / 560" }}
+          >
+            <PitaBowl className="size-full" />
             <div
-              ref={payoffRef}
-              /* Sits above the rim, not across the bowl — it's the outcome of
-                 the pita being full, not a label stuck on it. */
-              className="absolute bottom-[52%] left-1/2 z-20 w-max max-w-[calc(100vw-2.5rem)] text-center sm:bottom-[54%]"
-              style={{ opacity: 0, transform: "translate(-50%, 16px)" }}
-            >
-              <PayoffChip />
-            </div>
+              ref={glowRef}
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-[10%] top-[2%] h-[26%] rounded-full"
+              style={{ background: POCKET_GLOW, opacity: 0 }}
+            />
           </div>
-        )}
+
+          {/* Payoff, once the pita is full */}
+          <div
+            ref={payoffRef}
+            /* Sits above the rim, not across the bowl — it's the outcome of
+               the pita being full, not a label stuck on it. */
+            className="absolute bottom-[52%] left-1/2 z-20 w-max max-w-[calc(100vw-2.5rem)] text-center sm:bottom-[54%]"
+            style={{ opacity: 0, transform: "translate(-50%, 16px)" }}
+          >
+            <PayoffChip />
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -416,59 +439,3 @@ function PayoffChip() {
   );
 }
 
-/**
- * Reduced motion gets a composition, not a frozen frame of the animation.
- *
- * The scroll scene is absolutely positioned inside a flex-sized box, so with the
- * pinning removed it collapsed to nothing: the bowl painted over the call-to-
- * action and every object landed in a pile on the lede. This lays the same story
- * out in ordinary flow instead — the capabilities, the four products they group
- * into, the pita that holds them, the payoff — so it reads top to bottom with no
- * overlap at any width.
- */
-function StaticScene() {
-  const chits = OBJECTS.filter((o): o is Chit => o.kind === "chit");
-  const balls = OBJECTS.filter((o): o is Ball => o.kind === "ball");
-  // book + bots, then social + reach: each main followed by what extends it.
-  const groups = [balls.slice(0, 2), balls.slice(2)];
-
-  return (
-    <div className="mt-10 w-full max-w-3xl sm:mt-12">
-      <div className="mx-auto flex max-w-md flex-wrap items-center justify-center gap-2">
-        {chits.map((o) => (
-          <ChitChip key={o.label} o={o} />
-        ))}
-      </div>
-
-      <div className="mt-8 flex items-start justify-center gap-7 sm:mt-10 sm:gap-16">
-        {groups.map((group, i) => (
-          <div key={i} className="flex items-start gap-4 sm:gap-6">
-            {group.map((o) => (
-              // The add-on hangs lower than the tool it extends — the same
-              // hierarchy the caret states on its label, said in position.
-              <div key={o.id} className={o.tier === "add-on" ? "pt-5" : undefined}>
-                <BallStack o={o} />
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      <div
-        className="relative mx-auto mt-8 w-[min(320px,62vw)] sm:mt-10"
-        style={{ aspectRatio: "760 / 560" }}
-      >
-        <PitaBowl className="size-full" />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-[10%] top-[2%] h-[26%] rounded-full"
-          style={{ background: POCKET_GLOW, opacity: 0.5 }}
-        />
-      </div>
-
-      <div className="mt-7 text-center">
-        <PayoffChip />
-      </div>
-    </div>
-  );
-}

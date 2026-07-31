@@ -65,8 +65,11 @@ function LeadForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <div className="grid gap-3 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 sm:gap-3">
+      {/* Two up on every width. Stacked, four fields were four 46px rows plus
+          gaps — 110px that pushed the send button and the email fallback off
+          the bottom of a phone screen. */}
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
         <input name="name" type="text" placeholder="Your name" required aria-label="Your name" autoComplete="name" className={fieldClass} />
         <input name="business" type="text" placeholder="Business (optional)" aria-label="Business name (optional)" autoComplete="organization" className={fieldClass} />
         <input name="phone" type="tel" placeholder="Phone" aria-label="Phone number" autoComplete="tel" className={fieldClass} />
@@ -83,7 +86,7 @@ function LeadForm() {
 
 export function Connect() {
   return (
-    <section id="connect" className="relative overflow-hidden bg-espresso py-16 sm:py-32">
+    <section id="connect" className="relative overflow-hidden bg-espresso py-6 phone-short:py-5 sm:py-32">
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-clay opacity-[0.04]"
         aria-hidden="true"
@@ -101,47 +104,64 @@ export function Connect() {
               tone="dark"
               lead="Your shop, sorted."
               trail="Starting with one call."
-              className="mt-4"
+              className="mt-2 sm:mt-4"
             />
-            <p className="mx-auto mt-6 text-lg leading-relaxed text-clay/55">
+            <p className="mx-auto mt-2.5 text-[0.8125rem] leading-snug text-clay/55 sm:mt-6 sm:text-lg sm:leading-relaxed">
               Twenty minutes. I&apos;ll ask what&apos;s eating your time, show you what
               it looks like fixed, and give you a straight number. No slides.
             </p>
           </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2">
+        <div className="mt-4 grid gap-2.5 sm:mt-14 sm:gap-5 sm:grid-cols-2">
           <Reveal>
             <a
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex h-full flex-col rounded-3xl border border-clay/[0.12] bg-clay/[0.04] p-7 transition-colors hover:border-clay/25 hover:bg-clay/[0.07]"
+              /* Horizontal on a phone, the original stacked card from `sm`.
+                 Not a word changes — the icon just moves out of the copy's
+                 way. Stacked this was 176px, and with the form card beneath it
+                 the email fallback fell off the bottom of the screen. */
+              className="group flex h-full flex-row items-start gap-3 rounded-3xl border border-clay/[0.12] bg-clay/[0.04] p-4 transition-colors hover:border-clay/25 hover:bg-clay/[0.07] sm:flex-col sm:gap-0 sm:p-7"
             >
-              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-[12px] bg-clay/10 text-clay">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-clay/10 text-clay sm:mb-5 sm:h-11 sm:w-11">
                 <Calendar className="h-5 w-5" />
               </span>
-              <h3 className="text-xl font-bold text-clay">Book a time</h3>
-              <p className="mt-2 text-sm leading-relaxed text-clay/50">
-                Pick a slot that works. 30 minutes, no prep needed.
-              </p>
-              <span className="mt-auto flex items-center gap-1.5 pt-6 text-sm font-bold text-clay group-hover:underline group-hover:underline-offset-4">
-                Open my calendar
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              {/* `sm:contents` dissolves this wrapper back into the card at the
+                  breakpoint, so the desktop layout is byte-for-byte what it
+                  was — including `mt-auto` pinning the link to the bottom. */}
+              <span className="flex min-w-0 flex-col sm:contents">
+                <h3 className="text-lg font-bold text-clay sm:text-xl">Book a time</h3>
+                <p className="mt-1 text-[0.8125rem] leading-snug text-clay/50 sm:mt-2 sm:text-sm sm:leading-relaxed">
+                  Pick a slot that works. 30 minutes, no prep needed.
+                </p>
+                <span className="mt-1.5 flex items-center gap-1.5 text-sm font-bold text-clay group-hover:underline group-hover:underline-offset-4 sm:mt-auto sm:pt-6">
+                  Open my calendar
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </span>
               </span>
             </a>
           </Reveal>
 
           <Reveal delay={90}>
-            <div className="flex h-full flex-col rounded-3xl border border-clay/[0.12] bg-clay/[0.04] p-7">
-              <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-[12px] bg-clay/10 text-clay">
-                <Send className="h-5 w-5" />
-              </span>
-              <h3 className="text-xl font-bold text-clay">Leave your details</h3>
-              <p className="mt-2 text-sm leading-relaxed text-clay/50">
-                I&apos;ll reach out to you instead.
-              </p>
-              <div className="pt-6">
+            <div className="flex h-full flex-col rounded-3xl border border-clay/[0.12] bg-clay/[0.04] p-4 sm:p-7">
+              {/* Same horizontal-on-phone treatment as the card above, so the
+                  two read as a pair and the form starts higher up the card. */}
+              <div className="flex items-start gap-3 sm:block">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-clay/10 text-clay sm:mb-5 sm:h-11 sm:w-11">
+                  <Send className="h-5 w-5" />
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-lg font-bold text-clay sm:text-xl">
+                    Leave your details
+                  </h3>
+                  <p className="mt-1 text-[0.8125rem] leading-snug text-clay/50 sm:mt-2 sm:text-sm sm:leading-relaxed">
+                    I&apos;ll reach out to you instead.
+                  </p>
+                </div>
+              </div>
+              <div className="pt-3 sm:pt-6">
                 <LeadForm />
               </div>
             </div>
@@ -149,11 +169,12 @@ export function Connect() {
         </div>
 
         <Reveal>
-          <p className="mt-10 text-center text-sm text-clay/40">
+          <p className="mt-2 text-center text-sm text-clay/40 sm:mt-10">
             Prefer email?{" "}
+            {/* min-h-11: was a 21px target. */}
             <a
               href={`mailto:${EMAIL}`}
-              className="text-clay/70 underline underline-offset-4 hover:text-clay"
+              className="inline-flex min-h-11 items-center text-clay/70 underline underline-offset-4 hover:text-clay"
             >
               {EMAIL}
             </a>

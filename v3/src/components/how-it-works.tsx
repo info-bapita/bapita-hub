@@ -334,12 +334,12 @@ export function HowItWorks() {
           line measures its own position to drive both the wipe and the drift. */}
       <Band />
 
-      <div className="mx-auto max-w-6xl px-5 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-20">
+      <div className="mx-auto max-w-6xl px-5 pb-12 pt-10 sm:px-8 sm:pb-24 sm:pt-20">
         <Reveal>
           <Eyebrow>How it works</Eyebrow>
         </Reveal>
         <Reveal>
-          <Lede className="mt-5 max-w-xl text-base sm:text-lg">
+          <Lede className="mt-3 max-w-xl text-[0.875rem] leading-snug sm:mt-5 sm:text-lg sm:leading-relaxed">
             Three steps, and <Key>the building is ours</Key>. You pick what you
             want and tell us about your business — once on a call or a form.
             Everything after that is on us.
@@ -368,11 +368,16 @@ export function HowItWorks() {
             leftover slack goes to the content, which centres in the card
             rather than hugging the top of a tall box.
 
-            Below lg the deck is off entirely. Stacked single-column these
-            cards run ~900px, taller than a phone screen, so a card pinned at
-            88px kept its own last 180px permanently below the fold — the
-            panel was unreachable, not merely covered. At that height the
-            cards already arrive one at a time on their own.
+            The deck used to be off below lg. Stacked single-column these cards
+            ran ~960px, taller than a phone screen, so a card pinned at 88px
+            kept its own last 180px permanently below the fold — the panel was
+            unreachable, not merely covered, and the section ran to four and a
+            quarter screens of scrolling.
+
+            The cards are now ~560px on a phone (compact type, asides side by
+            side, the panel shown through a fixed window), which fits, so the
+            deck is on at every width. Same behaviour as the laptop: one step
+            at a time, each arriving because you scrolled to it.
 
             No reveal animation on these either: a card fading in on top of
             another is transparent while it does it, so you read both at once.
@@ -381,7 +386,7 @@ export function HowItWorks() {
             containing block for position sticky, which silently kills the
             pinning. PauseOffscreen adds no transform, so it is safe here. */}
         <PauseOffscreen>
-          <ol className="mt-14">
+          <ol className="mt-8 sm:mt-14">
             {STEPS.map((step, i) => {
               const { Panel, bleed } = PANELS[i];
               const pal = FALAFEL_COLORS[step.accent];
@@ -401,14 +406,17 @@ export function HowItWorks() {
                      mid-sentence read as a bug. It is lg-only because nothing
                      overlaps below that, where a dark blur cast upward into
                      the gap is just a smudge over the previous card. */
-                  className="static mb-5 grid overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm shadow-[0_1px_2px_rgba(60,34,12,0.04)] lg:sticky lg:mb-0 lg:min-h-[calc(100svh-7rem)] lg:grid-cols-2 lg:shadow-[0_-1px_0_rgba(60,34,12,0.10),0_-18px_60px_-22px_rgba(60,34,12,0.40)]"
+                  /* The pin offset and the per-card step are tokens so the
+                     phone deck can sit closer under the header without
+                     changing the laptop one. */
+                  className="sticky grid min-h-[calc(100svh-5.75rem)] overflow-hidden rounded-3xl border border-espresso/[0.09] bg-paper-warm shadow-[0_-1px_0_rgba(60,34,12,0.10),0_-18px_60px_-22px_rgba(60,34,12,0.40)] [--deck-step:10px] [--deck-top:4.75rem] lg:min-h-[calc(100svh-7rem)] lg:grid-cols-2 lg:[--deck-step:14px] lg:[--deck-top:5.5rem]"
                   style={{
-                    top: `calc(5.5rem + ${i * 14}px)`,
+                    top: `calc(var(--deck-top) + var(--deck-step) * ${i})`,
                     zIndex: i + 1,
                   }}
                 >
                   <div
-                    className={`flex flex-col justify-center p-7 sm:p-9 lg:p-11 ${flip ? "lg:order-2" : ""}`}
+                    className={`flex flex-col justify-center p-5 sm:p-9 lg:p-11 ${flip ? "lg:order-2" : ""}`}
                   >
                     <span className="flex items-center gap-3">
                       <span
@@ -424,33 +432,36 @@ export function HowItWorks() {
                       />
                     </span>
 
-                    <p className="mt-5 text-[1.0625rem] font-semibold text-espresso/35 sm:text-lg">
+                    <p className="mt-3 text-[0.9375rem] font-semibold text-espresso/35 sm:mt-5 sm:text-lg">
                       {step.lead}
                     </p>
-                    <h3 className="font-extrabold leading-[1.02] tracking-[-0.04em] text-espresso text-[clamp(1.875rem,3.4vw,3rem)]">
+                    <h3 className="font-extrabold leading-[1.02] tracking-[-0.04em] text-espresso text-[clamp(1.5rem,3.4vw,3rem)]">
                       {step.trail}
                     </h3>
-                    <p className="mt-5 max-w-md text-[0.9375rem] leading-relaxed text-espresso/55 sm:text-base">
+                    <p className="mt-3 max-w-md text-[0.875rem] leading-snug text-espresso/55 sm:mt-5 sm:text-base sm:leading-relaxed">
                       {step.body}
                     </p>
 
-                    <div className="mt-8 grid gap-5 border-t border-espresso/[0.07] pt-7 sm:grid-cols-2 sm:gap-6">
+                    {/* Side by side from the smallest screen. Stacked, the two
+                        asides alone were 220px — a third of a phone card — and
+                        pushed the panel off the bottom of it. */}
+                    <div className="mt-4 grid grid-cols-2 gap-3 border-t border-espresso/[0.07] pt-4 sm:gap-6 sm:pt-7">
                       {step.asides.map((aside) => (
                         <div key={aside.title}>
                           <span
-                            className="flex h-9 w-9 items-center justify-center rounded-lg"
+                            className="flex h-7 w-7 items-center justify-center rounded-lg sm:h-9 sm:w-9"
                             style={{ background: `${pal.base}1f` }}
                           >
                             <aside.icon
-                              className="h-[1.125rem] w-[1.125rem]"
+                              className="h-4 w-4 sm:h-[1.125rem] sm:w-[1.125rem]"
                               style={{ color: pal.deep }}
                               strokeWidth={2.3}
                             />
                           </span>
-                          <p className="mt-3.5 text-[0.9375rem] font-bold text-espresso">
+                          <p className="mt-2 text-[0.8125rem] font-bold leading-snug text-espresso sm:mt-3.5 sm:text-[0.9375rem]">
                             {aside.title}
                           </p>
-                          <p className="mt-1 text-[0.8125rem] leading-relaxed text-espresso/50">
+                          <p className="mt-1 text-[0.75rem] leading-snug text-espresso/50 sm:text-[0.8125rem] sm:leading-relaxed">
                             {aside.body}
                           </p>
                         </div>
@@ -462,8 +473,11 @@ export function HowItWorks() {
                       the middle of one. The old pane sat 2% off the card colour
                       with a 280px mock adrift in it, so it read as empty space
                       rather than as the other half of the card. */}
+                  {/* On a phone the panel is shown through a fixed window and
+                      scaled to fit inside it, so a step card can never be
+                      taller than the screen it is pinned to. */}
                   <div
-                    className={`relative flex min-h-[300px] items-center justify-center overflow-hidden p-8 lg:min-h-[440px] lg:p-10 ${
+                    className={`relative flex h-[210px] items-center justify-center overflow-hidden p-3 phone-short:h-[160px] sm:h-auto sm:min-h-[300px] sm:p-8 lg:min-h-[440px] lg:p-10 ${
                       flip ? "lg:order-1" : ""
                     }`}
                     style={{
@@ -481,17 +495,21 @@ export function HowItWorks() {
                     {/* Grows toward the card's outer edge and is cropped by it.
                         A visual that runs past the frame reads as a window onto
                         something real; one that fits neatly reads as a sticker. */}
+                    {/* The origin has to be a class, not an inline style: the
+                        left/right origin is what makes the visual grow toward
+                        the card's outer edge on a laptop, and applied to the
+                        phone's shrink it dragged the whole panel into the
+                        left-hand corner of its window. */}
                     <div
-                      className={`flex w-full lg:scale-[1.14] ${
+                      className={`flex w-full origin-center scale-[0.6] phone-short:scale-[0.46] sm:scale-100 lg:scale-[1.14] ${
+                        flip ? "lg:origin-right" : "lg:origin-left"
+                      } ${
                         bleed
                           ? flip
                             ? "justify-center lg:-translate-x-[16%] lg:justify-start"
                             : "justify-center lg:translate-x-[16%] lg:justify-end"
                           : "justify-center"
                       }`}
-                      style={{
-                        transformOrigin: flip ? "right center" : "left center",
-                      }}
                     >
                       <Panel />
                     </div>
@@ -509,14 +527,14 @@ export function HowItWorks() {
                 immediately dragged off: the one step that never got read at
                 rest. Empty and hidden from the a11y tree — it is scroll
                 distance, not a fourth item. */}
-            <li aria-hidden="true" className="hidden lg:block lg:h-[40vh]" />
+            <li aria-hidden="true" className="block h-[28vh] lg:h-[40vh]" />
           </ol>
         </PauseOffscreen>
 
         <Reveal>
           {/* Sits above the stack so the last card slides under it, not past it. */}
-          <div className="relative z-10 mt-16 flex flex-col items-center gap-4 bg-transparent text-center">
-            <p className="text-lg font-bold text-espresso sm:text-xl">
+          <div className="relative z-10 mt-10 flex flex-col items-center gap-4 bg-transparent text-center sm:mt-16">
+            <p className="text-base font-bold text-espresso sm:text-xl">
               That&apos;s it. You&apos;re live, and we keep it running.
             </p>
             <Button href="#connect" size="lg">

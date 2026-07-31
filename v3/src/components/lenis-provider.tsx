@@ -2,6 +2,7 @@
 
 import { type ReactNode, useEffect } from "react";
 import Lenis from "lenis";
+import { applyMotionAttribute, useMotionTier } from "@/lib/motion";
 
 declare global {
   interface Window {
@@ -12,16 +13,24 @@ declare global {
 
 /**
  * Mounts Lenis inertial smooth-scroll once at the root and drives its rAF loop.
- * Disabled entirely when the user prefers reduced motion (native scroll stands in).
- * Also intercepts in-page anchor clicks so #section links scroll smoothly via Lenis.
+ *
+ * Lenis is tier-2 motion: it retimes the whole page under the reader's thumb,
+ * which is exactly the kind of thing Reduce Motion is asking us not to do. On
+ * the calm tier native scroll stands in — but only the *smoothing* goes away,
+ * not the effects that ride on scroll position.
+ *
+ * Also publishes the motion tier to `<html data-motion>` for the stylesheet,
+ * and intercepts in-page anchor clicks so #section links scroll via Lenis.
  */
 export function LenisProvider({ children }: { children: ReactNode }) {
-  useEffect(() => {
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const tier = useMotionTier();
 
-    if (prefersReduced) return;
+  useEffect(() => {
+    applyMotionAttribute(tier);
+  }, [tier]);
+
+  useEffect(() => {
+    if (tier === "calm") return;
 
     const lenis = new Lenis({
       duration: 1.1,
@@ -60,7 +69,7 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       lenis.destroy();
       delete window.__lenis;
     };
-  }, []);
+  }, [tier]);
 
   return <>{children}</>;
 }

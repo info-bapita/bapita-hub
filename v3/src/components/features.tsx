@@ -37,20 +37,22 @@ export function Features() {
   }
 
   return (
-    <section className="wash-paper overflow-hidden py-16 sm:py-32">
+    <section className="wash-paper overflow-hidden py-8 phone-short:py-6 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-8">
             <div className="max-w-xl">
               <Eyebrow>Why this works</Eyebrow>
-              <TwoTone lead="Built by us." trail="Run by you." className="mt-4" />
-              <Lede className="mt-6">
+              <TwoTone lead="Built by us." trail="Run by you." className="mt-2 sm:mt-4" />
+              <Lede className="mt-2.5 text-[0.8125rem] leading-snug phone-short:mt-2 phone-short:text-[0.75rem] sm:mt-6 sm:text-base sm:leading-relaxed">
                 You know your trade. We know the software. We do the setup once, then{" "}
                 <Key>hand you something simple to run</Key>.
               </Lede>
             </div>
 
-            <div className="flex gap-2">
+            {/* Arrows are for a mouse. A phone already has the gesture, and the
+                two 44px buttons cost a row the section can't spare. */}
+            <div className="hidden gap-2 sm:flex">
               {([-1, 1] as const).map((dir) => (
                 <button
                   key={dir}
@@ -74,17 +76,17 @@ export function Features() {
       {/* Rail — bleeds off the right edge so it reads as continuing. */}
       <div
         ref={rail}
-        className="rail mt-14 flex gap-5 overflow-x-auto px-5 pb-4 sm:px-8"
+        className="rail mt-5 flex gap-4 overflow-x-auto px-5 pb-3 sm:mt-14 sm:gap-5 sm:px-8 sm:pb-4"
         style={{ scrollPaddingLeft: "1.25rem" }}
       >
         {/* 1 — Book: the shop that takes bookings online gets picked */}
-        <Card glow="#e8920a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="94%"
             label="more likely to pick a shop that books online"
             source="GetApp"
           />
-          <Scene className="mt-6 flex-1 justify-center gap-2.5">
+          <Scene className="mt-4 flex-1 sm:mt-6 justify-center gap-2.5">
             <p className="mb-1 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-espresso/40">
               Same street, two shops
             </p>
@@ -106,13 +108,13 @@ export function Features() {
         </Card>
 
         {/* 2 — Book: bookings landing while the shop is shut */}
-        <Card glow="#e8920a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="50%"
             label="of salon bookings happen while the shop is closed"
             source="Boulevard"
           />
-          <Scene className="mt-6 flex-1 justify-center gap-2">
+          <Scene className="mt-4 flex-1 sm:mt-6 justify-center gap-2">
             <p className="mb-1 flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-espresso/40">
               <Clock className="h-3 w-3" strokeWidth={2.4} />
               Shop closed 19:00
@@ -142,13 +144,13 @@ export function Features() {
         </Card>
 
         {/* 3 — Bots: the message that gets answered against the one that doesn't */}
-        <Card glow="#1fa971" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#1fa971" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="85%"
             label="of people who reach voicemail never call back"
             source="OnCallClerk"
           />
-          <Scene className="mt-6 flex-1 justify-center gap-5">
+          <Scene className="mt-4 flex-1 sm:mt-6 justify-center gap-5">
             <Race
               who="Your bot on WhatsApp"
               detail="replied in 4 seconds"
@@ -165,13 +167,13 @@ export function Features() {
         </Card>
 
         {/* 4 — Book: reminders. The message goes out, the seat gets confirmed. */}
-        <Card glow="#e8920a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="25%"
             label="fewer no shows once reminders go out on their own"
             source="Am. J. of Medicine"
           />
-          <Scene className="mt-6 flex-1 justify-center">
+          <Scene className="mt-4 flex-1 sm:mt-6 justify-center">
             {/* Both beats share one grid cell so the card never reflows mid-loop. */}
             <div className="grid">
               <div className="fx-send col-start-1 row-start-1 self-center">
@@ -197,13 +199,13 @@ export function Features() {
         </Card>
 
         {/* 5 — Social: the week of posts they check before they walk in */}
-        <Card glow="#d4622a" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#d4622a" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="76%"
             label="check your online presence before they visit"
             source="Visual Objects"
           />
-          <Scene className="mt-6 flex-1 justify-center">
+          <Scene className="mt-4 flex-1 sm:mt-6 justify-center">
             <p className="mb-3 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-espresso/40">
               Posts, scheduled ahead
             </p>
@@ -227,13 +229,13 @@ export function Features() {
         </Card>
 
         {/* 6 — Reach: the near-me search that ends in a visit */}
-        <Card glow="#2d6cf0" className="flex min-h-[380px] w-[300px] flex-col sm:w-[340px]">
+        <Card glow="#2d6cf0" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="76%"
             label="who search near me visit a shop within 24 hours"
             source="Think with Google"
           />
-          <Scene className="mt-6 flex-1 justify-center gap-2">
+          <Scene className="mt-4 flex-1 sm:mt-6 justify-center gap-2">
             <p className="mb-1 flex items-center gap-1.5 rounded-lg border border-espresso/[0.07] bg-paper-warm px-2.5 py-2 font-mono text-[0.6875rem] text-espresso/50">
               <Search className="h-3 w-3 shrink-0" strokeWidth={2.4} />
               massage near me
@@ -272,10 +274,11 @@ export function Features() {
 
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
-          <p className="mt-12 max-w-md text-[0.9375rem] leading-relaxed text-espresso/50">
+          {/* min-h-11: this was a 22px target, half the 44px floor. */}
+          <p className="mt-2 max-w-md text-[0.9375rem] leading-relaxed text-espresso/50 sm:mt-12">
             <a
               href="#connect"
-              className="font-semibold text-espresso underline decoration-espresso/25 underline-offset-4 transition-colors hover:decoration-espresso/70"
+              className="inline-flex min-h-11 items-center font-semibold text-espresso underline decoration-espresso/25 underline-offset-4 transition-colors hover:decoration-espresso/70"
             >
               Let&apos;s fix your problems
             </a>
@@ -298,7 +301,7 @@ function Card({
 }) {
   return (
     <div
-      className={`lift shrink-0 rounded-3xl border p-7 sm:p-8 ${className ?? ""}`}
+      className={`lift shrink-0 rounded-3xl border p-5 sm:p-8 ${className ?? ""}`}
       style={{
         borderColor: `${glow}33`,
         background: `linear-gradient(165deg, ${glow}12, #FDFBF7 42%)`,
@@ -325,11 +328,13 @@ function Stat({
 }) {
   return (
     <div>
-      <p className="text-[2.75rem] font-extrabold leading-none tracking-[-0.04em] tabular-nums text-espresso">
+      <p className="text-[2.25rem] font-extrabold leading-none tracking-[-0.04em] tabular-nums text-espresso sm:text-[2.75rem]">
         {value}
       </p>
-      <p className="mt-2 text-[0.9375rem] leading-snug text-espresso/55">{label}</p>
-      <p className="mt-2.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-espresso/35">
+      <p className="mt-1.5 text-[0.875rem] leading-snug text-espresso/55 sm:mt-2 sm:text-[0.9375rem]">
+        {label}
+      </p>
+      <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-espresso/35 sm:mt-2.5">
         {source}
       </p>
     </div>

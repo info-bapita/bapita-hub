@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "@/lib/cn";
+import { motionTier } from "@/lib/motion";
 
 /**
  * Scroll-triggered reveal — reliability-first.
@@ -42,16 +43,24 @@ type Phase = "static" | "hidden" | "shown";
 function useRevealPhase(): {
   ref: React.RefObject<HTMLDivElement | null>;
   phase: Phase;
+  calm: boolean;
 } {
   const ref = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<Phase>("static");
+  // Read once on mount rather than per render: a section already revealed must
+  // not re-hide itself if the setting changes mid-page.
+  const [calm, setCalm] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || !("IntersectionObserver" in window)) {
+    // The calm tier still reveals — it fades without the lift. Skipping the
+    // reveal entirely is what left a Reduce Motion reader with a page where
+    // nothing ever happened.
+    setCalm(motionTier() === "calm");
+
+    if (!("IntersectionObserver" in window)) {
       setPhase("shown");
       return;
     }
@@ -99,15 +108,17 @@ function useRevealPhase(): {
     };
   }, []);
 
-  return { ref, phase };
+  return { ref, phase, calm };
 }
 
-function revealStyle(phase: Phase, delay = 0): CSSProperties {
+function revealStyle(phase: Phase, delay = 0, calm = false): CSSProperties {
   if (phase === "static") return {};
   const shown = phase === "shown";
+  // Calm keeps the fade and drops the 16px lift — the part that is travel.
+  const lift = calm ? 0 : DISTANCE;
   return {
     opacity: shown ? 1 : 0,
-    transform: shown ? "none" : `translateY(${DISTANCE}px)`,
+    transform: shown || !lift ? "none" : `translateY(${lift}px)`,
     transition: `opacity ${DURATION}ms ${EASE} ${delay}ms, transform ${DURATION}ms ${EASE} ${delay}ms`,
     willChange: phase === "hidden" ? "opacity, transform" : undefined,
   };
@@ -122,9 +133,9 @@ interface RevealProps {
 
 /** Fade + lift into view on scroll. Visible by default; motion is enhancement. */
 export function Reveal({ children, className, delay = 0 }: RevealProps) {
-  const { ref, phase } = useRevealPhase();
+  const { ref, phase, calm } = useRevealPhase();
   return (
-    <div ref={ref} className={className} style={revealStyle(phase, delay)}>
+    <div ref={ref} className={className} style={revealStyle(phase, delay, calm)}>
       {children}
     </div>
   );
@@ -134,9 +145,14 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
 
 const STAGGER_MS = 80;
 
-const StaggerContext = createContext<{ phase: Phase; delay: number }>({
+const StaggerContext = createContext<{
+  phase: Phase;
+  delay: number;
+  calm: boolean;
+}>({
   phase: "static",
   delay: 0,
+  calm: false,
 });
 
 /** Parent that staggers its direct <RevealItem> children 80ms apart on scroll-in. */
@@ -147,11 +163,11 @@ export function RevealStagger({
   children: ReactNode;
   className?: string;
 }) {
-  const { ref, phase } = useRevealPhase();
+  const { ref, phase, calm } = useRevealPhase();
   return (
     <div ref={ref} className={className}>
       {Children.map(children, (child, i) => (
-        <StaggerContext.Provider value={{ phase, delay: i * STAGGER_MS }}>
+        <StaggerContext.Provider value={{ phase, delay: i * STAGGER_MS, calm }}>
           {child}
         </StaggerContext.Provider>
       ))}
@@ -167,9 +183,9 @@ export function RevealItem({
   children: ReactNode;
   className?: string;
 }) {
-  const { phase, delay } = useContext(StaggerContext);
+  const { phase, delay, calm } = useContext(StaggerContext);
   return (
-    <div className={cn(className)} style={revealStyle(phase, delay)}>
+    <div className={cn(className)} style={revealStyle(phase, delay, calm)}>
       {children}
     </div>
   );

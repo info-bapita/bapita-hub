@@ -10,9 +10,11 @@ export default function TermsOfService() {
   return (
     <main className="bg-ink min-h-screen">
       <div className="mx-auto max-w-3xl px-5 py-24 sm:px-8">
+        {/* -my-2 keeps the visual position while giving the link a 44px
+            target — it was 22px, the smallest on the page. */}
         <Link
           href="/"
-          className="text-sm text-cream/50 hover:text-cream transition-colors"
+          className="-my-2 inline-flex min-h-11 items-center text-sm text-cream/50 hover:text-cream transition-colors"
         >
           ← Back to bapita.com
         </Link>

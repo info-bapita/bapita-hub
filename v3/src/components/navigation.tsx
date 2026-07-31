@@ -25,7 +25,13 @@ export function Navigation() {
   return (
     <header className="sticky top-0 z-50 border-b border-espresso/[0.08] bg-paper-warm/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <Link href="/" aria-label="Bapita home" className="text-espresso">
+        {/* -ml-1 px-1 keeps the mark optically flush with the page gutter while
+            giving the link a 44px target. */}
+        <Link
+          href="/"
+          aria-label="Bapita home"
+          className="-ml-1 flex min-h-11 items-center px-1 text-espresso"
+        >
           <BrandMark />
         </Link>
 

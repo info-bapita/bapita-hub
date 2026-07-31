@@ -61,12 +61,14 @@ function FAQItem({
   return (
     <div className="border-b border-espresso/[0.09]">
       <button
-        className="flex w-full items-start justify-between gap-4 py-5 text-left"
+        className="flex w-full items-start justify-between gap-3 py-2.5 text-left sm:gap-4 sm:py-5"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-controls={id}
       >
-        <span className="text-[1.0625rem] font-bold leading-snug text-espresso">{q}</span>
+        <span className="text-[0.9375rem] font-bold leading-snug text-espresso sm:text-[1.0625rem]">
+          {q}
+        </span>
         <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-espresso/[0.07]">
           {open ? (
             <Minus className="h-3.5 w-3.5 text-espresso/60" />
@@ -93,16 +95,16 @@ function FAQItem({
 
 export function FAQ() {
   return (
-    <section id="faq" className="wash-flat py-16 sm:py-32">
+    <section id="faq" className="wash-flat py-6 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
-          <div className="mb-12 text-center">
+          <div className="mb-4 text-center sm:mb-12">
             <Eyebrow className="justify-center">FAQ</Eyebrow>
             <TwoTone
               size="sm"
               lead="Questions we get a lot."
               trail="Straight answers."
-              className="mt-4"
+              className="mt-2 sm:mt-4"
             />
           </div>
         </Reveal>
@@ -116,11 +118,12 @@ export function FAQ() {
         </Reveal>
 
         <Reveal delay={120}>
-          <p className="mt-10 text-center text-[0.9375rem] text-espresso/45">
+          <p className="mt-3 text-center text-[0.875rem] text-espresso/45 sm:mt-10 sm:text-[0.9375rem]">
             Something else on your mind?{" "}
+            {/* min-h-11: was a 22px target. */}
             <a
               href="mailto:info.bapita@gmail.com"
-              className="font-semibold text-espresso underline decoration-espresso/25 underline-offset-4 hover:decoration-espresso/70"
+              className="inline-flex min-h-11 items-center font-semibold text-espresso underline decoration-espresso/25 underline-offset-4 hover:decoration-espresso/70"
             >
               Email us
             </a>

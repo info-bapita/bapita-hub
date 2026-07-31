@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
+import { motionTier } from "@/lib/motion";
 
 /**
  * The display line that opens How it works.
@@ -63,9 +64,17 @@ export function Band({
   useEffect(() => {
     let frame = 0;
     let sizeFrame = 0;
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    /**
+     * Calm keeps the wipe and drops the drift.
+     *
+     * The wipe is a clip-path uncovering colour underneath — not one letter
+     * moves, so there is nothing here for Reduce Motion to object to, and it
+     * is the whole point of the band. The drift is the opposite: the word
+     * travels a full line-height and leaves through the bottom edge. That one
+     * goes. Previously both were switched off together, which is why the strip
+     * read as a plain grey headline that never did anything.
+     */
+    const calm = motionTier() === "calm";
 
     /**
      * Size the line so it fills its column exactly, whatever the words are and
@@ -173,7 +182,8 @@ export function Band({
       const h = rect.height;
       const half = Math.max(0, (stripRect.height - h) / 2);
       const leave = clamp01((vh * HOLD - rect.top) / (vh * (HOLD - OUT)));
-      const shift = leave * (half + h) - (1 - p) * (half + PEEK * h);
+      // Calm: the word simply sits where it was set, level with its grey twin.
+      const shift = calm ? 0 : leave * (half + h) - (1 - p) * (half + PEEK * h);
       if (!(Math.abs(shift - lastShift) < 0.25)) {
         lastShift = shift;
         mover.style.transform = `translateY(${shift.toFixed(2)}px)`;
@@ -185,7 +195,9 @@ export function Band({
     }
 
     fit();
-    if (!reduced) frame = requestAnimationFrame(apply);
+    // Runs on both tiers now. `apply` itself decides how much of the gesture
+    // to play; it is the wipe that has to keep working.
+    frame = requestAnimationFrame(apply);
     // Webfont swap changes the natural width under us; re-fit once Heebo has
     // actually landed rather than sizing off the fallback metrics.
     document.fonts?.ready.then(fit).catch(() => {});
