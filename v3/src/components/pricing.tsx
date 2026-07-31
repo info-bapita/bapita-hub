@@ -75,7 +75,7 @@ export function Pricing() {
               trail="Pay less per tool."
               className="mt-2 sm:mt-3"
             />
-            <Lede className="mx-auto mt-2 text-[0.8125rem] leading-snug phone-short:text-[0.75rem] sm:mt-4 sm:text-base sm:leading-relaxed">
+            <Lede className="mx-auto mt-2 text-[0.875rem] leading-snug phone-short:text-[0.8125rem] sm:mt-4 sm:text-base sm:leading-relaxed">
               Pick what you need. <Key>The rate per tool drops as the pita
               fills.</Key>
             </Lede>
@@ -122,7 +122,7 @@ export function Pricing() {
             <div
               /* The falafel rides the bowl: one token, so shrinking the bowl on
                  a phone can't leave four oversized balls sitting in it. */
-              className="relative mx-auto mt-3 w-[min(175px,44vw)] [--falafel:min(40px,10vw)] phone-short:mt-2 phone-short:w-[min(118px,32vw)] phone-short:[--falafel:min(27px,7.2vw)] sm:mt-6 sm:w-[min(230px,56vw)] sm:[--falafel:min(52px,12vw)]"
+              className="relative mx-auto mt-3 w-[min(212px,54vw)] [--falafel:min(48px,12vw)] phone-short:mt-2 phone-short:w-[min(150px,40vw)] phone-short:[--falafel:min(34px,9vw)] sm:mt-6 sm:w-[min(230px,56vw)] sm:[--falafel:min(52px,12vw)]"
               style={{ aspectRatio: "760 / 560" }}
             >
               <PitaBowl className="size-full" />
@@ -153,32 +153,32 @@ export function Pricing() {
             {/* ── The bill ── */}
             <div className="mt-4 grid grid-cols-3 gap-2 border-t border-espresso/[0.09] pt-4 sm:mt-6 sm:gap-4 sm:pt-5">
               <div>
-                <p className="text-[1.375rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.1875rem] sm:text-[1.75rem]">
+                <p className="text-[1.625rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.25rem] sm:text-[1.75rem]">
                   {count ? shekel(total) : shekel(0)}
                 </p>
-                <p className="mt-1.5 text-[0.75rem] text-espresso/45 sm:mt-2 sm:text-[0.8125rem]">
+                <p className="mt-1.5 text-[0.8125rem] text-espresso/45 sm:mt-2">
                   Per month
                 </p>
               </div>
               <div>
-                <p className="text-[1.375rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.1875rem] sm:text-[1.75rem]">
+                <p className="text-[1.625rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.25rem] sm:text-[1.75rem]">
                   {count ? shekel(perTool) : shekel(0)}
                 </p>
-                <p className="mt-1.5 text-[0.75rem] text-espresso/45 sm:mt-2 sm:text-[0.8125rem]">
+                <p className="mt-1.5 text-[0.8125rem] text-espresso/45 sm:mt-2">
                   Per tool
                 </p>
               </div>
               <div>
-                <p className="text-[1.375rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.1875rem] sm:text-[1.75rem]">
+                <p className="text-[1.625rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.25rem] sm:text-[1.75rem]">
                   {count} of 4
                 </p>
-                <p className="mt-1.5 text-[0.75rem] text-espresso/45 sm:mt-2 sm:text-[0.8125rem]">
+                <p className="mt-1.5 text-[0.8125rem] text-espresso/45 sm:mt-2">
                   Tools picked
                 </p>
               </div>
             </div>
 
-            <p className="mt-3 min-h-[1.25rem] text-[0.75rem] leading-snug text-espresso/55 sm:mt-5 sm:text-[0.8125rem]">
+            <p className="mt-3 min-h-[1.25rem] text-[0.8125rem] leading-snug text-espresso/55 sm:mt-5">
               {count === 0 ? (
                 "Pick a tool to see the price."
               ) : (

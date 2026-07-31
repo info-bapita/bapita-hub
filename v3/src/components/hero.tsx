@@ -136,6 +136,24 @@ function slotFor(i: number) {
   return { col: slot % 2 === 0 ? -1 : 1, bottom: slot >= 2 };
 }
 
+/**
+ * The order the phone plays them in, as indices into OBJECTS.
+ *
+ * Desktop can hold the whole tableau, so it keeps the reading order the
+ * composition was built around: the capabilities first, then the four products
+ * they group into. A phone shows four objects at a time, which meant the
+ * opening screen — the one screen everybody sees — was four grey capability
+ * chits and no product at all. The falafels ARE the brand and the offer; they
+ * cannot be the thing you have to scroll to reach.
+ *
+ * So the phone leads with the two main tools, then what they do, then the two
+ * add-ons that extend them: the offer, the detail, the extras.
+ */
+const MOBILE_ORDER = [6, 8, 0, 1, 2, 3, 4, 5, 7, 9];
+
+/** Reverse lookup: where object `i` sits in the phone queue. */
+const MOBILE_POSITION = OBJECTS.map((_, i) => MOBILE_ORDER.indexOf(i));
+
 /** How much of the scroll each object's arc occupies. */
 const FALL_DURATION = 0.16;
 /** Must match the PitaBowl box in the markup below. */
@@ -206,7 +224,11 @@ export function Hero() {
         const el = objRefs.current[i];
         if (!el) return;
 
-        const start = mobile ? MOBILE_FIRST_START + i * MOBILE_STAGGER : o.start;
+        // Position in the phone queue, which is not the array order — see
+        // MOBILE_ORDER. Everything mobile keys off `q`: when it starts, which
+        // slot it rests in, and whether it is part of the opening tableau.
+        const q = MOBILE_POSITION[i];
+        const start = mobile ? MOBILE_FIRST_START + q * MOBILE_STAGGER : o.start;
         const t = clamp01((p - start) / (mobile ? MOBILE_FALL : FALL_DURATION));
         // Ease into the fall so it reads as tipped, not yanked.
         const e = t * t;
@@ -215,14 +237,14 @@ export function Hero() {
         // the opening slots are already filled (MOBILE_PRESET) and everything
         // after that fades in over the scroll just before it drops.
         const intro =
-          !mobile || i < MOBILE_PRESET
+          !mobile || q < MOBILE_PRESET
             ? 1
             : clamp01((p - (start - MOBILE_LEAD)) / MOBILE_LEAD);
 
         let fromX: number;
         let fromY: number;
         if (mobile) {
-          const { col, bottom } = slotFor(i);
+          const { col, bottom } = slotFor(q);
           fromX = col * colX;
           fromY = bottom ? rowBottom : rowTop;
         } else {

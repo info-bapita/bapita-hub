@@ -143,7 +143,13 @@ export function Band({
       // one by the time the line is sitting at roughly the vertical middle. A
       // wider window finished the colour while the words were still low in
       // frame, so it had already arrived before anyone was looking at it.
-      const p = clamp01((vh - rect.top) / (vh - vh * 0.42));
+      //
+      // The window is later on a phone. The strip is only ~140px there, so a
+      // flick carried it from below the fold to the middle of the screen inside
+      // one gesture and the colour was simply already on by the time anyone
+      // looked — the effect existed and nobody ever saw it happen.
+      const narrow = window.innerWidth < 640;
+      const p = clamp01((vh - rect.top) / (vh - vh * (narrow ? 0.62 : 0.42)));
       if (Math.abs(p - lastWipe) > 0.001) {
         lastWipe = p;
         // top right bottom left — the left edge marches right, uncovering the
@@ -182,8 +188,15 @@ export function Band({
       const h = rect.height;
       const half = Math.max(0, (stripRect.height - h) / 2);
       const leave = clamp01((vh * HOLD - rect.top) / (vh * (HOLD - OUT)));
-      // Calm: the word simply sits where it was set, level with its grey twin.
-      const shift = calm ? 0 : leave * (half + h) - (1 - p) * (half + PEEK * h);
+      // Calm gets the same gesture at a fraction of the distance: the word
+      // still arrives from a little above its twin and still slips away
+      // downward, so the band visibly does something as you scroll past it —
+      // but the travel is ~7px, well inside what Reduce Motion permits, rather
+      // than the full line-height exit the other tier makes.
+      const CALM_TRAVEL = 7;
+      const shift = calm
+        ? (leave - (1 - p)) * CALM_TRAVEL
+        : leave * (half + h) - (1 - p) * (half + PEEK * h);
       if (!(Math.abs(shift - lastShift) < 0.25)) {
         lastShift = shift;
         mover.style.transform = `translateY(${shift.toFixed(2)}px)`;
