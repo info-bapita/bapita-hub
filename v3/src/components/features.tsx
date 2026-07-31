@@ -37,7 +37,7 @@ export function Features() {
   }
 
   return (
-    <section className="wash-paper overflow-hidden py-8 phone-short:py-6 sm:py-32">
+    <section className="wash-paper overflow-hidden py-6 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-8">
@@ -80,7 +80,7 @@ export function Features() {
         style={{ scrollPaddingLeft: "1.25rem" }}
       >
         {/* 1 — Book: the shop that takes bookings online gets picked */}
-        <Card glow="#e8920a" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[284px] w-[268px] flex-col phone-short:min-h-[250px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="94%"
             label="more likely to pick a shop that books online"
@@ -108,7 +108,7 @@ export function Features() {
         </Card>
 
         {/* 2 — Book: bookings landing while the shop is shut */}
-        <Card glow="#e8920a" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[284px] w-[268px] flex-col phone-short:min-h-[250px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="50%"
             label="of salon bookings happen while the shop is closed"
@@ -144,7 +144,7 @@ export function Features() {
         </Card>
 
         {/* 3 — Bots: the message that gets answered against the one that doesn't */}
-        <Card glow="#1fa971" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
+        <Card glow="#1fa971" className="flex min-h-[284px] w-[268px] flex-col phone-short:min-h-[250px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="85%"
             label="of people who reach voicemail never call back"
@@ -167,7 +167,7 @@ export function Features() {
         </Card>
 
         {/* 4 — Book: reminders. The message goes out, the seat gets confirmed. */}
-        <Card glow="#e8920a" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
+        <Card glow="#e8920a" className="flex min-h-[284px] w-[268px] flex-col phone-short:min-h-[250px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="25%"
             label="fewer no shows once reminders go out on their own"
@@ -199,7 +199,7 @@ export function Features() {
         </Card>
 
         {/* 5 — Social: the week of posts they check before they walk in */}
-        <Card glow="#d4622a" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
+        <Card glow="#d4622a" className="flex min-h-[284px] w-[268px] flex-col phone-short:min-h-[250px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="76%"
             label="check your online presence before they visit"
@@ -229,7 +229,7 @@ export function Features() {
         </Card>
 
         {/* 6 — Reach: the near-me search that ends in a visit */}
-        <Card glow="#2d6cf0" className="flex min-h-[300px] w-[268px] flex-col phone-short:min-h-[258px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
+        <Card glow="#2d6cf0" className="flex min-h-[284px] w-[268px] flex-col phone-short:min-h-[250px] phone-short:w-[248px] sm:min-h-[380px] sm:w-[340px]">
           <Stat
             value="76%"
             label="who search near me visit a shop within 24 hours"

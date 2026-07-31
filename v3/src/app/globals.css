@@ -2,8 +2,15 @@
 
 /* Short phones — an iPhone SE / mini in portrait, where the pinned hero has
    roughly 560px to hold the headline, the call to action AND the pita scene.
-   Deliberately scoped to narrow screens too, so it can never fight `sm:`. */
-@custom-variant phone-short (@media (max-height: 700px) and (max-width: 639px));
+   Deliberately scoped to narrow screens too, so it can never fight `sm:`.
+
+   640, not 700. At 700 this caught an ordinary iPhone 15/16: its layout
+   viewport is 852px, but Safari's visible viewport with the URL bar showing is
+   ~688px, so every phone in current use was getting the emergency-compaction
+   tier — smallest type, smallest pita, tightest spacing — and the page read as
+   shrunken rather than dense. An SE is 667px tall and lands at ~553 visible,
+   which is still well under 640. */
+@custom-variant phone-short (@media (max-height: 640px) and (max-width: 639px));
 
 @theme inline {
   /* ── Neutral system (premium dark hub) ── */

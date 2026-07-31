@@ -163,7 +163,7 @@ export function ProductTabs() {
     >
       {/* Pinned under the header (h-16) and sized in svh, so what's pinned is
           exactly what's on screen. */}
-      <div className="sticky top-16 flex min-h-[calc(100svh-4rem)] flex-col justify-center py-3 phone-short:py-2 sm:py-8">
+      <div className="sticky top-16 flex min-h-[calc(100svh-4rem)] flex-col justify-center py-2 sm:py-8">
         <div className="mx-auto w-full max-w-6xl">
           <div className="mx-auto max-w-2xl px-5 text-center sm:px-8">
             <Eyebrow className="justify-center">Products</Eyebrow>
@@ -190,7 +190,7 @@ export function ProductTabs() {
           <div
             role="tablist"
             aria-label="Bapita products"
-            className="rail mt-4 flex justify-start gap-1 overflow-x-auto border-b border-espresso/10 px-5 sm:mt-8 sm:justify-center sm:gap-2 sm:px-8"
+            className="rail mt-3 flex justify-start gap-1 overflow-x-auto border-b border-espresso/10 px-5 sm:mt-8 sm:justify-center sm:gap-2 sm:px-8"
           >
             {PRODUCTS.map((product, i) => {
               const isActive = i === index;
@@ -355,7 +355,7 @@ function Panel({ product, compact }: { product: Product; compact?: boolean }) {
           is the part that says "this is your site". */}
       <div
         className={`grid rounded-2xl p-2.5 transition-colors duration-500 sm:p-5 ${
-          compact ? "h-[132px] overflow-hidden phone-short:h-[60px]" : ""
+          compact ? "h-[118px] overflow-hidden phone-short:h-[60px]" : ""
         }`}
         style={{
           background: `linear-gradient(150deg, ${accent}14, ${accent}05 60%, transparent)`,

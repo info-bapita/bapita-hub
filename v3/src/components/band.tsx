@@ -56,6 +56,7 @@ export function Band({
   trail?: string;
   className?: string;
 }) {
+  const pinRef = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLParagraphElement>(null);
   const maskRef = useRef<HTMLSpanElement>(null);
@@ -132,24 +133,51 @@ export function Band({
       // and the loop then spends its life styling a node nobody can see.
       const el = lineRef.current;
       const strip = stripRef.current;
+      const pin = pinRef.current;
       const target = maskRef.current;
       const mover = moverRef.current;
-      if (!el || !strip || !target || !mover) return;
+      if (!el || !strip || !pin || !target || !mover) return;
       const rect = el.getBoundingClientRect();
       const stripRect = strip.getBoundingClientRect();
       const vh = window.innerHeight;
 
-      // Wipe: zero when the line's top edge touches the bottom of the viewport,
-      // one by the time the line is sitting at roughly the vertical middle. A
-      // wider window finished the colour while the words were still low in
-      // frame, so it had already arrived before anyone was looking at it.
-      //
-      // The window is later on a phone. The strip is only ~140px there, so a
-      // flick carried it from below the fold to the middle of the screen inside
-      // one gesture and the colour was simply already on by the time anyone
-      // looked — the effect existed and nobody ever saw it happen.
+      /**
+       * How far through the effect we are, 0 → 1.
+       *
+       * Desktop reads it off the line's own position: zero when its top edge
+       * touches the bottom of the viewport, one by the time it is sitting at
+       * roughly the vertical middle. A wider window finished the colour while
+       * the words were still low in frame, so it had already arrived before
+       * anyone was looking at it.
+       *
+       * A phone cannot use that. The strip is ~140px tall, so the whole
+       * approach — bottom of the screen to the middle — is about 300px of
+       * scroll, which is less than one flick. The colour was always already on
+       * by the time the band was somewhere you'd look at it. The effect ran
+       * where nobody could watch it, which from the outside is indistinguish-
+       * able from no effect at all.
+       *
+       * So below `sm` the band pins for a stretch and progress comes from that
+       * stretch instead: the word colours in over most of a screen of scroll
+       * while the band holds still in front of you. Nothing moves that didn't
+       * move before — a sticky element is the page scrolling past a fixed
+       * thing, not a thing being animated at the reader.
+       */
       const narrow = window.innerWidth < 640;
-      const p = clamp01((vh - rect.top) / (vh - vh * (narrow ? 0.62 : 0.42)));
+      let p: number;
+      let leaveP: number;
+      if (narrow) {
+        const pr = pin.getBoundingClientRect();
+        const scrollable = pr.height - vh;
+        const t = scrollable > 0 ? clamp01(-pr.top / scrollable) : 0;
+        // The colour takes the first two-thirds; the rest is the word holding
+        // legible and still before the band releases.
+        p = clamp01(t / 0.66);
+        leaveP = clamp01((t - 0.72) / 0.28);
+      } else {
+        p = clamp01((vh - rect.top) / (vh - vh * 0.42));
+        leaveP = -1; // computed below, off the line's own position
+      }
       if (Math.abs(p - lastWipe) > 0.001) {
         lastWipe = p;
         // top right bottom left — the left edge marches right, uncovering the
@@ -187,16 +215,26 @@ export function Band({
       const OUT = 0;
       const h = rect.height;
       const half = Math.max(0, (stripRect.height - h) / 2);
-      const leave = clamp01((vh * HOLD - rect.top) / (vh * (HOLD - OUT)));
+      const leave =
+        leaveP >= 0
+          ? leaveP
+          : clamp01((vh * HOLD - rect.top) / (vh * (HOLD - OUT)));
       // Calm gets the same gesture at a fraction of the distance: the word
       // still arrives from a little above its twin and still slips away
       // downward, so the band visibly does something as you scroll past it —
       // but the travel is ~7px, well inside what Reduce Motion permits, rather
       // than the full line-height exit the other tier makes.
+      //
+      // While pinned the strip is a screen tall, so the desktop maths — which
+      // exits through an edge measured off the strip — would send the word on a
+      // journey of half a viewport. The phone gets a fixed, readable travel
+      // instead: in from a little above its twin, out a little below.
       const CALM_TRAVEL = 7;
-      const shift = calm
-        ? (leave - (1 - p)) * CALM_TRAVEL
-        : leave * (half + h) - (1 - p) * (half + PEEK * h);
+      const shift = narrow
+        ? (leave - (1 - p)) * (calm ? CALM_TRAVEL : h * 0.42)
+        : calm
+          ? (leave - (1 - p)) * CALM_TRAVEL
+          : leave * (half + h) - (1 - p) * (half + PEEK * h);
       if (!(Math.abs(shift - lastShift) < 0.25)) {
         lastShift = shift;
         mover.style.transform = `translateY(${shift.toFixed(2)}px)`;
@@ -229,14 +267,16 @@ export function Band({
        the one that crops it. overflow-hidden is what makes the word leave:
        without it the letters would simply hang outside the white into the
        section above and below. */
-    <div
-      ref={stripRef}
-      className={cn(
-        "overflow-hidden border-b border-espresso/[0.06] bg-white py-11 sm:py-16",
-        className,
-      )}
-    >
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+    /* On a phone the strip pins for 170vh so the wipe has somewhere to happen;
+       `sm:contents` dissolves both wrappers at the breakpoint, so the laptop
+       gets exactly the markup it had — a single strip in normal flow. */
+    <div ref={pinRef} className={cn("relative h-[170vh] sm:contents", className)}>
+      <div className="sticky top-16 sm:contents">
+        <div
+          ref={stripRef}
+          className="flex min-h-[42svh] items-center overflow-hidden border-b border-espresso/[0.06] bg-white py-11 sm:block sm:min-h-0 sm:py-16"
+        >
+          <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         {/* One line, always. The moment it wraps it stops being a statement and
             starts being a paragraph, so the size is solved against the column
             width and the line is held with nowrap. */}
@@ -272,16 +312,28 @@ export function Band({
             >
               {trail}
             </span>
+            {/* bg-white is load-bearing, not decoration.
+                This copy has to HIDE the coloured one underneath, and it is
+                set at 17% espresso to match the lead word — 17% grey glyphs
+                laid over saturated orange only tint it. The word therefore
+                read as fully coloured from the moment it appeared, at every
+                width, and the wipe — which was running correctly the whole
+                time, marching a clip-path across a layer that occluded
+                nothing — was invisible. Painting the strip's own white behind
+                the grey glyphs is what makes the layer opaque, so the clip
+                edge is now the boundary between grey and colour. */}
             <span
               ref={maskRef}
               aria-hidden="true"
-              className="absolute inset-0 text-espresso/[0.17]"
+              className="absolute inset-0 bg-white text-espresso/[0.17]"
               style={{ clipPath: "inset(-20% 0 -20% 0)" }}
             >
               {trail}
             </span>
           </span>
         </p>
+          </div>
+        </div>
       </div>
     </div>
   );

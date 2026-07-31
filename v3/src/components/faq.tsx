@@ -61,7 +61,7 @@ function FAQItem({
   return (
     <div className="border-b border-espresso/[0.09]">
       <button
-        className="flex w-full items-start justify-between gap-3 py-2.5 text-left sm:gap-4 sm:py-5"
+        className="flex w-full items-start justify-between gap-3 py-2 text-left sm:gap-4 sm:py-5"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
         aria-controls={id}
@@ -95,7 +95,7 @@ function FAQItem({
 
 export function FAQ() {
   return (
-    <section id="faq" className="wash-flat py-6 sm:py-32">
+    <section id="faq" className="wash-flat py-5 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
           <div className="mb-4 text-center sm:mb-12">

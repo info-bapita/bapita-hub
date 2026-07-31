@@ -86,7 +86,7 @@ function LeadForm() {
 
 export function Connect() {
   return (
-    <section id="connect" className="relative overflow-hidden bg-espresso py-6 phone-short:py-5 sm:py-32">
+    <section id="connect" className="relative overflow-hidden bg-espresso py-5 phone-short:py-4 sm:py-32">
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-clay opacity-[0.04]"
         aria-hidden="true"
@@ -113,7 +113,7 @@ export function Connect() {
           </div>
         </Reveal>
 
-        <div className="mt-4 grid gap-2.5 sm:mt-14 sm:gap-5 sm:grid-cols-2">
+        <div className="mt-3 grid gap-2 sm:mt-14 sm:gap-5 sm:grid-cols-2">
           <Reveal>
             <a
               href={CALENDLY_URL}
@@ -123,7 +123,7 @@ export function Connect() {
                  Not a word changes — the icon just moves out of the copy's
                  way. Stacked this was 176px, and with the form card beneath it
                  the email fallback fell off the bottom of the screen. */
-              className="group flex h-full flex-row items-start gap-3 rounded-3xl border border-clay/[0.12] bg-clay/[0.04] p-4 transition-colors hover:border-clay/25 hover:bg-clay/[0.07] sm:flex-col sm:gap-0 sm:p-7"
+              className="group flex h-full flex-row items-start gap-3 rounded-3xl border border-clay/[0.12] bg-clay/[0.04] p-3.5 transition-colors hover:border-clay/25 hover:bg-clay/[0.07] sm:flex-col sm:gap-0 sm:p-7"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-clay/10 text-clay sm:mb-5 sm:h-11 sm:w-11">
                 <Calendar className="h-5 w-5" />
@@ -145,7 +145,7 @@ export function Connect() {
           </Reveal>
 
           <Reveal delay={90}>
-            <div className="flex h-full flex-col rounded-3xl border border-clay/[0.12] bg-clay/[0.04] p-4 sm:p-7">
+            <div className="flex h-full flex-col rounded-3xl border border-clay/[0.12] bg-clay/[0.04] p-3.5 sm:p-7">
               {/* Same horizontal-on-phone treatment as the card above, so the
                   two read as a pair and the form starts higher up the card. */}
               <div className="flex items-start gap-3 sm:block">

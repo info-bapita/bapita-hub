@@ -146,10 +146,12 @@ function slotFor(i: number) {
  * chits and no product at all. The falafels ARE the brand and the offer; they
  * cannot be the thing you have to scroll to reach.
  *
- * So the phone leads with the two main tools, then what they do, then the two
- * add-ons that extend them: the offer, the detail, the extras.
+ * So the phone opens on all four falafels and nothing else — Book and Social
+ * on the top row, the add-on each extends directly under it, which is the same
+ * hierarchy the caret states on their labels. The capabilities follow once the
+ * products have dropped. The offer, then the detail.
  */
-const MOBILE_ORDER = [6, 8, 0, 1, 2, 3, 4, 5, 7, 9];
+const MOBILE_ORDER = [6, 8, 7, 9, 0, 1, 2, 3, 4, 5];
 
 /** Reverse lookup: where object `i` sits in the phone queue. */
 const MOBILE_POSITION = OBJECTS.map((_, i) => MOBILE_ORDER.indexOf(i));
@@ -348,7 +350,10 @@ export function Hero() {
             of it from your phone.
           </Lede>
 
-          <div className="mt-4 flex flex-col items-center gap-2 phone-short:mt-3 sm:mt-6 sm:gap-3">
+          {/* The call to action sits lower than the lede wants it to: given a
+              tight mt it read as the last line of the paragraph rather than as
+              the thing to press. */}
+          <div className="mt-6 flex flex-col items-center gap-2 phone-short:mt-4 sm:mt-6 sm:gap-3">
             <Button href="#connect" size="lg">
               Book a free call
             </Button>
@@ -365,7 +370,10 @@ export function Hero() {
         </div>
 
         {/* Scene */}
-        <div ref={sceneRef} className="relative mt-3 w-full max-w-3xl flex-1 sm:mt-4">
+        {/* Pulled up under the copy: the falafels and the pita are what the
+            headline is talking about, and a gap between them made the scene
+            read as a separate block below the pitch. */}
+        <div ref={sceneRef} className="relative -mt-1 w-full max-w-3xl flex-1 sm:mt-4">
           {/* Objects sit above the pita so nothing is hidden behind the bowl
               while it floats; the squash-and-fade at the pocket is what sells
               the drop, not z-order. */}

@@ -65,7 +65,7 @@ export function Pricing() {
   const setup = chosen.reduce((sum, t) => sum + (t.setup ?? 0), 0);
 
   return (
-    <section id="pricing" className="wash-clay py-8 phone-short:py-6 sm:py-20">
+    <section id="pricing" className="wash-clay py-5 phone-short:py-4 sm:py-20">
       <div className="mx-auto max-w-4xl px-5 sm:px-8">
         <Reveal>
           <div className="mx-auto max-w-xl text-center">
@@ -88,7 +88,7 @@ export function Pricing() {
             the fold on a 15/16 — the one thing in the section that had to be
             reachable. */}
         <Reveal delay={80}>
-          <div className="mt-5 rounded-3xl border border-espresso/[0.09] bg-paper-warm p-4 text-center sm:mt-8 sm:p-7">
+          <div className="mt-4 rounded-3xl border border-espresso/[0.09] bg-paper-warm p-4 text-center sm:mt-8 sm:p-7">
             {/* Four pills, one row, down to 360px wide. At px-3/gap-1.5 they
                 measured 333px against a 321px column and Reach dropped to a
                 second row on its own, which read as an afterthought rather
@@ -151,7 +151,7 @@ export function Pricing() {
             </div>
 
             {/* ── The bill ── */}
-            <div className="mt-4 grid grid-cols-3 gap-2 border-t border-espresso/[0.09] pt-4 sm:mt-6 sm:gap-4 sm:pt-5">
+            <div className="mt-3 grid grid-cols-3 gap-2 border-t border-espresso/[0.09] pt-3 sm:mt-6 sm:gap-4 sm:pt-5">
               <div>
                 <p className="text-[1.625rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums text-espresso phone-short:text-[1.25rem] sm:text-[1.75rem]">
                   {count ? shekel(total) : shekel(0)}
